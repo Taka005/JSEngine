@@ -35,7 +35,7 @@ class Engine{
       Object.values(this.entities).forEach(entity=>{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
-          
+
           this.solvePosition(entity,target);
         });
       });
@@ -79,7 +79,8 @@ class Engine{
   solvePosition(entity,target){
     let vecX = entity.posX - target.posX;
     let vecY = entity.posY - target.posY;
-
+    console.log(vecX);
+    console.log(vecY)
     const d = Math.sqrt(vecX*vecX + vecY*vecY);
     const constraint = d - (entity.size + target.size)
 
