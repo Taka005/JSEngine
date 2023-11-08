@@ -5,7 +5,7 @@ class Engine{
    * @param {Number} option.fps 描画FPS
    * @param {Number} option.gravity 重力加速度
    */
-  constructor(canvas,{fps = 60, gravity = 50} = {}){
+  constructor(canvas,{fps = 60, gravity = 80} = {}){
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
@@ -35,7 +35,7 @@ class Engine{
       Object.values(this.entities).forEach(entity=>{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
-
+          return
           this.solvePosition(entity,target);
         });
       });
@@ -80,14 +80,19 @@ class Engine{
     let vecX = entity.posX - target.posX;
     let vecY = entity.posY - target.posY;
 
+    const d = Math.sqrt(vecX*vecX + vecY*vecY);
+    const constraint = d - (entity.size + target.size)
+
+    v = v*constraint/(d*(entity.mass+target.mass))*entity.stiff;
+
     vecX = vecX*(Math.abs(vecX) - (entity.size + target.size))/(Math.abs(vecX)*(entity.mass + target.mass))*entity.stiff;
     vecY = vecY*(Math.abs(vecY) - (entity.size + target.size))/(Math.abs(vecY)*(entity.mass + target.mass))*entity.stiff;
 
     entity.posX += vecX*entity.mass;
     entity.posY += vecY*entity.mass;
 
-    target.posX += vecX*target.mass;
-    target.posY += vecY*target.mass;
+    target.posX -= vecX*target.mass;
+    target.posY -= vecY*target.mass;
   }
 
   /**

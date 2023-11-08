@@ -9,7 +9,7 @@ document.addEventListener("keydown",(event)=>{
     name: event.code,
     posX: 450,
     posY: 200,
-    size: 50,
+    size: 30,
     mass: 10,
     stiff: 0.5
   });
