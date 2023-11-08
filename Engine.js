@@ -94,8 +94,8 @@ class Engine{
    * @param {Entity} entity 変更するエンティティークラス
    */
   updateSpeed(entity){
-    entity.speedX = (this.posX - this.prePosX)/(1000/this.fps);
-    entity.speedY = (this.posY - this.prePosY)/(1000/this.fps);
+    entity.speedX = (entity.posX - entity.prePosX)/(1000/this.fps);
+    entity.speedY = (entity.posY - entity.prePosY)/(1000/this.fps);
 
     entity.speedY += this.gravity*(1000/this.fps);
   }
@@ -157,7 +157,7 @@ class Entity{
 
   savePosition(){
     this.prePosX = this.posX;
-    this.prePosY = this.PosY;
+    this.prePosY = this.posY;
   }
 
   /**
