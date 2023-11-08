@@ -5,7 +5,7 @@ class Engine{
    * @param {Number} option.fps 描画FPS
    * @param {Number} option.gravity 重力加速度
    */
-  constructor(canvas,{fps = 60, gravity = 10} = {}){
+  constructor(canvas,{fps = 60, gravity = 30} = {}){
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
@@ -36,11 +36,7 @@ class Engine{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
 
-          const diffX = entity.posX - target.posX;
-          const diffY = entity.posY - target.posY;
-          if(Math.sqrt(diffX*diffX + diffY*diffY) <= entity.size + target.size){
-            this.solvePosition(entity,target);
-          }
+          this.solvePosition(entity,target);
         });
       });
     }
@@ -65,7 +61,6 @@ class Engine{
    */
   spawn(data){
     this.entities[data.name] = new Entity(data);
-    console.log(this.entities)
     return this.entities[data.name];
   }
 
