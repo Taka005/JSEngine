@@ -61,7 +61,7 @@ class Engine{
    */
   spawn(data){
     this.entities[data.name] = new Entity(data);
-    console.log(this.entities)
+
     return this.entities[data.name];
   }
 
@@ -94,6 +94,7 @@ class Engine{
    * @param {Entity} entity 変更するエンティティークラス
    */
   updateSpeed(entity){
+    console.log(entity)
     entity.speedX = (entity.posX - entity.prePosX)/(1/this.fps);
     entity.speedY = (entity.posY - entity.prePosY)/(1/this.fps);
 
