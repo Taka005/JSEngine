@@ -5,7 +5,7 @@ class Engine{
    * @param {Number} option.fps 描画FPS
    * @param {Number} option.gravity 重力加速度
    */
-  constructor(canvas,{fps = 60, gravity = 30} = {}){
+  constructor(canvas,{fps = 60, gravity = 10} = {}){
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
@@ -98,17 +98,17 @@ class Engine{
    * @param {Entity} entity 変更するエンティティークラス
    */
   updateSpeed(entity){
-    entity.speedX = (entity.posX - entity.prePosX)*(1/(1000/this.fps));
-    entity.speedY = (entity.posY - entity.prePosY)*(1/(1000/this.fps));
+    entity.speedX = (entity.posX - entity.prePosX)/(1/this.fps);
+    entity.speedY = (entity.posY - entity.prePosY)/(1/this.fps);
 
-    entity.speedY += this.gravity*(1000/this.fps);
+    entity.speedY += this.gravity*(1/this.fps);
   }
 
   updatePosition(entity){
     entity.savePosition();
 
-    entity.posX += entity.speedX*(1000/this.fps);
-    entity.posY += entity.speedY*(1000/this.fps);
+    entity.posX += entity.speedX*(1/this.fps);
+    entity.posY += entity.speedY*(1/this.fps);
   }
 }
 
