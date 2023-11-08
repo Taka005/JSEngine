@@ -6,7 +6,7 @@ engine.start();
 document.addEventListener("keydown",(event)=>{
   event.preventDefault()
   engine.spawn({
-    name: "test",
+    name: Math.floor(Math.random()*1000),
     posX: 450,
     posY: 200,
     size: 50,
