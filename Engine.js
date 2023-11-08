@@ -36,11 +36,7 @@ class Engine{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
 
-          const diffX = entity.posX - target.posX;
-          const diffY = entity.posY - target.posY;
-          if(Math.sqrt(diffX*diffX + diffY*diffY) <= entity.size + target.size){
-            this.solvePosition(entity,target)
-          }
+          this.solvePosition(entity,target);
         });
       });
     }
