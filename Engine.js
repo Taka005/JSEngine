@@ -35,7 +35,7 @@ class Engine{
       Object.values(this.entities).forEach(entity=>{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
-          return
+
           this.solvePosition(entity,target);
         });
       });
@@ -78,7 +78,7 @@ class Engine{
    */
   solvePosition(entity,target){
     let vecX = entity.posX - target.posX;
-    let vecY = entity.posY - target.posy;
+    let vecY = entity.posY - target.posY;
 
     vecX = vecX*(Math.abs(vecX) - (entity.size + target.size))/(Math.abs(vecX)*(entity.mass + target.mass))*entity.stiff;
     vecY = vecY*(Math.abs(vecY) - (entity.size + target.size))/(Math.abs(vecY)*(entity.mass + target.mass))*entity.stiff;
