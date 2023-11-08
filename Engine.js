@@ -79,11 +79,10 @@ class Engine{
   solvePosition(entity,target){
     let vecX = entity.posX - target.posX;
     let vecY = entity.posY - target.posY;
-    console.log(vecX);
-    console.log(vecY)
+
     const d = Math.sqrt(vecX*vecX + vecY*vecY);
     const constraint = d - (entity.size + target.size)
-
+    console.log(d)
     vecX = vecX*constraint/(d*(entity.mass+target.mass))*entity.stiff;
     vecY = vecY*constraint/(d*(entity.mass+target.mass))*entity.stiff;
 
