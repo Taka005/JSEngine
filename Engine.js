@@ -51,6 +51,7 @@ class Engine{
   }
 
   draw(){
+    console.log(this.entities)
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
     Object.values(this.entities).forEach(entity=>{
