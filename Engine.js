@@ -35,7 +35,7 @@ class Engine{
       Object.values(this.entities).forEach(entity=>{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
-          return
+          
           this.solvePosition(entity,target);
         });
       });
