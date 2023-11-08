@@ -47,7 +47,7 @@ class Engine{
   }
 
   draw(){
-    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+    //this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
     Object.values(this.entities).forEach(entity=>{
       entity.draw(this.ctx);
