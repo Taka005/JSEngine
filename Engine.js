@@ -61,6 +61,7 @@ class Engine{
    */
   spawn(data){
     this.entities[data.name] = new Entity(data);
+    console.log(this.entities)
     return this.entities[data.name];
   }
 
