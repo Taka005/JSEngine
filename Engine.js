@@ -29,17 +29,24 @@ class Engine{
   update(){
     Object.values(this.entities).forEach(entity=>{
       this.updatePosition(entity);
-      this.updateSpeed(entity);
+    });
 
-      Object.values(this.entities).forEach(target=>{
-        if(entity.name === target.name) return;
+    for(let i = 0;i < 100;i++){
+      Object.values(this.entities).forEach(entity=>{
+        Object.values(this.entities).forEach(target=>{
+          if(entity.name === target.name) return;
 
-        const diffX = entity.posX - target.posX;
-        const diffY = entity.posY - target.posY;
-        if(Math.sqrt(diffX*diffX + diffY*diffY) <= entity.size + target.size){
-          this.solvePosition(entity,target)
-        }
+          const diffX = entity.posX - target.posX;
+          const diffY = entity.posY - target.posY;
+          if(Math.sqrt(diffX*diffX + diffY*diffY) <= entity.size + target.size){
+            this.solvePosition(entity,target)
+          }
+        });
       });
+    }
+
+    Object.values(this.entities).forEach(entity=>{
+      this.updateSpeed(entity);
     });
   }
 
