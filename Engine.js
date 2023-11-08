@@ -3,12 +3,14 @@ class Engine{
    * @param {Element} canvas 適用するエレメント
    * @param {Object} option オプション
    * @param {Number} option.fps 描画FPS
+   * @param {Number} option.gravity 重力加速度
    */
-  constructor(canvas,{fps = 60} = {}){
+  constructor(canvas,{fps = 60, gravity = 3} = {}){
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
     this.fps = fps;
+    this.gravity = gravity;
 
     this.entities = {};
   }
@@ -25,7 +27,20 @@ class Engine{
   }
 
   update(){
+    Object.values(this.entities).forEach(entity=>{
+      this.updatePosition(entity);
+      this.updateSpeed(entity);
 
+      Object.values(this.entities).forEach(target=>{
+        if(entity.name === target.name) return;
+
+        const diffX = entity.posX - target.posX;
+        const diffY = entity.posY - target.posY;
+        if(Math.sqrt(diffX*diffX + diffY*diffY) <= entity.size + target.size){
+          this.solvePosition(entity,target)
+        }
+      });
+    });
   }
 
   draw(){
@@ -41,12 +56,10 @@ class Engine{
    * @param {Object} data エンティティーデータ(Entityクラスを参照してください)
    * @returns {Entity} 生成されたエンティティークラス
    */
-  spawn(name,data){
-    if(!name) throw new Error("エンティティー名を指定してください");
+  spawn(data){
+    this.entities[data.name] = new Entity(data);
 
-    this.entities[name] = new Entity(data);
-
-    return this.entities[name];
+    return this.entities[data.name];
   }
 
   /**
@@ -55,11 +68,47 @@ class Engine{
   deSpawn(name){
     delete this.entities[name];
   }
+
+  /**
+   * @param {Entity} entity 対象のエンティティークラス
+   * @param {Entity} target 対象のエンティティークラス
+   */
+  solvePosition(entity,target){
+    let vecX = entity.posX - target.posX;
+    let vecY = entity.posY - target.posy;
+
+    vecX = vecX*(Math.abs(vecX) - (entity.size + target.size))/(Math.abs(vecX)*(entity.mass + target.mass))*entity.stiff;
+    vecY = vecY*(Math.abs(vecY) - (entity.size + target.size))/(Math.abs(vecY)*(entity.mass + target.mass))*entity.stiff;
+
+    entity.posX += vecX*entity.mass;
+    entity.posY += vecY*entity.mass;
+
+    target.posX += vecX*target.mass;
+    target.posY += vecY*target.mass;
+  }
+
+  /**
+   * @param {Entity} entity 変更するエンティティークラス
+   */
+  updateSpeed(entity){
+    entity.speedX = (this.posX - this.prePosX)/(1000/this.fps);
+    entity.speedY = (this.posY - this.prePosY)/(1000/this.fps);
+
+    entity.speedY += this.gravity*(1000/this.fps);
+  }
+
+  updatePosition(entity){
+    entity.savePosition();
+
+    entity.posX += entity.speedX*(1000/this.fps);
+    entity.posY += entity.speedY*(1000/this.fps);
+  }
 }
 
 class Entity{
   /**
    * @param {Object} data エンティティーデータ
+   * @param {String} data.name エンティティー名
    * @param {Number} data.posX X位置
    * @param {Number} data.posY Y位置
    * @param {Number} data.size 大きさ
@@ -69,8 +118,9 @@ class Entity{
    * @param {Number} data.speedY Y速度
    * @param {String} data.image 表示画像
    */
-  constructor({posX, posY, size, mass, stiff, speedX = 0, speedY = 0, image = null}){
+  constructor({name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0,image = null}){
     if(
+      !name||
       !posX||
       !posY||
       !size||
@@ -87,8 +137,12 @@ class Entity{
       this.img.src = image;
     }
 
+    this.name = name;
+
     this.posX = posX;
     this.posY = posY;
+    this.prePosX = posX;
+    this.prePosY = posY;
 
     this.speedX = speedX;
     this.speedY = speedY;
@@ -96,6 +150,11 @@ class Entity{
     this.size = size;
     this.mass = mass;
     this.stiff = stiff;
+  }
+
+  savePosition(){
+    this.prePosX = this.posX;
+    this.prePosY = this.PosY;
   }
 
   /**
