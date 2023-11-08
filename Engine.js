@@ -1,6 +1,6 @@
 class Engine{
   /**
-   * @param {Element} canvas 適用するエレメント
+   * @param {Element} canvas 適用するCanvasエレメント
    * @param {Object} option オプション
    * @param {Number} option.fps 描画FPS
    * @param {Number} option.gravity 重力加速度
@@ -83,10 +83,11 @@ class Engine{
     const d = Math.sqrt(vecX*vecX + vecY*vecY);
     const constraint = d - (entity.size + target.size)
 
-    v = v*constraint/(d*(entity.mass+target.mass))*entity.stiff;
+    vecX = vecX*constraint/(d*(entity.mass+target.mass))*entity.stiff;
+    vecY = vecY*constraint/(d*(entity.mass+target.mass))*entity.stiff;
 
-    vecX = vecX*(Math.abs(vecX) - (entity.size + target.size))/(Math.abs(vecX)*(entity.mass + target.mass))*entity.stiff;
-    vecY = vecY*(Math.abs(vecY) - (entity.size + target.size))/(Math.abs(vecY)*(entity.mass + target.mass))*entity.stiff;
+    //vecX = vecX*(Math.abs(vecX) - (entity.size + target.size))/(Math.abs(vecX)*(entity.mass + target.mass))*entity.stiff;
+    //vecY = vecY*(Math.abs(vecY) - (entity.size + target.size))/(Math.abs(vecY)*(entity.mass + target.mass))*entity.stiff;
 
     entity.posX += vecX*entity.mass;
     entity.posY += vecY*entity.mass;

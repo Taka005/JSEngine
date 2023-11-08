@@ -4,7 +4,8 @@ const engine = new Engine(canvas);
 engine.start();
 
 document.addEventListener("keydown",(event)=>{
-  event.preventDefault()
+  event.preventDefault();
+  
   engine.spawn({
     name: event.code,
     posX: 450,
