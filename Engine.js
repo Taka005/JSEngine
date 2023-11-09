@@ -80,6 +80,8 @@ class Engine{
   solvePosition(entity,target){
     let vecX = target.posX - entity.posX;
     let vecY = target.posY - entity.posY;
+    console.log(vecX)
+    console.log(vecY)
 
     const constX = Math.abs(vecX) - (entity.size + target.size);
     const constY = Math.abs(vecY) - (entity.size + target.size);
