@@ -81,6 +81,7 @@ class Engine{
     let vecY = target.posY - entity.posY;
 
     const d = Math.sqrt(vecX*vecX + vecY*vecY);
+    if (d <= 0) return;
     const constraint = d - (entity.size + target.size)
 
     vecX = vecX*constraint/(d*(entity.mass+target.mass))*entity.stiff;
