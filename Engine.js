@@ -31,7 +31,7 @@ class Engine{
       this.updatePosition(entity);
     });
 
-    for(let i = 0;i < 100;i++){
+    for(let i = 0;i < 10;i++){
       Object.values(this.entities).forEach(entity=>{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
