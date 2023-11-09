@@ -80,14 +80,11 @@ class Engine{
     let vecX = target.posX - entity.posX;
     let vecY = target.posY - entity.posY;
 
-    const d = Math.sqrt(vecX*vecX + vecY*vecY);
-    const constraint = d - (entity.size + target.size)
-    console.log(d)
-    vecX = vecX*constraint/(d*(entity.mass+target.mass))*entity.stiff;
-    vecY = vecY*constraint/(d*(entity.mass+target.mass))*entity.stiff;
+    const constX = Math.abs(vecX) - (entity.size + target.size);
+    const constY = Math.abs(vecY) - (entity.size + target.size);
 
-    //vecX = vecX*(Math.abs(vecX) - (entity.size + target.size))/(Math.abs(vecX)*(entity.mass + target.mass))*entity.stiff;
-    //vecY = vecY*(Math.abs(vecY) - (entity.size + target.size))/(Math.abs(vecY)*(entity.mass + target.mass))*entity.stiff;
+    vecX = vecX*constX/(Math.abs(vecX)*(entity.mass+target.mass))*entity.stiff;
+    vecY = vecY*constY/(MAth.abs(vecY)*(entity.mass+target.mass))*entity.stiff;
 
     entity.posX += vecX*entity.mass;
     entity.posY += vecY*entity.mass;
