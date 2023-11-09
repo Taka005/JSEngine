@@ -36,7 +36,7 @@ class Engine{
       Object.values(this.entities).forEach(entity=>{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
-          return
+
           this.solvePosition(entity,target);
         });
       });
@@ -81,7 +81,7 @@ class Engine{
    * @param {Entity} entity 対象のエンティティークラス
    * @param {Entity} target 対象のエンティティークラス
    */
-  solvePosition(entity,target){
+  solvePosition_(entity,target){
     let vecX = target.posX - entity.posX;
     let vecY = target.posY - entity.posY;
 
@@ -99,6 +99,29 @@ class Engine{
     target.posY -= vecY*target.mass;
   }
 
+  solvePosition(entity, target) {
+    let vecX = target.posX - entity.posX;
+    let vecY = target.posY - entity.posY;
+
+    const d = Math.sqrt(vecX * vecX + vecY * vecY);
+    if (d <= 0) return;
+
+    const constraint = d - (entity.size + target.size);
+    const factor = (constraint / (d * (entity.mass + target.mass))) * entity.stiff;
+
+    vecX *= factor;
+    vecY *= factor;
+
+    entity.posX += vecX * entity.mass;
+    entity.posY += vecY * entity.mass;
+
+    target.posX -= vecX * target.mass;
+    target.posY -= vecY * target.mass;
+  }
+
+  /**
+   * @param {Entity} entity 変更するエンティティークラス
+   */
   solveSpeed(entity){
     if(entity.speedX > 0){
       const rate = this.friction*entity.size*entity.mass*(1/this.fps);
@@ -121,6 +144,9 @@ class Engine{
     entity.speedY += this.gravity*(1/this.fps);
   }
 
+  /**
+   * @param {Entity} entity 変更するエンティティークラス
+   */
   updatePosition(entity){
     entity.savePosition();
 
@@ -153,7 +179,7 @@ class Entity{
     ) throw new Error("エンティティーデータが不足しています");
 
     if(size < 0) throw new Error("サイズは0以上にしてください");
-    if(mass < 1) throw new Error("質量は1以上にしてください");
+    if(mass < 0) throw new Error("質量は0以上にしてください");
     if(stiff < 0 || stiff > 1) throw new Error("剛性は0以上1以下にしてください");
 
     if(image){
