@@ -77,7 +77,7 @@ class Engine{
    * @param {Entity} entity 対象のエンティティークラス
    * @param {Entity} target 対象のエンティティークラス
    */
-  solvePosition_(entity,target){
+  solvePosition(entity,target){
     let vecX = target.posX - entity.posX;
     let vecY = target.posY - entity.posY;
 
@@ -92,23 +92,6 @@ class Engine{
 
     target.posX -= vecX*target.mass;
     target.posY -= vecY*target.mass;
-  }
-
-  solvePosition(entity, target) {
-    const vecX = target.posX - entity.posX;
-    const vecY = target.posY - entity.posY;
-
-    const constX = Math.max(0, Math.abs(vecX) - (entity.size + target.size));
-    const constY = Math.max(0, Math.abs(vecY) - (entity.size + target.size));
-
-    const vecXForce = vecX * constX / Math.abs(vecX) * (entity.mass + target.mass) * entity.stiffness;
-    const vecYForce = vecY * constY / Math.abs(vecY) * (entity.mass + target.mass) * entity.stiffness;
-
-    entity.posX += vecXForce;
-    entity.posY += vecYForce;
-
-    target.posX -= vecXForce;
-    target.posY -= vecYForce;
   }
 
   /**
