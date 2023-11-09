@@ -5,7 +5,7 @@ class Engine{
    * @param {Number} option.fps 描画FPS
    * @param {Number} option.gravity 重力加速度
    */
-  constructor(canvas,{fps = 60, gravity = 100, friction = 0.001} = {}){
+  constructor(canvas,{fps = 60, gravity = 300, friction = 0.001} = {}){
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
@@ -101,11 +101,13 @@ class Engine{
 
   solveSpeed(entity){
     if(entity.speedX > 0){
-      entity.speedX += -entity.speedX*this.friction*entity.size*entity.mass*(1/this.fps);
+      const rate = this.friction*entity.size*entity.mass*(1/this.fps);
+      entity.speedX += -entity.speedX*rate;
     }
 
     if(entity.speedY > 0){
-      entity.speedY += -entity.speedY*this.friction*entity.size*entity.mass*(1/this.fps);
+      const rate = this.friction*entity.size*entity.mass*(1/this.fps);
+      entity.speedY += -entity.speedY*rate;
     }
   }
 
