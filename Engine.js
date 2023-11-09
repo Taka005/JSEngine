@@ -82,7 +82,7 @@ class Engine{
     let vecY = target.posY - entity.posY;
     console.log(vecX)
     console.log(vecY)
-
+return
     const constX = Math.abs(vecX) - (entity.size + target.size);
     const constY = Math.abs(vecY) - (entity.size + target.size);
 
