@@ -77,8 +77,8 @@ class Engine{
    * @param {Entity} target 対象のエンティティークラス
    */
   solvePosition(entity,target){
-    let vecX = entity.posX - target.posX;
-    let vecY = entity.posY - target.posY;
+    let vecX = target.posX - entity.posX;
+    let vecY = target.posY - entity.posY;
 
     const d = Math.sqrt(vecX*vecX + vecY*vecY);
     const constraint = d - (entity.size + target.size)
