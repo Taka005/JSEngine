@@ -101,12 +101,13 @@ class Engine{
 
   solveSpeed(entity){
     if(entity.speedX > 0){
-      const dv = -entity.speedX*Math.min(1,this.friction*entity.mass*(1/this.fps));
+      const dv = -Math.min(1,this.friction*entity.mass*(1/this.fps));
       entity.speedX += entity.speedX*dv;
     }
 
     if(entity.speedY > 0){
-      const dv = -entity.speedY*Math.min(1,this.friction*entity.mass*(1/this.fps));
+      const dv = -Math.min(1,this.friction*entity.mass*(1/this.fps));
+      console.log(dv)
       entity.speedY += entity.speedY*dv;
     }
   }
