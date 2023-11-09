@@ -29,7 +29,6 @@ class Engine{
   update(){
     Object.values(this.entities).forEach(entity=>{
       this.updatePosition(entity);
-      console.log(entity)
     });
 
     for(let i = 0;i < 100;i++){
