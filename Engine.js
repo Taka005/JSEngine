@@ -5,7 +5,7 @@ class Engine{
    * @param {Number} option.fps 描画FPS
    * @param {Number} option.gravity 重力加速度
    */
-  constructor(canvas,{fps = 60, gravity = 100, friction = 0.01} = {}){
+  constructor(canvas,{fps = 60, gravity = 100, friction = 0.001} = {}){
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
