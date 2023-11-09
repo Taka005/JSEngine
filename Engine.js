@@ -5,7 +5,7 @@ class Engine{
    * @param {Number} option.fps 描画FPS
    * @param {Number} option.gravity 重力加速度
    */
-  constructor(canvas,{fps = 60, gravity = 500, friction = 0.01} = {}){
+  constructor(canvas,{fps = 60, gravity = 500, friction = 0.005} = {}){
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
@@ -81,7 +81,7 @@ class Engine{
    * @param {Entity} entity 対象のエンティティークラス
    * @param {Entity} target 対象のエンティティークラス
    */
-  solvePosition_(entity,target){
+  solvePosition(entity,target){
     let vecX = target.posX - entity.posX;
     let vecY = target.posY - entity.posY;
 
@@ -97,26 +97,6 @@ class Engine{
 
     target.posX -= vecX*target.mass;
     target.posY -= vecY*target.mass;
-  }
-
-  solvePosition(entity, target) {
-    let vecX = target.posX - entity.posX;
-    let vecY = target.posY - entity.posY;
-
-    const d = Math.sqrt(vecX * vecX + vecY * vecY);
-    if (d <= 0) return;
-
-    const constraint = d - (entity.size + target.size);
-    const factor = (constraint / (d * (entity.mass + target.mass))) * entity.stiff;
-
-    vecX *= factor;
-    vecY *= factor;
-
-    entity.posX += vecX * entity.mass;
-    entity.posY += vecY * entity.mass;
-
-    target.posX -= vecX * target.mass;
-    target.posY -= vecY * target.mass;
   }
 
   /**
