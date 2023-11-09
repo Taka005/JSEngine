@@ -82,7 +82,8 @@ class Engine{
 
     const constX = Math.abs(vecX) - (entity.size + target.size);
     const constY = Math.abs(vecY) - (entity.size + target.size);
-
+    console.log(constX);
+    console.log(constY)
     vecX = vecX*constX/(Math.abs(vecX)*(entity.mass+target.mass))*entity.stiff;
     vecY = vecY*constY/(Math.abs(vecY)*(entity.mass+target.mass))*entity.stiff;
 
