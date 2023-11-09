@@ -29,6 +29,7 @@ class Engine{
   update(){
     Object.values(this.entities).forEach(entity=>{
       this.updatePosition(entity);
+      console.log(entity)
     });
 
     for(let i = 0;i < 100;i++){
@@ -82,8 +83,7 @@ class Engine{
 
     const constX = Math.abs(vecX) - (entity.size + target.size);
     const constY = Math.abs(vecY) - (entity.size + target.size);
-    console.log(constX);
-    console.log(constY)
+
     vecX = vecX*constX/(Math.abs(vecX)*(entity.mass+target.mass))*entity.stiff;
     vecY = vecY*constY/(Math.abs(vecY)*(entity.mass+target.mass))*entity.stiff;
 
