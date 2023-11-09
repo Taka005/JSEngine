@@ -5,12 +5,13 @@ class Engine{
    * @param {Number} option.fps 描画FPS
    * @param {Number} option.gravity 重力加速度
    */
-  constructor(canvas,{fps = 60, gravity = 80} = {}){
+  constructor(canvas,{fps = 60, gravity = 80, friction = 10} = {}){
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
     this.fps = fps;
     this.gravity = gravity;
+    this.friction = friction;
 
     this.entities = {};
   }
@@ -35,7 +36,7 @@ class Engine{
       Object.values(this.entities).forEach(entity=>{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
-
+          return
           this.solvePosition(entity,target);
         });
       });
@@ -43,6 +44,10 @@ class Engine{
 
     Object.values(this.entities).forEach(entity=>{
       this.updateSpeed(entity);
+    });
+
+    Object.values(this.entities).forEach(entity=>{
+      this.solveSpeed(entity);
     });
   }
 
@@ -92,6 +97,18 @@ class Engine{
 
     target.posX -= vecX*target.mass;
     target.posY -= vecY*target.mass;
+  }
+
+  solveSpeed(entity){
+    if(entity.speedX > 0){
+      const dv = -entity.speedX*Math.min(1,this.friction*entity.mass*(1/this.fps));
+      entity.speedX += entity.speedX*dv;
+    }
+
+    if(entity.speedY > 0){
+      const dv = -entity.speedY*Math.min(1,this.friction*entity.mass*(1/this.fps));
+      entity.speedY += entity.speedY*dv;
+    }
   }
 
   /**
