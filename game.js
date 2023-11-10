@@ -28,7 +28,7 @@ document.addEventListener("keydown",(event)=>{
   event.preventDefault();
 
   engine.spawn({
-    name: event.code,
+    name: createId(8),
     posX: 450,
     posY: 200,
     size: 30,
@@ -36,3 +36,12 @@ document.addEventListener("keydown",(event)=>{
     stiff: 0.5
   });
 });
+
+function createId(length){
+  const str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let id = "";
+  for(let i = 0;i < length;i++){
+    id += str.charAt(Math.floor(Math.random()*str.length));
+  }
+  return id;
+}
