@@ -17,6 +17,15 @@ class Engine{
     this.entities = {};
   }
 
+  createId(length){
+    const str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let id = "";
+    for(let i = 0;i < length;i++){
+      id += str.charAt(Math.floor(Math.random()*str.length));
+    }
+    return id;
+  }
+
   start(){
     this.loop = setInterval(()=>{
       this.update();
@@ -76,6 +85,24 @@ class Engine{
    */
   deSpawn(name){
     delete this.entities[name];
+  }
+
+  setGround({startX, startY, endX, endY}){
+    const width = endX - startX;
+    const height = endY - startY;
+
+    const count = Math.floor(Math.max(width,height)/20);
+
+    for(let i = 0;i < count;i++){
+      this.spawn({
+        name: this.createId(8),
+        posX: startX + i * 20,
+        posY: startY + i * 20,
+        size: 10,
+        mass: 0,
+        stiff: 0.5
+      });
+    }
   }
 
   /**

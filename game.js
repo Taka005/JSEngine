@@ -3,51 +3,12 @@ const engine = new Engine(canvas);
 
 engine.start();
 
-engine.spawn({
-  name: "G1",
-  posX: 250,
-  posY: 500,
-  size: 50,
-  mass: 0,
-  stiff: 0.5
+engine.setGround({
+  startX: 0,
+  startY: 600,
+  endX: 900,
+  endY: 600
 });
-
-engine.spawn({
-  name: "G2",
-  posX: 350,
-  posY: 500,
-  size: 50,
-  mass: 0,
-  stiff: 0.5
-});
-
-engine.spawn({
-  name: "G3",
-  posX: 450,
-  posY: 500,
-  size: 50,
-  mass: 0,
-  stiff: 0.5
-});
-
-engine.spawn({
-  name: "G4",
-  posX: 550,
-  posY: 500,
-  size: 50,
-  mass: 0,
-  stiff: 0.5
-});
-
-engine.spawn({
-  name: "G5",
-  posX: 650,
-  posY: 500,
-  size: 50,
-  mass: 0,
-  stiff: 0.5
-});
-
 
 document.addEventListener("keydown",(event)=>{
   event.preventDefault();
