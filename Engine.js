@@ -54,10 +54,11 @@ class Engine{
 
     Object.values(this.entities).forEach(entity=>{
       this.updateSpeed(entity);
-    });
-
-    Object.values(this.entities).forEach(entity=>{
       this.solveSpeed(entity);
+
+      if(entity.posY > this.canvas.height+100){
+        delete this.entities[entity.name];
+      }
     });
   }
 
