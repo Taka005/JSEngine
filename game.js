@@ -14,7 +14,7 @@ engine.spawn({
 
 engine.spawn({
   name: "G2",
-  posX: 500,
+  posX: 450,
   posY: 400,
   size: 50,
   mass: 0,
@@ -23,7 +23,7 @@ engine.spawn({
 
 engine.spawn({
   name: "G3",
-  posX: 500,
+  posX: 550,
   posY: 400,
   size: 50,
   mass: 0,
