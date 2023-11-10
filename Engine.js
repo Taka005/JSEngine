@@ -229,7 +229,7 @@ class Entity{
       ctx.strokeStyle = "red";
       ctx.lineWidth = 1;
       ctx.fill();
-      //ctx.stroke();
+      ctx.stroke();
     }
   }
 }
