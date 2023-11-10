@@ -91,11 +91,10 @@ class Engine{
     const width = endX - startX;
     const height = endY - startY;
 
-    const count = Math.floor(Math.max(width,height)/20);
-    console.log(count);
+    const count = Math.floor(Math.sqrt(width*width + height*height)/20);
     for(let i = 0;i < count;i++){
-      let x = startX + i * 10;
-      let y = startY + i * 10;
+      let x = startX + i*(width/count);
+      let y = startY + i*(height/count);
 
       this.spawn({
         name: this.createId(8),
