@@ -6,7 +6,7 @@ engine.start();
 engine.spawn({
   name: "G1",
   posX: 450,
-  posY: 500,
+  posY: 400,
   size: 50,
   mass: 0,
   stiff: 0.5
