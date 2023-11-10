@@ -1,6 +1,6 @@
 const canvas = document.getElementById("game");
 const engine = new Engine(canvas,{
-  fps: 50
+  fps: 60
 });
 
 engine.start();
@@ -40,7 +40,7 @@ document.addEventListener("keydown",(event)=>{
     name: createId(8),
     posX: 450,
     posY: 200,
-    size: 5,
+    size: 8,
     mass: 5,
     stiff: 0.5
   });
