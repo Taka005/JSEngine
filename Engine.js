@@ -94,10 +94,21 @@ class Engine{
     const count = Math.floor(Math.max(width,height)/20);
 
     for(let i = 0;i < count;i++){
+      let x = startX + i * 10;
+      let y = startY + i * 10;
+
+      if(y == startY||y == endY){
+        x += 10;
+      }
+
+      if(x == startX||x == endX){
+        y += 10;
+      }
+
       this.spawn({
         name: this.createId(8),
-        posX: startX + i * 20,
-        posY: startY + i * 20,
+        posX: x,
+        posY: y,
         size: 10,
         mass: 0,
         stiff: 0.5
