@@ -125,6 +125,7 @@ class Engine{
     entity.speedX = (entity.posX - entity.prePosX)/(1/this.fps);
     entity.speedY = (entity.posY - entity.prePosY)/(1/this.fps);
 
+    if(entity.mass === 0) return;
     entity.speedY += this.gravity*(1/this.fps);
   }
 
