@@ -92,18 +92,10 @@ class Engine{
     const height = endY - startY;
 
     const count = Math.floor(Math.max(width,height)/20);
-
+    console.log(count);
     for(let i = 0;i < count;i++){
       let x = startX + i * 10;
       let y = startY + i * 10;
-
-      if(y == startY||y == endY){
-        x += 10;
-      }
-
-      if(x == startX||x == endX){
-        y += 10;
-      }
 
       this.spawn({
         name: this.createId(8),
