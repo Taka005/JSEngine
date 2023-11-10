@@ -91,7 +91,7 @@ class Engine{
     const width = endX - startX;
     const height = endY - startY;
 
-    const count = Math.floor(Math.sqrt(width*width + height*height)/10);
+    const count = Math.sqrt(width*width + height*height)/10;
     for(let i = 0;i < count;i++){
       let x = startX + i*(width/count);
       let y = startY + i*(height/count);
