@@ -14,7 +14,7 @@ engine.setGround({
   startX: 600,
   startY: 600,
   endX: 600,
-  endY: 700
+  endY: 500
 });
 
 engine.setGround({
