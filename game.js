@@ -11,6 +11,13 @@ engine.setGround({
 });
 
 engine.setGround({
+  startX: 600,
+  startY: 600,
+  endX: 600,
+  endY: 700
+});
+
+engine.setGround({
   startX: 30,
   startY: 0,
   endX: 30,
@@ -31,7 +38,7 @@ document.addEventListener("keydown",(event)=>{
     name: createId(8),
     posX: 450,
     posY: 200,
-    size: 30,
+    size: 10,
     mass: 10,
     stiff: 0.5
   });

@@ -227,7 +227,7 @@ class Entity{
       ctx.beginPath();
       ctx.arc(this.posX,this.posY,this.size,0,2*Math.PI);
       ctx.strokeStyle = "red";
-      ctx.lineWidth = 1;
+      //ctx.lineWidth = 1;
       ctx.stroke();
     }
   }
