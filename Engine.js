@@ -153,15 +153,6 @@ class Entity{
    * @param {String} data.image 表示画像
    */
   constructor({name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, image = null}){
-    if(
-      !name||
-      !posX||
-      !posY||
-      !size||
-      !mass||
-      !stiff
-    ) throw new Error("エンティティーデータが不足しています");
-
     if(size < 0) throw new Error("サイズは0以上にしてください");
     if(mass < 0) throw new Error("質量は0以上にしてください");
     if(stiff < 0 || stiff > 1) throw new Error("剛性は0以上1以下にしてください");
