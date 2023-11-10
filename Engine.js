@@ -152,7 +152,7 @@ class Entity{
    * @param {Number} data.speedY Y速度
    * @param {String} data.image 表示画像
    */
-  constructor({name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0,image = null}){
+  constructor({name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, image = null}){
     if(
       !name||
       !posX||
