@@ -5,7 +5,7 @@ engine.start();
 
 engine.setGround({
   startX: 0,
-  startY: 400,
+  startY: 300,
   endX: 900,
   endY: 600
 });
@@ -15,7 +15,7 @@ document.addEventListener("keydown",(event)=>{
 
   engine.spawn({
     name: event.code,
-    posX: 451,
+    posX: 450,
     posY: 200,
     size: 30,
     mass: 10,
