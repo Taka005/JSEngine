@@ -5,7 +5,7 @@ engine.start();
 
 engine.setGround({
   startX: 0,
-  startY: 600,
+  startY: 500,
   endX: 900,
   endY: 600
 });
