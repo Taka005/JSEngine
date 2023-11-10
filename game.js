@@ -40,7 +40,7 @@ document.addEventListener("keydown",(event)=>{
     name: createId(8),
     posX: 450,
     posY: 200,
-    size: 8,
+    size: 5,
     mass: 5,
     stiff: 0.5
   });
