@@ -4,9 +4,16 @@ const engine = new Engine(canvas);
 engine.start();
 
 engine.setGround({
-  startX: 0,
+  startX: 30,
   startY: 600,
-  endX: 900,
+  endX: 400,
+  endY: 600
+});
+
+engine.setGround({
+  startX: 500,
+  startY: 600,
+  endX: 800,
   endY: 600
 });
 
