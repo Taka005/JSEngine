@@ -42,7 +42,7 @@ class Engine{
       this.updatePosition(entity);
     });
 
-    for(let i = 0;i < 5;i++){
+    for(let i = 0;i < 3;i++){
       Object.values(this.entities).forEach(entity=>{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
