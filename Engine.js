@@ -102,7 +102,7 @@ class Engine{
         posY: y,
         size: 10,
         mass: 0,
-        stiff: 0.5
+        stiff: 1
       });
     }
   }
