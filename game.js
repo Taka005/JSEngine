@@ -46,13 +46,15 @@ document.addEventListener("keydown",(event)=>{
   });
 });
 
-document.addEventListener("mousedown",(event)=>{
+canvas.addEventListener("mousedown",(event)=>{
   event.preventDefault();
+
+  const rect = e.target.getBoundingClientRect();
 
   engine.spawn({
     name: createId(8),
-    posX: event.clientX,
-    posY: event.clientY,
+    posX: event.clientX - rect.left,
+    posY: event.clientY - rect.top,
     size: 15,
     mass: 10,
     stiff: 0.5
