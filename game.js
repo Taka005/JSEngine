@@ -46,6 +46,19 @@ document.addEventListener("keydown",(event)=>{
   });
 });
 
+document.addEventListener("mousedown",(event)=>{
+  event.preventDefault();
+
+  engine.spawn({
+    name: createId(8),
+    posX: event.clientX,
+    posY: event.clientY,
+    size: 15,
+    mass: 10,
+    stiff: 0.5
+  });
+});
+
 function createId(length){
   const str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let id = "";
