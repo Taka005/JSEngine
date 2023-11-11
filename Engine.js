@@ -1,4 +1,4 @@
-class Engine{
+class Engine extends EventTarget{
   /**
    * @param {Element} canvas 適用するCanvasエレメント
    * @param {Object} option オプション
@@ -7,6 +7,8 @@ class Engine{
    * @param {Number} option.friction 摩擦係数
    */
   constructor(canvas,{fps = 60, gravity = 500, friction = 0.003} = {}){
+    super();
+
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
@@ -81,6 +83,24 @@ class Engine{
     return this.entities[data.name];
   }
 
+  reSpawn({ name, posX, posY, size, mass, stiff, speedX, speedY, image }){
+    const entity = this.entities[name];
+    if(entity) throw new Error("存在しないエンティティー名です");
+
+    this.entities[name] = new Entity({
+      posX: posX||entity.posX,
+      posX: posY||entity.posY,
+      size: size||entity.size,
+      mass: mass||entity.mass,
+      stiff: stiff||entity.stiff,
+      speedX: speedX||entity.speedX,
+      speedX: speedY||entity.speedY,
+      image: image||entity.image
+    });
+
+    return this.entities[name];
+  }
+
   /**
    * @param {String} name 削除するエンティティー名
    */
@@ -121,6 +141,11 @@ class Engine{
 
     const distance = Math.sqrt(vecX*vecX + vecY*vecY);
     if(distance > entity.size + target.size) return;
+
+    this.dispatchEvent(new CustomEvent("conflict",{
+      entity: entity,
+      target: target
+    }));
 
     const move = (distance - (entity.size + target.size))/(distance*totalMass)*entity.stiff;
     vecX *= move;
