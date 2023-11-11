@@ -49,7 +49,7 @@ document.addEventListener("keydown",(event)=>{
 canvas.addEventListener("mousedown",(event)=>{
   event.preventDefault();
 
-  const rect = e.target.getBoundingClientRect();
+  const rect = event.target.getBoundingClientRect();
 
   engine.spawn({
     name: createId(8),
