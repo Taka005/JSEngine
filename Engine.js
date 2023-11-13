@@ -1,4 +1,4 @@
-class Engine extends EventTarget{
+class Engine{
   /**
    * @param {Element} canvas 適用するCanvasエレメント
    * @param {Object} option オプション
@@ -49,12 +49,7 @@ class Engine extends EventTarget{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
 
-          if(entity.solvePosition(target)){
-            this.dispatchEvent(new CustomEvent("hit",{
-              entity: entity,
-              target: target
-            }));
-          }
+          entity.solvePosition(target)
         });
       });
     }
@@ -230,17 +225,16 @@ class Entity{
 
   /**
    * @param {Entity} target 計算する対象
-   * @returns {Boolean} 処理を実行したかどうか
    */
   solvePosition(target){
     const totalMass = this.mass + target.mass;
-    if(totalMass === 0) return false;
+    if(totalMass === 0) return;
 
     let vecX = target.posX - this.posX;
     let vecY = target.posY - this.posY;
 
     const distance = Math.sqrt(vecX*vecX + vecY*vecY);
-    if(distance > this.size + target.size) return false;
+    if(distance > this.size + target.size) return;
 
     const move = (distance - (this.size + target.size))/(distance*totalMass)*this.stiff;
     vecX *= move;
@@ -251,8 +245,6 @@ class Entity{
 
     target.posX -= vecX*target.mass;
     target.posY -= vecY*target.mass;
-
-    return true;
   }
 
   savePosition(){
