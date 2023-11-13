@@ -49,7 +49,12 @@ class Engine extends EventTarget{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
 
-          this.solvePosition(entity,target);
+          if(entity.solvePosition(target)){
+            this.dispatchEvent(new CustomEvent("hit",{
+              entity: entity,
+              target: target
+            }));
+          }
         });
       });
     }
@@ -142,11 +147,6 @@ class Engine extends EventTarget{
     const distance = Math.sqrt(vecX*vecX + vecY*vecY);
     if(distance > entity.size + target.size) return;
 
-    this.dispatchEvent(new CustomEvent("conflict",{
-      entity: entity,
-      target: target
-    }));
-
     const move = (distance - (entity.size + target.size))/(distance*totalMass)*entity.stiff;
     vecX *= move;
     vecY *= move;
@@ -163,7 +163,7 @@ class Engine extends EventTarget{
    */
   solveSpeed(entity){
     const rate = this.friction*entity.size*entity.mass;
-    
+
     entity.speedX += -entity.speedX*rate*(1/this.fps);
     entity.speedY += -entity.speedY*rate*(1/this.fps);
   }
@@ -226,6 +226,33 @@ class Entity{
     this.size = size;
     this.mass = mass;
     this.stiff = stiff;
+  }
+
+  /**
+   * @param {Entity} target 計算する対象
+   * @returns {Boolean} 処理を実行したかどうか
+   */
+  solvePosition(target){
+    const totalMass = this.mass + target.mass;
+    if(totalMass === 0) return false;
+
+    let vecX = target.posX - this.posX;
+    let vecY = target.posY - this.posY;
+
+    const distance = Math.sqrt(vecX*vecX + vecY*vecY);
+    if(distance > this.size + target.size) return false;
+
+    const move = (distance - (this.size + target.size))/(distance*totalMass)*this.stiff;
+    vecX *= move;
+    vecY *= move;
+
+    this.posX += vecX*this.mass;
+    this.posY += vecY*this.mass;
+
+    target.posX -= vecX*target.mass;
+    target.posY -= vecY*target.mass;
+
+    return true;
   }
 
   savePosition(){
