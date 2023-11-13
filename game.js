@@ -5,10 +5,6 @@ const engine = new Engine(canvas,{
 
 engine.start();
 
-engine.addEventListener("hit",(event)=>{
-  console.log("衝突");
-});
-
 engine.setGround({
   startX: 30,
   startY: 600,
