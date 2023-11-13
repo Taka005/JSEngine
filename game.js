@@ -41,7 +41,7 @@ document.addEventListener("keydown",(event)=>{
     posX: 450,
     posY: 200,
     size: 20,
-    mass: 20,
+    mass: 50,
     stiff: 0.5
   });
 });
