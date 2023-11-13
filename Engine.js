@@ -162,15 +162,10 @@ class Engine extends EventTarget{
    * @param {Entity} entity 変更するエンティティークラス
    */
   solveSpeed(entity){
-    if(entity.speedX > 0){
-      const rate = this.friction*entity.size*entity.mass;
-      entity.speedX += -entity.speedX*rate*(1/this.fps);
-    }
-
-    if(entity.speedY > 0){
-      const rate = this.friction*entity.size*entity.mass;
-      entity.speedY += -entity.speedY*rate*(1/this.fps);
-    }
+    const rate = this.friction*entity.size*entity.mass;
+    
+    entity.speedX += -entity.speedX*rate*(1/this.fps);
+    entity.speedY += -entity.speedY*rate*(1/this.fps);
   }
 
   /**
