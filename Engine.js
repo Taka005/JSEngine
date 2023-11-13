@@ -7,8 +7,6 @@ class Engine{
    * @param {Number} option.friction 摩擦係数
    */
   constructor(canvas,{fps = 60, gravity = 500, friction = 0.003} = {}){
-    super();
-
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
