@@ -23,6 +23,7 @@ class Engine{
     for(let i = 0;i < length;i++){
       id += str.charAt(Math.floor(Math.random()*str.length));
     }
+    
     return id;
   }
 
@@ -76,6 +77,8 @@ class Engine{
    * @returns {Entity} 生成されたエンティティークラス
    */
   spawn(data){
+    data.name = data.name || this.createId(8);
+
     this.entities[data.name] = new Entity(data);
 
     return this.entities[data.name];
@@ -116,7 +119,6 @@ class Engine{
       let y = startY + i*(height/count);
 
       this.spawn({
-        name: this.createId(8),
         posX: x,
         posY: y,
         size: 10,
@@ -124,31 +126,6 @@ class Engine{
         stiff: 0.5
       });
     }
-  }
-
-  /**
-   * @param {Entity} entity 対象のエンティティークラス
-   * @param {Entity} target 対象のエンティティークラス
-   */
-  solvePosition(entity,target){
-    const totalMass = entity.mass + target.mass;
-    if(totalMass === 0) return;
-
-    let vecX = target.posX - entity.posX;
-    let vecY = target.posY - entity.posY;
-
-    const distance = Math.sqrt(vecX*vecX + vecY*vecY);
-    if(distance > entity.size + target.size) return;
-
-    const move = (distance - (entity.size + target.size))/(distance*totalMass)*entity.stiff;
-    vecX *= move;
-    vecY *= move;
-
-    entity.posX += vecX*entity.mass;
-    entity.posY += vecY*entity.mass;
-
-    target.posX -= vecX*target.mass;
-    target.posY -= vecY*target.mass;
   }
 
   /**

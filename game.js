@@ -37,7 +37,6 @@ document.addEventListener("keydown",(event)=>{
   event.preventDefault();
 
   engine.spawn({
-    name: createId(8),
     posX: 450,
     posY: 200,
     size: 20,
@@ -52,7 +51,6 @@ canvas.addEventListener("mousedown",(event)=>{
   const rect = event.target.getBoundingClientRect();
 
   engine.spawn({
-    name: createId(8),
     posX: event.clientX - rect.left,
     posY: event.clientY - rect.top,
     size: 15,
