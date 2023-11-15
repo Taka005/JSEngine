@@ -23,7 +23,7 @@ class Engine{
     for(let i = 0;i < length;i++){
       id += str.charAt(Math.floor(Math.random()*str.length));
     }
-    
+
     return id;
   }
 
