@@ -48,7 +48,7 @@ class Engine{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
 
-          entity.solvePosition(target)
+          this.solvePosition(entity,target);
         });
       });
     }
@@ -129,6 +129,31 @@ class Engine{
   }
 
   /**
+   * @param {Entity} source 計算する対象
+   * @param {Entity} target 計算する対象
+   */
+  solvePosition(source,target){
+    const totalMass = source.mass + target.mass;
+    if(totalMass === 0) return;
+
+    let vecX = target.posX - source.posX;
+    let vecY = target.posY - source.posY;
+
+    const distance = Math.sqrt(vecX**2 + vecY**2);
+    if(distance > source.size + target.size) return;
+
+    const move = (distance - (source.size + target.size))/(distance*totalMass)*source.stiff;
+    vecX *= move;
+    vecY *= move;
+
+    source.posX += vecX*source.mass;
+    source.posY += vecY*source.mass;
+
+    target.posX -= vecX*target.mass;
+    target.posY -= vecY*target.mass;
+  }
+
+  /**
    * @param {Entity} entity 変更するエンティティークラス
    */
   solveSpeed(entity){
@@ -196,30 +221,6 @@ class Entity{
     this.size = size;
     this.mass = mass;
     this.stiff = stiff;
-  }
-
-  /**
-   * @param {Entity} target 計算する対象
-   */
-  solvePosition(target){
-    const totalMass = this.mass + target.mass;
-    if(totalMass === 0) return;
-
-    let vecX = target.posX - this.posX;
-    let vecY = target.posY - this.posY;
-
-    const distance = Math.sqrt(vecX*vecX + vecY*vecY);
-    if(distance > this.size + target.size) return;
-
-    const move = (distance - (this.size + target.size))/(distance*totalMass)*this.stiff;
-    vecX *= move;
-    vecY *= move;
-
-    this.posX += vecX*this.mass;
-    this.posY += vecY*this.mass;
-
-    target.posX -= vecX*target.mass;
-    target.posY -= vecY*target.mass;
   }
 
   savePosition(){
