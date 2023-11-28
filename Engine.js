@@ -1,4 +1,4 @@
-class Engine{
+class Engine extends EventTarget {
   /**
    * @param {Element} canvas 適用するCanvasエレメント
    * @param {Object} option オプション
@@ -7,6 +7,8 @@ class Engine{
    * @param {Number} option.friction 摩擦係数
    */
   constructor(canvas,{fps = 60, gravity = 500, friction = 0.003} = {}){
+    super();
+
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
@@ -141,6 +143,11 @@ class Engine{
 
     const distance = Math.sqrt(vecX**2 + vecY**2);
     if(distance > source.size + target.size) return;
+    
+    this.dispatchEvent(new CustomEvent("hit",{
+      source: source,
+      target: target
+    }));
 
     const move = (distance - (source.size + target.size))/(distance*totalMass)*source.stiff;
     vecX *= move;
