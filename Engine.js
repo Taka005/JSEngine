@@ -62,6 +62,10 @@ class Engine extends EventTarget {
       if(entity.posY > this.canvas.height+100){
         delete this.entities[entity.name];
       }
+
+      this.dispatchEvent(new CustomEvent("update",{
+        entity: entity
+      }));
     });
   }
 
@@ -143,7 +147,7 @@ class Engine extends EventTarget {
 
     const distance = Math.sqrt(vecX**2 + vecY**2);
     if(distance > source.size + target.size) return;
-    
+
     this.dispatchEvent(new CustomEvent("hit",{
       source: source,
       target: target
