@@ -177,8 +177,8 @@ class Engine extends EventTarget {
       entity.speedX = 0;
       entity.speedY = 0;
     }else{
-      entity.speedX -= entity.speedX*rate*(1/this.fps);
-      entity.speedY -= entity.speedY*rate*(1/this.fps);
+      entity.speedX += -entity.speedX*rate*(1/this.fps);
+      entity.speedY += -entity.speedY*rate*(1/this.fps);
     }
   }
   /**
