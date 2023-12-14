@@ -171,8 +171,8 @@ class Engine extends EventTarget {
     const rate = this.friction*entity.size*entity.mass;
 
     if(
-      entity.speedX < Math.abs(entity.speedX*rate*(1/this.fps))||
-      entity.speedY < Math.abs(entity.speedY*rate*(1/this.fps))
+      Math.abs(entity.speedX) < Math.abs(entity.speedX*rate*(1/this.fps))||
+      Map.abs(entity.speedY) < Math.abs(entity.speedY*rate*(1/this.fps))
     ) return;
 
     entity.speedX += -entity.speedX*rate*(1/this.fps);
