@@ -172,7 +172,7 @@ class Engine extends EventTarget {
 
     if(
       Math.abs(entity.speedX) < Math.abs(entity.speedX*rate*(1/this.fps))||
-      Map.abs(entity.speedY) < Math.abs(entity.speedY*rate*(1/this.fps))
+      Math.abs(entity.speedY) < Math.abs(entity.speedY*rate*(1/this.fps))
     ) return;
 
     entity.speedX += -entity.speedX*rate*(1/this.fps);
