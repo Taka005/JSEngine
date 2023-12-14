@@ -67,3 +67,21 @@ function createId(length){
   }
   return id;
 }
+
+const gravityInput = document.getElementById("gravityInput");
+const gravityValue = document.getElementById("gravityValue");
+
+const frictionInput = document.getElementById("frictionInput");
+const frictionValue = document.getElementById("frictionValue");
+
+gravityValue.textContent = gravityInput.value;
+gravityInput.addEventListener("input",(event)=>{
+  gravityValue.textContent = event.target.value;
+  engine.gravity = event.target.value;
+});
+
+frictionValue.textContent = frictionInput.value;
+frictionInput.addEventListener("input",(event)=>{
+  frictionValue.textContent = event.target.value;
+  engine.friction = event.target.value;
+});
