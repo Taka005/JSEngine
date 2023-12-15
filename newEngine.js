@@ -174,7 +174,8 @@ class Engine extends EventTarget {
 
     const m = (ground.endY - ground.startY)/(ground.endX - ground.startX);
     const b = ground.startY - m*ground.startX;
-
+    console.log(b)
+    console.log(m)
     let distance = Math.abs(m*entity.posX + -entity.posY + b)/Math.sqrt(m**2 + 1);
     console.log(distance)
     return;
