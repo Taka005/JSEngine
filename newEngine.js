@@ -49,7 +49,7 @@ class Engine extends EventTarget {
     for(let i = 0;i < 3;i++){
       Object.values(this.entities).forEach(entity=>{
         Object.values(this.grounds).forEach(ground=>{
-          this.solveLinePosition(entity,ground);
+          this.solveGroundPosition(entity,ground);
         });
       });
 
@@ -164,7 +164,7 @@ class Engine extends EventTarget {
    * @param {Entity} entity 計算する対象
    * @param {Ground} ground 計算する対象
    */
-  solveLinePosition(entity,ground){
+  solveGroundPosition(entity,ground){
     if(entity.mass === 0) return;
 
     const m = (ground.endY - ground.startY)/(ground.endX - ground.startX);
@@ -173,7 +173,7 @@ class Engine extends EventTarget {
     let distance = Math.abs(m*entity.posX + -entity.posY + b)/Math.sqrt(m**2 + 1);
     if(distance > entity.size + ground.size/2) return;
 
-    distance *= (distance - (source.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
+    distance *= (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
 
     entity.posX += distance*entity.mass;
     entity.posY += distance*entity.mass;
