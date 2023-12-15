@@ -177,7 +177,7 @@ class Engine extends EventTarget {
     let vecY = posY - entity.posY;
     if(distance > entity.size + ground.size/2) return;
 
-    move = (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
+    const move = (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
     vecX *= move;
     vecY *= move;
 
