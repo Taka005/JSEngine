@@ -9,21 +9,24 @@ engine.setGround({
   startX: 30,
   startY: 600,
   endX: 600,
-  endY: 600
+  endY: 600,
+  size: 10
 });
 
 engine.setGround({
   startX: 600,
   startY: 600,
   endX: 600,
-  endY: 500
+  endY: 500,
+  size: 10
 });
 
 engine.setGround({
   startX: 30,
   startY: 0,
   endX: 30,
-  endY: 600
+  endY: 600,
+  size: 10
 });
 
 engine.setGround({
