@@ -176,6 +176,7 @@ class Engine extends EventTarget {
     console.log(distance)
     if(distance > entity.size + ground.size/2) return;
     console.log("接触")
+    return
 
     distance *= (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
 
