@@ -311,19 +311,15 @@ class Ground{
    * @returns {Number} 距離
    */
   solveDistance(posX,posY){
-    const m = (this.endX - this.startX !== 0) ? (this.endY - this.startY)/(this.endX - this.startX) : (this.endY - this.startY);
-    const b = this.startY - m*this.startX;
-
-    //const distance = Math.abs(m*posX + -posY + b)/Math.sqrt(m**2 + 1);
     const t = Math.max(0,Math.min(1,((posX - this.startX)*(this.endX - this.startX) + (posY - this.startY)*(this.endY - this.startY))/Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2)**2));
-    const projectionX = this.startX + t*(this.endX - this.startX);
-    const projectionY = this.startY + t*(this.endY - this.startY);
+    const crossX = this.startX + t*(this.endX - this.startX);
+    const crossY = this.startY + t*(this.endY - this.startY);
 
     if(t > 0 && t < 1){
       return {
-        distance: Math.sqrt((posX - projectionX)**2 + (posY - projectionY)**2),
-        posX: projectionX,
-        posY: projectionY
+        distance: Math.sqrt((posX - crossX)**2 + (posY - crossY)**2),
+        posX: crossX,
+        posY: crossY
       }
     }else{
       const startDistance = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
