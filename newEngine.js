@@ -307,21 +307,18 @@ class Ground{
    * @returns {Number} 距離
    */
   solveDistance(posX,posY){
-    if(this.endX - this.startX !== 0){
-      const m = (this.endY - this.startY)/(this.endX - this.startX);
-      const b = this.startY - m*this.startX;
+    const m = (this.endX - this.startX !== 0) ? (this.endY - this.startY)/(this.endX - this.startX) : 0;
+    const b = this.startY - m*this.startX;
 
-      const distance = Math.abs(m*posX + -posY + b)/Math.sqrt(m**2 + 1);
-      const t = Math.max(0,Math.min(1,((posX - this.startX)*(this.endX - this.startX) + (posY - this.startY)*(this.endY - this.startY))/Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2)**2));
-      if(t > 0 && t < 1){
-        return distance;
-      }else{
-        const startDistance = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
-        const endDistance = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
-        return Math.min(startDistance,endDistance);
-      }
+    const distance = Math.abs(m*posX + -posY + b)/Math.sqrt(m**2 + 1);
+    const t = Math.max(0,Math.min(1,((posX - this.startX)*(this.endX - this.startX) + (posY - this.startY)*(this.endY - this.startY))/Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2)**2));
+    console.log(t)
+    if(t > 0 && t < 1){
+      return distance;
     }else{
-      return Math.abs(posX - this.startX);
+      const startDistance = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
+      const endDistance = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
+      return Math.min(startDistance,endDistance);
     }
   }
 
