@@ -49,6 +49,7 @@ class Engine extends EventTarget {
     for(let i = 0;i < 3;i++){
       Object.values(this.entities).forEach(entity=>{
         Object.values(this.grounds).forEach(ground=>{
+          return;
           this.solveGroundPosition(entity,ground);
         });
       });
