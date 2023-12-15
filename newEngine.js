@@ -167,14 +167,16 @@ class Engine extends EventTarget {
 
   /**
    * @param {Entity} entity 計算する対象
-   * @param {Ground} ground 計算する対象
+   * @param {Ground} ground 計算する地面
    */
   solveGroundPosition(entity,ground){
     if(entity.mass === 0) return;
 
-    let { distance, posX, posY } = ground.solveDistance(entity.posX,entity.posY);
+    const { posX, posY } = ground.solvePosition(entity.posX,entity.posY);
     let vecX = posX - entity.posX;
     let vecY = posY - entity.posY;
+
+    const distance = Math.sqrt(vecX**2 + vecY**2);
     if(distance > entity.size + ground.size/2) return;
 
     const move = (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
@@ -194,6 +196,7 @@ class Engine extends EventTarget {
     entity.speedX += -entity.speedX*rate*(1/this.fps);
     entity.speedY += -entity.speedY*rate*(1/this.fps);
   }
+
   /**
    * @param {Entity} entity 変更するエンティティークラス
    */
@@ -308,32 +311,28 @@ class Ground{
    *
    * @param {Number} posX 対象のX座標
    * @param {Number} posY 対象のY座標
-   * @returns {Number} 距離
+   * @returns {Object} 接触座標
    */
-  solveDistance(posX,posY){
+  solvePosition(posX,posY){
     const t = Math.max(0,Math.min(1,((posX - this.startX)*(this.endX - this.startX) + (posY - this.startY)*(this.endY - this.startY))/Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2)**2));
     const crossX = this.startX + t*(this.endX - this.startX);
     const crossY = this.startY + t*(this.endY - this.startY);
 
     if(t > 0 && t < 1){
       return {
-        distance: Math.sqrt((posX - crossX)**2 + (posY - crossY)**2),
         posX: crossX,
         posY: crossY
       }
     }else{
       const startDistance = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
       const endDistance = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
-      const distance = Math.min(startDistance,endDistance);
-      if(distance === startDistance){
+      if(startDistance < endDistance){
         return {
-          distance: distance,
           posX: this.startX,
           posY: this.startY
         }
       }else{
         return {
-          distance: distance,
           posX: this.endX,
           posY: this.endY
         }
