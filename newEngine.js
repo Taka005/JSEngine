@@ -173,6 +173,8 @@ class Engine extends EventTarget {
     if(entity.mass === 0) return;
 
     let distance = ground.solveDistance(entity.posX,entity.posY);
+    console.log(distance)
+    return
     if(distance > entity.size + ground.size/2) return;
 
     distance *= (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
