@@ -172,13 +172,7 @@ class Engine extends EventTarget {
   solveGroundPosition(entity,ground){
     if(entity.mass === 0) return;
 
-    const m = (ground.endY - ground.startY)/(ground.endX - ground.startX);
-    const b = ground.startY - m*ground.startX;
-    console.log(b)
-    console.log(m)
-    let distance = Math.abs(m*entity.posX + -entity.posY + b)/Math.sqrt(m**2 + 1);
-    console.log(distance)
-    return;
+    let distance = ground.solveDistance(entity.posX,entity.posY);
     if(distance > entity.size + ground.size/2) return;
 
     distance *= (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
@@ -304,6 +298,23 @@ class Ground{
     this.endY = endY;
 
     this.size = size;
+  }
+
+  /**
+   *
+   * @param {Number} posX 対象のX座標
+   * @param {Number} posY 対象のY座標
+   * @returns {Number} 距離
+   */
+  solveDistance(posX,posY){
+    if(this.endX - this.startX !== 0){
+      const m = (this.endY - this.startY)/(this.endX - this.startX);
+      const b = this.startY - m*this.startX;
+
+      return Math.abs(m*posX + -posY + b)/Math.sqrt(m**2 + 1);
+    }else{
+      return Math.abs(posX - this.startX);
+    }
   }
 
   /**
