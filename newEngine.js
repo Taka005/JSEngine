@@ -173,10 +173,7 @@ class Engine extends EventTarget {
     if(entity.mass === 0) return;
 
     let distance = ground.solveDistance(entity.posX,entity.posY);
-    console.log(distance)
     if(distance > entity.size + ground.size/2) return;
-    console.log("接触")
-    return
 
     distance *= (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
 
@@ -314,7 +311,15 @@ class Ground{
       const m = (this.endY - this.startY)/(this.endX - this.startX);
       const b = this.startY - m*this.startX;
 
-      return Math.abs(m*posX + -posY + b)/Math.sqrt(m**2 + 1);
+      const distance = Math.abs(m*posX + -posY + b)/Math.sqrt(m**2 + 1);
+      const t = Math.max(0,Math.min(1,((posX - this.startX)*(this.endX - this.startX) + (posY - this.startY)*(this.endY - this.startY))/Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2)**2));
+      if(t > 0 && t < 1){
+        return distance;
+      }else{
+        const startDistance = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
+        const endDistance = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
+        return Math.min(startDistance,endDistance);
+      }
     }else{
       return Math.abs(posX - this.startX);
     }
