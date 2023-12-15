@@ -33,7 +33,8 @@ engine.setGround({
   startX: 800,
   startY: 0,
   endX: 800,
-  endY: 600
+  endY: 600,
+  size: 10
 });
 
 document.addEventListener("keydown",(event)=>{
