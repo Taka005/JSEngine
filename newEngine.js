@@ -49,7 +49,6 @@ class Engine extends EventTarget {
     for(let i = 0;i < 3;i++){
       Object.values(this.entities).forEach(entity=>{
         Object.values(this.grounds).forEach(ground=>{
-          return;
           this.solveGroundPosition(entity,ground);
         });
       });
@@ -177,6 +176,8 @@ class Engine extends EventTarget {
     const b = ground.startY - m*ground.startX;
 
     let distance = Math.abs(m*entity.posX + -entity.posY + b)/Math.sqrt(m**2 + 1);
+    console.log(distance)
+    return;
     if(distance > entity.size + ground.size/2) return;
 
     distance *= (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
