@@ -172,13 +172,17 @@ class Engine extends EventTarget {
   solveGroundPosition(entity,ground){
     if(entity.mass === 0) return;
 
-    let distance = ground.solveDistance(entity.posX,entity.posY);
+    let { distance, posX, posY } = ground.solveDistance(entity.posX,entity.posY);
+    let vecX = posX - entity.posX;
+    let vecY = posY - entity.posY;
     if(distance > entity.size + ground.size/2) return;
 
-    distance *= (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
+    move = (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
+    vecX *= move;
+    vecY *= move;
 
-    entity.posX += distance*entity.mass;
-    entity.posY += distance*entity.mass;
+    entity.posX += vecX*entity.mass;
+    entity.posY += vecY*entity.mass;
   }
 
   /**
@@ -310,15 +314,34 @@ class Ground{
     const m = (this.endX - this.startX !== 0) ? (this.endY - this.startY)/(this.endX - this.startX) : (this.endY - this.startY);
     const b = this.startY - m*this.startX;
 
-    const distance = Math.abs(m*posX + -posY + b)/Math.sqrt(m**2 + 1);
+    //const distance = Math.abs(m*posX + -posY + b)/Math.sqrt(m**2 + 1);
     const t = Math.max(0,Math.min(1,((posX - this.startX)*(this.endX - this.startX) + (posY - this.startY)*(this.endY - this.startY))/Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2)**2));
-    console.log(t)
+    const projectionX = this.startX + t*(this.endX - this.startX);
+    const projectionY = this.startY + t*(this.endY - this.startY);
+
     if(t > 0 && t < 1){
-      return distance;
+      return {
+        distance: Math.sqrt((posX - projectionX)**2 + (posY - projectionY)**2),
+        posX: projectionX,
+        posY: projectionY
+      }
     }else{
       const startDistance = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
       const endDistance = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
-      return Math.min(startDistance,endDistance);
+      const distance = Math.min(startDistance,endDistance);
+      if(distance === startDistance){
+        return {
+          distance: distance,
+          posX: this.startX,
+          posY: this.startY
+        }
+      }else{
+        return {
+          distance: distance,
+          posX: this.endX,
+          posY: this.endY
+        }
+      }
     }
   }
 
