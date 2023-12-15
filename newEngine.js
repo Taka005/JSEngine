@@ -307,7 +307,7 @@ class Ground{
    * @returns {Number} 距離
    */
   solveDistance(posX,posY){
-    const m = (this.endX - this.startX !== 0) ? (this.endY - this.startY)/(this.endX - this.startX) : 0;
+    const m = (this.endX - this.startX !== 0) ? (this.endY - this.startY)/(this.endX - this.startX) : (this.endY - this.startY);
     const b = this.startY - m*this.startX;
 
     const distance = Math.abs(m*posX + -posY + b)/Math.sqrt(m**2 + 1);
