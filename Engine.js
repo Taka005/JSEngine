@@ -154,7 +154,7 @@ class Engine extends EventTarget {
       target: target
     }));
 
-    const move = (distance - (source.size + target.size))/(distance*totalMass)*source.stiff;
+    const move = (distance - (source.size + target.size))/(distance*totalMass)*source.stiff + 0.000001;
     vecX *= move;
     vecY *= move;
 
@@ -179,7 +179,7 @@ class Engine extends EventTarget {
     const distance = Math.sqrt(vecX**2 + vecY**2);
     if(distance > entity.size + ground.size/2) return;
 
-    const move = (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
+    const move = (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff + 0.000001;
     vecX *= move;
     vecY *= move;
 
