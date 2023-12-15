@@ -17,7 +17,6 @@ class Engine extends EventTarget {
     this.friction = friction;
 
     this.entities = {};
-    this.grounds = {};
   }
 
   createId(length){
@@ -48,12 +47,6 @@ class Engine extends EventTarget {
 
     for(let i = 0;i < 3;i++){
       Object.values(this.entities).forEach(entity=>{
-        Object.values(this.grounds).forEach(ground=>{
-          this.solveGroundPosition(entity,ground);
-        });
-      });
-
-      Object.values(this.entities).forEach(entity=>{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
 
@@ -78,11 +71,6 @@ class Engine extends EventTarget {
 
   draw(){
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
-
-
-    Object.values(this.grounds).forEach(ground=>{
-      ground.draw(this.ctx);
-    });
 
     Object.values(this.entities).forEach(entity=>{
       entity.draw(this.ctx);
@@ -127,12 +115,23 @@ class Engine extends EventTarget {
     delete this.entities[name];
   }
 
-  setGround(data){
-    data.name = data.name || this.createId(8);
+  setGround({startX, startY, endX, endY}){
+    const width = endX - startX;
+    const height = endY - startY;
 
-    this.grounds[data.name] = new Ground(data);
+    const count = Math.sqrt(width*width + height*height)/10;
+    for(let i = 0;i < count;i++){
+      let x = startX + i*(width/count);
+      let y = startY + i*(height/count);
 
-    return this.grounds[data.name];
+      this.spawn({
+        posX: x,
+        posY: y,
+        size: 10,
+        mass: 0,
+        stiff: 0.5
+      });
+    }
   }
 
   /**
@@ -166,37 +165,17 @@ class Engine extends EventTarget {
   }
 
   /**
-   * @param {Entity} entity 計算する対象
-   * @param {Ground} ground 計算する地面
-   */
-  solveGroundPosition(entity,ground){
-    if(entity.mass === 0) return;
-
-    const { posX, posY } = ground.solvePosition(entity.posX,entity.posY);
-    let vecX = posX - entity.posX;
-    let vecY = posY - entity.posY;
-
-    const distance = Math.sqrt(vecX**2 + vecY**2);
-    if(distance > entity.size + ground.size/2) return;
-
-    const move = (distance - (entity.size + ground.size/2))/(distance*entity.mass)*entity.stiff;
-    vecX *= move;
-    vecY *= move;
-
-    entity.posX += vecX*entity.mass;
-    entity.posY += vecY*entity.mass;
-  }
-
-  /**
    * @param {Entity} entity 変更するエンティティークラス
    */
   solveSpeed(entity){
     const rate = this.friction*entity.size*entity.mass;
 
+    //if(entity.speedX < entity.speedX*rate*(1/this.fps)) entity.speedX = 0;
+    //if(entity.speedY < entity.speedY*rate*(1/this.fps)) entity.speedY = 0;
+
     entity.speedX += -entity.speedX*rate*(1/this.fps);
     entity.speedY += -entity.speedY*rate*(1/this.fps);
   }
-
   /**
    * @param {Entity} entity 変更するエンティティークラス
    */
@@ -281,74 +260,5 @@ class Entity{
       ctx.stroke();
       ctx.fill();
     }
-  }
-}
-
-class Ground{
-  /**
-   * @param {Object} data エンティティーデータ
-   * @param {String} data.name エンティティー名
-   * @param {Number} data.startX X開始位置
-   * @param {Number} data.startY Y開始位置
-   * @param {Number} data.endX X終了位置
-   * @param {Number} data.endY Y終了位置
-   * @param {Number} data.size 大きさ
-   */
-  constructor({name, startX, startY, endX, endY, size}){
-    if(size < 0) throw new Error("サイズは0以上にしてください");
-
-    this.name = name;
-
-    this.startX = startX;
-    this.startY = startY;
-    this.endX = endX;
-    this.endY = endY;
-
-    this.size = size;
-  }
-
-  /**
-   *
-   * @param {Number} posX 対象のX座標
-   * @param {Number} posY 対象のY座標
-   * @returns {Object} 接触座標
-   */
-  solvePosition(posX,posY){
-    const t = Math.max(0,Math.min(1,((posX - this.startX)*(this.endX - this.startX) + (posY - this.startY)*(this.endY - this.startY))/Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2)**2));
-    const crossX = this.startX + t*(this.endX - this.startX);
-    const crossY = this.startY + t*(this.endY - this.startY);
-
-    if(t > 0 && t < 1){
-      return {
-        posX: crossX,
-        posY: crossY
-      }
-    }else{
-      const startDistance = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
-      const endDistance = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
-      if(startDistance < endDistance){
-        return {
-          posX: this.startX,
-          posY: this.startY
-        }
-      }else{
-        return {
-          posX: this.endX,
-          posY: this.endY
-        }
-      }
-    }
-  }
-
-  /**
-   * @param {CanvasRenderingContext2D} ctx Canvas
-   */
-  draw(ctx){
-    ctx.beginPath();
-    ctx.moveTo(this.startX,this.startY);
-    ctx.lineTo(this.endX,this.endY);
-    ctx.strokeStyle = "red";
-    ctx.lineWidth = this.size;
-    ctx.stroke();
   }
 }
