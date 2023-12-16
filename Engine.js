@@ -236,6 +236,7 @@ class Engine extends EventTarget {
     }
 
     this.ctx.strokeStyle = "black";
+    this.ctx.lineWidth = 1;
     this.ctx.stroke();
   }
 }
