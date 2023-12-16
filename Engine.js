@@ -225,18 +225,18 @@ class Engine extends EventTarget {
 
   graph(){
     this.ctx.beginPath();
-    for(let x = 0;x < this.canvas.width;x += 10){
+    for(let x = 0;x < this.canvas.width;x += 25){
       this.ctx.moveTo(x,0);
       this.ctx.lineTo(x,this.canvas.height);
     }
 
-    for(var y = 0;y < this.canvas.height;y += 10){
+    for(var y = 0;y < this.canvas.height;y += 25){
       this.ctx.moveTo(0,y);
       this.ctx.lineTo(this.canvas.width,y);
     }
 
     this.ctx.strokeStyle = "black";
-    this.ctx.lineWidth = 1;
+    this.ctx.lineWidth = 0.1;
     this.ctx.stroke();
   }
 }

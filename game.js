@@ -47,6 +47,14 @@ engine.setGround({
   size: 15
 });
 
+engine.setGround({
+  startX: 800,
+  startY: 0,
+  endX: 800,
+  endY: 600,
+  size: 15
+});
+
 document.addEventListener("keydown",(event)=>{
   event.preventDefault();
 
