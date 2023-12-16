@@ -83,6 +83,9 @@ class Engine extends EventTarget {
 
     if(this.isDebug){
       this.drawSquares();
+      Object.values(this.entities).forEach(entity=>{
+        entity.drawVector(this.ctx);
+      });
     }
 
     Object.values(this.grounds).forEach(ground=>{
@@ -303,6 +306,15 @@ class Entity{
       ctx.stroke();
       ctx.fill();
     }
+  }
+
+  drawVector(ctx){
+    ctx.beginPath();
+    ctx.moveTo(this.posX,this.posY);
+    ctx.lineTo(this.posX + this.speedX,this.posY + this.speedY);
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 1;
+    ctx.stroke();
   }
 }
 
