@@ -15,9 +15,12 @@ class Engine extends EventTarget {
     this.fps = fps;
     this.gravity = gravity;
     this.friction = friction;
+    this.processCount = 3;
 
     this.entities = {};
     this.grounds = {};
+
+    this.isDebug = false;
   }
 
   createId(length){
@@ -79,6 +82,9 @@ class Engine extends EventTarget {
   draw(){
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
+    if(this.isDebug){
+      this.graph();
+    }
 
     Object.values(this.grounds).forEach(ground=>{
       ground.draw(this.ctx);
@@ -216,6 +222,22 @@ class Engine extends EventTarget {
 
     entity.posX += entity.speedX*(1/this.fps);
     entity.posY += entity.speedY*(1/this.fps);
+  }
+
+  graph(){
+    this.ctx.beginPath();
+    for(let x = 0;x < this.canvas.width;x += 10){
+      this.ctx.moveTo(x,0);
+      this.ctx.lineTo(x,this.canvas.height);
+    }
+
+    for(var y = 0;y < this.canvas.height;y += 10){
+      this.ctx.moveTo(0,y);
+      this.ctx.lineTo(this.canvas.width,y);
+    }
+
+    this.ctx.strokeStyle = "black";
+    this.ctx.stroke();
   }
 }
 
