@@ -10,7 +10,7 @@ engine.setGround({
   startY: 600,
   endX: 600,
   endY: 600,
-  size: 10
+  size: 15
 });
 
 engine.setGround({
@@ -18,7 +18,7 @@ engine.setGround({
   startY: 600,
   endX: 600,
   endY: 500,
-  size: 10
+  size: 15
 });
 
 engine.setGround({
@@ -26,7 +26,7 @@ engine.setGround({
   startY: 0,
   endX: 30,
   endY: 600,
-  size: 10
+  size: 15
 });
 
 engine.setGround({
@@ -34,7 +34,7 @@ engine.setGround({
   startY: 0,
   endX: 800,
   endY: 600,
-  size: 10
+  size: 15
 });
 
 document.addEventListener("keydown",(event)=>{
