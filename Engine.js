@@ -82,7 +82,7 @@ class Engine extends EventTarget {
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
     if(this.isDebug){
-      this.graph();
+      this.drawSquares();
     }
 
     Object.values(this.grounds).forEach(ground=>{
@@ -223,7 +223,7 @@ class Engine extends EventTarget {
     entity.posY += entity.speedY*(1/this.fps);
   }
 
-  graph(){
+  drawSquares(){
     this.ctx.beginPath();
     for(let x = 0;x < this.canvas.width;x += 25){
       this.ctx.moveTo(x,0);

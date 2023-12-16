@@ -5,8 +5,6 @@ const engine = new Engine(canvas,{
 
 engine.start();
 
-engine.isDebug = true;
-
 engine.setGround({
   startX: 30,
   startY: 600,
@@ -87,6 +85,8 @@ const gravityValue = document.getElementById("gravityValue");
 const frictionInput = document.getElementById("frictionInput");
 const frictionValue = document.getElementById("frictionValue");
 
+const debug = document.getElementById("debug");
+
 gravityValue.textContent = gravityInput.value;
 gravityInput.addEventListener("input",(event)=>{
   gravityValue.textContent = event.target.value;
@@ -97,4 +97,12 @@ frictionValue.textContent = frictionInput.value;
 frictionInput.addEventListener("input",(event)=>{
   frictionValue.textContent = event.target.value;
   engine.friction = event.target.value;
+});
+
+debug.addEventListener("click",()=>{
+  if(engine.isDebug){
+    engine.isDebug = false;
+  }else{
+    engine.isDebug = true;
+  }
 });
