@@ -15,7 +15,6 @@ class Engine extends EventTarget {
     this.fps = fps;
     this.gravity = gravity;
     this.friction = friction;
-    this.processCount = 3;
 
     this.entities = {};
     this.grounds = {};
