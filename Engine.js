@@ -303,14 +303,15 @@ class Entity{
     }else{
       ctx.beginPath();
       ctx.arc(this.posX,this.posY,this.size,0,2*Math.PI);
-
-      const lineX = this.posX + this.size*Math.cos(Math.atan2(this.speedY,this.speedX));
-      const lineY = this.posY + this.size*Math.sin(Math.atan2(this.speedY,this.speedX));
-
       ctx.strokeStyle = "red";
       ctx.fillStyle = "red";
       ctx.lineWidth = 1;
       ctx.fill();
+      ctx.stroke();
+      
+      const lineX = this.posX + this.size*Math.cos(Math.atan2(this.speedY,this.speedX));
+      const lineY = this.posY + this.size*Math.sin(Math.atan2(this.speedY,this.speedX));
+
       ctx.moveTo(this.posX,this.posY);
       ctx.lineTo(lineX,lineY);
       ctx.stroke();
