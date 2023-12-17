@@ -229,6 +229,7 @@ class Engine extends EventTarget {
 
   drawSquares(){
     this.ctx.beginPath();
+    
     for(let x = 0;x < this.canvas.width;x += 25){
       this.ctx.moveTo(x,0);
       this.ctx.lineTo(x,this.canvas.height);
@@ -258,7 +259,7 @@ class Entity{
    * @param {Number} data.speedY Y速度
    * @param {String} data.image 表示画像
    */
-  constructor({name, posX, posY, size, mass, stiff, rotation = 0, speedX = 0, speedY = 0, image = null}){
+  constructor({name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, image = null}){
     if(size < 0) throw new Error("サイズは0以上にしてください");
     if(mass < 0) throw new Error("質量は0以上にしてください");
     if(stiff < 0 || stiff > 1) throw new Error("剛性は0以上1以下にしてください");
@@ -277,7 +278,6 @@ class Entity{
 
     this.speedX = speedX;
     this.speedY = speedY;
-    this.rotation = rotation;
 
     this.size = size;
     this.mass = mass;
