@@ -148,7 +148,7 @@ class Engine extends EventTarget {
    * @param {Entity} source 計算する対象
    * @param {Entity} target 計算する対象
    */
-  solvePosition2(source,target){
+  solvePosition(source,target){
     const totalMass = source.mass + target.mass;
     if(totalMass === 0) return;
 
@@ -172,78 +172,15 @@ class Engine extends EventTarget {
 
     target.posX -= vecX*target.mass;
     target.posY -= vecY*target.mass;
-  }
 
-  // Engine クラスの solvePosition メソッド内の変更
-  solvePosition(source, target) {
-    const totalMass = source.mass + target.mass;
-    if (totalMass === 0) return;
-
-    let vecX = target.posX - source.posX;
-    let vecY = target.posY - source.posY;
-
-    // 回転に関する計算
-    const cosTheta = Math.cos(source.rotation);
-    const sinTheta = Math.sin(source.rotation);
-    const rotatedVecX = cosTheta * vecX + sinTheta * vecY;
-    const rotatedVecY = -sinTheta * vecX + cosTheta * vecY;
-
-    const distance = Math.sqrt(rotatedVecX ** 2 + rotatedVecY ** 2);
-    if (distance > source.size + target.size) return;
-
-    this.dispatchEvent(new CustomEvent("hit", {
-      source: source,
-      target: target,
-    }));
-
-    const move = (distance - (source.size + target.size)) / (distance * totalMass + 0.000001) * source.stiff;
-
-    // 回転に関する計算を適用
-    rotatedVecX *= move;
-    rotatedVecY *= move;
-
-    const moveX = cosTheta * rotatedVecX - sinTheta * rotatedVecY;
-    const moveY = sinTheta * rotatedVecX + cosTheta * rotatedVecY;
-
-    source.posX += moveX * source.mass;
-    source.posY += moveY * source.mass;
-
-    target.posX -= moveX * target.mass;
-    target.posY -= moveY * target.mass;
-  }
-
-  // Engine クラスの solveGroundPosition メソッド内の変更
-  solveGroundPosition(entity, ground) {
-    if (entity.mass === 0) return;
-
-    const { posX, posY } = ground.solvePosition(entity.posX, entity.posY);
-    let vecX = posX - entity.posX;
-    let vecY = posY - entity.posY;
-
-    // 回転に関する計算
-    const cosTheta = Math.cos(entity.rotation);
-    const sinTheta = Math.sin(entity.rotation);
-    const rotatedVecX = cosTheta * vecX + sinTheta * vecY;
-    const rotatedVecY = -sinTheta * vecX + cosTheta * vecY;
-
-    const distance = Math.sqrt(rotatedVecX ** 2 + rotatedVecY ** 2);
-    if (distance > entity.size + ground.size / 2) return;
-
-    const move = (distance - (entity.size + ground.size / 2)) / (distance * entity.mass + 0.000001) * entity.stiff;
-
-    // 回転に関する計算を適用
-    const moveX = cosTheta * rotatedVecX - sinTheta * rotatedVecY;
-    const moveY = sinTheta * rotatedVecX + cosTheta * rotatedVecY;
-
-    entity.posX += moveX * entity.mass;
-    entity.posY += moveY * entity.mass;
+    source.rotation += move/source.size;
   }
 
   /**
    * @param {Entity} entity 計算する対象
    * @param {Ground} ground 計算する地面
    */
-  solveGroundPosition2(entity,ground){
+  solveGroundPosition(entity,ground){
     if(entity.mass === 0) return;
 
     const { posX, posY } = ground.solvePosition(entity.posX,entity.posY);
@@ -259,6 +196,8 @@ class Engine extends EventTarget {
 
     entity.posX += vecX*entity.mass;
     entity.posY += vecY*entity.mass;
+
+    entity.rotation += move/entity.size;
   }
 
   /**
@@ -357,24 +296,6 @@ class Entity{
   /**
    * @param {CanvasRenderingContext2D} ctx Canvas
    */
-  draw2(ctx){
-    if(this.img){
-      ctx.drawImage(
-        this.img,
-        this.posX - this.img.width/2,
-        this.posY - this.img.height/2
-      );
-    }else{
-      ctx.beginPath();
-      ctx.arc(this.posX,this.posY,this.size,0,2*Math.PI);
-      ctx.strokeStyle = "red";
-      ctx.fillStyle = "red";
-      ctx.lineWidth = 1;
-      ctx.fill();
-      ctx.stroke();
-    }
-  }
-
   draw(ctx){
     ctx.save();
     ctx.translate(this.posX,this.posY);
@@ -397,8 +318,8 @@ class Entity{
 
       ctx.beginPath();
       ctx.moveTo(this.posX,this.posY);
-      ctx.lineTo(Math.cos(this.rotate),Math.sin(this.rotate));
-      ctx.strokeStyle = "blue";
+      ctx.lineTo(this.posX + Math.cos(this.rotate),this.posY + Math.sin(this.rotate));
+      ctx.strokeStyle = "black";
       ctx.stroke();
     }
 
