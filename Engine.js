@@ -298,13 +298,13 @@ class Entity{
    */
   draw(ctx){
     ctx.save();
+    ctx.rotate(this.rotation);
     if(this.img){
       ctx.drawImage(
         this.img,
         this.posX - this.img.width/2,
         this.posY - this.img.height/2
       );
-      ctx.rotate(this.rotation);
     }else{
       ctx.beginPath();
       ctx.arc(this.posX,this.posY,this.size,0,2*Math.PI);
@@ -317,7 +317,6 @@ class Entity{
       ctx.beginPath();
       ctx.moveTo(this.posX,this.posY);
       ctx.lineTo(this.posX,this.posY + this.size);
-      ctx.rotate(this.rotation);
       ctx.strokeStyle = "black";
       ctx.lineWidth = 1;
       ctx.stroke();
