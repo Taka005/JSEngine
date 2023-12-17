@@ -308,9 +308,9 @@ class Entity{
       ctx.lineWidth = 1;
       ctx.fill();
       ctx.stroke();
-      
-      const lineX = this.posX + this.size*Math.cos(Math.atan2(this.speedY,this.speedX));
-      const lineY = this.posY + this.size*Math.sin(Math.atan2(this.speedY,this.speedX));
+
+      const lineX = this.posX + this.size*2*Math.cos(Math.atan2(this.speedY,this.speedX));
+      const lineY = this.posY + this.size*2*Math.sin(Math.atan2(this.speedY,this.speedX));
 
       ctx.moveTo(this.posX,this.posY);
       ctx.lineTo(lineX,lineY);
