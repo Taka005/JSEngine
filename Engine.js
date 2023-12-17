@@ -6,7 +6,7 @@ class Engine extends EventTarget {
    * @param {Number} option.gravity 重力加速度
    * @param {Number} option.friction 摩擦係数
    */
-  constructor(canvas,{fps = 60, gravity = 500, friction = 0.001} = {}){
+  constructor(canvas,{fps = 60, gravity = 500, friction = 0.001, restraint = 3} = {}){
     super();
 
     this.canvas = canvas;
@@ -15,6 +15,7 @@ class Engine extends EventTarget {
     this.fps = fps;
     this.gravity = gravity;
     this.friction = friction;
+    this.restraint = restraint;
 
     this.entities = {};
     this.grounds = {};
@@ -48,7 +49,7 @@ class Engine extends EventTarget {
       this.updatePosition(entity);
     });
 
-    for(let i = 0;i < 3;i++){
+    for(let i = 0;i < this.restraint;i++){
       Object.values(this.entities).forEach(entity=>{
         Object.values(this.grounds).forEach(ground=>{
           this.solveGroundPosition(entity,ground);
@@ -110,7 +111,7 @@ class Engine extends EventTarget {
     return this.entities[data.name];
   }
 
-  reSpawn({ name, posX, posY, size, mass, stiff, speedX, speedY, image }){
+  reSpawn(name,{ posX, posY, size, mass, stiff, speedX, speedY, image }){
     const entity = this.entities[name];
     if(entity) throw new Error("存在しないエンティティー名です");
 
@@ -233,7 +234,7 @@ class Engine extends EventTarget {
       this.ctx.lineTo(x,this.canvas.height);
     }
 
-    for(var y = 0;y < this.canvas.height;y += 25){
+    for(let y = 0;y < this.canvas.height;y += 25){
       this.ctx.moveTo(0,y);
       this.ctx.lineTo(this.canvas.width,y);
     }

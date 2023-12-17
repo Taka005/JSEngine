@@ -93,18 +93,28 @@ const gravityValue = document.getElementById("gravityValue");
 const frictionInput = document.getElementById("frictionInput");
 const frictionValue = document.getElementById("frictionValue");
 
+const restraintInput = document.getElementById("restraintInput");
+const restraintValue = document.getElementById("restraintValue");
+
 const debug = document.getElementById("debug");
 
 gravityValue.textContent = gravityInput.value;
+frictionValue.textContent = frictionInput.value;
+restraintValue.textContent = restraintInput.value;
+
 gravityInput.addEventListener("input",(event)=>{
   gravityValue.textContent = event.target.value;
   engine.gravity = event.target.value;
 });
 
-frictionValue.textContent = frictionInput.value;
 frictionInput.addEventListener("input",(event)=>{
   frictionValue.textContent = event.target.value;
   engine.friction = event.target.value;
+});
+
+restraintInput.addEventListener("input",(event)=>{
+  restraintValue.textContent = event.target.value;
+  engine.restraint = event.target.value;
 });
 
 debug.addEventListener("click",()=>{
