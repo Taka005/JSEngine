@@ -297,6 +297,7 @@ class Entity{
    * @param {CanvasRenderingContext2D} ctx Canvas
    */
   draw(ctx){
+    console.log(this.rotation)
     ctx.save();
     ctx.translate(this.posX,this.posY);
     ctx.rotate(this.rotation);
