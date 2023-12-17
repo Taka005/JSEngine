@@ -173,7 +173,7 @@ class Engine extends EventTarget {
     target.posX -= vecX*target.mass;
     target.posY -= vecY*target.mass;
 
-    source.rotation += move/source.size;
+    source.rotation += move;
   }
 
   /**
@@ -197,7 +197,7 @@ class Engine extends EventTarget {
     entity.posX += vecX*entity.mass;
     entity.posY += vecY*entity.mass;
 
-    entity.rotation += move/entity.size;
+    entity.rotation += move;
   }
 
   /**
@@ -299,6 +299,7 @@ class Entity{
   draw(ctx){
     ctx.save();
     if(this.img){
+      ctx.translate(this.posX,this.posY);
       ctx.rotate(this.rotation);
       ctx.drawImage(
         this.img,
@@ -315,6 +316,7 @@ class Entity{
       ctx.stroke();
 
       ctx.beginPath();
+      ctx.translate(this.posX,this.posY);
       ctx.rotate(this.rotation);
       ctx.moveTo(this.posX,this.posY);
       ctx.lineTo(this.posX,this.posY + this.size);
