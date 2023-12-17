@@ -319,7 +319,7 @@ class Entity{
 
       ctx.beginPath();
       ctx.moveTo(this.posX,this.posY);
-      ctx.lineTo(this.posX + Math.cos(this.rotate),this.posY + Math.sin(this.rotate));
+      ctx.lineTo(this.posX + this.size,this.posY);
       ctx.strokeStyle = "black";
       ctx.stroke();
     }
