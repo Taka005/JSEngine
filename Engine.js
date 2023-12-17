@@ -298,8 +298,8 @@ class Entity{
    */
   draw(ctx){
     ctx.save();
-    ctx.rotate(this.rotation);
     if(this.img){
+      ctx.rotate(this.rotation);
       ctx.drawImage(
         this.img,
         this.posX - this.img.width/2,
@@ -315,6 +315,7 @@ class Entity{
       ctx.stroke();
 
       ctx.beginPath();
+      ctx.rotate(this.rotation);
       ctx.moveTo(this.posX,this.posY);
       ctx.lineTo(this.posX,this.posY + this.size);
       ctx.strokeStyle = "black";
