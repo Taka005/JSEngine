@@ -356,7 +356,7 @@ class Entity{
   /**
    * @param {CanvasRenderingContext2D} ctx Canvas
    */
-  draw(ctx){
+  draw_(ctx){
     if(this.img){
       ctx.drawImage(
         this.img,
@@ -372,6 +372,49 @@ class Entity{
       ctx.fill();
       ctx.stroke();
     }
+  }
+
+  draw(ctx) {
+    ctx.save(); // 現在の描画状態を保存
+
+    // 回転を適用
+    ctx.translate(this.posX, this.posY);
+    ctx.rotate(this.rotation);
+
+    if (this.img) {
+      ctx.drawImage(
+        this.img,
+        -this.img.width / 2,
+        -this.img.height / 2
+      );
+    } else {
+      ctx.beginPath();
+      ctx.arc(0, 0, this.size, 0, 2 * Math.PI);
+      ctx.strokeStyle = "red";
+      ctx.fillStyle = "red";
+      ctx.lineWidth = 1;
+      ctx.fill();
+      ctx.stroke();
+
+      // Draw lines along the circumference for better visualization of rotation
+      const numLines = 12; // Adjust the number of lines as needed
+      for (let i = 0; i < numLines; i++) {
+        const angle = (i / numLines) * 2 * Math.PI;
+        const lineLength = this.size * 1.5; // Adjust the length of lines as needed
+        const startX = this.size * Math.cos(angle);
+        const startY = this.size * Math.sin(angle);
+        const endX = (this.size + lineLength) * Math.cos(angle);
+        const endY = (this.size + lineLength) * Math.sin(angle);
+
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.strokeStyle = "blue"; // Adjust the color of lines as needed
+        ctx.stroke();
+      }
+    }
+
+    ctx.restore(); // 保存した描画状態に戻す
   }
 
   drawVector(ctx){
