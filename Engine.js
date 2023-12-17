@@ -293,6 +293,8 @@ class Entity{
    */
   draw(ctx){
     if(this.img){
+      ctx.translate(this.posX,this.posY);
+      ctx.rotate(Math.atan2(this.speedY,this.speedX));
       ctx.drawImage(
         this.img,
         this.posX - this.img.width/2,
@@ -301,6 +303,12 @@ class Entity{
     }else{
       ctx.beginPath();
       ctx.arc(this.posX,this.posY,this.size,0,2*Math.PI);
+
+      const lineX = this.posX + this.size*Math.cos(Math.atan2(this.speedY,this.speedX));
+      const lineY = this.posY + this.size*Math.sin(Math.atan2(this.speedY,this.speedX));
+
+      ctx.moveTo(this.posX,this.posY);
+      ctx.lineTo(lineX,lineY);
       ctx.strokeStyle = "red";
       ctx.fillStyle = "red";
       ctx.lineWidth = 1;
