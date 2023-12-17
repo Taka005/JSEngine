@@ -148,7 +148,7 @@ class Engine extends EventTarget {
    * @param {Entity} source 計算する対象
    * @param {Entity} target 計算する対象
    */
-  solvePosition(source,target){
+  solvePosition_(source,target){
     const totalMass = source.mass + target.mass;
     if(totalMass === 0) return;
 
@@ -174,11 +174,76 @@ class Engine extends EventTarget {
     target.posY -= vecY*target.mass;
   }
 
+  // Engine クラスの solvePosition メソッド内の変更
+  solvePosition(source, target) {
+    const totalMass = source.mass + target.mass;
+    if (totalMass === 0) return;
+
+    let vecX = target.posX - source.posX;
+    let vecY = target.posY - source.posY;
+
+    // 回転に関する計算
+    const cosTheta = Math.cos(source.rotation);
+    const sinTheta = Math.sin(source.rotation);
+    const rotatedVecX = cosTheta * vecX + sinTheta * vecY;
+    const rotatedVecY = -sinTheta * vecX + cosTheta * vecY;
+
+    const distance = Math.sqrt(rotatedVecX ** 2 + rotatedVecY ** 2);
+    if (distance > source.size + target.size) return;
+
+    this.dispatchEvent(new CustomEvent("hit", {
+      source: source,
+      target: target,
+    }));
+
+    const move = (distance - (source.size + target.size)) / (distance * totalMass + 0.000001) * source.stiff;
+
+    // 回転に関する計算を適用
+    rotatedVecX *= move;
+    rotatedVecY *= move;
+
+    const moveX = cosTheta * rotatedVecX - sinTheta * rotatedVecY;
+    const moveY = sinTheta * rotatedVecX + cosTheta * rotatedVecY;
+
+    source.posX += moveX * source.mass;
+    source.posY += moveY * source.mass;
+
+    target.posX -= moveX * target.mass;
+    target.posY -= moveY * target.mass;
+  }
+
+  // Engine クラスの solveGroundPosition メソッド内の変更
+  solveGroundPosition(entity, ground) {
+    if (entity.mass === 0) return;
+
+    const { posX, posY } = ground.solvePosition(entity.posX, entity.posY);
+    let vecX = posX - entity.posX;
+    let vecY = posY - entity.posY;
+
+    // 回転に関する計算
+    const cosTheta = Math.cos(entity.rotation);
+    const sinTheta = Math.sin(entity.rotation);
+    const rotatedVecX = cosTheta * vecX + sinTheta * vecY;
+    const rotatedVecY = -sinTheta * vecX + cosTheta * vecY;
+
+    const distance = Math.sqrt(rotatedVecX ** 2 + rotatedVecY ** 2);
+    if (distance > entity.size + ground.size / 2) return;
+
+    const move = (distance - (entity.size + ground.size / 2)) / (distance * entity.mass + 0.000001) * entity.stiff;
+
+    // 回転に関する計算を適用
+    const moveX = cosTheta * rotatedVecX - sinTheta * rotatedVecY;
+    const moveY = sinTheta * rotatedVecX + cosTheta * rotatedVecY;
+
+    entity.posX += moveX * entity.mass;
+    entity.posY += moveY * entity.mass;
+  }
+
   /**
    * @param {Entity} entity 計算する対象
    * @param {Ground} ground 計算する地面
    */
-  solveGroundPosition(entity,ground){
+  solveGroundPosition_(entity,ground){
     if(entity.mass === 0) return;
 
     const { posX, posY } = ground.solvePosition(entity.posX,entity.posY);
@@ -293,8 +358,6 @@ class Entity{
    */
   draw(ctx){
     if(this.img){
-      ctx.translate(this.posX,this.posY);
-      ctx.rotate(Math.atan2(this.speedY,this.speedX));
       ctx.drawImage(
         this.img,
         this.posX - this.img.width/2,
