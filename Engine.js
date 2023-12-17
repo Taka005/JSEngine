@@ -342,6 +342,7 @@ class Entity{
 
     this.speedX = speedX;
     this.speedY = speedY;
+    this.rotate = 0;
 
     this.size = size;
     this.mass = mass;
