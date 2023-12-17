@@ -314,7 +314,8 @@ class Entity{
 
       ctx.beginPath();
       ctx.moveTo(this.posX,this.posY);
-      ctx.lineTo(this.posX + this.size*Math.cos(this.rotate),this.posY + this.size*Math.sin(this.rotate));
+      ctx.lineTo(this.posX,this.posY + this.size);
+      ctx.rotate(this.rotation);
       ctx.strokeStyle = "black";
       ctx.lineWidth = 1;
       ctx.stroke();
