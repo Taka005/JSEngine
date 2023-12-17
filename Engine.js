@@ -319,8 +319,9 @@ class Entity{
 
       ctx.beginPath();
       ctx.moveTo(this.posX,this.posY);
-      ctx.lineTo(this.posX + this.size,this.posY);
+      ctx.lineTo(this.posX,this.posY + this.size*1.5);
       ctx.strokeStyle = "black";
+      ctx.lineWidth = 1;
       ctx.stroke();
     }
 
