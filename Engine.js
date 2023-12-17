@@ -297,12 +297,14 @@ class Entity{
    * @param {CanvasRenderingContext2D} ctx Canvas
    */
   draw(ctx){
+    ctx.save();
     if(this.img){
       ctx.drawImage(
         this.img,
         this.posX - this.img.width/2,
         this.posY - this.img.height/2
       );
+      ctx.rotate(this.rotation);
     }else{
       ctx.beginPath();
       ctx.arc(this.posX,this.posY,this.size,0,2*Math.PI);
@@ -320,6 +322,7 @@ class Entity{
       ctx.lineWidth = 1;
       ctx.stroke();
     }
+    ctx.restore();
   }
 
   drawVector(ctx){
