@@ -305,7 +305,7 @@ class Entity{
       );
     }else{
       ctx.beginPath();
-      ctx.arc(0,0,this.size,0,2*Math.PI);
+      ctx.arc(this.posX,this.posY,this.size,0,2*Math.PI);
       ctx.strokeStyle = "red";
       ctx.fillStyle = "red";
       ctx.lineWidth = 1;
