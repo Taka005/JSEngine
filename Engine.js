@@ -148,7 +148,7 @@ class Engine extends EventTarget {
    * @param {Entity} source 計算する対象
    * @param {Entity} target 計算する対象
    */
-  solvePosition_(source,target){
+  solvePosition2(source,target){
     const totalMass = source.mass + target.mass;
     if(totalMass === 0) return;
 
@@ -243,7 +243,7 @@ class Engine extends EventTarget {
    * @param {Entity} entity 計算する対象
    * @param {Ground} ground 計算する地面
    */
-  solveGroundPosition_(entity,ground){
+  solveGroundPosition2(entity,ground){
     if(entity.mass === 0) return;
 
     const { posX, posY } = ground.solvePosition(entity.posX,entity.posY);
@@ -357,7 +357,7 @@ class Entity{
   /**
    * @param {CanvasRenderingContext2D} ctx Canvas
    */
-  draw_(ctx){
+  draw2(ctx){
     if(this.img){
       ctx.drawImage(
         this.img,
@@ -375,47 +375,34 @@ class Entity{
     }
   }
 
-  draw(ctx) {
-    ctx.save(); // 現在の描画状態を保存
-
-    // 回転を適用
-    ctx.translate(this.posX, this.posY);
+  draw(ctx){
+    ctx.save();
+    ctx.translate(this.posX,this.posY);
     ctx.rotate(this.rotation);
 
-    if (this.img) {
+    if(this.img){
       ctx.drawImage(
         this.img,
-        -this.img.width / 2,
-        -this.img.height / 2
+        this.posX - this.img.width/2,
+        this.posY - this.img.height/2
       );
-    } else {
+    }else{
       ctx.beginPath();
-      ctx.arc(0, 0, this.size, 0, 2 * Math.PI);
+      ctx.arc(0,0,this.size,0,2*Math.PI);
       ctx.strokeStyle = "red";
       ctx.fillStyle = "red";
       ctx.lineWidth = 1;
       ctx.fill();
       ctx.stroke();
 
-      // Draw lines along the circumference for better visualization of rotation
-      const numLines = 12; // Adjust the number of lines as needed
-      for (let i = 0; i < numLines; i++) {
-        const angle = (i / numLines) * 2 * Math.PI;
-        const lineLength = this.size * 1.5; // Adjust the length of lines as needed
-        const startX = this.size * Math.cos(angle);
-        const startY = this.size * Math.sin(angle);
-        const endX = (this.size + lineLength) * Math.cos(angle);
-        const endY = (this.size + lineLength) * Math.sin(angle);
-
-        ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        ctx.lineTo(endX, endY);
-        ctx.strokeStyle = "blue"; // Adjust the color of lines as needed
-        ctx.stroke();
-      }
+      ctx.beginPath();
+      ctx.moveTo(this.posX,this.posY);
+      ctx.lineTo(Math.cos(this.rotate),Math.sin(this.rotate));
+      ctx.strokeStyle = "blue";
+      ctx.stroke();
     }
 
-    ctx.restore(); // 保存した描画状態に戻す
+    ctx.restore();
   }
 
   drawVector(ctx){
