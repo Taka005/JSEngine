@@ -172,8 +172,6 @@ class Engine extends EventTarget {
 
     target.posX -= vecX*target.mass;
     target.posY -= vecY*target.mass;
-
-    source.rotation += move;
   }
 
   /**
@@ -196,8 +194,6 @@ class Engine extends EventTarget {
 
     entity.posX += vecX*entity.mass;
     entity.posY += vecY*entity.mass;
-
-    entity.rotation += move;
   }
 
   /**
@@ -297,10 +293,7 @@ class Entity{
    * @param {CanvasRenderingContext2D} ctx Canvas
    */
   draw(ctx){
-    ctx.save();
     if(this.img){
-      ctx.translate(this.posX,this.posY);
-      ctx.rotate(this.rotation);
       ctx.drawImage(
         this.img,
         this.posX - this.img.width/2,
@@ -314,17 +307,7 @@ class Entity{
       ctx.lineWidth = 1;
       ctx.fill();
       ctx.stroke();
-
-      ctx.beginPath();
-      ctx.translate(this.posX,this.posY);
-      ctx.rotate(this.rotation);
-      ctx.moveTo(this.posX,this.posY);
-      ctx.lineTo(this.posX,this.posY + this.size);
-      ctx.strokeStyle = "black";
-      ctx.lineWidth = 1;
-      ctx.stroke();
     }
-    ctx.restore();
   }
 
   drawVector(ctx){
