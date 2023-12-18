@@ -21,6 +21,8 @@ class Engine extends EventTarget {
     this.grounds = {};
     this.tracks = [];
 
+    this.isStart = false;
+
     this.isDebug = false;
     this.isTrack = false;
   }
@@ -36,6 +38,9 @@ class Engine extends EventTarget {
   }
 
   start(){
+    if(this.isStart) return;
+    this.isStart = true;
+
     this.loop = setInterval(()=>{
       this.update();
       this.draw();
@@ -49,6 +54,9 @@ class Engine extends EventTarget {
   }
 
   stop(){
+    if(!this.isStart) return;
+    this.isStart = false;
+
     clearInterval(this.loop);
     clearInterval(this.trackLoop);
   }
