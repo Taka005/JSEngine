@@ -98,6 +98,7 @@ const restraintValue = document.getElementById("restraintValue");
 
 const debug = document.getElementById("debug");
 const track = document.getElementById("track");
+const trackReset = document.getElementById("trackReset");
 const reset = document.getElementById("reset");
 
 gravityValue.textContent = gravityInput.value;
@@ -133,6 +134,10 @@ track.addEventListener("click",()=>{
   }else{
     engine.isTrack = true;
   }
+});
+
+trackReset.addEventListener("click",()=>{
+  engine.tracks = [];
 });
 
 reset.addEventListener("click",()=>{
