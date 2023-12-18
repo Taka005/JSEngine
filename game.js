@@ -90,7 +90,7 @@ const reset = document.getElementById("reset");
 const start = document.getElementById("start");
 const stop = document.getElementById("stop");
 const save = document.getElementById("save");
-const load = document.getElementById("laod");
+const load = document.getElementById("load");
 const link = document.getElementById("link");
 
 const dataFile = document.getElementById("dataFile");
