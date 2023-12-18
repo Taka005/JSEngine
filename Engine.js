@@ -39,13 +39,13 @@ class Engine extends EventTarget {
     this.loop = setInterval(()=>{
       this.update();
       this.draw();
-    },100/this.fps);
+    },1000/this.fps);
 
     setInterval(()=>{
       Object.values(this.entities).forEach(entity=>{
         this.tracks.push(new Track(entity));
       });
-    },1000);
+    },100);
   }
 
   stop(){
