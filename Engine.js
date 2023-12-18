@@ -40,6 +40,12 @@ class Engine extends EventTarget {
       this.update();
       this.draw();
     },1000/this.fps);
+
+    setInterval(()=>{
+      Object.values(this.entities).forEach(entity=>{
+        this.tracks.push(new Track(entity));
+      });
+    },1000);
   }
 
   stop(){
@@ -48,8 +54,6 @@ class Engine extends EventTarget {
 
   update(){
     Object.values(this.entities).forEach(entity=>{
-      this.tracks.push(new Track(entity));
-
       this.updatePosition(entity);
     });
 
