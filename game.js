@@ -46,9 +46,9 @@ engine.setGround({
 });
 
 engine.setGround({
-  startX: 800,
+  startX: 850,
   startY: 0,
-  endX: 800,
+  endX: 850,
   endY: 600,
   size: 15
 });
@@ -56,7 +56,7 @@ engine.setGround({
 engine.setGround({
   startX: 500,
   startY: 400,
-  endX: 800,
+  endX: 850,
   endY: 300,
   size: 15
 });
