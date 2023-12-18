@@ -260,6 +260,38 @@ class Engine extends EventTarget {
     this.ctx.lineWidth = 0.1;
     this.ctx.stroke();
   }
+
+  /**
+   * @returns {Object} エクスポートデータ
+   */
+  export(){
+    return {
+      fps: this.fps,
+      gravity: this.gravity,
+      friction: this.friction,
+      restraint: this.restraint,
+      entity: Object.values(this.entities),
+      ground: Object.values(this.grounds)
+    }
+  }
+
+  import(data){
+    this.fps = data.fps;
+    this.gravity = data.gravity;
+    this.friction = data.friction;
+    this.restraint = data.restraint;
+
+    this.entities = {};
+    this.grounds = {};
+
+    data.entity.forEach(entity=>{
+      this.entities[entity.name] = new Entity(entity);
+    });
+
+    data.ground.forEach(ground=>{
+      this.grounds[ground.name] = new Ground(ground);
+    });
+  }
 }
 
 class Entity{
