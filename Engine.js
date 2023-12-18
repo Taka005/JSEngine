@@ -80,7 +80,7 @@ class Engine extends EventTarget {
   }
 
   draw(){
-    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+    //this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
     if(this.isDebug){
       this.drawSquares();
@@ -229,7 +229,7 @@ class Engine extends EventTarget {
 
   drawSquares(){
     this.ctx.beginPath();
-    
+
     for(let x = 0;x < this.canvas.width;x += 25){
       this.ctx.moveTo(x,0);
       this.ctx.lineTo(x,this.canvas.height);
