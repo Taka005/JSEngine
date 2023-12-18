@@ -9,22 +9,24 @@
         <link rel="stylesheet" href="./style.css">
     </head>
     <body>
-      <div class="container">
-        <div class="config">
-          <input type="range" class="form-range" id="gravityInput" min="0" max="3000" value="500">
-          <p>重力: <output id="gravityValue"></output></p>
-          <input type="range" class="form-range" id="frictionInput" min="0" max="0.1" value="0.001" step="0.001">
-          <p>摩擦: <output id="frictionValue"></output></p>
-          <input type="range" class="form-range" id="restraintInput" min="1" max="10" value="3">
-          <p>拘束回数: <output id="restraintValue"></output></p>
-          <input type="button" class="btn btn-warning" id="debug" value="デバッグモード">
-          <input type="button" class="btn btn-success" id="track" value="トラッキングモード">
-          <input type="button" class="btn btn-danger" id="trackReset" value="トラッキングリセット">
-          <input type="button" class="btn btn-danger" id="reset" value="リセット">
-        </div>
-        <canvas id="game" width="900" height="700"></canvas>
-        <button type="button" class="btn btn-primary" id="download">エクスポート</button>
-        <input class="form-control" type="file" id="dataFile" accept="application/json">
+        <div class="container">
+            <div class="config">
+                <input type="range" class="form-range" id="gravityInput" min="0" max="3000" value="500">
+                <p>重力: <output id="gravityValue"></output></p>
+                <input type="range" class="form-range" id="frictionInput" min="0" max="0.1" value="0.001" step="0.001">
+                <p>摩擦: <output id="frictionValue"></output></p>
+                <input type="range" class="form-range" id="restraintInput" min="1" max="10" value="3">
+                <p>拘束回数: <output id="restraintValue"></output></p>
+                <input type="button" class="btn btn-warning" id="debug" value="デバッグモード">
+                <input type="button" class="btn btn-success" id="track" value="トラッキングモード">
+                <input type="button" class="btn btn-danger" id="trackReset" value="トラッキングリセット">
+                <input type="button" class="btn btn-danger" id="reset" value="リセット">
+            </div>
+            <canvas id="game" width="900" height="700"></canvas>
+            <div class="file">
+                <a role="button" class="btn btn-primary" id="download">エクスポート</a>
+                <input class="form-control" type="file" id="dataFile" accept="application/json">
+            </div>
       </div>
     </body>
     <script src="Engine.js"></script>
