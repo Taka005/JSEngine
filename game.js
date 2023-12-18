@@ -156,12 +156,10 @@ stop.addEventListener("click",()=>{
 });
 
 save.addEventListener("click",()=>{
-  console.log(saveData)
   saveData = engine.export();
-  link.href = URL.createObjectURL(new Blob([JSON.stringify(saveData)],{"type":"application/json"}));
+  link.href = URL.createObjectURL(new Blob([JSON.stringify(engine.export())],{"type":"application/json"}));
 });
 
 load.addEventListener("click",()=>{
-  console.log(saveData)
   engine.import(saveData);
 });
