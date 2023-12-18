@@ -85,6 +85,9 @@ const track = document.getElementById("track");
 const trackReset = document.getElementById("trackReset");
 const reset = document.getElementById("reset");
 
+const download = document.getElementById("download");
+const link = document.getElementById("link");
+
 const dataFile = document.getElementById("dataFile");
 
 gravityValue.textContent = gravityInput.value;
@@ -139,6 +142,6 @@ dataFile.addEventListener("change",(event)=>{
   });
 });
 
-engine.addEventListener("update",()=>{
-  document.getElementById("download").href = URL.createObjectURL(new Blob([JSON.stringify(engine.export())],{"type":"application/json"}));
+download.addEventListener("click",()=>{
+  link.href = URL.createObjectURL(new Blob([JSON.stringify(engine.export())],{"type":"application/json"}));
 });
