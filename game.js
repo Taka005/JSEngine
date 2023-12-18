@@ -85,6 +85,8 @@ const track = document.getElementById("track");
 const trackReset = document.getElementById("trackReset");
 const reset = document.getElementById("reset");
 
+const dataFile = document.getElementById("dataFile");
+
 gravityValue.textContent = gravityInput.value;
 frictionValue.textContent = frictionInput.value;
 restraintValue.textContent = restraintInput.value;
@@ -127,6 +129,14 @@ trackReset.addEventListener("click",()=>{
 reset.addEventListener("click",()=>{
   engine.entities = {};
   engine.tracks = [];
+});
+
+dataFile.addEventListener("change",(event)=>{
+  const reader = new FileReader();
+  reader.readAsText(event.target.files[0]);
+  reader.addEventListener("load",()=>{
+    engine.import(JSON.parse(reader.result));
+  });
 });
 
 engine.addEventListener("update",()=>{
