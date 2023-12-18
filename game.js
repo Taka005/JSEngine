@@ -3,7 +3,7 @@ const engine = new Engine(canvas,{
   fps: 60
 });
 
-let saveData = engine.export();
+let saveData = JSON.stringify(engine.export());
 
 engine.start();
 
@@ -156,8 +156,8 @@ stop.addEventListener("click",()=>{
 });
 
 save.addEventListener("click",()=>{
-  saveData = engine.export();
-  link.href = URL.createObjectURL(new Blob([JSON.stringify(saveData)],{"type":"application/json"}));
+  saveData = JSON.stringify(engine.export());
+  link.href = URL.createObjectURL(new Blob([saveData],{"type":"application/json"}));
 });
 
 load.addEventListener("click",()=>{
