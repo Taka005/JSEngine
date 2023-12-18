@@ -283,6 +283,7 @@ class Engine extends EventTarget {
 
     this.entities = {};
     this.grounds = {};
+    this.tracks = [];
 
     data.entity.forEach(entity=>{
       this.entities[entity.name] = new Entity(entity);
