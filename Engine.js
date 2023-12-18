@@ -41,7 +41,7 @@ class Engine extends EventTarget {
       this.draw();
     },1000/this.fps);
 
-    setInterval(()=>{
+    this.trackLoop = setInterval(()=>{
       Object.values(this.entities).forEach(entity=>{
         this.tracks.push(new Track(entity));
       });
@@ -50,6 +50,7 @@ class Engine extends EventTarget {
 
   stop(){
     clearInterval(this.loop);
+    clearInterval(this.trackLoop);
   }
 
   update(){
@@ -425,8 +426,8 @@ class Track{
     }else{
       ctx.beginPath();
       ctx.arc(this.posX,this.posY,this.size,0,2*Math.PI);
-      ctx.strokeStyle = "#fa514b";
-      ctx.fillStyle = "#fa514b";
+      ctx.strokeStyle = "#faafaf";
+      ctx.fillStyle = "#faafaf";
       ctx.lineWidth = 1;
       ctx.fill();
       ctx.stroke();
