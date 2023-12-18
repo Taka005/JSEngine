@@ -85,8 +85,6 @@ const track = document.getElementById("track");
 const trackReset = document.getElementById("trackReset");
 const reset = document.getElementById("reset");
 
-document.getElementById("download").href = URL.createObjectURL(new Blob([JSON.stringify(engine.export())],{"type":"application/json"}));
-
 gravityValue.textContent = gravityInput.value;
 frictionValue.textContent = frictionInput.value;
 restraintValue.textContent = restraintInput.value;
@@ -129,4 +127,8 @@ trackReset.addEventListener("click",()=>{
 reset.addEventListener("click",()=>{
   engine.entities = {};
   engine.tracks = [];
+});
+
+engine.addEventListener("update",()=>{
+  document.getElementById("download").href = URL.createObjectURL(new Blob([JSON.stringify(engine.export())],{"type":"application/json"}));
 });
