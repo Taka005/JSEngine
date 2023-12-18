@@ -283,6 +283,9 @@ class Engine extends EventTarget {
     }
   }
 
+  /**
+   * @param {Object} data エクスポートデータ
+   */
   import(data){
     this.fps = data.fps;
     this.gravity = data.gravity;

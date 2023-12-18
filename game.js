@@ -3,7 +3,7 @@ const engine = new Engine(canvas,{
   fps: 60
 });
 
-let saveData = {};
+let saveData = engine.export();
 
 engine.start();
 
