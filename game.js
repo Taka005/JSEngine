@@ -3,6 +3,8 @@ const engine = new Engine(canvas,{
   fps: 60
 });
 
+let saveData = {};
+
 engine.start();
 
 engine.setGround({
@@ -85,7 +87,10 @@ const track = document.getElementById("track");
 const trackReset = document.getElementById("trackReset");
 const reset = document.getElementById("reset");
 
-const download = document.getElementById("download");
+const start = document.getElementById("start");
+const stop = document.getElementById("stop");
+const save = document.getElementById("save");
+const load = document.getElementById("laod");
 const link = document.getElementById("link");
 
 const dataFile = document.getElementById("dataFile");
@@ -142,6 +147,19 @@ dataFile.addEventListener("change",(event)=>{
   });
 });
 
-download.addEventListener("click",()=>{
-  link.href = URL.createObjectURL(new Blob([JSON.stringify(engine.export())],{"type":"application/json"}));
+start.addEventListener("click",()=>{
+  engine.start();
+});
+
+stop.addEventListener("click",()=>{
+  engine.stop();
+});
+
+save.addEventListener("click",()=>{
+  saveData = engine.export();
+  link.href = URL.createObjectURL(new Blob([JSON.stringify(saveData)],{"type":"application/json"}));
+});
+
+load.addEventListener("click",()=>{
+  engine.import(saveData);
 });

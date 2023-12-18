@@ -21,11 +21,14 @@
                 <input type="button" class="btn btn-success" id="track" value="トラッキングモード">
                 <input type="button" class="btn btn-danger" id="trackReset" value="トラッキングリセット">
                 <input type="button" class="btn btn-danger" id="reset" value="リセット">
-                <input type="button" class="btn btn-primary" id="download">エクスポート</input>
-                <a role="button" class="btn btn-primary" id="link" target="_blank" download="map.json">ダウンロード</a>
             </div>
             <canvas id="game" width="900" height="700"></canvas>
             <div class="file">
+                <input type="button" class="btn btn-success" id="start">開始</input>
+                <input type="button" class="btn btn-danger" id="stop">停止</input>
+                <input type="button" class="btn btn-primary" id="save">保存</input>
+                <input type="button" class="btn btn-primary" id="load">ロード</input>
+                <a role="button" class="btn btn-primary" id="link" target="_blank" download="map.json">エクスポート</a>
                 <input class="form-control" type="file" id="dataFile" accept="application/json">
             </div>
       </div>
