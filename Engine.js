@@ -19,8 +19,10 @@ class Engine extends EventTarget {
 
     this.entities = {};
     this.grounds = {};
+    this.tracks = [];
 
     this.isDebug = false;
+    this.isTrack = false;
   }
 
   createId(length){
@@ -46,6 +48,8 @@ class Engine extends EventTarget {
 
   update(){
     Object.values(this.entities).forEach(entity=>{
+      this.tracks.push(new Track(entity));
+
       this.updatePosition(entity);
     });
 
@@ -80,10 +84,11 @@ class Engine extends EventTarget {
   }
 
   draw(){
-    //this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
     if(this.isDebug){
       this.drawSquares();
+
       Object.values(this.entities).forEach(entity=>{
         entity.drawVector(this.ctx);
       });
@@ -96,6 +101,12 @@ class Engine extends EventTarget {
     Object.values(this.entities).forEach(entity=>{
       entity.draw(this.ctx);
     });
+
+    if(this.isTrack){
+      Object.values(this.tracks).forEach(track=>{
+        track.draw(this.ctx);
+      });
+    }
   }
 
   /**
@@ -386,5 +397,35 @@ class Ground{
     ctx.strokeStyle = "red";
     ctx.lineWidth = this.size;
     ctx.stroke();
+  }
+}
+
+class Track{
+  constructor(entity){
+    this.posX = entity.posX;
+    this.posY = entity.posY;
+    this.size = entity.size;
+    this.img = entity.img;
+  }
+
+  /**
+ * @param {CanvasRenderingContext2D} ctx Canvas
+ */
+  draw(ctx){
+    if(this.img){
+      ctx.drawImage(
+        this.img,
+        this.posX - this.img.width/2,
+        this.posY - this.img.height/2
+      );
+    }else{
+      ctx.beginPath();
+      ctx.arc(this.posX,this.posY,this.size,0,2*Math.PI);
+      ctx.strokeStyle = "#fa514b";
+      ctx.fillStyle = "#fa514b";
+      ctx.lineWidth = 1;
+      ctx.fill();
+      ctx.stroke();
+    }
   }
 }

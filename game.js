@@ -97,6 +97,8 @@ const restraintInput = document.getElementById("restraintInput");
 const restraintValue = document.getElementById("restraintValue");
 
 const debug = document.getElementById("debug");
+const track = document.getElementById("track");
+const reset = document.getElementById("reset");
 
 gravityValue.textContent = gravityInput.value;
 frictionValue.textContent = frictionInput.value;
@@ -123,4 +125,17 @@ debug.addEventListener("click",()=>{
   }else{
     engine.isDebug = true;
   }
+});
+
+track.addEventListener("click",()=>{
+  if(engine.isTrack){
+    engine.isTrack = false;
+  }else{
+    engine.isTrack = true;
+  }
+});
+
+reset.addEventListener("click",()=>{
+  engine.entities = {};
+  engine.tracks = [];
 });
