@@ -143,7 +143,8 @@ dataFile.addEventListener("change",(event)=>{
   const reader = new FileReader();
   reader.readAsText(event.target.files[0]);
   reader.addEventListener("load",()=>{
-    engine.import(JSON.parse(reader.result));
+    engine.import(reader.result);
+    saveData = reader.result;
   });
 });
 
