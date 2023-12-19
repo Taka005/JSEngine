@@ -270,23 +270,25 @@ class Engine extends EventTarget {
   }
 
   /**
-   * @returns {Object} エクスポートデータ
+   * @returns {String} エクスポートデータ
    */
   export(){
-    return {
+    return JSON.stringify({
       fps: this.fps,
       gravity: this.gravity,
       friction: this.friction,
       restraint: this.restraint,
       entity: Object.values(this.entities),
       ground: Object.values(this.grounds)
-    }
+    });
   }
 
   /**
-   * @param {Object} data エクスポートデータ
+   * @param {String} _data エクスポートデータ
    */
-  import(data){
+  import(_data){
+    const data = JSON.parse(_data);
+
     this.fps = data.fps;
     this.gravity = data.gravity;
     this.friction = data.friction;
