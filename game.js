@@ -161,5 +161,5 @@ save.addEventListener("click",()=>{
 });
 
 load.addEventListener("click",()=>{
-  engine.import(saveData);
+  engine.import(JSON.parse(saveData));
 });
