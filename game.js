@@ -145,7 +145,7 @@ dataFile.addEventListener("change",(event)=>{
   reader.addEventListener("load",()=>{
     data = JSON.parse(reader.result);
 
-    saveData = data;
+    saveData = reader.result;
     engine.import(data);
 
     gravityValue.textContent = data.gravity;
