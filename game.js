@@ -143,8 +143,19 @@ dataFile.addEventListener("change",(event)=>{
   const reader = new FileReader();
   reader.readAsText(event.target.files[0]);
   reader.addEventListener("load",()=>{
-    engine.import(reader.result);
-    saveData = reader.result;
+    data = JSON.parse(reader.result);
+
+    saveData = data;
+    engine.import(data);
+
+    gravityValue.textContent = data.gravity;
+    gravityInput.value = data.gravity;
+
+    frictionValue.textContent = data.friction;
+    frictionInput.value = data.friction;
+
+    restraintValue.textContent = data.restraint;
+    restraintInput.value = data.restraint;
   });
 });
 
@@ -162,5 +173,16 @@ save.addEventListener("click",()=>{
 });
 
 load.addEventListener("click",()=>{
+  const data = JSON.parse(saveData);
+
   engine.import(saveData);
+
+  gravityValue.textContent = data.gravity;
+  gravityInput.value = data.gravity;
+
+  frictionValue.textContent = data.friction;
+  frictionInput.value = data.friction;
+
+  restraintValue.textContent = data.restraint;
+  restraintInput.value = data.restraint;
 });

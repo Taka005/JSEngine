@@ -284,11 +284,9 @@ class Engine extends EventTarget {
   }
 
   /**
-   * @param {String} _data エクスポートデータ
+   * @param {String} data エクスポートデータ
    */
-  import(_data){
-    const data = JSON.parse(_data);
-
+  import(data){
     this.fps = data.fps;
     this.gravity = data.gravity;
     this.friction = data.friction;
