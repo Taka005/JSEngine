@@ -175,7 +175,7 @@ save.addEventListener("click",()=>{
 load.addEventListener("click",()=>{
   const data = JSON.parse(saveData);
 
-  engine.import(saveData);
+  engine.import(data);
 
   gravityValue.textContent = data.gravity;
   gravityInput.value = data.gravity;
