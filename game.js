@@ -3,8 +3,6 @@ const engine = new Engine(canvas,{
   fps: 60
 });
 
-let saveData = engine.export();
-
 engine.start();
 
 engine.setGround({
@@ -46,6 +44,8 @@ engine.setGround({
   endY: 300,
   size: 15
 });
+
+let saveData = engine.export();
 
 document.addEventListener("keydown",(event)=>{
   event.preventDefault();
