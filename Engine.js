@@ -123,16 +123,19 @@ class Engine extends EventTarget {
   }
 
   /**
-   * @param {String} name エンティティー名
-   * @param {Object} data エンティティーデータ(Entityクラスを参照してください)
-   * @returns {Entity} 生成されたエンティティークラス
+   * @param {String} type 生成物体の種類
+   * @param {Array} data 生成データの配列(Entityクラスを参照してください)
    */
-  spawn(data){
-    data.name = data.name || this.createId(8);
+  spawn(type,data){
+    data.forEach(d=>{
+      d.name = d.name || this.createId(8);
 
-    this.entities[data.name] = new Entity(data);
-
-    return this.entities[data.name];
+      if(type === "entity"){
+        this.entities[d.name] = new Entity(d);
+      }else if(type === "ground"){
+        this.grounds[d.name] = new Ground(d);
+      }
+    });
   }
 
   reSpawn(name,{ posX, posY, size, mass, stiff, speedX, speedY, image }){
@@ -154,18 +157,14 @@ class Engine extends EventTarget {
   }
 
   /**
-   * @param {String} name 削除するエンティティー名
+   * @param {String} name 削除する物体名
    */
-  deSpawn(name){
-    delete this.entities[name];
-  }
-
-  setGround(data){
-    data.name = data.name || this.createId(8);
-
-    this.grounds[data.name] = new Ground(data);
-
-    return this.grounds[data.name];
+  deSpawn(type,name){
+    if(type === "entity"){
+      delete this.entities[name];
+    }else if(type === "ground"){
+      delete this.grounds[name];
+    }
   }
 
   /**

@@ -5,52 +5,50 @@ const engine = new Engine(canvas,{
 
 engine.start();
 
-engine.setGround({
-  startX: 30,
-  startY: 600,
-  endX: 600,
-  endY: 600,
-  size: 15
-});
-
-engine.setGround({
-  startX: 600,
-  startY: 600,
-  endX: 600,
-  endY: 500,
-  size: 15
-});
-
-engine.setGround({
-  startX: 30,
-  startY: 0,
-  endX: 30,
-  endY: 600,
-  size: 15
-});
-
-engine.setGround({
-  startX: 850,
-  startY: 0,
-  endX: 850,
-  endY: 600,
-  size: 15
-});
-
-engine.setGround({
-  startX: 500,
-  startY: 400,
-  endX: 850,
-  endY: 300,
-  size: 15
-});
+engine.spawn("ground",[
+  {
+    startX: 30,
+    startY: 600,
+    endX: 600,
+    endY: 600,
+    size: 15
+  },
+  {
+    startX: 600,
+    startY: 600,
+    endX: 600,
+    endY: 500,
+    size: 15
+  },
+  {
+    startX: 30,
+    startY: 0,
+    endX: 30,
+    endY: 600,
+    size: 15
+  },
+  {
+    startX: 850,
+    startY: 0,
+    endX: 850,
+    endY: 600,
+    size: 15
+  },
+  {
+    startX: 500,
+    startY: 400,
+    endX: 850,
+    endY: 300,
+    size: 15
+  }
+]);
 
 let saveData = engine.export();
 
 document.addEventListener("keydown",(event)=>{
   event.preventDefault();
 
-  engine.spawn({
+  engine.spawn("entity",{
     posX: 450,
     posY: 200,
     size: 20,
@@ -64,7 +62,7 @@ canvas.addEventListener("mousedown",(event)=>{
 
   const rect = event.target.getBoundingClientRect();
 
-  engine.spawn({
+  engine.spawn("entity",{
     posX: event.clientX - rect.left,
     posY: event.clientY - rect.top,
     size: 15,
