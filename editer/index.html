@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8"/>
+
+        <title>Engine Editer</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="config">
+                <input type="range" class="form-range" id="gravityInput" min="0" max="3000" value="500">
+                <p>重力: <output id="gravityValue"></output></p>
+                <input type="range" class="form-range" id="frictionInput" min="0" max="0.1" value="0.001" step="0.001">
+                <p>摩擦: <output id="frictionValue"></output></p>
+                <input type="range" class="form-range" id="restraintInput" min="1" max="10" value="3">
+                <p>拘束回数: <output id="restraintValue"></output></p>
+                <select class="form-select" id="toolInput">
+                    <option value="1" selected>円</option>
+                    <option value="2">地面</option>
+                </select>
+                <p>ツール: <output id="toolValue"></output></p>
+                <input type="range" class="form-range" id="rangeInput" min="0" max="1" value="0">
+                <p>太さ: <output id="rangeValue"></output></p>
+                <input type="button" class="btn btn-danger" id="reset" value="リセット">
+            </div>
+            <canvas id="game" width="900" height="700"></canvas>
+            <div class="file">
+                <input type="button" class="btn btn-primary" id="save" value="保存">
+                <input type="button" class="btn btn-primary" id="load" value="ロード">
+                <a role="button" class="btn btn-primary" id="link" target="_blank" download="map.json">エクスポート</a>
+            </div>
+      </div>
+    </body>
+    <script src="./Editer.js"></script>
+    <script src="./editer.js"></script>
+</html>
