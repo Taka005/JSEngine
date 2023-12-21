@@ -18,12 +18,14 @@
                 <input type="range" class="form-range" id="restraintInput" min="1" max="10" value="3">
                 <p>拘束回数: <output id="restraintValue"></output></p>
                 <select class="form-select" id="toolInput">
-                    <option value="1" selected>円</option>
-                    <option value="2">地面</option>
+                    <option value="entity" selected>エンティティー</option>
+                    <option value="ground">地面</option>
                 </select>
                 <p>ツール: <output id="toolValue"></output></p>
-                <input type="range" class="form-range" id="rangeInput" min="1" max="50" value="0">
+                <input type="range" class="form-range" id="rangeInput" min="1" max="50" value="10">
                 <p>太さ: <output id="rangeValue"></output></p>
+                <input type="range" class="form-range" id="massInput" min="1" max="100" value="10">
+                <p>質量: <output id="massValue"></output></p>
                 <input type="button" class="btn btn-danger" id="reset" value="リセット">
             </div>
             <canvas id="game" width="900" height="700"></canvas>

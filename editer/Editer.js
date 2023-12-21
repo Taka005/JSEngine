@@ -15,6 +15,12 @@ class Editer{
     this.friction = friction;
     this.restraint = restraint;
 
+    this.tool = "entity"
+    this.range = 10;
+    this.mass = 10;
+
+    this.groundPos = {};
+
     this.entities = {};
     this.grounds = {};
   }
@@ -50,18 +56,19 @@ class Editer{
   }
 
   /**
-   * @param {String} type エンティティー名
    * @param {Object} data エンティティーデータ(Entityクラスを参照してください)
    * @returns {Entity} 生成されたエンティティークラス
    */
-  spawn(type,data){
+  spawn(data){
     data.name = data.name || this.createId(8);
+    data.size = this.range;
+    data.mass = this.mass;
 
-    if(type === "entity"){
+    if(this.tool === "entity"){
       this.entities[data.name] = new Entity(data);
 
       return this.entities[data.name];
-    }else if(type === "ground"){
+    }else if(this.tool === "ground"){
       this.grounds[data.name] = new Ground(data);
 
       return this.grounds[data.name];
