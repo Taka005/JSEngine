@@ -5,7 +5,7 @@ canvas {
 }
 
 .config {
-    width: fit-content;
+   margin: 10px auto;
 }
 
 .file {
