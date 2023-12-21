@@ -111,8 +111,6 @@ canvas.addEventListener("mousedown",(event)=>{
         posY: event.clientY - rect.top
       };
     }else{
-      editer.groundPos = {};
-
       editer.spawn({
         startX: editer.groundPos.posX,
         startY: editer.groundPos.posY,
@@ -120,6 +118,8 @@ canvas.addEventListener("mousedown",(event)=>{
         endY: event.clientY - rect.top,
         stiff: 0.5
       });
+
+      editer.groundPos = {};
     }
   }
 });
