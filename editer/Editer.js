@@ -118,14 +118,13 @@ class Editer{
 
     this.entities = {};
     this.grounds = {};
-    this.tracks = [];
-
-    data.entity.forEach(entity=>{
-      this.entities[entity.name] = new Entity(entity);
-    });
 
     data.ground.forEach(ground=>{
       this.grounds[ground.name] = new Ground(ground);
+    });
+
+    data.entity.forEach(entity=>{
+      this.entities[entity.name] = new Entity(entity);
     });
   }
 }
