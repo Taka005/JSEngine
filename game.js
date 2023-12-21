@@ -48,13 +48,13 @@ let saveData = engine.export();
 document.addEventListener("keydown",(event)=>{
   event.preventDefault();
 
-  engine.spawn("entity",{
+  engine.spawn("entity",[{
     posX: 450,
     posY: 200,
     size: 20,
     mass: 50,
     stiff: 0.5
-  });
+  }]);
 });
 
 canvas.addEventListener("mousedown",(event)=>{
@@ -62,13 +62,13 @@ canvas.addEventListener("mousedown",(event)=>{
 
   const rect = event.target.getBoundingClientRect();
 
-  engine.spawn("entity",{
+  engine.spawn("entity",[{
     posX: event.clientX - rect.left,
     posY: event.clientY - rect.top,
     size: 15,
     mass: 10,
     stiff: 0.5
-  });
+  }]);
 });
 
 const gravityInput = document.getElementById("gravityInput");
