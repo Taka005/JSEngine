@@ -98,7 +98,6 @@ class Editer{
    */
   export(){
     return JSON.stringify({
-      fps: this.fps,
       gravity: this.gravity,
       friction: this.friction,
       restraint: this.restraint,
@@ -111,7 +110,6 @@ class Editer{
  * @param {Object} data エクスポートデータ
  */
   import(data){
-    this.fps = data.fps;
     this.gravity = data.gravity;
     this.friction = data.friction;
     this.restraint = data.restraint;
@@ -119,12 +117,12 @@ class Editer{
     this.entities = {};
     this.grounds = {};
 
-    data.ground.forEach(ground=>{
-      this.grounds[ground.name] = new Ground(ground);
-    });
-
     data.entity.forEach(entity=>{
       this.entities[entity.name] = new Entity(entity);
+    });
+
+    data.ground.forEach(ground=>{
+      this.grounds[ground.name] = new Ground(ground);
     });
   }
 }
@@ -154,9 +152,6 @@ class Entity{
 
     this.posX = posX;
     this.posY = posY;
-
-    this.speedX = 0;
-    this.speedY = 0;
 
     this.size = size;
     this.mass = mass;

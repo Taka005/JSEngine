@@ -273,7 +273,6 @@ class Engine extends EventTarget {
    */
   export(){
     return JSON.stringify({
-      fps: this.fps,
       gravity: this.gravity,
       friction: this.friction,
       restraint: this.restraint,
@@ -286,7 +285,6 @@ class Engine extends EventTarget {
    * @param {Object} data エクスポートデータ
    */
   import(data){
-    this.fps = data.fps;
     this.gravity = data.gravity;
     this.friction = data.friction;
     this.restraint = data.restraint;
@@ -295,12 +293,12 @@ class Engine extends EventTarget {
     this.grounds = {};
     this.tracks = [];
 
-    data.ground.forEach(ground=>{
-      this.grounds[ground.name] = new Ground(ground);
-    });
-
     data.entity.forEach(entity=>{
       this.entities[entity.name] = new Entity(entity);
+    });
+
+    data.ground.forEach(ground=>{
+      this.grounds[ground.name] = new Ground(ground);
     });
   }
 }
