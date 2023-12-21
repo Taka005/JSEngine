@@ -139,11 +139,9 @@ class Entity{
    * @param {Number} data.size 大きさ
    * @param {Number} data.mass 質量
    * @param {Number} data.stiff 剛性(0以上1以下)
-   * @param {Number} data.speedX X速度
-   * @param {Number} data.speedY Y速度
    * @param {String} data.image 表示画像
    */
-  constructor({name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, image = null}){
+  constructor({name, posX, posY, size, mass, stiff, image = null}){
     if(size < 0) throw new Error("サイズは0以上にしてください");
     if(mass < 0) throw new Error("質量は0以上にしてください");
     if(stiff < 0 || stiff > 1) throw new Error("剛性は0以上1以下にしてください");
@@ -157,11 +155,9 @@ class Entity{
 
     this.posX = posX;
     this.posY = posY;
-    this.prePosX = posX;
-    this.prePosY = posY;
 
-    this.speedX = speedX;
-    this.speedY = speedY;
+    this.speedX = 0;
+    this.speedY = 0;
 
     this.size = size;
     this.mass = mass;
