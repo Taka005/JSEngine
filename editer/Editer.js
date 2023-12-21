@@ -106,6 +106,28 @@ class Editer{
       ground: Object.values(this.grounds)
     });
   }
+
+  /**
+ * @param {Object} data エクスポートデータ
+ */
+  import(data){
+    this.fps = data.fps;
+    this.gravity = data.gravity;
+    this.friction = data.friction;
+    this.restraint = data.restraint;
+
+    this.entities = {};
+    this.grounds = {};
+    this.tracks = [];
+
+    data.entity.forEach(entity=>{
+      this.entities[entity.name] = new Entity(entity);
+    });
+
+    data.ground.forEach(ground=>{
+      this.grounds[ground.name] = new Ground(ground);
+    });
+  }
 }
 
 class Entity{
