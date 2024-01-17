@@ -215,7 +215,7 @@ class Ground{
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.arc(this.startX,this.startY,this.size/2,0,2*Math.PI);
+    ctx.arc(this.startX,this.startY,this.size/2-1,0,2*Math.PI);
     ctx.strokeStyle = "red";
     ctx.fillStyle = "red";
     ctx.lineWidth = 1;
@@ -223,7 +223,7 @@ class Ground{
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.arc(this.endX,this.endY,this.size/2,0,2*Math.PI);
+    ctx.arc(this.endX,this.endY,this.size/2-1,0,2*Math.PI);
     ctx.strokeStyle = "red";
     ctx.fillStyle = "red";
     ctx.lineWidth = 1;
