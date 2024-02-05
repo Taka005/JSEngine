@@ -265,6 +265,8 @@ class Engine extends EventTarget {
   solveElastic(entity){
     if(!this.elastic) return;
 
+    this.updateSpeed(entity);
+
     const scale = Math.sqrt(entity.preSpeedX**2 + entity.preSpeedY**2)/Math.sqrt(entity.speedX**2 + entity.speedY**2);
 
     entity.speedX *= scale;
@@ -367,8 +369,6 @@ class Entity{
   saveSpeed(){
     this.preSpeedX = this.speedX;
     this.preSpeedY = this.speedY;
-    console.log(this.preSpeedX);
-    console.log(this.preSpeedY)
   }
 
   /**
