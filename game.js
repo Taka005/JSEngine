@@ -1,7 +1,7 @@
 const canvas = document.getElementById("game");
 const engine = new Engine(canvas,{
-  fps: 100,
-  elastic: true
+  fps: 90,
+  elastic: false
 });
 
 engine.start();

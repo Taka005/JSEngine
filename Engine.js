@@ -72,9 +72,7 @@ class Engine extends EventTarget {
         Object.values(this.grounds).forEach(ground=>{
           this.solveGroundPosition(entity,ground);
         });
-      });
 
-      Object.values(this.entities).forEach(entity=>{
         Object.values(this.entities).forEach(target=>{
           if(entity.name === target.name) return;
 
