@@ -176,9 +176,6 @@ class Engine extends EventTarget {
     const totalMass = source.mass + target.mass;
     if(totalMass === 0) return;
 
-    source.savePosition();
-    target.savePosition();
-
     let vecX = target.posX - source.posX;
     let vecY = target.posY - source.posY;
 
@@ -211,8 +208,6 @@ class Engine extends EventTarget {
   solveGroundPosition(entity,ground){
     if(entity.mass === 0) return;
 
-    entity.savePosition();
-
     const { posX, posY } = ground.solvePosition(entity.posX,entity.posY);
     let vecX = posX - entity.posX;
     let vecY = posY - entity.posY;
@@ -244,16 +239,13 @@ class Engine extends EventTarget {
    * @param {Entity} entity 変更するエンティティークラス
    */
   updateSpeed(entity){
+    entity.saveSpeed();
+
     entity.speedX = (entity.posX - entity.prePosX)/(1/this.fps);
     entity.speedY = (entity.posY - entity.prePosY)/(1/this.fps);
 
     if(entity.mass !== 0){
       entity.speedY += this.gravity*(1/this.fps);
-    }
-
-    return {
-      speedX: entity.speedX,
-      speedY: entity.speedY
     }
   }
 
@@ -270,9 +262,7 @@ class Engine extends EventTarget {
   solveElastic(entity){
     if(!this.elastic) return;
 
-    const { speedX, speedY } = this.updateSpeed(entity);
-
-    const scale = Math.sqrt(entity.speedX**2 + entity.speedY**2)/Math.sqrt(speedX**2 + speedY**2);
+    const scale = Math.sqrt(entity.preSpeedX**2 + entity.preSpeedY**2)/Math.sqrt(entity.speedX**2 + entity.speedY**2);
 
     entity.speedX *= scale;
     entity.speedY *= scale;
@@ -358,6 +348,8 @@ class Entity{
 
     this.speedX = speedX;
     this.speedY = speedY;
+    this.preSpeedX = speedX;
+    this.preSpeedY = speedY;
 
     this.size = size;
     this.mass = mass;
@@ -367,6 +359,11 @@ class Entity{
   savePosition(){
     this.prePosX = this.posX;
     this.prePosY = this.posY;
+  }
+
+  saveSpeed(){
+    this.preSpeedX = this.speedX;
+    this.preSpeedY = this.speedY;
   }
 
   /**
