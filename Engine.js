@@ -263,7 +263,7 @@ class Engine extends EventTarget {
     if(!this.elastic) return;
 
     const scale = Math.sqrt(entity.preSpeedX**2 + entity.preSpeedY**2)/Math.sqrt(entity.speedX**2 + entity.speedY**2);
-
+    console.log(scale)
     entity.speedX *= scale;
     entity.speedY *= scale;
   }
