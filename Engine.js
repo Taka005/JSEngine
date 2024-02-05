@@ -180,25 +180,28 @@ class Engine extends EventTarget {
     let vecY = target.posY - source.posY;
 
     const distance = Math.sqrt(vecX**2 + vecY**2);
-    if(distance > source.size + target.size) return;
+    if(distance <= source.size + target.size){
+      this.dispatchEvent(new CustomEvent("hit",{
+        source: source,
+        target: target
+      }));
 
-    this.dispatchEvent(new CustomEvent("hit",{
-      source: source,
-      target: target
-    }));
+      const move = (distance - (source.size + target.size))/(distance*totalMass + 0.000001)*source.stiff;
+      vecX *= move;
+      vecY *= move;
 
-    const move = (distance - (source.size + target.size))/(distance*totalMass + 0.000001)*source.stiff;
-    vecX *= move;
-    vecY *= move;
+      source.posX += vecX*source.mass;
+      source.posY += vecY*source.mass;
 
-    source.posX += vecX*source.mass;
-    source.posY += vecY*source.mass;
+      target.posX -= vecX*target.mass;
+      target.posY -= vecY*target.mass;
 
-    target.posX -= vecX*target.mass;
-    target.posY -= vecY*target.mass;
-
-    this.solveElastic(source);
-    this.solveElastic(target);
+      this.solveElastic(source);
+      this.solveElastic(target);
+    }else{
+      source.saveSpeed();
+      target.saveSpeed();
+    }
   }
 
   /**
@@ -213,16 +216,18 @@ class Engine extends EventTarget {
     let vecY = posY - entity.posY;
 
     const distance = Math.sqrt(vecX**2 + vecY**2);
-    if(distance > entity.size + ground.size/2) return;
+    if(distance <= entity.size + ground.size/2){
+      const move = (distance - (entity.size + ground.size/2))/(distance*entity.mass + 0.000001)*entity.stiff;
+      vecX *= move;
+      vecY *= move;
 
-    const move = (distance - (entity.size + ground.size/2))/(distance*entity.mass + 0.000001)*entity.stiff;
-    vecX *= move;
-    vecY *= move;
+      entity.posX += vecX*entity.mass;
+      entity.posY += vecY*entity.mass;
 
-    entity.posX += vecX*entity.mass;
-    entity.posY += vecY*entity.mass;
-
-    this.solveElastic(entity);
+      this.solveElastic(entity);
+    }else{
+      entity.saveSpeed();
+    }
   }
 
   /**
@@ -239,8 +244,6 @@ class Engine extends EventTarget {
    * @param {Entity} entity 変更するエンティティークラス
    */
   updateSpeed(entity){
-    entity.saveSpeed();
-
     entity.speedX = (entity.posX - entity.prePosX)/(1/this.fps);
     entity.speedY = (entity.posY - entity.prePosY)/(1/this.fps);
 
@@ -263,7 +266,6 @@ class Engine extends EventTarget {
     if(!this.elastic) return;
 
     const scale = Math.sqrt(entity.preSpeedX**2 + entity.preSpeedY**2)/Math.sqrt(entity.speedX**2 + entity.speedY**2);
-    console.log(scale)
     entity.speedX *= scale;
     entity.speedY *= scale;
   }
