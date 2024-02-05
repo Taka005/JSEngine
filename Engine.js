@@ -176,6 +176,9 @@ class Engine extends EventTarget {
     const totalMass = source.mass + target.mass;
     if(totalMass === 0) return;
 
+    source.savePosition();
+    target.savePosition();
+
     let vecX = target.posX - source.posX;
     let vecY = target.posY - source.posY;
 
@@ -207,6 +210,8 @@ class Engine extends EventTarget {
    */
   solveGroundPosition(entity,ground){
     if(entity.mass === 0) return;
+
+    entity.savePosition();
 
     const { posX, posY } = ground.solvePosition(entity.posX,entity.posY);
     let vecX = posX - entity.posX;
