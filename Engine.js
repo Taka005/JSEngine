@@ -87,7 +87,7 @@ class Engine extends EventTarget {
       this.solveSpeed(entity);
 
       if(entity.posY > this.canvas.height+100){
-        delete this.entities[entity.name];
+        this.deSpawn("entity",entity.name)
       }
 
       this.dispatchEvent(new CustomEvent("update",{
