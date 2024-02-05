@@ -141,7 +141,7 @@ class Engine extends EventTarget {
 
   reSpawn(name,{ posX, posY, size, mass, stiff, speedX, speedY, image }){
     const entity = this.entities[name];
-    if(entity) throw new Error("存在しないエンティティー名です");
+    if(!entity) throw new Error("存在しないエンティティー名です");
 
     this.entities[name] = new Entity({
       posX: posX||entity.posX,
