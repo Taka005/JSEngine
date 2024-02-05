@@ -26,6 +26,10 @@ class Engine extends EventTarget {
 
     this.isDebug = false;
     this.isTrack = false;
+
+    setInterval(()=>{
+      this.draw();
+    },16);
   }
 
   createId(length){
@@ -44,7 +48,6 @@ class Engine extends EventTarget {
 
     this.loop = setInterval(()=>{
       this.update();
-      this.draw();
     },1000/this.fps);
 
     this.trackLoop = setInterval(()=>{
