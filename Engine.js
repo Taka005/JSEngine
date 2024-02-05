@@ -6,7 +6,7 @@ class Engine extends EventTarget {
    * @param {Number} option.gravity 重力加速度
    * @param {Number} option.friction 摩擦係数
    */
-  constructor(canvas,{fps = 60, gravity = 500, friction = 0.001, restraint = 3} = {}){
+  constructor(canvas,{fps = 60, gravity = 500, friction = 0.001, restraint = 3, elastic = false} = {}){
     super();
 
     this.canvas = canvas;
@@ -16,6 +16,7 @@ class Engine extends EventTarget {
     this.gravity = gravity;
     this.friction = friction;
     this.restraint = restraint;
+    this.elastic = elastic;
 
     this.entities = {};
     this.grounds = {};
@@ -195,6 +196,9 @@ class Engine extends EventTarget {
 
     target.posX -= vecX*target.mass;
     target.posY -= vecY*target.mass;
+
+    this.solveElastic(source);
+    this.solveElastic(target);
   }
 
   /**
@@ -217,6 +221,8 @@ class Engine extends EventTarget {
 
     entity.posX += vecX*entity.mass;
     entity.posY += vecY*entity.mass;
+
+    this.solveElastic(entity);
   }
 
   /**
@@ -236,8 +242,14 @@ class Engine extends EventTarget {
     entity.speedX = (entity.posX - entity.prePosX)/(1/this.fps);
     entity.speedY = (entity.posY - entity.prePosY)/(1/this.fps);
 
-    if(entity.mass === 0) return;
-    entity.speedY += this.gravity*(1/this.fps);
+    if(entity.mass !== 0){
+      entity.speedY += this.gravity*(1/this.fps);
+    }
+
+    return {
+      speedX: entity.speedX,
+      speedY: entity.speedY
+    }
   }
 
   /**
@@ -248,6 +260,17 @@ class Engine extends EventTarget {
 
     entity.posX += entity.speedX*(1/this.fps);
     entity.posY += entity.speedY*(1/this.fps);
+  }
+
+  solveElastic(entity){
+    if(!this.elastic) return;
+
+    const { speedX, speedY } = this.updateSpeed(entity);
+
+    const scale = Math.sqrt(entity.speedX**2 + entity.speedY**2)/Math.sqrt(speedX**2 + speedY**2);
+
+    entity.speedX *= scale;
+    entity.speedY *= scale;
   }
 
   drawSquares(){
