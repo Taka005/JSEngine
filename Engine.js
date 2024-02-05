@@ -195,10 +195,10 @@ class Engine extends EventTarget {
 
       target.posX -= vecX*target.mass;
       target.posY -= vecY*target.mass;
-
+    }else{
       this.solveElastic(source);
       this.solveElastic(target);
-    }else{
+
       source.saveSpeed();
       target.saveSpeed();
     }
@@ -223,9 +223,9 @@ class Engine extends EventTarget {
 
       entity.posX += vecX*entity.mass;
       entity.posY += vecY*entity.mass;
-
-      this.solveElastic(entity);
     }else{
+      this.solveElastic(entity);
+
       entity.saveSpeed();
     }
   }
