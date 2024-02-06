@@ -6,13 +6,16 @@ class Engine extends EventTarget {
    * @param {Number} option.gravity 重力加速度
    * @param {Number} option.friction 摩擦係数
    */
-  constructor(canvas,{fps = { draw: 60, process: 180 }, gravity = 500, friction = 0.001, restraint = 1} = {}){
+  constructor(canvas,{fps = {}, gravity = 500, friction = 0.001, restraint = 1} = {}){
     super();
 
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
-    this.fps = fps;
+    this.fps = {
+      draw: fps.draw||60,
+      process: fps.process||180
+    };
     this.gravity = gravity;
     this.friction = friction;
     this.restraint = restraint;
