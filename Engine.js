@@ -66,6 +66,7 @@ class Engine extends EventTarget {
   update(){
     Object.values(this.entities).forEach(entity=>{
       this.updatePosition(entity);
+      this.updateRotate(entity);
     });
 
     Object.values(this.entities).forEach(entity=>{
@@ -192,6 +193,8 @@ class Engine extends EventTarget {
 
       target.posX -= vecX*target.mass;
       target.posY -= vecY*target.mass;
+
+      this.solveRotate(source,target);
     }
   }
 
@@ -225,6 +228,31 @@ class Engine extends EventTarget {
 
     entity.speedX += -entity.speedX*rate*(1/this.fps);
     entity.speedY += -entity.speedY*rate*(1/this.fps);
+
+    entity.rotateSpeed += -entity.rotateSpeed*rate*(1/this.fps);
+  }
+
+  solveRotate(source,target){
+    const vecX = target.posX - source.posX;
+    const vecY = target.posY - source.posY;
+
+    const vecSpeedX = source.speedX + source.posX;
+    const vecSpeedY = source.speedY + source.posY;
+
+    const vecSize = Math.sqrt(vecX**2 + vecY**2);
+    const speedSize = Math.sqrt(vecSpeedX**2 + vecSpeedY**2);
+
+    const angle = vecX*(-vecSpeedY) + vecY*vecSpeedX;
+
+    const rotate = Math.acos((vecX*vecSpeedX + vecY*vecSpeedY)/vecSize*speedSize);
+    const speed = Math.sqrt(target.speedX**2 + target.speedY**2) + rotate;
+    if(angle > 0){
+      source.rotateSpeed -= speed;
+      target.rotateSpeed += speed
+    }else if(angle < 0){
+      source.rotateSpeed += speed;
+      target.rotateSpeed -= speed;
+    }
   }
 
   /**
@@ -247,6 +275,13 @@ class Engine extends EventTarget {
 
     entity.posX += entity.speedX*(1/this.fps);
     entity.posY += entity.speedY*(1/this.fps);
+  }
+
+  /**
+   * @param {Entity} entity 変更するエンティティークラス
+   */
+  updateRotate(entity){
+    entity.rotate += entity.rotateSpeed*(1/this.fps);
   }
 
   /**
