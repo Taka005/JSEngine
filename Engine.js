@@ -217,18 +217,6 @@ class Engine extends EventTarget {
 
       entity.posX += vecX*entity.mass;
       entity.posY += vecY*entity.mass;
-
-      const sourceSpeed = Math.sqrt(source.speedX ** 2 + source.speedY ** 2);
-      const targetSpeed = Math.sqrt(target.speedX ** 2 + target.speedY ** 2);
-      const totalSpeed = sourceSpeed + targetSpeed;
-      if(totalSpeed !== 0){
-          const sourceRatio = sourceSpeed / totalSpeed;
-          const targetRatio = targetSpeed / totalSpeed;
-          source.speedX = vecX * sourceRatio;
-          source.speedY = vecY * sourceRatio;
-          target.speedX = -vecX * targetRatio;
-          target.speedY = -vecY * targetRatio;
-      }
     }
   }
 
