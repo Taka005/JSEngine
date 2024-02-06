@@ -77,9 +77,6 @@ const gravityValue = document.getElementById("gravityValue");
 const frictionInput = document.getElementById("frictionInput");
 const frictionValue = document.getElementById("frictionValue");
 
-const restraintInput = document.getElementById("restraintInput");
-const restraintValue = document.getElementById("restraintValue");
-
 const debug = document.getElementById("debug");
 const track = document.getElementById("track");
 const trackReset = document.getElementById("trackReset");
@@ -95,7 +92,6 @@ const dataFile = document.getElementById("dataFile");
 
 gravityValue.textContent = gravityInput.value;
 frictionValue.textContent = frictionInput.value;
-restraintValue.textContent = restraintInput.value;
 
 gravityInput.addEventListener("input",(event)=>{
   gravityValue.textContent = event.target.value;
@@ -105,11 +101,6 @@ gravityInput.addEventListener("input",(event)=>{
 frictionInput.addEventListener("input",(event)=>{
   frictionValue.textContent = event.target.value;
   engine.friction = event.target.value;
-});
-
-restraintInput.addEventListener("input",(event)=>{
-  restraintValue.textContent = event.target.value;
-  engine.restraint = event.target.value;
 });
 
 debug.addEventListener("click",()=>{
@@ -151,9 +142,6 @@ dataFile.addEventListener("change",(event)=>{
 
     frictionValue.textContent = data.friction;
     frictionInput.value = data.friction;
-
-    restraintValue.textContent = data.restraint;
-    restraintInput.value = data.restraint;
   });
 });
 
@@ -180,7 +168,4 @@ load.addEventListener("click",()=>{
 
   frictionValue.textContent = data.friction;
   frictionInput.value = data.friction;
-
-  restraintValue.textContent = data.restraint;
-  restraintInput.value = data.restraint;
 });

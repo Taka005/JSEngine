@@ -11,9 +11,6 @@ const gravityValue = document.getElementById("gravityValue");
 const frictionInput = document.getElementById("frictionInput");
 const frictionValue = document.getElementById("frictionValue");
 
-const restraintInput = document.getElementById("restraintInput");
-const restraintValue = document.getElementById("restraintValue");
-
 const toolInput = document.getElementById("toolInput");
 const toolValue = document.getElementById("toolValue");
 
@@ -31,7 +28,6 @@ const link = document.getElementById("link");
 
 gravityValue.textContent = gravityInput.value;
 frictionValue.textContent = frictionInput.value;
-restraintValue.textContent = restraintInput.value;
 toolValue.textContent = toolInput.value;
 rangeValue.textContent = rangeInput.value;
 massValue.textContent = massInput.value;
@@ -44,11 +40,6 @@ gravityInput.addEventListener("input",(event)=>{
 frictionInput.addEventListener("input",(event)=>{
   frictionValue.textContent = event.target.value;
   editer.friction = event.target.value;
-});
-
-restraintInput.addEventListener("input",(event)=>{
-  restraintValue.textContent = event.target.value;
-  editer.restraint = event.target.value;
 });
 
 toolInput.addEventListener("change",(event)=>{
@@ -86,9 +77,6 @@ load.addEventListener("click",()=>{
 
   frictionValue.textContent = data.friction;
   frictionInput.value = data.friction;
-
-  restraintValue.textContent = data.restraint;
-  restraintInput.value = data.restraint;
 });
 
 canvas.addEventListener("mousedown",(event)=>{

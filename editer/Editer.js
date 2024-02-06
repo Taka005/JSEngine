@@ -6,14 +6,13 @@ class Editer{
    * @param {Number} option.gravity 重力加速度
    * @param {Number} option.friction 摩擦係数
    */
-  constructor(canvas,{fps = 60, gravity = 500, friction = 0.001, restraint = 3} = {}){
+  constructor(canvas,{fps = 60, gravity = 500, friction = 0.001} = {}){
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
     this.fps = fps;
     this.gravity = gravity;
     this.friction = friction;
-    this.restraint = restraint;
 
     this.tool = "entity"
     this.range = 10;
@@ -100,7 +99,6 @@ class Editer{
     return JSON.stringify({
       gravity: this.gravity,
       friction: this.friction,
-      restraint: this.restraint,
       entity: Object.values(this.entities),
       ground: Object.values(this.grounds)
     });
@@ -112,7 +110,6 @@ class Editer{
   import(data){
     this.gravity = data.gravity;
     this.friction = data.friction;
-    this.restraint = data.restraint;
 
     this.entities = {};
     this.grounds = {};

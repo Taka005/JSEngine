@@ -6,7 +6,7 @@ class Engine extends EventTarget {
    * @param {Number} option.gravity 重力加速度
    * @param {Number} option.friction 摩擦係数
    */
-  constructor(canvas,{fps = 180, gravity = 500, friction = 0.001, restraint = 1} = {}){
+  constructor(canvas,{fps = 180, gravity = 500, friction = 0.001} = {}){
     super();
 
     this.canvas = canvas;
@@ -15,7 +15,6 @@ class Engine extends EventTarget {
     this.fps = fps
     this.gravity = gravity;
     this.friction = friction;
-    this.restraint = restraint;
 
     this.entities = {};
     this.grounds = {};
@@ -69,19 +68,17 @@ class Engine extends EventTarget {
       this.updatePosition(entity);
     });
 
-    for(let i = 0;i < this.restraint;i++){
-      Object.values(this.entities).forEach(entity=>{
-        Object.values(this.grounds).forEach(ground=>{
-          this.solveGroundPosition(entity,ground);
-        });
-
-        Object.values(this.entities).forEach(target=>{
-          if(entity.name === target.name) return;
-
-          this.solvePosition(entity,target);
-        });
+    Object.values(this.entities).forEach(entity=>{
+      Object.values(this.grounds).forEach(ground=>{
+        this.solveGroundPosition(entity,ground);
       });
-    }
+
+      Object.values(this.entities).forEach(target=>{
+        if(entity.name === target.name) return;
+
+        this.solvePosition(entity,target);
+      });
+    });
 
     Object.values(this.entities).forEach(entity=>{
       this.updateSpeed(entity);
@@ -288,7 +285,6 @@ class Engine extends EventTarget {
     return JSON.stringify({
       gravity: this.gravity,
       friction: this.friction,
-      restraint: this.restraint,
       entity: Object.values(this.entities),
       ground: Object.values(this.grounds)
     });
@@ -300,7 +296,6 @@ class Engine extends EventTarget {
   import(data){
     this.gravity = data.gravity;
     this.friction = data.friction;
-    this.restraint = data.restraint;
 
     this.entities = {};
     this.grounds = {};
