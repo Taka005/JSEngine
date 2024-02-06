@@ -6,7 +6,7 @@ class Engine extends EventTarget {
    * @param {Number} option.gravity 重力加速度
    * @param {Number} option.friction 摩擦係数
    */
-  constructor(canvas,{fps = 180, gravity = 500, friction = 0.001, restraint = 1, elastic = false} = {}){
+  constructor(canvas,{fps = { draw = 60, process = 180 }, gravity = 500, friction = 0.001, restraint = 1} = {}){
     super();
 
     this.canvas = canvas;
@@ -16,7 +16,6 @@ class Engine extends EventTarget {
     this.gravity = gravity;
     this.friction = friction;
     this.restraint = restraint;
-    this.elastic = elastic;
 
     this.entities = {};
     this.grounds = {};
@@ -29,7 +28,7 @@ class Engine extends EventTarget {
 
     setInterval(()=>{
       this.draw();
-    },16);
+    },1000/this.fps.draw);
   }
 
   createId(length){
@@ -48,7 +47,7 @@ class Engine extends EventTarget {
 
     this.loop = setInterval(()=>{
       this.update();
-    },1000/this.fps);
+    },1000/this.fps.process);
 
     this.trackLoop = setInterval(()=>{
       Object.values(this.entities).forEach(entity=>{
@@ -196,12 +195,6 @@ class Engine extends EventTarget {
 
       target.posX -= vecX*target.mass;
       target.posY -= vecY*target.mass;
-    }else{
-      this.solveElastic(source);
-      this.solveElastic(target);
-
-      source.saveSpeed();
-      target.saveSpeed();
     }
   }
 
@@ -224,10 +217,18 @@ class Engine extends EventTarget {
 
       entity.posX += vecX*entity.mass;
       entity.posY += vecY*entity.mass;
-    }else{
-      this.solveElastic(entity);
 
-      entity.saveSpeed();
+      const sourceSpeed = Math.sqrt(source.speedX ** 2 + source.speedY ** 2);
+      const targetSpeed = Math.sqrt(target.speedX ** 2 + target.speedY ** 2);
+      const totalSpeed = sourceSpeed + targetSpeed;
+      if(totalSpeed !== 0){
+          const sourceRatio = sourceSpeed / totalSpeed;
+          const targetRatio = targetSpeed / totalSpeed;
+          source.speedX = vecX * sourceRatio;
+          source.speedY = vecY * sourceRatio;
+          target.speedX = -vecX * targetRatio;
+          target.speedY = -vecY * targetRatio;
+      }
     }
   }
 
@@ -263,6 +264,8 @@ class Engine extends EventTarget {
     entity.posY += entity.speedY*(1/this.fps);
   }
 
+  /**
+   *
   solveElastic(entity){
     if(!this.elastic) return;
 
@@ -271,6 +274,7 @@ class Engine extends EventTarget {
     entity.speedX *= scale;
     entity.speedY *= scale;
   }
+   */
 
   drawSquares(){
     this.ctx.beginPath();
