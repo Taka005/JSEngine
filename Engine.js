@@ -6,7 +6,7 @@ class Engine extends EventTarget {
    * @param {Number} option.gravity 重力加速度
    * @param {Number} option.friction 摩擦係数
    */
-  constructor(canvas,{fps = { draw = 60, process = 180 }, gravity = 500, friction = 0.001, restraint = 1} = {}){
+  constructor(canvas,{fps = { draw: 60, process: 180 }, gravity = 500, friction = 0.001, restraint = 1} = {}){
     super();
 
     this.canvas = canvas;
@@ -265,7 +265,6 @@ class Engine extends EventTarget {
   }
 
   /**
-   *
   solveElastic(entity){
     if(!this.elastic) return;
 
@@ -274,7 +273,7 @@ class Engine extends EventTarget {
     entity.speedX *= scale;
     entity.speedY *= scale;
   }
-   */
+  */
 
   drawSquares(){
     this.ctx.beginPath();
