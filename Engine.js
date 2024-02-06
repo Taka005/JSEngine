@@ -317,9 +317,11 @@ class Entity{
    * @param {Number} data.stiff 剛性(0以上1以下)
    * @param {Number} data.speedX X速度
    * @param {Number} data.speedY Y速度
+   * @param {Number} data.rotate 回転角度
+   * @param {Number} data.rotateSpeed 回転速度
    * @param {String} data.image 表示画像
    */
-  constructor({name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, image = null}){
+  constructor({name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, image = null}){
     if(size < 0) throw new Error("サイズは0以上にしてください");
     if(mass < 0) throw new Error("質量は0以上にしてください");
     if(stiff < 0 || stiff > 1) throw new Error("剛性は0以上1以下にしてください");
@@ -338,8 +340,9 @@ class Entity{
 
     this.speedX = speedX;
     this.speedY = speedY;
-    this.preSpeedX = speedX;
-    this.preSpeedY = speedY;
+
+    this.rotate = rotate;
+    this.rotateSpeed = rotateSpeed;
 
     this.size = size;
     this.mass = mass;
@@ -349,11 +352,6 @@ class Entity{
   savePosition(){
     this.prePosX = this.posX;
     this.prePosY = this.posY;
-  }
-
-  saveSpeed(){
-    this.preSpeedX = this.speedX;
-    this.preSpeedY = this.speedY;
   }
 
   /**
@@ -374,6 +372,18 @@ class Entity{
       ctx.lineWidth = 1;
       ctx.fill();
       ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(this.posX,this.posY);
+      ctx.lineTo(this.posX + this.size,this.posY);
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.save();
+      ctx.translate(this.posX,this.posY);
+      ctx.rotate(this.rotate*Math.PI/180);
+      ctx.restore();
     }
   }
 
