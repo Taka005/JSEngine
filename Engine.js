@@ -6,16 +6,13 @@ class Engine extends EventTarget {
    * @param {Number} option.gravity 重力加速度
    * @param {Number} option.friction 摩擦係数
    */
-  constructor(canvas,{fps = {}, gravity = 500, friction = 0.001, restraint = 1} = {}){
+  constructor(canvas,{fps = 180, gravity = 500, friction = 0.001, restraint = 1} = {}){
     super();
 
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
-    this.fps = {
-      draw: fps.draw||60,
-      process: fps.process||180
-    };
+    this.fps = fps
     this.gravity = gravity;
     this.friction = friction;
     this.restraint = restraint;
@@ -31,7 +28,7 @@ class Engine extends EventTarget {
 
     setInterval(()=>{
       this.draw();
-    },1000/this.fps.draw);
+    },16);
   }
 
   createId(length){
@@ -50,7 +47,7 @@ class Engine extends EventTarget {
 
     this.loop = setInterval(()=>{
       this.update();
-    },1000/this.fps.process);
+    },1000/this.fps);
 
     this.trackLoop = setInterval(()=>{
       Object.values(this.entities).forEach(entity=>{

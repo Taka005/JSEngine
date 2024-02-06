@@ -1,9 +1,6 @@
 const canvas = document.getElementById("game");
 const engine = new Engine(canvas,{
-  fps:{
-    draw: 60,
-    process: 180
-  }
+  fps: 180
 });
 
 engine.start();
