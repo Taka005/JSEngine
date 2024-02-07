@@ -432,7 +432,7 @@ class Entity{
    * @param {Number} data.rotateSpeed 回転速度
    * @param {String} data.image 表示画像
    */
-  constructor({name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, image = null}){
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, image = null }){
     if(size < 0) throw new Error("サイズは0以上にしてください");
     if(mass < 0) throw new Error("質量は0以上にしてください");
     if(stiff < 0 || stiff > 1) throw new Error("剛性は0以上1以下にしてください");
@@ -495,7 +495,7 @@ class Entity{
 
       ctx.beginPath();
       ctx.moveTo(0,0);
-      ctx.lineTo(this.size,0);
+      ctx.lineTo(0,-this.size);
       ctx.strokeStyle = "black";
       ctx.lineWidth = 1;
       ctx.stroke();
@@ -531,7 +531,7 @@ class Ground{
    * @param {Number} data.endY Y終了位置
    * @param {Number} data.size 大きさ
    */
-  constructor({name, startX, startY, endX, endY, size}){
+  constructor({ name, startX, startY, endX, endY, size }){
     if(size < 0) throw new Error("サイズは0以上にしてください");
 
     this.name = name;
