@@ -244,14 +244,13 @@ class Engine extends EventTarget {
 
     const angle = vecX*(-vecSpeedY) + vecY*vecSpeedX;
 
-    const rotate = Math.acos((vecX*vecSpeedX + vecY*vecSpeedY)/vecSize*speedSize);
-    const speed = Math.sqrt(target.speedX**2 + target.speedY**2) + rotate;
+    const rotate = Math.acos((vecX*vecSpeedX + vecY*vecSpeedY)/(vecSize*speedSize));
     if(angle > 0){
-      source.rotateSpeed -= speed;
-      target.rotateSpeed += speed
+      source.rotateSpeed -= Math.sqrt(target.speedX**2 + target.speedY**2) + rotate;
+      target.rotateSpeed += Math.sqrt(source.speedX**2 + source.speedY**2) + rotate
     }else if(angle < 0){
-      source.rotateSpeed += speed;
-      target.rotateSpeed -= speed;
+      source.rotateSpeed += Math.sqrt(target.speedX**2 + target.speedY**2) + rotate;
+      target.rotateSpeed -= Math.sqrt(source.speedX**2 + source.speedY**2) + rotate;
     }
   }
 
@@ -417,7 +416,7 @@ class Entity{
 
       ctx.save();
       ctx.translate(this.posX,this.posY);
-      ctx.rotate(this.rotate*Math.PI/180);
+      ctx.rotate(this.rotate*(Math.PI/180));
       ctx.restore();
     }
   }
