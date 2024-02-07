@@ -217,6 +217,8 @@ class Engine extends EventTarget {
 
       entity.posX += vecX*entity.mass;
       entity.posY += vecY*entity.mass;
+
+      this.solveGroundRotate(entity,posX,posY);
     }
   }
 
