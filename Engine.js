@@ -253,11 +253,11 @@ class Engine extends EventTarget {
     const targetSpeed = Math.sqrt(source.speedX**2 + source.speedY**2);
 
     if(angle > 0){
-      source.rotateSpeed -= (1/rotate + targetSpeed)/50;
-      target.rotateSpeed += (1/rotate + sourceSpeed)/50;
+      source.rotateSpeed -= (1/rotate + targetSpeed)/30;
+      target.rotateSpeed += (1/rotate + sourceSpeed)/30;
     }else if(angle < 0){
-      source.rotateSpeed += (1/rotate + targetSpeed)/50;
-      target.rotateSpeed -= (1/rotate + sourceSpeed)/50;
+      source.rotateSpeed += (1/rotate + targetSpeed)/30;
+      target.rotateSpeed -= (1/rotate + sourceSpeed)/30;
     }
   }
 
@@ -279,9 +279,9 @@ class Engine extends EventTarget {
 
     const entitySpeed = Math.sqrt(entity.speedX**2 + entity.speedY**2);
     if(angle > 0){
-      entity.rotateSpeed += (1/rotate + entitySpeed)/50;
+      entity.rotateSpeed += (1/rotate + entitySpeed)/30;
     }else if(angle < 0){
-      entity.rotateSpeed -= (1/rotate + entitySpeed)/50;
+      entity.rotateSpeed -= (1/rotate + entitySpeed)/30;
     }
   }
 
