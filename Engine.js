@@ -234,6 +234,10 @@ class Engine extends EventTarget {
     entity.rotateSpeed += -entity.rotateSpeed*rate*(1/this.fps);
   }
 
+  /**
+   * @param {Entity} source 変更するエンティティークラス
+   * @param {Entity} target 変更するエンティティークラス
+   */
   solveRotate(source,target){
     const vecX = target.posX - source.posX;
     const vecY = target.posY - source.posY;
@@ -260,6 +264,11 @@ class Engine extends EventTarget {
     }
   }
 
+  /**
+   * @param {Entity} entity 変更するエンティティークラス
+   * @param {Number} posX 計算対象のX座標
+   * @param {Number} posY 計算対象のY座標
+   */
   solveGroundRotate(entity,posX,posY){
     const vecX = posX - entity.posX;
     const vecY = posY - entity.posY;
@@ -275,7 +284,6 @@ class Engine extends EventTarget {
     const rotate = Math.acos((vecX*vecSpeedX + vecY*vecSpeedY)/(vecSize*speedSize))*(180/Math.PI);
 
     const sourceSpeed = Math.sqrt(entity.speedX**2 + entity.speedY**2);
-
     if(angle > 0){
       entity.rotateSpeed -= 1/rotate + sourceSpeed;
     }else if(angle < 0){
