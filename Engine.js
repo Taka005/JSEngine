@@ -1,18 +1,30 @@
+/**
+ * @file 物理エンジン
+ * @copyright Taka 2024
+ * @license GPL3.0
+ */
+
+/**
+ * 物理エンジンクラス
+ * @extends EventTarget
+ */
 class Engine extends EventTarget {
   /**
    * @param {Element} canvas 適用するCanvasエレメント
    * @param {Object} option オプション
-   * @param {Number} option.fps 描画FPS
+   * @param {Number} option.fps 1秒あたりの描画数
+   * @param {Number} option.pps 1秒あたりの処理数
    * @param {Number} option.gravity 重力加速度
    * @param {Number} option.friction 摩擦係数
    */
-  constructor(canvas,{fps = 180, gravity = 500, friction = 0.001} = {}){
+  constructor(canvas,{ fps = 60, pps = 180, gravity = 500, friction = 0.001 } = {}){
     super();
 
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
-    this.fps = fps
+    this.fps = fps;
+    this.pps = pps;
     this.gravity = gravity;
     this.friction = friction;
 
@@ -27,9 +39,14 @@ class Engine extends EventTarget {
 
     setInterval(()=>{
       this.draw();
-    },16);
+    },1000/this.fps);
   }
 
+  /**
+   * ランダムな文字列を生成
+   * @param {Number} length 生成する文字数
+   * @returns {String} 生成された文字列
+   */
   createId(length){
     const str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let id = "";
@@ -40,13 +57,16 @@ class Engine extends EventTarget {
     return id;
   }
 
+  /**
+   * 処理を開始
+   */
   start(){
     if(this.isStart) return;
     this.isStart = true;
 
     this.loop = setInterval(()=>{
       this.update();
-    },1000/this.fps);
+    },1000/this.pps);
 
     this.trackLoop = setInterval(()=>{
       Object.values(this.entities).forEach(entity=>{
@@ -55,6 +75,9 @@ class Engine extends EventTarget {
     },100);
   }
 
+  /**
+   * 処理を停止
+   */
   stop(){
     if(!this.isStart) return;
     this.isStart = false;
@@ -63,6 +86,9 @@ class Engine extends EventTarget {
     clearInterval(this.trackLoop);
   }
 
+  /**
+   * 物体を更新
+   */
   update(){
     Object.values(this.entities).forEach(entity=>{
       this.updatePosition(entity);
@@ -95,6 +121,9 @@ class Engine extends EventTarget {
     });
   }
 
+  /**
+   * 物体を描画
+   */
   draw(){
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
@@ -122,6 +151,7 @@ class Engine extends EventTarget {
   }
 
   /**
+   * 物体の生成
    * @param {String} type 生成物体の種類
    * @param {Array} data 生成データの配列(Entityクラスを参照してください)
    */
@@ -137,6 +167,19 @@ class Engine extends EventTarget {
     });
   }
 
+  /**
+   * 指定された物体の再生成
+   * @param {String} name 再生成する物体名
+   * @param {Object} data 生成データ
+   * @param {Number} data.posX X位置
+   * @param {Number} data.posY Y座標
+   * @param {Number} data.size 大きさ
+   * @param {Number} data.mass 質量
+   * @param {Number} data.stiff 剛性
+   * @param {Number} data.speedX X速度
+   * @param {Number} data.speedY Y速度
+   * @returns {Entity} 再生成されたエンティティークラス
+   */
   reSpawn(name,{ posX, posY, size, mass, stiff, speedX, speedY, image }){
     const entity = this.entities[name];
     if(!entity) throw new Error("存在しないエンティティー名です");
@@ -156,6 +199,7 @@ class Engine extends EventTarget {
   }
 
   /**
+   * 物体の削除
    * @param {String} name 削除する物体名
    */
   deSpawn(type,name){
@@ -167,6 +211,7 @@ class Engine extends EventTarget {
   }
 
   /**
+   * 位置の計算
    * @param {Entity} source 計算する対象
    * @param {Entity} target 計算する対象
    */
@@ -199,6 +244,7 @@ class Engine extends EventTarget {
   }
 
   /**
+   * 地面との位置計算
    * @param {Entity} entity 計算する対象
    * @param {Ground} ground 計算する地面
    */
@@ -223,18 +269,20 @@ class Engine extends EventTarget {
   }
 
   /**
+   * 速度の計算
    * @param {Entity} entity 変更するエンティティークラス
    */
   solveSpeed(entity){
     const rate = this.friction*entity.size*entity.mass;
 
-    entity.speedX += -entity.speedX*rate*(1/this.fps);
-    entity.speedY += -entity.speedY*rate*(1/this.fps);
+    entity.speedX += -entity.speedX*rate*(1/this.pps);
+    entity.speedY += -entity.speedY*rate*(1/this.pps);
 
-    entity.rotateSpeed += -entity.rotateSpeed*rate*(1/this.fps);
+    entity.rotateSpeed += -entity.rotateSpeed*rate*(1/this.pps);
   }
 
   /**
+   * 回転の計算
    * @param {Entity} source 変更するエンティティークラス
    * @param {Entity} target 変更するエンティティークラス
    */
@@ -260,6 +308,7 @@ class Engine extends EventTarget {
   }
 
   /**
+   * 地面との回転の計算
    * @param {Entity} entity 変更するエンティティークラス
    * @param {Number} posX 計算対象のX座標
    * @param {Number} posY 計算対象のY座標
@@ -283,34 +332,40 @@ class Engine extends EventTarget {
   }
 
   /**
+   * 速度の更新
    * @param {Entity} entity 変更するエンティティークラス
    */
   updateSpeed(entity){
-    entity.speedX = (entity.posX - entity.prePosX)/(1/this.fps);
-    entity.speedY = (entity.posY - entity.prePosY)/(1/this.fps);
+    entity.speedX = (entity.posX - entity.prePosX)/(1/this.pps);
+    entity.speedY = (entity.posY - entity.prePosY)/(1/this.pps);
 
     if(entity.mass !== 0){
-      entity.speedY += this.gravity*(1/this.fps);
+      entity.speedY += this.gravity*(1/this.pss);
     }
   }
 
   /**
+   * 位置の更新
    * @param {Entity} entity 変更するエンティティークラス
    */
   updatePosition(entity){
     entity.savePosition();
 
-    entity.posX += entity.speedX*(1/this.fps);
-    entity.posY += entity.speedY*(1/this.fps);
+    entity.posX += entity.speedX*(1/this.pps);
+    entity.posY += entity.speedY*(1/this.pps);
   }
 
   /**
+   * 回転の更新
    * @param {Entity} entity 変更するエンティティークラス
    */
   updateRotate(entity){
-    entity.rotate += entity.rotateSpeed*(1/this.fps);
+    entity.rotate += entity.rotateSpeed*(1/this.pps);
   }
 
+  /**
+   * グリッドの描画
+   */
   drawSquares(){
     this.ctx.beginPath();
 
@@ -330,6 +385,7 @@ class Engine extends EventTarget {
   }
 
   /**
+   * データの出力
    * @returns {String} エクスポートデータ
    */
   export(){
@@ -342,6 +398,7 @@ class Engine extends EventTarget {
   }
 
   /**
+   * データの入力
    * @param {Object} data エクスポートデータ
    */
   import(data){
@@ -357,6 +414,9 @@ class Engine extends EventTarget {
   }
 }
 
+/**
+ * エンティティークラス
+ */
 class Entity{
   /**
    * @param {Object} data エンティティーデータ
@@ -400,12 +460,16 @@ class Entity{
     this.stiff = stiff;
   }
 
+  /**
+   * 位置の保存
+   */
   savePosition(){
     this.prePosX = this.posX;
     this.prePosY = this.posY;
   }
 
   /**
+   * 物体を描画
    * @param {CanvasRenderingContext2D} ctx Canvas
    */
   draw(ctx){
@@ -440,6 +504,10 @@ class Entity{
     }
   }
 
+  /**
+   * 速度ベクトルを描画
+   * @param {CanvasRenderingContext2D} ctx Canvas
+   */
   drawVector(ctx){
     ctx.beginPath();
     ctx.moveTo(this.posX,this.posY);
@@ -450,6 +518,9 @@ class Entity{
   }
 }
 
+/**
+ * 地面クラス
+ */
 class Ground{
   /**
    * @param {Object} data エンティティーデータ
@@ -474,7 +545,7 @@ class Ground{
   }
 
   /**
-   *
+   * 位置の計算
    * @param {Number} posX 対象のX座標
    * @param {Number} posY 対象のY座標
    * @returns {Object} 接触座標
@@ -507,6 +578,7 @@ class Ground{
   }
 
   /**
+   * 物体の描画
    * @param {CanvasRenderingContext2D} ctx Canvas
    */
   draw(ctx){
@@ -535,7 +607,13 @@ class Ground{
   }
 }
 
+/**
+ * トラッカークラス
+ */
 class Track{
+  /**
+   * @param {Entity} entity Entityクラス
+   */
   constructor(entity){
     this.posX = entity.posX;
     this.posY = entity.posY;
@@ -544,8 +622,9 @@ class Track{
   }
 
   /**
- * @param {CanvasRenderingContext2D} ctx Canvas
- */
+   * トラッカーの描画
+   * @param {CanvasRenderingContext2D} ctx Canvas
+   */
   draw(ctx){
     if(this.img){
       ctx.drawImage(
