@@ -495,7 +495,7 @@ class Entity{
 
       ctx.beginPath();
       ctx.moveTo(0,0);
-      ctx.lineTo(0,this.size);
+      ctx.lineTo(this.size,0);
       ctx.strokeStyle = "black";
       ctx.lineWidth = 1;
       ctx.stroke();
