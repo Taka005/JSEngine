@@ -404,8 +404,6 @@ class Entity{
       ctx.translate(this.posX,this.posY);
       ctx.rotate(this.rotate*(Math.PI/180));
 
-      ctx.restore();
-
       ctx.beginPath();
       ctx.arc(0,0,this.size,0,2*Math.PI);
       ctx.strokeStyle = "red";
