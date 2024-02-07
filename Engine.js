@@ -244,10 +244,10 @@ class Engine extends EventTarget {
 
     const angle = vecX*(-vecSpeedY) + vecY*vecSpeedX;
 
-    const rotate = Math.acos((vecX*vecSpeedX + vecY*vecSpeedY)/(vecSize*speedSize));
+    const rotate = Math.acos((vecX*vecSpeedX + vecY*vecSpeedY)/(vecSize*speedSize))*(180/Math.PI);
 
-    const sourceSpeed = Math.sqrt(target.speedX**2 + target.speedY**2)*(1/this.fps);
-    const targetSpeed = Math.sqrt(source.speedX**2 + source.speedY**2)*(1/this.fps);
+    const sourceSpeed = Math.sqrt(target.speedX**2 + target.speedY**2);
+    const targetSpeed = Math.sqrt(source.speedX**2 + source.speedY**2);
 
     if(angle > 0){
       source.rotateSpeed -= 1/rotate + targetSpeed;
