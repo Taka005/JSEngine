@@ -399,6 +399,11 @@ class Entity{
         this.posY - this.img.height/2
       );
     }else{
+      ctx.save();
+
+      ctx.translate(this.posX,this.posY);
+      ctx.rotate(this.rotate*(Math.PI/180));
+
       ctx.beginPath();
       ctx.arc(this.posX,this.posY,this.size,0,2*Math.PI);
       ctx.strokeStyle = "red";
@@ -414,9 +419,6 @@ class Entity{
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      ctx.save();
-      ctx.translate(this.posX,this.posY);
-      ctx.rotate(this.rotate*(Math.PI/180));
       ctx.restore();
     }
   }
