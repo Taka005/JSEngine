@@ -404,6 +404,8 @@ class Entity{
       ctx.translate(this.posX,this.posY);
       ctx.rotate(this.rotate*(Math.PI/180));
 
+      ctx.restore();
+
       ctx.beginPath();
       ctx.arc(this.posX,this.posY,this.size,0,2*Math.PI);
       ctx.strokeStyle = "red";
@@ -418,8 +420,6 @@ class Entity{
       ctx.strokeStyle = "black";
       ctx.lineWidth = 1;
       ctx.stroke();
-
-      ctx.restore();
     }
   }
 
