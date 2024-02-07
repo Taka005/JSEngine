@@ -407,7 +407,7 @@ class Entity{
       ctx.restore();
 
       ctx.beginPath();
-      ctx.arc(this.posX,this.posY,this.size,0,2*Math.PI);
+      ctx.arc(0,0,this.size,0,2*Math.PI);
       ctx.strokeStyle = "red";
       ctx.fillStyle = "red";
       ctx.lineWidth = 1;
@@ -415,11 +415,13 @@ class Entity{
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.moveTo(this.posX,this.posY);
-      ctx.lineTo(this.posX + this.size,this.posY);
+      ctx.moveTo(0,0);
+      ctx.lineTo(this.size,0);
       ctx.strokeStyle = "black";
       ctx.lineWidth = 1;
       ctx.stroke();
+
+      ctx.restore();
     }
   }
 
