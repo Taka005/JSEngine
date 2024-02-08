@@ -128,7 +128,7 @@ class Engine extends EventTarget {
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
     if(this.isDebug){
-      this.drawSquares();
+      this.drawGrid();
 
       Object.values(this.entities).forEach(entity=>{
         entity.drawVector(this.ctx);
@@ -178,9 +178,11 @@ class Engine extends EventTarget {
    * @param {Number} data.stiff 剛性
    * @param {Number} data.speedX X速度
    * @param {Number} data.speedY Y速度
+   * @param {Number} data.rotate 回転角度
+   * @param {Number} data.rotateSpeed 回転速度
    * @returns {Entity} 再生成されたエンティティークラス
    */
-  reSpawn(name,{ posX, posY, size, mass, stiff, speedX, speedY, image }){
+  reSpawn(name,{ posX, posY, size, mass, stiff, speedX, speedY, rotate, rotateSpeed, image }){
     const entity = this.entities[name];
     if(!entity) throw new Error("存在しないエンティティー名です");
 
@@ -192,6 +194,8 @@ class Engine extends EventTarget {
       stiff: stiff||entity.stiff,
       speedX: speedX||entity.speedX,
       speedX: speedY||entity.speedY,
+      rotate: rotate||entity.rotate,
+      rotateSpeed: rotateSpeed||entity.rotateSpeed,
       image: image||entity.image
     });
 
@@ -257,6 +261,11 @@ class Engine extends EventTarget {
 
     const distance = Math.sqrt(vecX**2 + vecY**2);
     if(distance <= entity.size + ground.size/2){
+      this.dispatchEvent(new CustomEvent("hit",{
+        source: entity,
+        target: ground
+      }));
+
       const move = (distance - (entity.size + ground.size/2))/(distance*entity.mass + 0.000001)*entity.stiff;
       vecX *= move;
       vecY *= move;
@@ -366,7 +375,7 @@ class Engine extends EventTarget {
   /**
    * グリッドの描画
    */
-  drawSquares(){
+  drawGrid(){
     this.ctx.beginPath();
 
     for(let x = 0;x < this.canvas.width;x += 25){

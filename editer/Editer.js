@@ -43,7 +43,7 @@ class Editer{
   draw(){
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
-    this.drawSquares();
+    this.drawGrid();
 
     Object.values(this.grounds).forEach(ground=>{
       ground.draw(this.ctx);
@@ -74,7 +74,7 @@ class Editer{
     }
   }
 
-  drawSquares(){
+  drawGrid(){
     this.ctx.beginPath();
 
     for(let x = 0;x < this.canvas.width;x += 25){
