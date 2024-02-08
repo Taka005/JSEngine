@@ -340,7 +340,7 @@ class Engine extends EventTarget {
     entity.speedY = (entity.posY - entity.prePosY)/(1/this.pps);
 
     if(entity.mass !== 0){
-      entity.speedY += this.gravity*(1/this.pss);
+      entity.speedY += this.gravity*(1/this.pps);
     }
   }
 

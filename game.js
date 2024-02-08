@@ -1,7 +1,5 @@
 const canvas = document.getElementById("game");
-const engine = new Engine(canvas,{
-
-});
+const engine = new Engine(canvas);
 
 engine.start();
 
