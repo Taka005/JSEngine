@@ -481,7 +481,7 @@ class Entity{
       );
     }else{
       ctx.save();
-
+      console.log(this.posX,this.posY)
       ctx.translate(this.posX,this.posY);
       ctx.rotate(this.rotate*(Math.PI/180));
 
