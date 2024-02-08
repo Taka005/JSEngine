@@ -311,11 +311,11 @@ class Engine extends EventTarget {
     const rotate = Math.acos((vecX*source.speedX + vecY*source.speedY)/(vecSize*sourceSpeed))*(180/Math.PI);
 
     if(angle > 0){
-      source.rotateSpeed -= 300/rotate;
-      target.rotateSpeed += 300/rotate;
+      source.rotateSpeed -= 200/rotate;
+      target.rotateSpeed += 200/rotate;
     }else if(angle < 0){
-      source.rotateSpeed += 300/rotate;
-      target.rotateSpeed -= 300/rotate;
+      source.rotateSpeed += 200/rotate;
+      target.rotateSpeed -= 200/rotate;
     }
   }
 
