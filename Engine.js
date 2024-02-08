@@ -288,6 +288,7 @@ class Engine extends EventTarget {
     entity.speedY += -entity.speedY*rate*(1/this.pps);
 
     entity.rotateSpeed += -entity.rotateSpeed*rate*(1/this.pps);
+    console.log(entity.rotateSpeed)
   }
 
   /**
@@ -311,8 +312,8 @@ class Engine extends EventTarget {
       source.rotateSpeed -= 100/rotate//*targetSpeed);
       target.rotateSpeed += 100/rotate//*sourceSpeed);
     }else if(angle < 0){
-      source.rotateSpeed += 100/rotate//*targetSpeed);
-      target.rotateSpeed -= 100/rotate//*sourceSpeed);
+      source.rotateSpeed += 100/rotate;
+      target.rotateSpeed -= 100/rotate;
     }
   }
 
@@ -334,9 +335,9 @@ class Engine extends EventTarget {
     const rotate = Math.acos((vecX*entity.speedX + vecY*entity.speedY)/(vecSize*entitySpeed))*(180/Math.PI);
 
     if(angle > 0){
-      entity.rotateSpeed += rotate/50//*entitySpeed/100;
+      entity.rotateSpeed += rotate/50;
     }else if(angle < 0){
-      entity.rotateSpeed -= rotate/50//*entitySpeed/100;
+      entity.rotateSpeed -= rotate/50;
     }
   }
 
