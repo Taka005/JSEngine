@@ -288,8 +288,8 @@ class Engine extends EventTarget {
     entity.speedY += -entity.speedY*rate*(1/this.pps);
 
     entity.rotateSpeed += -entity.rotateSpeed*rate*(1/this.pps);
-    if(entity.rotateSpeed > 800){
-      entity.rotateSpeed = 800;
+    if(entity.rotateSpeed > 500){
+      entity.rotateSpeed = 500;
     }
   }
 
@@ -304,7 +304,6 @@ class Engine extends EventTarget {
 
     const vecSize = Math.sqrt(vecX**2 + vecY**2);
     const sourceSpeed = Math.sqrt(source.speedX**2 + source.speedY**2);
-    const targetSpeed = Math.sqrt(target.speedX**2 + target.speedY**2);
 
     const angle = vecX*(-source.speedY) + vecY*source.speedX;
 
