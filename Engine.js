@@ -288,7 +288,9 @@ class Engine extends EventTarget {
     entity.speedY += -entity.speedY*rate*(1/this.pps);
 
     entity.rotateSpeed += -entity.rotateSpeed*rate*(1/this.pps);
-    console.log(entity.rotateSpeed)
+    if(entity.rotateSpeed > 800){
+      entity.rotateSpeed = 800;
+    }
   }
 
   /**
