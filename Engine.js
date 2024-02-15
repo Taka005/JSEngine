@@ -441,9 +441,10 @@ class Entity{
    * @param {Number} data.speedY Y速度
    * @param {Number} data.rotate 回転角度
    * @param {Number} data.rotateSpeed 回転速度
+   * @param {String} data.color 表示色
    * @param {String} data.image 表示画像
    */
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, image = null }){
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, color = "red", image = null }){
     if(size < 0) throw new Error("サイズは0以上にしてください");
     if(mass < 0) throw new Error("質量は0以上にしてください");
     if(stiff < 0 || stiff > 1) throw new Error("剛性は0以上1以下にしてください");
@@ -451,6 +452,8 @@ class Entity{
     if(image){
       this.img = new Image();
       this.img.src = image;
+    }else{
+      this.color = color;
     }
 
     this.name = name;
@@ -497,8 +500,8 @@ class Entity{
     }else{
       ctx.beginPath();
       ctx.arc(0,0,this.size,0,2*Math.PI);
-      ctx.strokeStyle = "red";
-      ctx.fillStyle = "red";
+      ctx.strokeStyle = this.color;
+      ctx.fillStyle = this.color;
       ctx.lineWidth = 1;
       ctx.fill();
       ctx.stroke();
