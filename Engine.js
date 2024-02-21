@@ -288,8 +288,8 @@ class Engine extends EventTarget {
     entity.speedY += -entity.speedY*rate*(1/this.pps);
 
     entity.rotateSpeed += -entity.rotateSpeed*rate*(1/this.pps);
-    if(entity.rotateSpeed > 500){
-      entity.rotateSpeed = 500;
+    if(Math.abs(entity.rotateSpeed) > 500){
+      entity.rotateSpeed = Math.sign(entity.rotateSpeed)*500;
     }
   }
 
