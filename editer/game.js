@@ -26,6 +26,8 @@ const save = document.getElementById("save");
 const load = document.getElementById("load");
 const link = document.getElementById("link");
 
+const dataFile = document.getElementById("dataFile");
+
 gravityValue.textContent = gravityInput.value;
 frictionValue.textContent = frictionInput.value;
 toolValue.textContent = toolInput.value;
@@ -77,6 +79,23 @@ load.addEventListener("click",()=>{
 
   frictionValue.textContent = data.friction;
   frictionInput.value = data.friction;
+});
+
+dataFile.addEventListener("change",(event)=>{
+  const reader = new FileReader();
+  reader.readAsText(event.target.files[0]);
+  reader.addEventListener("load",()=>{
+    data = JSON.parse(reader.result);
+
+    saveData = reader.result;
+    engine.import(data);
+
+    gravityValue.textContent = data.gravity;
+    gravityInput.value = data.gravity;
+
+    frictionValue.textContent = data.friction;
+    frictionInput.value = data.friction;
+  });
 });
 
 canvas.addEventListener("mousedown",(event)=>{
