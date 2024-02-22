@@ -88,7 +88,7 @@ dataFile.addEventListener("change",(event)=>{
     data = JSON.parse(reader.result);
 
     saveData = reader.result;
-    engine.import(data);
+    editer.import(data);
 
     gravityValue.textContent = data.gravity;
     gravityInput.value = data.gravity;
