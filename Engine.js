@@ -31,6 +31,7 @@ class Engine extends EventTarget {
     this.entities = {};
     this.grounds = {};
     this.tracks = [];
+    this.connect = [];
 
     this.isStart = false;
 
@@ -105,13 +106,6 @@ class Engine extends EventTarget {
 
         this.solvePosition(entity,target);
       });
-
-      entity.targets.forEach(targetId=>{
-        const target = this.get("entity",targetId);
-        if(!target) return this.deSpawn("entity",targetId);
-
-        this.solveConnect(entity,target);
-      });
     });
 
     Object.values(this.entities).forEach(entity=>{
@@ -125,6 +119,17 @@ class Engine extends EventTarget {
       this.dispatchEvent(new CustomEvent("update",{
         entity: entity
       }));
+    });
+
+    this.connect.forEach(data=>{
+      const source = this.get("entity",data.sourceId);
+      const target = this.get("entity",data.targetId);
+
+      if(!source||!target){
+        return this.deleteConnect(data.sourceId,data.targetId);
+      }
+
+      this.solveConnect(source,target,data.distance,data.stiff);
     });
   }
 
@@ -363,7 +368,7 @@ class Engine extends EventTarget {
     }
   }
 
-  solveConnect(source,target){
+  solveConnect(source,target,connectDistance,connectStiff){
     const totalMass = source.mass + target.mass;
     if(totalMass === 0) return;
 
@@ -372,7 +377,7 @@ class Engine extends EventTarget {
 
     const distance = Math.sqrt(vecX**2 + vecY**2);
 
-    const move = (distance - source.connectDistance)/(distance*totalMass + 0.000001)*source.connectStiff;
+    const move = (distance - connectDistance)/(distance*totalMass + 0.000001)*connectStiff;
     vecX *= move;
     vecY *= move;
 
@@ -413,6 +418,25 @@ class Engine extends EventTarget {
    */
   updateRotate(entity){
     entity.rotate += entity.rotateSpeed*(1/this.pps);
+  }
+
+  /**
+   * 物体と物体を接続します
+   * @param {Array} data 接続データ
+   */
+  createConnect(data){
+    data.forEach(connect=>{
+      this.connect.push(connect);
+    });
+  }
+
+  /**
+   * 物体の接続を解除します
+   * @param {String} sourceId ターゲットの物体名
+   * @param {String} targetId ターゲットの物体名
+   */
+  deleteConnect(sourceId,targetId){
+    this.connect = this.connect.filter(connect=>connect.sourceId !== sourceId&&connect.targetId !== targetId);
   }
 
   /**
@@ -484,11 +508,8 @@ class Entity{
    * @param {Number} data.rotateSpeed 回転速度
    * @param {String} data.color 表示色
    * @param {String} data.image 表示画像
-   * @param {Number} data.connectStiff 接続時の剛性(0以上1以下)
-   * @param {Number} data.connectDistance 接続距離
-   * @param {Array} data.targets 接続するエンティティー名の配列
    */
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, color = "red", image = null, connectStiff = 1, connectDistance = 0, targets = [] }){
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, color = "red", image = null }){
     if(size < 0) throw new Error("サイズは0以上にしてください");
     if(mass < 0) throw new Error("質量は0以上にしてください");
     if(stiff < 0 || stiff > 1) throw new Error("剛性は0以上1以下にしてください");
@@ -516,10 +537,6 @@ class Entity{
     this.size = size;
     this.mass = mass;
     this.stiff = stiff;
-
-    this.connectStiff = connectStiff;
-    this.connectDistance = connectDistance;
-    this.targets = targets;
   }
 
   /**
