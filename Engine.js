@@ -160,54 +160,18 @@ class Engine extends EventTarget {
   /**
    * 物体の生成
    * @param {String} type 生成物体の種類
-   * @param {Array} data 生成データの配列(Entityクラスを参照してください)
+   * @param {Array} objects 生成データの配列(Entityクラスを参照してください)
    */
-  spawn(type,data){
-    data.forEach(d=>{
-      d.name = d.name || this.createId(8);
+  spawn(type,objects){
+    objects.forEach(object=>{
+      object.name = object.name || this.createId(8);
 
       if(type === "entity"){
-        this.entities[d.name] = new Entity(d);
+        this.entities[object.name] = new Entity(object);
       }else if(type === "ground"){
-        this.grounds[d.name] = new Ground(d);
+        this.grounds[object.name] = new Ground(object);
       }
     });
-  }
-
-  /**
-   * 指定された物体の再生成
-   * @param {String} name 再生成する物体名
-   * @param {Object} data 生成データ
-   * @param {Number} data.posX X位置
-   * @param {Number} data.posY Y座標
-   * @param {Number} data.size 大きさ
-   * @param {Number} data.mass 質量
-   * @param {Number} data.stiff 剛性
-   * @param {Number} data.speedX X速度
-   * @param {Number} data.speedY Y速度
-   * @param {Number} data.rotate 回転角度
-   * @param {Number} data.rotateSpeed 回転速度
-   * @returns {Entity} 再生成されたエンティティークラス
-   */
-  reSpawn(name,{ posX, posY, size, mass, stiff, speedX, speedY, rotate, rotateSpeed, targets, image }){
-    const entity = this.entities[name];
-    if(!entity) throw new Error("存在しないエンティティー名です");
-
-    this.entities[name] = new Entity({
-      posX: posX||entity.posX,
-      posX: posY||entity.posY,
-      size: size||entity.size,
-      mass: mass||entity.mass,
-      stiff: stiff||entity.stiff,
-      speedX: speedX||entity.speedX,
-      speedX: speedY||entity.speedY,
-      rotate: rotate||entity.rotate,
-      rotateSpeed: rotateSpeed||entity.rotateSpeed,
-      targets: targets||entity.targets,
-      image: image||entity.image
-    });
-
-    return this.entities[name];
   }
 
   /**
