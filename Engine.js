@@ -108,10 +108,9 @@ class Engine extends EventTarget {
 
       entity.targets.forEach(target=>{
         const target = this.get("entity",target.name);
+        if(!target) return;
 
-        if(!target) return this.deleteConnect(data.sourceId,data.targetId);
-
-        this.solveConnect(source,target,data.distance,data.stiff);
+        this.solveConnect(entity,target,data.distance,data.stiff);
       });
     });
 
