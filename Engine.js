@@ -270,10 +270,11 @@ class Engine extends EventTarget {
   solveSpeed(entity){
     const rate = this.friction*entity.size*entity.mass;
 
-    entity.speedX += -entity.speedX*rate*(1/this.pps);
-    entity.speedY += -entity.speedY*rate*(1/this.pps);
+    entity.speedX -= entity.speedX*rate*(1/this.pps);
+    entity.speedY -= entity.speedY*rate*(1/this.pps);
 
-    entity.rotateSpeed += -entity.rotateSpeed*rate*(1/this.pps);
+    entity.rotateSpeed -= entity.rotateSpeed*rate*(1/this.pps);
+
     if(Math.abs(entity.rotateSpeed) > 500){
       entity.rotateSpeed = Math.sign(entity.rotateSpeed)*500;
     }
