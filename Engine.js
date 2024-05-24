@@ -189,7 +189,7 @@ class Engine extends EventTarget {
    * @param {Number} data.rotateSpeed 回転速度
    * @returns {Entity} 再生成されたエンティティークラス
    */
-  reSpawn(name,{ posX, posY, size, mass, stiff, speedX, speedY, rotate, rotateSpeed, image }){
+  reSpawn(name,{ posX, posY, size, mass, stiff, speedX, speedY, rotate, rotateSpeed, targets, image }){
     const entity = this.entities[name];
     if(!entity) throw new Error("存在しないエンティティー名です");
 
@@ -203,6 +203,7 @@ class Engine extends EventTarget {
       speedX: speedY||entity.speedY,
       rotate: rotate||entity.rotate,
       rotateSpeed: rotateSpeed||entity.rotateSpeed,
+      targets: targets||entity.targets,
       image: image||entity.image
     });
 
@@ -421,14 +422,14 @@ class Engine extends EventTarget {
   drawGrid(){
     this.ctx.beginPath();
 
-    for(let x = 0;x < this.canvas.width;x += 25){
-      this.ctx.moveTo(x,0);
-      this.ctx.lineTo(x,this.canvas.height);
+    for(let posX = 0;posX < this.canvas.width;posX += 25){
+      this.ctx.moveTo(posX,0);
+      this.ctx.lineTo(posX,this.canvas.height);
     }
 
-    for(let y = 0;y < this.canvas.height;y += 25){
-      this.ctx.moveTo(0,y);
-      this.ctx.lineTo(this.canvas.width,y);
+    for(let posY = 0;posY < this.canvas.height;posY += 25){
+      this.ctx.moveTo(0,posY);
+      this.ctx.lineTo(this.canvas.width,posY);
     }
 
     this.ctx.strokeStyle = "black";
