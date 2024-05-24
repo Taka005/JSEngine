@@ -31,7 +31,6 @@ class Engine extends EventTarget {
     this.entities = {};
     this.grounds = {};
     this.tracks = [];
-    this.connect = [];
 
     this.isStart = false;
 
@@ -106,6 +105,14 @@ class Engine extends EventTarget {
 
         this.solvePosition(entity,target);
       });
+
+      entity.targets.forEach(target=>{
+        const target = this.get("entity",target.name);
+
+        if(!target) return this.deleteConnect(data.sourceId,data.targetId);
+
+        this.solveConnect(source,target,data.distance,data.stiff);
+      });
     });
 
     Object.values(this.entities).forEach(entity=>{
@@ -119,17 +126,6 @@ class Engine extends EventTarget {
       this.dispatchEvent(new CustomEvent("update",{
         entity: entity
       }));
-    });
-
-    this.connect.forEach(data=>{
-      const source = this.get("entity",data.sourceId);
-      const target = this.get("entity",data.targetId);
-
-      if(!source||!target){
-        return this.deleteConnect(data.sourceId,data.targetId);
-      }
-
-      this.solveConnect(source,target,data.distance,data.stiff);
     });
   }
 
@@ -421,25 +417,6 @@ class Engine extends EventTarget {
   }
 
   /**
-   * 物体と物体を接続します
-   * @param {Array} data 接続データ
-   */
-  createConnect(data){
-    data.forEach(connect=>{
-      this.connect.push(connect);
-    });
-  }
-
-  /**
-   * 物体の接続を解除します
-   * @param {String} sourceId ターゲットの物体名
-   * @param {String} targetId ターゲットの物体名
-   */
-  deleteConnect(sourceId,targetId){
-    this.connect = this.connect.filter(connect=>connect.sourceId !== sourceId&&connect.targetId !== targetId);
-  }
-
-  /**
    * グリッドの描画
    */
   drawGrid(){
@@ -509,7 +486,7 @@ class Entity{
    * @param {String} data.color 表示色
    * @param {String} data.image 表示画像
    */
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, color = "red", image = null }){
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, targets = [], color = "red", image = null }){
     if(size < 0) throw new Error("サイズは0以上にしてください");
     if(mass < 0) throw new Error("質量は0以上にしてください");
     if(stiff < 0 || stiff > 1) throw new Error("剛性は0以上1以下にしてください");
@@ -537,6 +514,8 @@ class Entity{
     this.size = size;
     this.mass = mass;
     this.stiff = stiff;
+
+    this.targets = targets;
   }
 
   /**
