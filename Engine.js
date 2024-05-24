@@ -105,6 +105,13 @@ class Engine extends EventTarget {
 
         this.solvePosition(entity,target);
       });
+
+      entity.targets.forEach(targetId=>{
+        const target = this.get("entity",targetId);
+        if(!target) return this.deSpawn("entity",targetId);
+
+        this.solveConnect(entity,target);
+      });
     });
 
     Object.values(this.entities).forEach(entity=>{
@@ -112,7 +119,7 @@ class Engine extends EventTarget {
       this.solveSpeed(entity);
 
       if(entity.posY > this.canvas.height+100){
-        this.deSpawn("entity",entity.name)
+        this.deSpawn("entity",entity.name);
       }
 
       this.dispatchEvent(new CustomEvent("update",{
@@ -204,6 +211,7 @@ class Engine extends EventTarget {
 
   /**
    * 物体の削除
+   * @param {String} type 削除するタイプ
    * @param {String} name 削除する物体名
    */
   deSpawn(type,name){
@@ -211,6 +219,19 @@ class Engine extends EventTarget {
       delete this.entities[name];
     }else if(type === "ground"){
       delete this.grounds[name];
+    }
+  }
+
+  /**
+   *
+   * @param {String} type 取得するタイプ
+   * @param {String} name 取得する物体名
+   */
+  get(type,name){
+    if(type === "entity"){
+      return this.entities[name];
+    }else if(type === "ground"){
+      return this.grounds[name];
     }
   }
 
@@ -342,6 +363,26 @@ class Engine extends EventTarget {
     }
   }
 
+  solveConnect(source,target){
+    const totalMass = source.mass + target.mass;
+    if(totalMass === 0) return;
+
+    let vecX = target.posX - source.posX;
+    let vecY = target.posY - source.posY;
+
+    const distance = Math.sqrt(vecX**2 + vecY**2);
+
+    const move = (distance - source.connectDistance)/(distance*totalMass + 0.000001)*source.connectStiff;
+    vecX *= move;
+    vecY *= move;
+
+    source.posX += vecX*source.mass;
+    source.posY += vecY*source.mass;
+
+    target.posX -= vecX*target.mass;
+    target.posY -= vecY*target.mass;
+  }
+
   /**
    * 速度の更新
    * @param {Entity} entity 変更するエンティティークラス
@@ -443,8 +484,11 @@ class Entity{
    * @param {Number} data.rotateSpeed 回転速度
    * @param {String} data.color 表示色
    * @param {String} data.image 表示画像
+   * @param {Number} data.connectStiff 接続時の剛性(0以上1以下)
+   * @param {Number} data.connectDistance 接続距離
+   * @param {Array} data.targets 接続するエンティティー名の配列
    */
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, color = "red", image = null }){
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, color = "red", image = null, connectStiff = 1, connectDistance = 0, targets = [] }){
     if(size < 0) throw new Error("サイズは0以上にしてください");
     if(mass < 0) throw new Error("質量は0以上にしてください");
     if(stiff < 0 || stiff > 1) throw new Error("剛性は0以上1以下にしてください");
@@ -472,6 +516,10 @@ class Entity{
     this.size = size;
     this.mass = mass;
     this.stiff = stiff;
+
+    this.connectStiff = connectStiff;
+    this.connectDistance = connectDistance;
+    this.targets = targets;
   }
 
   /**
