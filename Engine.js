@@ -106,8 +106,8 @@ class Engine extends EventTarget {
         this.solvePosition(entity,target);
       });
 
-      entity.targets.forEach(target=>{
-        const target = this.get("entity",target.name);
+      entity.targets.forEach(data=>{
+        const target = this.get("entity",data.name);
         if(!target) return;
 
         this.solveConnect(entity,target,data.distance,data.stiff);
