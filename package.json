@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Webで動作する軽量な物理エンジン",
   "scripts": {
-    "lint": "./node_modules/.bin/eslint ./dist/Engine.ts"
+    "lint": "./node_modules/.bin/eslint ./dist/Engine.ts",
+    "build": "npx tsc"
   },
   "repository": {
     "type": "git",
