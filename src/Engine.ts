@@ -380,3 +380,9 @@ class Engine extends EventTarget {
     this.spawn("ground",data.ground);
   }
 }
+
+declare global {
+  var Engine: any;
+}
+
+globalThis.Engine = Engine;
