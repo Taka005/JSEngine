@@ -41,6 +41,8 @@ engine.spawn("ground",[
   }
 ]);
 
+let size = 15;
+
 let saveData = engine.export();
 
 document.addEventListener("keydown",(event)=>{
@@ -63,7 +65,7 @@ canvas.addEventListener("mousedown",(event)=>{
   engine.spawn("entity",[{
     posX: event.clientX - rect.left,
     posY: event.clientY - rect.top,
-    size: 15,
+    size: size,
     mass: 10,
     stiff: 0.3
   }]);
@@ -74,6 +76,9 @@ const gravityValue = document.getElementById("gravityValue");
 
 const frictionInput = document.getElementById("frictionInput");
 const frictionValue = document.getElementById("frictionValue");
+
+const sizeInput = document.getElementById("sizeInput");
+const sizeValue = document.getElementById("sizeValue");
 
 const debug = document.getElementById("debug");
 const track = document.getElementById("track");
@@ -90,6 +95,7 @@ const dataFile = document.getElementById("dataFile");
 
 gravityValue.textContent = gravityInput.value;
 frictionValue.textContent = frictionInput.value;
+sizeValue.textContent = sizeInput.value;
 
 gravityInput.addEventListener("input",(event)=>{
   gravityValue.textContent = event.target.value;
@@ -100,6 +106,12 @@ frictionInput.addEventListener("input",(event)=>{
   frictionValue.textContent = event.target.value;
   engine.friction = event.target.value;
 });
+
+sizeInput.addEventListener("input",(event)=>{
+  sizeValue.textContent = event.target.value;
+  size = event.target.value;
+});
+
 
 debug.addEventListener("click",()=>{
   if(engine.isDebug){
