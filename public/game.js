@@ -112,7 +112,6 @@ sizeInput.addEventListener("input",(event)=>{
   size = event.target.value;
 });
 
-
 debug.addEventListener("click",()=>{
   if(engine.isDebug){
     engine.isDebug = false;
