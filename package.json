@@ -4,7 +4,8 @@
   "description": "Webで動作する軽量な物理エンジン",
   "scripts": {
     "lint": "./node_modules/.bin/eslint ./dist/Engine.ts",
-    "build": "npx tsc"
+    "build": "npx tsc",
+    "bundle": "esbuild --bundle --outfile=./public/Engine.js --keep-names=true ./bin/Engine.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,6 @@
     "typescript": "^5.4.5"
   },
   "devDependencies": {
-    "eslint": "^9.3.0"
+    "esbuild": "^0.21.4"
   }
 }

@@ -380,3 +380,5 @@ class Engine extends EventTarget {
     this.spawn("ground",data.ground);
   }
 }
+
+export default Engine;
