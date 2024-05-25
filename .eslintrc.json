@@ -1,0 +1,38 @@
+{
+  "extends": [
+    "eslint:recommended"
+  ],
+  "plugins": [],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "env": {
+    "commonjs": true,
+    "es6": true,
+    "browser": true
+  },
+  "globals": {},
+  "rules": {
+    "no-undef": "error",
+    "eqeqeq": "error",
+    "no-loss-of-precision": "error",
+    "no-const-assign": "error",
+    "no-dupe-else-if": "off",
+    "no-unreachable": "error",
+    "no-useless-return": "error",
+    "no-implicit-coercion": "error",
+    "no-self-compare": "error",
+    "no-extra-semi": "error",
+    "no-unused-vars": "warn",
+    "no-irregular-whitespace": "error",
+    "no-constant-binary-expression": "error",
+    "indent": [
+      "error",
+      2
+    ],
+    "quotes": [
+      "error",
+      "double"
+    ]
+  }
+}

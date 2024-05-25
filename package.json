@@ -1,0 +1,24 @@
+{
+  "name": "jsengine",
+  "version": "1.0.0",
+  "description": "Webで動作する軽量な物理エンジン",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint ./dist/Engine.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Taka005/JSEngine.git"
+  },
+  "author": "Taka",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Taka005/JSEngine/issues"
+  },
+  "homepage": "https://github.com/Taka005/JSEngine#readme",
+  "dependencies": {
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "eslint": "^9.3.0"
+  }
+}
