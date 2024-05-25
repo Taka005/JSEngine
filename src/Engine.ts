@@ -239,7 +239,7 @@ class Engine extends EventTarget {
         }
       }));
 
-      const move = (distance - (entity.size + ground.size/2))/(distance*entity.mass + 0.000001)*entity.stiff;
+      const move: number = (distance - (entity.size + ground.size/2))/(distance*entity.mass + 0.000001)*entity.stiff;
       vecX *= move;
       vecY *= move;
 
@@ -380,5 +380,3 @@ class Engine extends EventTarget {
     this.spawn("ground",data.ground);
   }
 }
-
-export default Engine;

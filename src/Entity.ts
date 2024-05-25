@@ -11,7 +11,7 @@ interface Entity{
   speedY: number;
   rotate: number;
   rotateSpeed: number;
-  targets: Target[]
+  targets: Target[];
   color: string;
   img: HTMLImageElement | null;
 }
