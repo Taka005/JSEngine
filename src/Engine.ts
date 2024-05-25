@@ -97,6 +97,7 @@ class Engine extends EventTarget {
   }
 
   update(): void{
+    console.log(this.entities);
     Object.values(this.entities).forEach(entity=>{
       this.updatePosition(entity);
       this.updateRotate(entity);

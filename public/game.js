@@ -67,7 +67,7 @@ canvas.addEventListener("mousedown",(event)=>{
     posY: event.clientY - rect.top,
     size: size,
     mass: 10,
-    stiff: 0.3
+    stiff: 0.5
   }]);
 });
 
