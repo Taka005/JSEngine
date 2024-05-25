@@ -123,7 +123,9 @@ class Engine extends EventTarget {
       }
 
       this.dispatchEvent(new CustomEvent("update",{
-        entity: entity
+        detail:{
+          entity: entity
+        }
       }));
     });
   }
@@ -215,8 +217,10 @@ class Engine extends EventTarget {
     const distance = Math.sqrt(vecX**2 + vecY**2);
     if(distance <= source.size + target.size){
       this.dispatchEvent(new CustomEvent("hit",{
-        source: source,
-        target: target
+        detail:{
+          source: source,
+          target: target
+        }
       }));
 
       const move = (distance - (source.size + target.size))/(distance*totalMass + 0.000001)*source.stiff;
@@ -248,8 +252,10 @@ class Engine extends EventTarget {
     const distance = Math.sqrt(vecX**2 + vecY**2);
     if(distance <= entity.size + ground.size/2){
       this.dispatchEvent(new CustomEvent("hit",{
-        source: entity,
-        target: ground
+        detail:{
+          source: entity,
+          target: ground
+        }
       }));
 
       const move = (distance - (entity.size + ground.size/2))/(distance*entity.mass + 0.000001)*entity.stiff;
