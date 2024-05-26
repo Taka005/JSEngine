@@ -51,12 +51,12 @@ toolInput.addEventListener("change",(event)=>{
 
 rangeInput.addEventListener("input",(event)=>{
   rangeValue.textContent = event.target.value;
-  editer.range = event.target.value;
+  editer.range = Number(event.target.value);
 });
 
 massInput.addEventListener("input",(event)=>{
   massValue.textContent = event.target.value;
-  editer.mass = event.target.value;
+  editer.mass = Number(event.target.value);
 });
 
 reset.addEventListener("click",()=>{
