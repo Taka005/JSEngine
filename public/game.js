@@ -64,14 +64,14 @@ canvas.addEventListener("mousedown",(event)=>{
   console.log([{
     posX: event.clientX - rect.left,
     posY: event.clientY - rect.top,
-    size: size,
+    size: Number(size),
     mass: 10,
     stiff: 0.5
   }])
   engine.spawn("entity",[{
     posX: event.clientX - rect.left,
     posY: event.clientY - rect.top,
-    size: size,
+    size: Number(size),
     mass: 10,
     stiff: 0.5
   }]);
