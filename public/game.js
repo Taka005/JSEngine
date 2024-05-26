@@ -44,6 +44,7 @@ engine.spawn("ground",[
 let size = 15;
 let mass = 10;
 let stiff = 0.5;
+let color = "#ff0000";
 
 let saveData = engine.export();
 
@@ -57,7 +58,8 @@ canvas.addEventListener("mousedown",(event)=>{
     posY: event.clientY - rect.top,
     size: size,
     mass: mass,
-    stiff: stiff
+    stiff: stiff,
+    color: color
   }]);
 });
 
@@ -75,6 +77,9 @@ const massValue = document.getElementById("massValue");
 
 const stiffInput = document.getElementById("stiffInput");
 const stiffValue = document.getElementById("stiffValue");
+
+const colorInput = document.getElementById("colorInput");
+const colorValue = document.getElementById("colorValue");
 
 const debug = document.getElementById("debug");
 const track = document.getElementById("track");
@@ -94,6 +99,7 @@ frictionValue.textContent = frictionInput.value;
 sizeValue.textContent = sizeInput.value;
 massValue.textContent = massInput.value;
 stiffValue.textContent = stiffInput.value;
+colorValue.textContent = colorInput.value;
 
 gravityInput.addEventListener("input",(event)=>{
   gravityValue.textContent = event.target.value;
@@ -118,6 +124,11 @@ massInput.addEventListener("input",(event)=>{
 stiffInput.addEventListener("input",(event)=>{
   stiffValue.textContent = event.target.value;
   stiff = Number(event.target.value);
+});
+
+colorInput.addEventListener("input",(event)=>{
+  colorValue.textContent = event.target.value;
+  color = event.target.value;
 });
 
 debug.addEventListener("click",()=>{
