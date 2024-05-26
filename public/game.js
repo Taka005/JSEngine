@@ -61,7 +61,13 @@ canvas.addEventListener("mousedown",(event)=>{
   event.preventDefault();
 
   const rect = event.target.getBoundingClientRect();
-
+  console.log([{
+    posX: event.clientX - rect.left,
+    posY: event.clientY - rect.top,
+    size: size,
+    mass: 10,
+    stiff: 0.5
+  }])
   engine.spawn("entity",[{
     posX: event.clientX - rect.left,
     posY: event.clientY - rect.top,

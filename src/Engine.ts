@@ -97,7 +97,7 @@ class Engine extends EventTarget {
   }
 
   update(): void{
-    console.log(this.entities);
+
     Object.values(this.entities).forEach(entity=>{
       this.updatePosition(entity);
       this.updateRotate(entity);
@@ -164,14 +164,16 @@ class Engine extends EventTarget {
     }
   }
 
-  spawn(type: string,objects: (EntityOption | GroundOption)[]){
+  spawn(type: "entity", name: Entity[]): void;
+  spawn(type: "ground", name: Ground[]): void;
+  spawn(type: "entity" | "ground",objects: (EntityOption | GroundOption)[]): void{
     objects.forEach(object=>{
       object.name = object.name || this.createId(8);
 
       if(type === "entity"){
-        this.entities[object.name] = new Entity(object as EntityOption);
+        this.entities[object.name] = new Entity(object);
       }else if(type === "ground"){
-        this.grounds[object.name] = new Ground(object as GroundOption);
+        this.grounds[object.name] = new Ground(object);
       }
     });
   }
