@@ -47,18 +47,6 @@ let stiff = 0.5;
 
 let saveData = engine.export();
 
-document.addEventListener("keydown",(event)=>{
-  event.preventDefault();
-
-  engine.spawn("entity",[{
-    posX: 450,
-    posY: 200,
-    size: 20,
-    mass: 50,
-    stiff: 0.5
-  }]);
-});
-
 canvas.addEventListener("mousedown",(event)=>{
   event.preventDefault();
 
