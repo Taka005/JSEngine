@@ -92,6 +92,8 @@ const dataFile = document.getElementById("dataFile");
 gravityValue.textContent = gravityInput.value;
 frictionValue.textContent = frictionInput.value;
 sizeValue.textContent = sizeInput.value;
+massValue.textContent = massInput.value;
+stiffValue.textContent = stiffInput.value;
 
 gravityInput.addEventListener("input",(event)=>{
   gravityValue.textContent = event.target.value;
