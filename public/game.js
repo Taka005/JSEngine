@@ -42,6 +42,8 @@ engine.spawn("ground",[
 ]);
 
 let size = 15;
+let mass = 10;
+let stiff = 0.5;
 
 let saveData = engine.export();
 
@@ -61,19 +63,13 @@ canvas.addEventListener("mousedown",(event)=>{
   event.preventDefault();
 
   const rect = event.target.getBoundingClientRect();
-  console.log([{
-    posX: event.clientX - rect.left,
-    posY: event.clientY - rect.top,
-    size: Number(size),
-    mass: 10,
-    stiff: 0.5
-  }])
+
   engine.spawn("entity",[{
     posX: event.clientX - rect.left,
     posY: event.clientY - rect.top,
-    size: Number(size),
-    mass: 10,
-    stiff: 0.5
+    size: size,
+    mass: mass,
+    stiff: stiff
   }]);
 });
 
@@ -85,6 +81,12 @@ const frictionValue = document.getElementById("frictionValue");
 
 const sizeInput = document.getElementById("sizeInput");
 const sizeValue = document.getElementById("sizeValue");
+
+const massInput = document.getElementById("massInput");
+const massValue = document.getElementById("massValue");
+
+const stiffInput = document.getElementById("stiffInput");
+const stiffValue = document.getElementById("stiffValue");
 
 const debug = document.getElementById("debug");
 const track = document.getElementById("track");
@@ -115,7 +117,17 @@ frictionInput.addEventListener("input",(event)=>{
 
 sizeInput.addEventListener("input",(event)=>{
   sizeValue.textContent = event.target.value;
-  size = event.target.value;
+  size = Number(event.target.value);
+});
+
+massInput.addEventListener("input",(event)=>{
+  massValue.textContent = event.target.value;
+  mass = Number(event.target.value);
+});
+
+stiffInput.addEventListener("input",(event)=>{
+  stiffValue.textContent = event.target.value;
+  stiff = Number(event.target.value);
 });
 
 debug.addEventListener("click",()=>{
