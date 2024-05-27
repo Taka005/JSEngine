@@ -203,6 +203,11 @@ class Engine extends EventTarget {
     let vecX: number = target.posX - source.posX;
     let vecY: number = target.posY - source.posY;
 
+    if(
+      Math.abs(vecX) >= source.size + target.size&&
+      Math.abs(vecY) >= source.size + target.size
+    ) return;
+
     const distance: number = Math.sqrt(vecX**2 + vecY**2);
     if(distance <= source.size + target.size){
       this.dispatchEvent(new CustomEvent("hitEntity",{
