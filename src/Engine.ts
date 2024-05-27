@@ -15,6 +15,7 @@ interface Engine extends EventTarget{
   isStart: boolean;
   isDebug: boolean;
   isTrack: boolean;
+  isEvent: boolean;
   loop: number;
   trackLoop: number;
 }
@@ -57,6 +58,7 @@ class Engine extends EventTarget {
 
     this.isDebug = false;
     this.isTrack = false;
+    this.isEvent = true;
 
     setInterval(()=>{
       this.draw();
@@ -130,11 +132,13 @@ class Engine extends EventTarget {
         this.deSpawn("entity",entity.name);
       }
 
-      this.dispatchEvent(new CustomEvent("update",{
-        detail:{
-          entity: entity
-        }
-      }));
+      if(this.isEvent){
+        this.dispatchEvent(new CustomEvent("update",{
+          detail:{
+            entity: entity
+          }
+        }));
+      }
     });
   }
 
@@ -210,12 +214,14 @@ class Engine extends EventTarget {
 
     const distance: number = Math.sqrt(vecX**2 + vecY**2);
     if(distance <= source.size + target.size){
-      this.dispatchEvent(new CustomEvent("hitEntity",{
-        detail:{
-          source: source,
-          target: target
-        }
-      }));
+      if(this.isEvent){
+        this.dispatchEvent(new CustomEvent("hitEntity",{
+          detail:{
+            source: source,
+            target: target
+          }
+        }));
+      }
 
       const move: number = (distance - (source.size + target.size))/(distance*totalMass + 0.000001)*source.stiff;
       vecX *= move;
@@ -240,12 +246,14 @@ class Engine extends EventTarget {
 
     const distance = Math.sqrt(vecX**2 + vecY**2);
     if(distance <= entity.size + ground.size/2){
-      this.dispatchEvent(new CustomEvent("hitGround",{
-        detail:{
-          source: entity,
-          target: ground
-        }
-      }));
+      if(this.isEvent){
+        this.dispatchEvent(new CustomEvent("hitGround",{
+          detail:{
+            source: entity,
+            target: ground
+          }
+        }));
+      }
 
       const move: number = (distance - (entity.size + ground.size/2))/(distance*entity.mass + 0.000001)*entity.stiff;
       vecX *= move;
