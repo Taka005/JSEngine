@@ -115,6 +115,14 @@ class Entity{
     ctx.lineWidth = 1;
     ctx.stroke();
   }
+
+  addTarget(target: Target){
+    this.targets.push(target);
+  }
+
+  removeTarget(targetId: string){
+    this.targets = this.targets.filter(target=>target.name !== targetId);
+  }
 }
 
 export { Entity, EntityOption, Target };
