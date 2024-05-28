@@ -54,7 +54,7 @@ let color = "#ff0000";
 
 let saveData = engine.export();
 
-canvas.addEventListener("mousedown",(event)=>{
+game.addEventListener("mousedown",(event)=>{
   event.preventDefault();
 
   const rect = event.target.getBoundingClientRect();
