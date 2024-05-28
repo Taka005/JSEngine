@@ -48,6 +48,7 @@ class Entity{
 
     if(image){
       this.img = Sprite.from(image);
+      this.img.anchor.set(0.5);
     }else{
       this.color = color;
     }
@@ -81,6 +82,8 @@ class Entity{
     const container = new Container();
 
     if(this.img){
+      this.img.position.set(this.posX,this.posY);
+
       container.addChild(this.img);
     }else{
       const circle = new Graphics()
