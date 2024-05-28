@@ -1,3 +1,4 @@
+import { Application } from "pixi.js";
 import { Entity, EntityOption } from "./Entity";
 import { Ground, GroundOption } from "./Ground";
 import { Track } from "./Track";
@@ -5,6 +6,7 @@ import { Track } from "./Track";
 interface Engine extends EventTarget{
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
+  render: Application
   fps: number;
   pps: number;
   gravity: number;
@@ -15,7 +17,6 @@ interface Engine extends EventTarget{
   isStart: boolean;
   isDebug: boolean;
   isTrack: boolean;
-  isEvent: boolean;
   loop: number;
   trackLoop: number;
 }
@@ -39,6 +40,7 @@ class Engine extends EventTarget {
     super();
 
     this.canvas = canvas;
+    this.render = new Application();
 
     const ctx: CanvasRenderingContext2D | null = this.canvas.getContext("2d");
     if(!ctx) throw new Error("コンテキストが取得できません");
@@ -58,11 +60,18 @@ class Engine extends EventTarget {
 
     this.isDebug = false;
     this.isTrack = false;
-    this.isEvent = true;
 
     setInterval(()=>{
       this.draw();
     },1000/this.fps);
+  }
+
+  async init(): Promise<void>{
+    await this.render.init({
+      width: 900,
+      height: 700,
+      backgroundColor: "#ee"
+    });
   }
 
   createId(length: number): string{
@@ -132,13 +141,11 @@ class Engine extends EventTarget {
         this.deSpawn("entity",entity.name);
       }
 
-      if(this.isEvent){
-        this.dispatchEvent(new CustomEvent("update",{
-          detail:{
-            entity: entity
-          }
-        }));
-      }
+      this.dispatchEvent(new CustomEvent("update",{
+        detail:{
+          entity: entity
+        }
+      }));
     });
   }
 
@@ -175,9 +182,9 @@ class Engine extends EventTarget {
       object.name = object.name || this.createId(8);
 
       if(type === "entity"){
-        this.entities[object.name] = new Entity(object);
+        this.entities[object.name] = new Entity(object as Entity);
       }else if(type === "ground"){
-        this.grounds[object.name] = new Ground(object);
+        this.grounds[object.name] = new Ground(object as Ground);
       }
     });
   }
@@ -214,14 +221,12 @@ class Engine extends EventTarget {
 
     const distance: number = Math.sqrt(vecX**2 + vecY**2);
     if(distance <= source.size + target.size){
-      if(this.isEvent){
-        this.dispatchEvent(new CustomEvent("hitEntity",{
-          detail:{
-            source: source,
-            target: target
-          }
-        }));
-      }
+      this.dispatchEvent(new CustomEvent("hitEntity",{
+        detail:{
+          source: source,
+          target: target
+        }
+      }));
 
       const move: number = (distance - (source.size + target.size))/(distance*totalMass + 0.000001)*source.stiff;
       vecX *= move;
@@ -246,14 +251,12 @@ class Engine extends EventTarget {
 
     const distance = Math.sqrt(vecX**2 + vecY**2);
     if(distance <= entity.size + ground.size/2){
-      if(this.isEvent){
-        this.dispatchEvent(new CustomEvent("hitGround",{
-          detail:{
-            source: entity,
-            target: ground
-          }
-        }));
-      }
+      this.dispatchEvent(new CustomEvent("hitGround",{
+        detail:{
+          source: entity,
+          target: ground
+        }
+      }));
 
       const move: number = (distance - (entity.size + ground.size/2))/(distance*entity.mass + 0.000001)*entity.stiff;
       vecX *= move;

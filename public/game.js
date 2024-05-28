@@ -1,7 +1,12 @@
-const canvas = document.getElementById("game");
-const engine = new Engine(canvas);
+const game = document.getElementById("game");
+const engine = new Engine();
 
-engine.start();
+(async()=>{
+  await engine.init();
+  game.appendChild(engine.render.view);
+
+  engine.start();
+})();
 
 engine.spawn("ground",[
   {
