@@ -1,10 +1,11 @@
+import { Sprite } from "pixi.js";
 import { Entity } from "./Entity";
 
 interface Track{
   posX: number;
   posY: number;
   size: number;
-  img: HTMLImageElement | null;
+  img: Sprite | null;
 }
 
 class Track{
@@ -16,21 +17,28 @@ class Track{
   }
 
   draw(ctx: CanvasRenderingContext2D): void{
+    const container = new Container();
+
     if(this.img){
-      ctx.drawImage(
-        this.img,
-        this.posX - this.img.width/2,
-        this.posY - this.img.height/2
-      );
+      container.addChild(this.img);
     }else{
-      ctx.beginPath();
-      ctx.arc(this.posX,this.posY,this.size,0,2*Math.PI);
-      ctx.strokeStyle = "rgba(255,0,0,0.3)";
-      ctx.fillStyle = "rgba(255,0,0,0.3)";
-      ctx.lineWidth = 1;
-      ctx.fill();
-      ctx.stroke();
+      const circle = new Graphics()
+        .circle(this.posX,this.posY,this.size)
+        .fill(this.color);
+
+      const line = new Graphics()
+        .moveTo(this.posX,this.posY)
+        .lineTo(this.posX,this.posY - this.size);
+
+      line.strokeStyle = "black";
+
+      container.addChild(circle);
+      container.addChild(line);
     }
+
+    container.rotation = this.rotate*(Math.PI);
+
+    render.stage.addChild(container);
   }
 }
 

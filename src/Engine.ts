@@ -1,13 +1,10 @@
-import { Application } from "pixi.js";
+import { Application, Graphics } from "pixi.js";
 import { Entity, EntityOption } from "./Entity";
 import { Ground, GroundOption } from "./Ground";
 import { Track } from "./Track";
 
 interface Engine extends EventTarget{
-  canvas: HTMLCanvasElement;
-  ctx: CanvasRenderingContext2D;
   render: Application
-  fps: number;
   pps: number;
   gravity: number;
   friction: number;
@@ -22,7 +19,6 @@ interface Engine extends EventTarget{
 }
 
 type EngineOption = {
-  fps?: number;
   pps?: number;
   gravity?: number;
   friction?: number;
@@ -36,18 +32,11 @@ type ExportData = {
 }
 
 class Engine extends EventTarget {
-  constructor(canvas: HTMLCanvasElement,{ fps = 60, pps = 180, gravity = 500, friction = 0.001 }: EngineOption = {}){
+  constructor(canvas: HTMLCanvasElement,{ pps = 180, gravity = 500, friction = 0.001 }: EngineOption = {}){
     super();
 
-    this.canvas = canvas;
     this.render = new Application();
 
-    const ctx: CanvasRenderingContext2D | null = this.canvas.getContext("2d");
-    if(!ctx) throw new Error("コンテキストが取得できません");
-
-    this.ctx = ctx;
-
-    this.fps = fps;
     this.pps = pps;
     this.gravity = gravity;
     this.friction = friction;
@@ -61,9 +50,9 @@ class Engine extends EventTarget {
     this.isDebug = false;
     this.isTrack = false;
 
-    setInterval(()=>{
+    this.render.ticker.add(()=>{
       this.draw();
-    },1000/this.fps);
+    });
   }
 
   async init(): Promise<void>{
@@ -94,7 +83,7 @@ class Engine extends EventTarget {
 
     this.trackLoop = setInterval(()=>{
       Object.values(this.entities).forEach(entity=>{
-        this.tracks.push(new Track(entity));
+        //this.tracks.push(new Track(entity));
       });
     },100);
   }
@@ -108,7 +97,6 @@ class Engine extends EventTarget {
   }
 
   update(): void{
-
     Object.values(this.entities).forEach(entity=>{
       this.updatePosition(entity);
       this.updateRotate(entity);
@@ -137,7 +125,7 @@ class Engine extends EventTarget {
       this.updateSpeed(entity);
       this.solveSpeed(entity);
 
-      if(entity.posY > this.canvas.height+100){
+      if(entity.posY > this.render.canvas.height+100){
         this.deSpawn("entity",entity.name);
       }
 
@@ -150,29 +138,31 @@ class Engine extends EventTarget {
   }
 
   draw(): void{
-    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+    this.render.stage.removeChildren(0);
 
     if(this.isDebug){
       this.drawGrid();
 
       Object.values(this.entities).forEach(entity=>{
-        entity.drawVector(this.ctx);
+        entity.drawVector(this.render);
       });
     }
 
     Object.values(this.grounds).forEach(ground=>{
-      ground.draw(this.ctx);
+      ground.draw(this.render);
     });
 
     Object.values(this.entities).forEach(entity=>{
-      entity.draw(this.ctx);
+      entity.draw(this.render);
     });
 
-    if(this.isTrack){
-      Object.values(this.tracks).forEach(track=>{
-        track.draw(this.ctx);
-      });
-    }
+    //if(this.isTrack){
+      //Object.values(this.tracks).forEach(track=>{
+        //track.draw(this.render);
+      //});
+    //}
+
+    this.render.render();
   }
 
   spawn(type: "entity", name: Entity[]): void;
@@ -361,21 +351,25 @@ class Engine extends EventTarget {
   }
 
   drawGrid(): void{
-    this.ctx.beginPath();
+    for(let posX: number = 0;posX < this.render.canvas.width;posX += 25){
+      const line = new Graphics()
+        .moveTo(posX,0)
+        .lineTo(posX,this.render.canvas.height);
 
-    for(let posX: number = 0;posX < this.canvas.width;posX += 25){
-      this.ctx.moveTo(posX,0);
-      this.ctx.lineTo(posX,this.canvas.height);
+      line.strokeStyle = "black";
+
+      this.render.stage.addChild(line);
     }
 
-    for(let posY: number = 0;posY < this.canvas.height;posY += 25){
-      this.ctx.moveTo(0,posY);
-      this.ctx.lineTo(this.canvas.width,posY);
-    }
+    for(let posY: number = 0;posY < this.render.canvas.height;posY += 25){
+      const line = new Graphics()
+        .moveTo(0,posY)
+        .lineTo(this.render.canvas.width,posY);
 
-    this.ctx.strokeStyle = "black";
-    this.ctx.lineWidth = 0.1;
-    this.ctx.stroke();
+      line.strokeStyle = "black";
+
+      this.render.stage.addChild(line);
+    }
   }
 
   export(): string{

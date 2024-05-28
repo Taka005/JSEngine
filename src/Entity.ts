@@ -1,3 +1,5 @@
+import { Application, Container, Graphics, Sprite } from "pixi.js";
+
 interface Entity{
   name: string;
   posX: number;
@@ -13,7 +15,7 @@ interface Entity{
   rotateSpeed: number;
   targets: Target[];
   color: string;
-  img: HTMLImageElement | null;
+  img: Sprite | null;
 }
 
 type EntityOption = {
@@ -45,8 +47,7 @@ class Entity{
     if(stiff < 0 || stiff > 1) throw new Error("剛性は0以上1以下にしてください");
 
     if(image){
-      this.img = new Image();
-      this.img.src = image;
+      this.img = Sprite.from(image);
     }else{
       this.color = color;
     }
@@ -76,44 +77,39 @@ class Entity{
     this.prePosY = this.posY;
   }
 
-  draw(ctx: CanvasRenderingContext2D): void{
-    ctx.save();
-    ctx.translate(this.posX,this.posY);
-    ctx.rotate(this.rotate*(Math.PI/180));
+  draw(render: Application): void{
+    const container = new Container();
 
     if(this.img){
-      ctx.drawImage(
-        this.img,
-        this.posX - this.img.width/2,
-        this.posY - this.img.height/2
-      );
+      container.addChild(this.img);
     }else{
-      ctx.beginPath();
-      ctx.arc(0,0,this.size,0,2*Math.PI);
-      ctx.strokeStyle = this.color;
-      ctx.fillStyle = this.color;
-      ctx.lineWidth = 1;
-      ctx.fill();
-      ctx.stroke();
+      const circle = new Graphics()
+        .circle(this.posX,this.posY,this.size)
+        .fill(this.color);
 
-      ctx.beginPath();
-      ctx.moveTo(0,0);
-      ctx.lineTo(0,-this.size);
-      ctx.strokeStyle = "black";
-      ctx.lineWidth = 1;
-      ctx.stroke();
+      const line = new Graphics()
+        .moveTo(this.posX,this.posY)
+        .lineTo(this.posX,this.posY - this.size);
+
+      line.strokeStyle = "black";
+
+      container.addChild(circle);
+      container.addChild(line);
     }
 
-    ctx.restore();
+    container.rotation = this.rotate*(Math.PI);
+
+    render.stage.addChild(container);
   }
 
-  drawVector(ctx: CanvasRenderingContext2D): void{
-    ctx.beginPath();
-    ctx.moveTo(this.posX,this.posY);
-    ctx.lineTo(this.posX + this.speedX,this.posY + this.speedY);
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 1;
-    ctx.stroke();
+  drawVector(render: Application): void{
+    const line = new Graphics()
+      .moveTo(this.posX,this.posY)
+      .lineTo(this.posX + this.speedX,this.posY + this.speedY);
+
+    line.strokeStyle = "black";
+
+    render.stage.addChild(line);
   }
 
   addTarget(target: Target){

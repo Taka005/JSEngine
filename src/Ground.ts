@@ -1,3 +1,5 @@
+import { Application } from "pixi.js";
+
 interface Ground{
   name: string;
   startX: number;
@@ -57,29 +59,29 @@ class Ground{
     }
   }
 
-  draw(ctx: CanvasRenderingContext2D): void{
-    ctx.beginPath();
-    ctx.moveTo(this.startX,this.startY);
-    ctx.lineTo(this.endX,this.endY);
-    ctx.strokeStyle = "red";
-    ctx.lineWidth = this.size;
-    ctx.stroke();
+  draw(render: Application): void{
+    const container = new Container();
 
-    ctx.beginPath();
-    ctx.arc(this.startX,this.startY,this.size/2-1,0,2*Math.PI);
-    ctx.strokeStyle = "red";
-    ctx.fillStyle = "red";
-    ctx.lineWidth = 1;
-    ctx.fill();
-    ctx.stroke();
+    const line = new Graphics()
+      .moveTo(this.startX,this.startY)
+      .lineTo(this.endX,this.endY);
 
-    ctx.beginPath();
-    ctx.arc(this.endX,this.endY,this.size/2-1,0,2*Math.PI);
-    ctx.strokeStyle = "red";
-    ctx.fillStyle = "red";
-    ctx.lineWidth = 1;
-    ctx.fill();
-    ctx.stroke();
+    const startCircle = new Graphics()
+      .circle(this.startX,this.startY,this.size/2-1)
+      .fill("red");
+
+    const endCircle = new Graphics()
+      .circle(this.endX,this.endY,this.size/2-1)
+      .fill("red");
+
+    line.strokeStyle = "red";
+    line.width = this.size;
+
+    container.addChild(line);
+    container.addChild(startCircle);
+    container.addChild(endCircle);
+
+    render.stage.addChild(container);
   }
 }
 
