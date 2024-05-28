@@ -125,7 +125,7 @@ class Engine extends EventTarget {
       this.updateSpeed(entity);
       this.solveSpeed(entity);
 
-      if(entity.posY > this.render.canvas.height+100){
+      if(entity.posY > this.render.screen.height+100){
         this.deSpawn("entity",entity.name);
       }
 
@@ -351,20 +351,20 @@ class Engine extends EventTarget {
   }
 
   drawGrid(): void{
-    for(let posX: number = 0;posX < this.render.canvas.width;posX += 25){
+    for(let posX: number = 0;posX < this.render.screen.width;posX += 25){
       const line = new Graphics()
         .moveTo(posX,0)
-        .lineTo(posX,this.render.canvas.height);
+        .lineTo(posX,this.render.screen.height);
 
       line.strokeStyle = "black";
 
       this.render.stage.addChild(line);
     }
 
-    for(let posY: number = 0;posY < this.render.canvas.height;posY += 25){
+    for(let posY: number = 0;posY < this.render.screen.height;posY += 25){
       const line = new Graphics()
         .moveTo(0,posY)
-        .lineTo(this.render.canvas.width,posY);
+        .lineTo(this.render.screen.width,posY);
 
       line.strokeStyle = "black";
 
