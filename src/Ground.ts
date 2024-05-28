@@ -1,4 +1,4 @@
-import { Application } from "pixi.js";
+import { Application, Graphics, Container } from "pixi.js";
 
 interface Ground{
   name: string;

@@ -32,7 +32,7 @@ type ExportData = {
 }
 
 class Engine extends EventTarget {
-  constructor(canvas: HTMLCanvasElement,{ pps = 180, gravity = 500, friction = 0.001 }: EngineOption = {}){
+  constructor({ pps = 180, gravity = 500, friction = 0.001 }: EngineOption = {}){
     super();
 
     this.render = new Application();
@@ -49,10 +49,6 @@ class Engine extends EventTarget {
 
     this.isDebug = false;
     this.isTrack = false;
-
-    this.render.ticker.add(()=>{
-      this.draw();
-    });
   }
 
   async init(): Promise<void>{
@@ -60,6 +56,10 @@ class Engine extends EventTarget {
       width: 900,
       height: 700,
       backgroundColor: "#ee"
+    });
+
+    this.render.ticker.add(()=>{
+      this.draw();
     });
   }
 
