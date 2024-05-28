@@ -81,7 +81,7 @@ class Entity{
   draw(render: Application): void{
     const container = new Container();
     
-    container.pivot.set(0.5);
+    container.pivot.set(this.posX,this.posY);
 
     if(this.img){
       this.img.position.set(this.posX,this.posY);
