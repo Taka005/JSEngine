@@ -64,7 +64,8 @@ class Ground{
 
     const line = new Graphics()
       .moveTo(this.startX,this.startY)
-      .lineTo(this.endX,this.endY);
+      .lineTo(this.endX,this.endY)
+      .stroke({ width: this.size, color: "red" });
 
     const startCircle = new Graphics()
       .circle(this.startX,this.startY,this.size/2-1)
@@ -75,7 +76,6 @@ class Ground{
       .fill("red");
 
     line.strokeStyle = "red";
-    line.width = this.size;
 
     container.addChild(line);
     container.addChild(startCircle);

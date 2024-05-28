@@ -354,9 +354,8 @@ class Engine extends EventTarget {
     for(let posX: number = 0;posX < this.render.screen.width;posX += 25){
       const line = new Graphics()
         .moveTo(posX,0)
-        .lineTo(posX,this.render.screen.height);
-
-      line.strokeStyle = "black";
+        .lineTo(posX,this.render.screen.height)
+        .stroke({ width: 0.2, color: "black" });
 
       this.render.stage.addChild(line);
     }
@@ -364,9 +363,8 @@ class Engine extends EventTarget {
     for(let posY: number = 0;posY < this.render.screen.height;posY += 25){
       const line = new Graphics()
         .moveTo(0,posY)
-        .lineTo(this.render.screen.width,posY);
-
-      line.strokeStyle = "black";
+        .lineTo(this.render.screen.width,posY)
+        .stroke({ width: 0.2, color: "black" });
 
       this.render.stage.addChild(line);
     }

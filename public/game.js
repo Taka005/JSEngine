@@ -3,7 +3,7 @@ const engine = new Engine();
 
 (async()=>{
   await engine.init();
-  console.log(engine.render.canvas)
+
   game.appendChild(engine.render.canvas);
 
   engine.start();
