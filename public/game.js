@@ -6,45 +6,45 @@ const engine = new Engine();
   game.appendChild(engine.render.canvas);
 
   engine.start();
-})();
 
-engine.spawn("ground",[
-  {
-    startX: 30,
-    startY: 600,
-    endX: 600,
-    endY: 600,
-    size: 15
-  },
-  {
-    startX: 600,
-    startY: 600,
-    endX: 600,
-    endY: 500,
-    size: 15
-  },
-  {
-    startX: 30,
-    startY: 0,
-    endX: 30,
-    endY: 600,
-    size: 15
-  },
-  {
-    startX: 850,
-    startY: 0,
-    endX: 850,
-    endY: 600,
-    size: 15
-  },
-  {
-    startX: 500,
-    startY: 400,
-    endX: 850,
-    endY: 300,
-    size: 15
-  }
-]);
+  engine.spawn("ground",[
+    {
+      startX: 30,
+      startY: 600,
+      endX: 600,
+      endY: 600,
+      size: 15
+    },
+    {
+      startX: 600,
+      startY: 600,
+      endX: 600,
+      endY: 500,
+      size: 15
+    },
+    {
+      startX: 30,
+      startY: 0,
+      endX: 30,
+      endY: 600,
+      size: 15
+    },
+    {
+      startX: 850,
+      startY: 0,
+      endX: 850,
+      endY: 600,
+      size: 15
+    },
+    {
+      startX: 500,
+      startY: 400,
+      endX: 850,
+      endY: 300,
+      size: 15
+    }
+  ]);
+})();
 
 let size = 15;
 let mass = 10;
