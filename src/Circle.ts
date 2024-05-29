@@ -105,12 +105,12 @@ class Circle extends EntityManager{
       .stroke({ width: 1, color: "black" });
   }
 
-  destroy(){
+  destroy(): void{
     this.container.destroy();
     this.vector.destroy();
   }
 
-  toJSON(){
+  toJSON(): CircleOption{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 
