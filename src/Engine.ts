@@ -427,8 +427,9 @@ class Engine extends EventTarget {
     this.friction = data.friction;
 
     this.grounds = {};
-    this.objects = {};
     this.tracks = [];
+
+    this.clear();
 
     data.object.forEach(object=>{
       this.spawn(object.type,[object]);
