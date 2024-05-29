@@ -1,4 +1,4 @@
-import { Application, Graphics } from "pixi.js";
+import { Application, Container, Graphics } from "pixi.js";
 import { Entity } from "./Entity";
 import { Ground, GroundOption } from "./Ground";
 import { Track } from "./Track";
@@ -11,11 +11,12 @@ interface Engine extends EventTarget{
   gravity: number;
   friction: number;
   grounds: { [key: string]: Ground };
-  objects: { [key: string]: Circle }
+  objects: { [key: string]: Circle };
   tracks: Track[];
   isStart: boolean;
   isDebug: boolean;
   isTrack: boolean;
+  grid: Container;
   loop: number;
   trackLoop: number;
 }
@@ -49,9 +50,10 @@ class Engine extends EventTarget {
     this.tracks = [];
 
     this.isStart = false;
-
     this.isDebug = false;
     this.isTrack = false;
+
+    this.grid = new Container();
   }
 
   async init(): Promise<void>{
@@ -138,8 +140,6 @@ class Engine extends EventTarget {
 
   draw(): void{
     if(this.isDebug){
-      this.drawGrid();
-
       Object.values(this.objects).forEach(object=>{
         //object.drawVector(this.render);
       });
@@ -357,14 +357,14 @@ class Engine extends EventTarget {
     entity.rotate += entity.rotateSpeed*(1/this.pps);
   }
 
-  drawGrid(): void{
+  setGrid(): void{
     for(let posX: number = 0;posX < this.render.screen.width;posX += 25){
       const line = new Graphics()
         .moveTo(posX,0)
         .lineTo(posX,this.render.screen.height)
         .stroke({ width: 0.2, color: "black" });
 
-      this.render.stage.addChild(line);
+      this.grid.addChild(line);
     }
 
     for(let posY: number = 0;posY < this.render.screen.height;posY += 25){
@@ -373,8 +373,10 @@ class Engine extends EventTarget {
         .lineTo(this.render.screen.width,posY)
         .stroke({ width: 0.2, color: "black" });
 
-      this.render.stage.addChild(line);
+      this.grid.addChild(line);
     }
+
+    this.render.stage.addChild(this.grid);
   }
 
   export(): string{

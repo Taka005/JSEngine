@@ -78,9 +78,7 @@ class Ground{
       .circle(this.endX,this.endY,this.size/2)
       .fill("red");
 
-    this.container.addChild(line);
-    this.container.addChild(startCircle);
-    this.container.addChild(endCircle);
+    this.container.addChild(line,startCircle,endCircle);
 
     render.stage.addChild(this.container);
   }

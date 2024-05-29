@@ -21,7 +21,11 @@ class EntityManager{
     return {
       speedX: this.entities.reduce((total,entity)=>total + entity.speedX,0)/this.entities.length,
       speedY:  this.entities.reduce((total,entity)=>total + entity.speedY,0)/this.entities.length
-    } 
+    }
+  }
+
+  getRotate(){
+    return this.entities.reduce((total,entity)=>total + entity.rotate,0)/this.entities.length
   }
 
   generate(object: EntityOption): Entity{

@@ -14,6 +14,7 @@ interface Circle extends EntityManager{
   speedY: number;
   color?: string;
   image?: string | null;
+  isVector: boolean;
   container: Container;
 }
 
@@ -42,6 +43,7 @@ class Circle extends EntityManager{
     this.stiff = stiff;
     this.color = color;
     this.image = image;
+    this.isVector = false;
 
     this.generate({
       posX: posX,
@@ -78,24 +80,24 @@ class Circle extends EntityManager{
         .lineTo(0,-this.size)
         .stroke({ width: 1, color: "black" });
 
-      const vector = new Graphics()
-        .moveTo(0,0)
-        .lineTo(this.speedX,this.speedY)
-        .stroke({ width: 1, color: "black" });
-
-      this.container.addChild(circle);
-      this.container.addChild(mark);
+      this.container.addChild(circle,mark);
     }
-
-    //this.container.pivot.set(this.posX,this.posY);
-    //container.rotation = this.rotate*(Math.PI);
 
     render.stage.addChild(this.container);
   }
 
+  setVector(){
+    const vector = new Graphics()
+      .moveTo(0,0)
+      .lineTo(this.speedX,this.speedY)
+      .stroke({ width: 1, color: "black" });
+  }
+
   update(): void{
     const { posX, posY } = this.getPosition();
+    const rotate = this.getRotate();
 
+    this.container.rotation = rotate*(Math.PI);
     this.container.position.set(posX,posY);
   }
 
