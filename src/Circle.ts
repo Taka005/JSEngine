@@ -56,8 +56,15 @@ class Circle extends EntityManager{
     const { speedX, speedY } = this.getSpeed();
 
     this.container = new Container();
+    this.vector = new Graphics()
+      .moveTo(0,0)
+      .lineTo(speedX,speedY)
+      .stroke({ width: 1, color: "black" });
+
+    this.vector.visible = false;
 
     this.container.position.set(posX,posY);
+    this.vector.position.set(posX,posY);
 
     if(this.image){
       const image = Sprite.from(this.image);
@@ -78,13 +85,6 @@ class Circle extends EntityManager{
 
       this.container.addChild(circle,mark);
     }
-
-    this.vector = new Graphics()
-      .moveTo(0,0)
-      .lineTo(speedX,speedY)
-      .stroke({ width: 1, color: "black" });
-
-    this.vector.visible = false;
 
     render.stage.addChild(this.container,this.vector);
   }
