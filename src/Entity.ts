@@ -100,8 +100,8 @@ class Entity{
       container.addChild(line);
     }
 
-    container.pivot.set(this.posX,this.posY);
-    container.rotation = this.rotate*(Math.PI);
+    //container.pivot.set(this.posX,this.posY);
+    //container.rotation = this.rotate*(Math.PI);
 
     render.stage.addChild(container);
   }
