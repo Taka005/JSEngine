@@ -5,13 +5,9 @@ import { Entity } from "./Entity";
 interface Circle extends EntityManager{
   type: string;
   name: string;
-  posX: number;
-  posY: number;
   size: number;
   mass: number;
   stiff: number;
-  speedX: number;
-  speedY: number;
   color?: string;
   image?: string | null;
   vector: Graphics;
@@ -80,17 +76,17 @@ class Circle extends EntityManager{
         .lineTo(0,-this.size)
         .stroke({ width: 1, color: "black" });
 
-      this.vector = new Graphics()
-        .moveTo(0,0)
-        .lineTo(speedX,speedY)
-        .stroke({ width: 1, color: "black" });
-
-      this.vector.visible = false;
-
-      this.container.addChild(circle,mark,this.vector);
+      this.container.addChild(circle,mark);
     }
 
-    render.stage.addChild(this.container);
+    this.vector = new Graphics()
+      .moveTo(0,0)
+      .lineTo(speedX,speedY)
+      .stroke({ width: 1, color: "black" });
+
+    this.vector.visible = false;
+
+    render.stage.addChild(this.container,this.vector);
   }
 
   update(): void{

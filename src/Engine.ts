@@ -36,7 +36,7 @@ type ExportData = {
 }
 
 class Engine extends EventTarget {
-  constructor({ pps = 120, gravity = 500, friction = 0.001 }: EngineOption = {}){
+  constructor({ pps = 90, gravity = 500, friction = 0.001 }: EngineOption = {}){
     super();
 
     this.render = new Application();
@@ -63,10 +63,6 @@ class Engine extends EventTarget {
       this.isDebug = true;
 
       this.grid.visible = true;
-
-      Object.values(this.objects).forEach(object=>{
-        object.vector.visible = true;
-      });
     }else{
       this.isDebug = false;
 
@@ -160,7 +156,9 @@ class Engine extends EventTarget {
     });
 
     Object.values(this.objects).forEach(object=>{
-      if(object.posY > this.render.screen.height+100){
+      const { posY } = object.getPosition();
+
+      if(posY > this.render.screen.height+100){
         this.deSpawn(object.type,object.name);
       }
     });
@@ -169,7 +167,8 @@ class Engine extends EventTarget {
   draw(): void{
     if(this.isDebug){
       Object.values(this.objects).forEach(object=>{
-        //object.drawVector(this.render);
+        if(object.vector.visible) return;
+        object.vector.visible = true;
       });
     }
 
