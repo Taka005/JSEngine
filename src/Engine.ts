@@ -88,12 +88,20 @@ class Engine extends EventTarget {
     this.setGrid();
   }
 
-  clear(){
+  clear({ force = false }: { force: boolean }){
     Object.values(this.objects).forEach(object=>{
       object.destroy();
     });
 
     this.objects = {};
+
+    if(force){
+      Object.values(this.grounds).forEach(ground=>{
+        ground.destroy();
+      });
+
+      this.grounds = {};
+    }
   }
 
   start(): void{
@@ -429,7 +437,7 @@ class Engine extends EventTarget {
     this.grounds = {};
     this.tracks = [];
 
-    this.clear();
+    this.clear({ force: true });
 
     this.spawn("ground",data.ground);
 
