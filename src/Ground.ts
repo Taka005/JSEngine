@@ -1,6 +1,7 @@
 import { Application, Graphics, Container } from "pixi.js";
 
 interface Ground{
+  type: string;
   name: string;
   startX: number;
   startY: number;
@@ -23,6 +24,7 @@ class Ground{
   constructor({ name, startX, startY, endX, endY, size }: GroundOption){
     if(size < 0) throw new Error("サイズは0以上にしてください");
 
+    this.type = "ground";
     this.name = name;
 
     this.startX = startX;
@@ -85,6 +87,17 @@ class Ground{
 
   destroy(): void{
     this.container.destroy();
+  }
+
+  toJSON(): GroundOption{
+    return {
+      name: this.name,
+      startX: this.startX,
+      startY: this.startY,
+      endX: this.endX,
+      endY: this.endY,
+      size: this.size
+    }
   }
 }
 

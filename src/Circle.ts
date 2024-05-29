@@ -38,6 +38,8 @@ class Circle extends EntityManager{
     this.type = "circle";
     this.name = name;
     this.size = size;
+    this.mass = mass;
+    this.stiff = stiff;
     this.color = color;
     this.image = image;
 
@@ -99,6 +101,26 @@ class Circle extends EntityManager{
 
   destroy(){
     this.container.destroy();
+  }
+
+  toJSON(){
+    const { posX, posY } = this.getPosition();
+    const { speedX, speedY } = this.getSpeed();
+
+    return {
+      type: this.type,
+      name: this.name,
+      posX: posX,
+      posY: posY,
+      size: this.size,
+      mass: this.mass,
+      stiff: this.stiff,
+      speedX: speedX,
+      speedY: speedY,
+      color: this.color,
+      image: this.image,
+      entities: this.entities.map(entity=>entity.toJSON())
+    }
   }
 }
 

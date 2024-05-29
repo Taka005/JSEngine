@@ -29,7 +29,7 @@ type EngineOption = {
 type ExportData = {
   gravity: number;
   friction: number;
-  entity: Entity[];
+  entity: Circle[];
   object: Circle[]
   ground: Ground[];
 }
@@ -154,12 +154,8 @@ class Engine extends EventTarget {
         //track.draw(this.render);
       //});
     //}
-
-    //this.render.render();
   }
 
-  spawn(type: "circle", name: Circle[]): void;
-  spawn(type: "ground", name: Ground[]): void;
   spawn(type: string,objects: (CircleOption | GroundOption)[]): void{
     objects.forEach(object=>{
       object.name = object.name || createId(8);
@@ -198,7 +194,7 @@ class Engine extends EventTarget {
     }
   }
 
-  get(type: "entity", name: string): Entity | undefined;
+  //get(type: "entity", name: string): Entity | undefined;
   get(type: "circle", name: string): Circle | undefined;
   get(type: "ground", name: string): Ground | undefined;
   get(type: string,name: string): Entity | Circle | Ground | undefined{
@@ -385,11 +381,14 @@ class Engine extends EventTarget {
   }
 
   export(): string{
+    const objects = Object.values(this.objects).map(object=>object.toJSON());
+    const grounds = Object.values(this.grounds).map(object=>object.toJSON());
+
     return JSON.stringify({
       gravity: this.gravity,
       friction: this.friction,
-      object: Object.values(this.objects),
-      ground: Object.values(this.grounds)
+      object: objects,
+      ground: grounds
     });
   }
 
@@ -401,8 +400,15 @@ class Engine extends EventTarget {
     this.objects = {};
     this.tracks = [];
 
-    this.spawn("circle",data.object || data.entity);
+    data.object.forEach(object=>{
+      this.spawn(object.type,[object]);
+    });
+
     this.spawn("ground",data.ground);
+
+    if(data.entity){
+      this.spawn("circle",data.entity);
+    }
   }
 }
 

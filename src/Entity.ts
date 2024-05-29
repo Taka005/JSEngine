@@ -62,6 +62,21 @@ class Entity{
   removeTarget(targetId: string){
     this.targets = this.targets.filter(target=>target.name !== targetId);
   }
+
+  toJSON(): EntityOption{
+    return {
+      posX: this.posX,
+      posY: this.posY,
+      size: this.size,
+      mass: this.mass,
+      stiff: this.stiff,
+      speedX: this.speedX,
+      speedY: this.speedY,
+      rotate: this.rotate,
+      rotateSpeed: this.rotateSpeed,
+      targets: this.targets
+    }
+  }
 }
 
 export { Entity, EntityOption, Target };
