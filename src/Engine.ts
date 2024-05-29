@@ -55,7 +55,8 @@ class Engine extends EventTarget {
     await this.render.init({
       width: 900,
       height: 700,
-      backgroundColor: "#eee"
+      backgroundColor: "#eee",
+      resizeTo: window
     });
 
     this.render.ticker.add(()=>{
