@@ -107,6 +107,7 @@ class Circle extends EntityManager{
 
   destroy(){
     this.container.destroy();
+    this.vector.destroy();
   }
 
   toJSON(){
