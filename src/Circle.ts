@@ -96,6 +96,7 @@ class Circle extends EntityManager{
 
     this.container.rotation = rotate*(Math.PI/180);
     this.container.position.set(posX,posY);
+    this.vector.position.set(posX,posY);
 
     this.vector
       .clear()
