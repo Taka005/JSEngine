@@ -98,7 +98,7 @@ class Circle extends EntityManager{
     const { speedX, speedY } = this.getSpeed();
     const rotate = this.getRotate();
 
-    this.container.rotation = rotate*(Math.PI);
+    this.container.rotation = rotate*(Math.PI/180);
     this.container.position.set(posX,posY);
 
     this.vector
