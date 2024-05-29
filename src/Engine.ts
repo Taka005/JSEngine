@@ -52,8 +52,6 @@ class Engine extends EventTarget {
     this.isStart = false;
     this.isDebug = false;
     this.isTrack = false;
-
-    this.setGrid();
   }
 
   get entities(){
@@ -90,6 +88,8 @@ class Engine extends EventTarget {
     this.render.ticker.add(()=>{
       this.draw();
     });
+
+    this.setGrid();
   }
 
   clear(){
@@ -386,6 +386,8 @@ class Engine extends EventTarget {
   }
 
   setGrid(): void{
+    this.grid = new Container();
+
     for(let posX: number = 0;posX < this.render.screen.width;posX += 25){
       const line = new Graphics()
         .moveTo(posX,0)
