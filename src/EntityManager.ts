@@ -1,12 +1,13 @@
-import { Entity, EntityOption } from "./Entity"
+import { Entity, EntityOption } from "./Entity";
+import { createId } from "./utils";
 
 interface EntityManager{
   entities: Entity[]
 }
 
 class EntityManager{
-  constructor(){
-    this.entities = [];
+  constructor(entities: Entity[] = []){
+    this.entities = entities;
   }
 
   getPosition(): { posX: number, posY: number }{
@@ -16,8 +17,15 @@ class EntityManager{
     }
   }
 
+  getSpeed(): { speedX: number, speedY: number }{
+    return {
+      speedX: this.entities.reduce((total,entity)=>total + entity.speedX,0)/this.entities.length,
+      speedY:  this.entities.reduce((total,entity)=>total + entity.speedY,0)/this.entities.length
+    } 
+  }
+
   generate(object: EntityOption): Entity{
-    const entity = new Entity(object);
+    const entity = new Entity(createId(8),object);
 
     this.entities.push(entity);
 

@@ -1,5 +1,6 @@
 import { Application, Container, Sprite, Graphics } from "pixi.js";
 import { EntityManager } from "./EntityManager";
+import { Entity } from "./Entity";
 
 interface Circle extends EntityManager{
   type: string;
@@ -27,68 +28,64 @@ type CircleOption = {
   speedY?: number;
   color?: string;
   image?: string | null;
+  entities: Entity[];
 }
 
 class Circle extends EntityManager{
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null }: CircleOption){
-    super();
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: CircleOption){
+    super(entities);
 
     this.type = "circle";
-
     this.name = name;
-    this.posX = posX;
-    this.posY = posY;
     this.size = size;
-    this.mass = mass;
-    this.stiff = stiff;
-    this.speedX = speedX;
-    this.speedY = speedY;
-
     this.color = color;
     this.image = image;
 
     this.generate({
-      name: this.name,
-      posX: this.posX,
-      posY: this.posY,
-      size: this.size,
-      mass: this.mass,
-      stiff: this.stiff,
-      speedX: this.speedX,
-      speedY: this.speedY
+      posX: posX,
+      posY: posY,
+      size: size,
+      mass: mass,
+      stiff: stiff,
+      speedX: speedX,
+      speedY: speedY
     });
   }
 
   load(render: Application): void{
+    const { posX, posY } = this.getPosition();
+
     this.container = new Container();
+
+    this.container.position.set(posX,posY);
 
     if(this.image){
       const image = Sprite.from(this.image);
 
       image.anchor.set(0.5);
-      image.position.set(this.posX,this.posY);
+      image.position.set(0,0);
 
       this.container.addChild(image);
     }else{
       const circle = new Graphics()
-        .circle(this.posX,this.posY,this.size)
+        .circle(0,0,this.size)
         .fill(this.color);
 
       const mark = new Graphics()
-        .moveTo(this.posX,this.posY)
-        .lineTo(this.posX,this.posY - this.size)
+        .moveTo(0,0)
+        .lineTo(0,-this.size)
         .stroke({ width: 1, color: "black" });
 
       const vector = new Graphics()
-        .moveTo(this.posX,this.posY)
-        .lineTo(this.posX + this.speedX,this.posY + this.speedY)
+        .moveTo(0,0)
+        .lineTo(this.speedX,this.speedY)
         .stroke({ width: 1, color: "black" });
 
       this.container.addChild(circle);
       this.container.addChild(mark);
     }
 
-    //container.pivot.set(container.width/2,container.height/2);
+    //this.container.pivot.set(this.posX,this.posY);
     //container.rotation = this.rotate*(Math.PI);
 
     render.stage.addChild(this.container);

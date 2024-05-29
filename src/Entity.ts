@@ -15,7 +15,6 @@ interface Entity{
 }
 
 type EntityOption = {
-  name: string;
   posX: number;
   posY: number;
   size: number;
@@ -35,24 +34,19 @@ type Target = {
 }
 
 class Entity{
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, targets = [] }: EntityOption){
+  constructor(name: string,{ posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, targets = [] }: EntityOption){
     this.name = name;
-
     this.posX = posX;
     this.posY = posY;
     this.prePosX = posX;
     this.prePosY = posY;
-
     this.speedX = speedX;
     this.speedY = speedY;
-
     this.rotate = rotate;
     this.rotateSpeed = rotateSpeed;
-
     this.size = size;
     this.mass = mass;
     this.stiff = stiff;
-
     this.targets = targets;
   }
 
