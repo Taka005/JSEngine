@@ -431,11 +431,13 @@ class Engine extends EventTarget {
 
     this.clear();
 
-    data.object.forEach(object=>{
-      this.spawn(object.type,[object]);
-    });
-
     this.spawn("ground",data.ground);
+
+    if(data.object){
+      data.object.forEach(object=>{
+        this.spawn(object.type,[object]);
+      });
+    }
 
     if(data.entity){
       this.spawn("circle",data.entity);
