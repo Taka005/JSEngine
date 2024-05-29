@@ -80,8 +80,6 @@ class Entity{
 
   draw(render: Application): void{
     const container = new Container();
-    
-    container.pivot.set(this.posX,this.posY);
 
     if(this.img){
       this.img.position.set(this.posX,this.posY);
@@ -102,6 +100,7 @@ class Entity{
       container.addChild(line);
     }
 
+    container.pivot.set(this.posX,this.posY);
     container.rotation = this.rotate*(Math.PI);
 
     render.stage.addChild(container);
