@@ -92,16 +92,15 @@ class Entity{
 
       const line = new Graphics()
         .moveTo(this.posX,this.posY)
-        .lineTo(this.posX,this.posY - this.size);
-
-      line.strokeStyle = "black";
+        .lineTo(this.posX,this.posY - this.size)
+        .stroke({ width: 1, color: "black" });
 
       container.addChild(circle);
       container.addChild(line);
     }
 
-    //container.pivot.set(this.posX,this.posY);
-    //container.rotation = this.rotate*(Math.PI);
+    container.pivot.set(container.width/2,container.height/2);
+    container.rotation = this.rotate*(Math.PI);
 
     render.stage.addChild(container);
   }
@@ -109,7 +108,8 @@ class Entity{
   drawVector(render: Application): void{
     const line = new Graphics()
       .moveTo(this.posX,this.posY)
-      .lineTo(this.posX + this.speedX,this.posY + this.speedY);
+      .lineTo(this.posX + this.speedX,this.posY + this.speedY)
+      .stroke({ width: 1, color: "black" });
 
     line.strokeStyle = "black";
 
