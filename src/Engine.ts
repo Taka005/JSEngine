@@ -35,7 +35,7 @@ type ExportData = {
 }
 
 class Engine extends EventTarget {
-  constructor({ pps = 180, gravity = 500, friction = 0.001 }: EngineOption = {}){
+  constructor({ pps = 120, gravity = 500, friction = 0.001 }: EngineOption = {}){
     super();
 
     this.render = new Application();
