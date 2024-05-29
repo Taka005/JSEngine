@@ -99,8 +99,8 @@ class Entity{
       container.addChild(line);
     }
 
-    container.pivot.set(container.width/2,container.height/2);
-    container.rotation = this.rotate*(Math.PI);
+    //container.pivot.set(container.width/2,container.height/2);
+    //container.rotation = this.rotate*(Math.PI);
 
     render.stage.addChild(container);
   }
