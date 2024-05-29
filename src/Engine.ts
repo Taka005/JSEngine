@@ -1,15 +1,17 @@
 import { Application, Graphics } from "pixi.js";
-import { Entity, EntityOption } from "./Entity";
+import { Entity } from "./Entity";
 import { Ground, GroundOption } from "./Ground";
 import { Track } from "./Track";
+import { Circle, CircleOption } from "./Circle";
+import { createId } from "./utils";
 
 interface Engine extends EventTarget{
   render: Application
   pps: number;
   gravity: number;
   friction: number;
-  entities: { [key: string]: Entity };
   grounds: { [key: string]: Ground };
+  objects: { [key: string]: Circle }
   tracks: Track[];
   isStart: boolean;
   isDebug: boolean;
@@ -28,6 +30,7 @@ type ExportData = {
   gravity: number;
   friction: number;
   entity: Entity[];
+  object: Circle[]
   ground: Ground[];
 }
 
@@ -41,8 +44,8 @@ class Engine extends EventTarget {
     this.gravity = gravity;
     this.friction = friction;
 
-    this.entities = {};
     this.grounds = {};
+    this.objects = {};
     this.tracks = [];
 
     this.isStart = false;
@@ -55,8 +58,7 @@ class Engine extends EventTarget {
     await this.render.init({
       width: 900,
       height: 700,
-      backgroundColor: "#eee",
-      resizeTo: window
+      backgroundColor: "#eee"
     });
 
     this.render.ticker.add(()=>{
@@ -64,14 +66,8 @@ class Engine extends EventTarget {
     });
   }
 
-  createId(length: number): string{
-    const str: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let id: string = "";
-    for(let i = 0;i < length;i++){
-      id += str.charAt(Math.floor(Math.random()*str.length));
-    }
-
-    return id;
+  get entities(){
+    return Object.values(this.objects).map(object=>object.entities).flat();
   }
 
   start(): void{
@@ -98,17 +94,17 @@ class Engine extends EventTarget {
   }
 
   update(): void{
-    Object.values(this.entities).forEach(entity=>{
+    this.entities.forEach(entity=>{
       this.updatePosition(entity);
       this.updateRotate(entity);
     });
 
-    Object.values(this.entities).forEach(entity=>{
+    this.entities.forEach(entity=>{
       Object.values(this.grounds).forEach(ground=>{
         this.solveGroundPosition(entity,ground);
       });
 
-      Object.values(this.entities).forEach(target=>{
+      this.entities.forEach(target=>{
         if(entity.name === target.name) return;
 
         this.solvePosition(entity,target);
@@ -122,13 +118,9 @@ class Engine extends EventTarget {
       });
     });
 
-    Object.values(this.entities).forEach(entity=>{
+    this.entities.forEach(entity=>{
       this.updateSpeed(entity);
       this.solveSpeed(entity);
-
-      if(entity.posY > this.render.screen.height+100){
-        this.deSpawn("entity",entity.name);
-      }
 
       this.dispatchEvent(new CustomEvent("update",{
         detail:{
@@ -136,25 +128,25 @@ class Engine extends EventTarget {
         }
       }));
     });
+
+    Object.values(this.objects).forEach(object=>{
+      if(object.posY > this.render.screen.height+100){
+        this.deSpawn(object.type,object.name);
+      }
+    });
   }
 
   draw(): void{
-    this.render.stage.removeChildren(0);
-
     if(this.isDebug){
       this.drawGrid();
 
-      Object.values(this.entities).forEach(entity=>{
-        entity.drawVector(this.render);
+      Object.values(this.objects).forEach(object=>{
+        //object.drawVector(this.render);
       });
     }
 
-    Object.values(this.grounds).forEach(ground=>{
-      ground.draw(this.render);
-    });
-
-    Object.values(this.entities).forEach(entity=>{
-      entity.draw(this.render);
+    Object.values(this.objects).forEach(object=>{
+      object.update();
     });
 
     //if(this.isTrack){
@@ -166,33 +158,54 @@ class Engine extends EventTarget {
     this.render.render();
   }
 
-  spawn(type: "entity", name: Entity[]): void;
+  spawn(type: "circle", name: Circle[]): void;
   spawn(type: "ground", name: Ground[]): void;
-  spawn(type: "entity" | "ground",objects: (EntityOption | GroundOption)[]): void{
+  spawn(type: string,objects: (CircleOption | GroundOption)[]): void{
     objects.forEach(object=>{
-      object.name = object.name || this.createId(8);
+      object.name = object.name || createId(8);
 
-      if(type === "entity"){
-        this.entities[object.name] = new Entity(object as Entity);
+      if(type === "circle"){
+        const circle = new Circle(object as CircleOption);
+
+        circle.load(this.render);
+
+        this.objects[object.name] = circle;
       }else if(type === "ground"){
-        this.grounds[object.name] = new Ground(object as Ground);
+        const ground = new Ground(object as GroundOption);
+
+        ground.load(this.render);
+
+        this.grounds[object.name] = ground;
       }
     });
   }
 
-  deSpawn(type: "entity" | "ground",name: string): void{
-    if(type === "entity"){
-      delete this.entities[name];
+  deSpawn(type: string,name: string): void{
+    if(type === "circle"){
+      const circle = this.get(type,name);
+      if(!circle) return;
+
+      circle.destroy();
+
+      delete this.objects[name];
     }else if(type === "ground"){
+      const ground = this.get(type,name);
+      if(!ground) return;
+
+      ground.destroy();
+
       delete this.grounds[name];
     }
   }
 
   get(type: "entity", name: string): Entity | undefined;
+  get(type: "circle", name: string): Circle | undefined;
   get(type: "ground", name: string): Ground | undefined;
-  get(type: "entity" | "ground",name: string): Entity | Ground | undefined{
+  get(type: string,name: string): Entity | Circle | Ground | undefined{
     if(type === "entity"){
-      return this.entities[name];
+      return this.entities.find(entity=>entity.name === name);
+    }else if(type === "circle"){
+      return this.objects[name];
     }else if(type === "ground"){
       return this.grounds[name];
     }
@@ -375,7 +388,7 @@ class Engine extends EventTarget {
     return JSON.stringify({
       gravity: this.gravity,
       friction: this.friction,
-      entity: Object.values(this.entities),
+      object: Object.values(this.objects),
       ground: Object.values(this.grounds)
     });
   }
@@ -384,11 +397,11 @@ class Engine extends EventTarget {
     this.gravity = data.gravity;
     this.friction = data.friction;
 
-    this.entities = {};
     this.grounds = {};
+    this.objects = {};
     this.tracks = [];
 
-    this.spawn("entity",data.entity);
+    this.spawn("circle",data.object || data.entity);
     this.spawn("ground",data.ground);
   }
 }

@@ -59,7 +59,7 @@ game.addEventListener("mousedown",(event)=>{
 
   const rect = event.target.getBoundingClientRect();
 
-  engine.spawn("entity",[{
+  engine.spawn("circle",[{
     posX: event.clientX - rect.left,
     posY: event.clientY - rect.top,
     size: size,

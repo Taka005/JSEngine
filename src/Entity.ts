@@ -1,5 +1,3 @@
-import { Application, Container, Graphics, Sprite } from "pixi.js";
-
 interface Entity{
   name: string;
   posX: number;
@@ -14,8 +12,6 @@ interface Entity{
   rotate: number;
   rotateSpeed: number;
   targets: Target[];
-  color: string;
-  img: Sprite | null;
 }
 
 type EntityOption = {
@@ -30,8 +26,6 @@ type EntityOption = {
   rotate?: number;
   rotateSpeed?: number;
   targets?: Target[];
-  color?: string;
-  image?: string | null;
 }
 
 type Target = {
@@ -41,18 +35,7 @@ type Target = {
 }
 
 class Entity{
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, targets = [], color = "red", image = null }: EntityOption){
-    if(size < 0) throw new Error("サイズは0以上にしてください");
-    if(mass < 0) throw new Error("質量は0以上にしてください");
-    if(stiff < 0 || stiff > 1) throw new Error("剛性は0以上1以下にしてください");
-
-    if(image){
-      this.img = Sprite.from(image);
-      this.img.anchor.set(0.5);
-    }else{
-      this.color = color;
-    }
-
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, targets = [] }: EntityOption){
     this.name = name;
 
     this.posX = posX;
@@ -76,44 +59,6 @@ class Entity{
   savePosition(): void{
     this.prePosX = this.posX;
     this.prePosY = this.posY;
-  }
-
-  draw(render: Application): void{
-    const container = new Container();
-
-    if(this.img){
-      this.img.position.set(this.posX,this.posY);
-
-      container.addChild(this.img);
-    }else{
-      const circle = new Graphics()
-        .circle(this.posX,this.posY,this.size)
-        .fill(this.color);
-
-      const line = new Graphics()
-        .moveTo(this.posX,this.posY)
-        .lineTo(this.posX,this.posY - this.size)
-        .stroke({ width: 1, color: "black" });
-
-      container.addChild(circle);
-      container.addChild(line);
-    }
-
-    //container.pivot.set(container.width/2,container.height/2);
-    //container.rotation = this.rotate*(Math.PI);
-
-    render.stage.addChild(container);
-  }
-
-  drawVector(render: Application): void{
-    const line = new Graphics()
-      .moveTo(this.posX,this.posY)
-      .lineTo(this.posX + this.speedX,this.posY + this.speedY)
-      .stroke({ width: 1, color: "black" });
-
-    line.strokeStyle = "black";
-
-    render.stage.addChild(line);
   }
 
   addTarget(target: Target){

@@ -7,6 +7,7 @@ interface Ground{
   endX: number;
   endY: number;
   size: number;
+  container: Container;
 }
 
 type GroundOption = {
@@ -59,8 +60,8 @@ class Ground{
     }
   }
 
-  draw(render: Application): void{
-    const container = new Container();
+  load(render: Application): void{
+    this.container = new Container();
 
     const line = new Graphics()
       .moveTo(this.startX,this.startY)
@@ -68,20 +69,22 @@ class Ground{
       .stroke({ width: this.size, color: "red" });
 
     const startCircle = new Graphics()
-      .circle(this.startX,this.startY,this.size/2-1)
+      .circle(this.startX,this.startY,this.size/2)
       .fill("red");
 
     const endCircle = new Graphics()
-      .circle(this.endX,this.endY,this.size/2-1)
+      .circle(this.endX,this.endY,this.size/2)
       .fill("red");
 
-    line.strokeStyle = "red";
+    this.container.addChild(line);
+    this.container.addChild(startCircle);
+    this.container.addChild(endCircle);
 
-    container.addChild(line);
-    container.addChild(startCircle);
-    container.addChild(endCircle);
+    render.stage.addChild(this.container);
+  }
 
-    render.stage.addChild(container);
+  destroy(): void{
+    this.container.destroy();
   }
 }
 
