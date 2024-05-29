@@ -111,7 +111,7 @@ class Engine extends EventTarget {
       });
 
       entity.targets.forEach(data=>{
-        const target = this.get("entity",data.name);
+        const target = this.get<Entity>("entity",data.name);
         if(!target) return;
 
         this.solveConnect(entity,target,data.distance,data.stiff);
@@ -178,14 +178,14 @@ class Engine extends EventTarget {
 
   deSpawn(type: string,name: string): void{
     if(type === "circle"){
-      const circle = this.get(type,name);
+      const circle = this.get<Circle>(type,name);
       if(!circle) return;
 
       circle.destroy();
 
       delete this.objects[name];
     }else if(type === "ground"){
-      const ground = this.get(type,name);
+      const ground = this.get<Ground>(type,name);
       if(!ground) return;
 
       ground.destroy();
@@ -194,16 +194,13 @@ class Engine extends EventTarget {
     }
   }
 
-  //get(type: "entity", name: string): Entity | undefined;
-  get(type: "circle", name: string): Circle | undefined;
-  get(type: "ground", name: string): Ground | undefined;
-  get(type: string,name: string): Entity | Circle | Ground | undefined{
+  get<T>(type: string,name: string): T | undefined{
     if(type === "entity"){
-      return this.entities.find(entity=>entity.name === name);
+      return this.entities.find(entity=>entity.name === name) as T;
     }else if(type === "circle"){
-      return this.objects[name];
+      return this.objects[name] as T;
     }else if(type === "ground"){
-      return this.grounds[name];
+      return this.grounds[name] as T;
     }
   }
 
