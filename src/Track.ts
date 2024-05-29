@@ -1,17 +1,21 @@
 import { Sprite, Container, Graphics, Application } from "pixi.js";
-import { Entity } from "./Entity";
+import { Circle } from "./Circle";
 
 interface Track{
-  posX: number;
-  posY: number;
-  size: number;
+  container: Container;
 }
 
 class Track{
-  constructor(entity: Entity){
-    this.posX = entity.posX;
-    this.posY = entity.posY;
-    this.size = entity.size;
+  constructor(object: Circle){
+    this.container = object.container;
+  }
+
+  load(): void{
+    this.container.alpha = 0.1;
+  }
+
+  destroy(): void{
+    this.container.destroy();
   }
 }
 

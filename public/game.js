@@ -138,11 +138,7 @@ colorInput.addEventListener("input",(event)=>{
 });
 
 debug.addEventListener("click",()=>{
-  if(engine.isDebug){
-    engine.isDebug = false;
-  }else{
-    engine.isDebug = true;
-  }
+  engine.setDebug();
 });
 
 track.addEventListener("click",()=>{
@@ -158,8 +154,7 @@ trackReset.addEventListener("click",()=>{
 });
 
 reset.addEventListener("click",()=>{
-  engine.entities = {};
-  engine.tracks = [];
+  engine.clear();
 });
 
 dataFile.addEventListener("change",(event)=>{

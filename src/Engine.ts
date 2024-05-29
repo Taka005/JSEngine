@@ -53,7 +53,31 @@ class Engine extends EventTarget {
     this.isDebug = false;
     this.isTrack = false;
 
-    this.grid = new Container();
+    this.setGrid();
+  }
+
+  get entities(){
+    return Object.values(this.objects).map(object=>object.entities).flat();
+  }
+
+  setDebug(): void{
+    if(!this.isDebug){
+      this.isDebug = true;
+
+      this.grid.visible = true;
+
+      Object.values(this.objects).forEach(object=>{
+        object.vector.visible = true;
+      });
+    }else{
+      this.isDebug = false;
+
+      this.grid.visible = false;
+
+      Object.values(this.objects).forEach(object=>{
+        object.vector.visible = false;
+      });
+    }
   }
 
   async init(): Promise<void>{
@@ -68,8 +92,12 @@ class Engine extends EventTarget {
     });
   }
 
-  get entities(){
-    return Object.values(this.objects).map(object=>object.entities).flat();
+  clear(){
+    Object.values(this.objects).forEach(object=>{
+      object.destroy();
+    });
+
+    this.objects = {};
   }
 
   start(): void{
@@ -375,6 +403,8 @@ class Engine extends EventTarget {
 
       this.grid.addChild(line);
     }
+
+    this.grid.visible = false;
 
     this.render.stage.addChild(this.grid);
   }

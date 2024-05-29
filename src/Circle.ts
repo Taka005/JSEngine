@@ -14,7 +14,7 @@ interface Circle extends EntityManager{
   speedY: number;
   color?: string;
   image?: string | null;
-  isVector: boolean;
+  vector: Graphics;
   container: Container;
 }
 
@@ -43,7 +43,6 @@ class Circle extends EntityManager{
     this.stiff = stiff;
     this.color = color;
     this.image = image;
-    this.isVector = false;
 
     this.generate({
       posX: posX,
@@ -58,6 +57,7 @@ class Circle extends EntityManager{
 
   load(render: Application): void{
     const { posX, posY } = this.getPosition();
+    const { speedX, speedY } = this.getSpeed();
 
     this.container = new Container();
 
@@ -80,25 +80,32 @@ class Circle extends EntityManager{
         .lineTo(0,-this.size)
         .stroke({ width: 1, color: "black" });
 
-      this.container.addChild(circle,mark);
+      this.vector = new Graphics()
+        .moveTo(0,0)
+        .lineTo(speedX,speedY)
+        .stroke({ width: 1, color: "black" });
+
+      this.vector.visible = false;
+
+      this.container.addChild(circle,mark,this.vector);
     }
 
     render.stage.addChild(this.container);
   }
 
-  setVector(){
-    const vector = new Graphics()
-      .moveTo(0,0)
-      .lineTo(this.speedX,this.speedY)
-      .stroke({ width: 1, color: "black" });
-  }
-
   update(): void{
     const { posX, posY } = this.getPosition();
+    const { speedX, speedY } = this.getSpeed();
     const rotate = this.getRotate();
 
     this.container.rotation = rotate*(Math.PI);
     this.container.position.set(posX,posY);
+
+    this.vector
+      .clear()
+      .moveTo(0,0)
+      .lineTo(speedX,speedY)
+      .stroke({ width: 1, color: "black" });
   }
 
   destroy(){

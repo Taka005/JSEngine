@@ -22,8 +22,6 @@ type GroundOption = {
 
 class Ground{
   constructor({ name, startX, startY, endX, endY, size }: GroundOption){
-    if(size < 0) throw new Error("サイズは0以上にしてください");
-
     this.type = "ground";
     this.name = name;
 
