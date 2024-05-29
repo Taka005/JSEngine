@@ -155,7 +155,7 @@ class Engine extends EventTarget {
       //});
     //}
 
-    this.render.render();
+    //this.render.render();
   }
 
   spawn(type: "circle", name: Circle[]): void;
