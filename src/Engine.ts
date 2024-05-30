@@ -54,7 +54,7 @@ class Engine extends EventTarget {
     this.isTrack = false;
   }
 
-  get entities(){
+  get entities(): Entity[]{
     return Object.values(this.objects).map(object=>object.entities).flat();
   }
 
@@ -89,7 +89,7 @@ class Engine extends EventTarget {
     this.setGrid();
   }
 
-  clear({ force = false }: { force?: boolean } = {}){
+  clear({ force = false }: { force?: boolean } = {}): void{
     Object.values(this.objects).forEach(object=>{
       object.destroy();
     });
@@ -400,7 +400,7 @@ class Engine extends EventTarget {
       const line = new Graphics()
         .moveTo(posX,0)
         .lineTo(posX,this.render.screen.height)
-        .stroke({ width: 0.2, color: "black" });
+        .stroke({ width: 1, color: "black" });
 
       this.grid.addChild(line);
     }
@@ -409,7 +409,7 @@ class Engine extends EventTarget {
       const line = new Graphics()
         .moveTo(0,posY)
         .lineTo(this.render.screen.width,posY)
-        .stroke({ width: 0.2, color: "black" });
+        .stroke({ width: 1, color: "black" });
 
       this.grid.addChild(line);
     }
