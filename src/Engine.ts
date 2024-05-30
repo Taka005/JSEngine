@@ -335,7 +335,7 @@ class Engine extends EventTarget {
     }
   }
 
-  solveGroundRotate(entity: Entity,posX: number,posY: number){
+  solveGroundRotate(entity: Entity,posX: number,posY: number): void{
     const vecX: number = posX - entity.posX;
     const vecY: number = posY - entity.posY;
 
@@ -431,7 +431,7 @@ class Engine extends EventTarget {
     });
   }
 
-  import(data: ExportData){
+  import(data: ExportData): void{
     this.gravity = data.gravity;
     this.friction = data.friction;
 
