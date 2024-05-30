@@ -1,21 +1,21 @@
-import { Sprite, Container, Graphics, Application } from "pixi.js";
+import { Container, Graphics, Application } from "pixi.js";
 import { Circle } from "./Circle";
 
 interface Track{
-  container: Container;
+  view: Container;
 }
 
 class Track{
   constructor(object: Circle){
-    this.container = object.view;
+    this.view = object.view;
   }
 
   load(): void{
-    this.container.alpha = 0.1;
+    this.view.alpha = 0.1;
   }
 
   destroy(): void{
-    this.container.destroy();
+    this.view.destroy();
   }
 }
 

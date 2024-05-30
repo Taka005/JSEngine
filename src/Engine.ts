@@ -417,6 +417,8 @@ class Engine extends EventTarget {
     this.grid.visible = false;
 
     this.render.stage.addChild(this.grid);
+
+    console.log(this.grid)
   }
 
   export(): string{
