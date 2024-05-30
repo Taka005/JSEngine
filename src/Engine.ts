@@ -435,7 +435,6 @@ class Engine extends EventTarget {
     this.gravity = data.gravity;
     this.friction = data.friction;
 
-    this.grounds = {};
     this.tracks = [];
 
     this.clear({ force: true });
