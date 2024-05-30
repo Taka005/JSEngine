@@ -1,6 +1,6 @@
 import { Application, Container, Sprite, Graphics } from "pixi.js";
 import { EntityManager, ObjectData } from "./EntityManager";
-import { Entity, EntityData } from "./Entity";
+import { EntityOption } from "./Entity";
 
 interface Circle extends EntityManager{
   type: string;
@@ -25,12 +25,14 @@ type CircleOption = {
   speedY?: number;
   color?: string;
   image?: string | null;
-  entities: EntityData[];
+  entities: EntityOption[];
 }
 
 class Circle extends EntityManager{
   constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: CircleOption){
-    super(entities.map(entity=>new Entity(entity.name,entity)));
+    super();
+
+    entities.map(entity=>this.generate(entity));
 
     this.type = "circle";
     this.name = name;

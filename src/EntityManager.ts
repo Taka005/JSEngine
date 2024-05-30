@@ -1,4 +1,4 @@
-import { Entity, EntityData, EntityOption } from "./Entity";
+import { Entity, EntityOption, Target } from "./Entity";
 import { createId } from "./utils";
 
 interface EntityManager{
@@ -17,12 +17,26 @@ type ObjectData = {
   speedY?: number;
   color?: string;
   image?: string | null;
-  entities: EntityData[];
+  entities: EntityOption[];
+}
+
+type GenerateOption = {
+  name?: string;
+  posX: number;
+  posY: number;
+  size: number;
+  mass: number;
+  stiff: number;
+  speedX?: number;
+  speedY?: number;
+  rotate?: number;
+  rotateSpeed?: number;
+  targets?: Target[];
 }
 
 class EntityManager{
-  constructor(entities: Entity[] = []){
-    this.entities = entities;
+  constructor(){
+    this.entities = [];
   }
 
   getPosition(): { posX: number, posY: number }{
@@ -43,8 +57,12 @@ class EntityManager{
     return this.entities.reduce((total,entity)=>total + entity.rotate,0)/this.entities.length
   }
 
-  generate(object: EntityOption): Entity{
-    const entity = new Entity(createId(8),object);
+  generate(object: GenerateOption): Entity{
+    if(!object.name){
+      object.name = createId(8);
+    }
+
+    const entity = new Entity(object as EntityOption);
 
     this.entities.push(entity);
 

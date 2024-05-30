@@ -31,7 +31,7 @@ type EngineOption = {
 type ExportData = {
   gravity: number;
   friction: number;
-  entity: CircleOption[];
+  entity: ObjectData[];
   object: ObjectData[]
   ground: GroundOption[];
 }

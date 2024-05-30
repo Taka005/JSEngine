@@ -15,19 +15,6 @@ interface Entity{
 }
 
 type EntityOption = {
-  posX: number;
-  posY: number;
-  size: number;
-  mass: number;
-  stiff: number;
-  speedX?: number;
-  speedY?: number;
-  rotate?: number;
-  rotateSpeed?: number;
-  targets?: Target[];
-}
-
-type EntityData = {
   name: string;
   posX: number;
   posY: number;
@@ -40,7 +27,6 @@ type EntityData = {
   rotateSpeed?: number;
   targets?: Target[];
 }
-
 
 type Target = {
   name: string;
@@ -49,7 +35,7 @@ type Target = {
 }
 
 class Entity{
-  constructor(name: string,{ posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, targets = [] }: EntityOption){
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, targets = [] }: EntityOption){
     this.name = name;
     this.posX = posX;
     this.posY = posY;
@@ -78,7 +64,7 @@ class Entity{
     this.targets = this.targets.filter(target=>target.name !== targetId);
   }
 
-  toJSON(): EntityData{
+  toJSON(): EntityOption{
     return {
       name: this.name,
       posX: this.posX,
@@ -95,4 +81,4 @@ class Entity{
   }
 }
 
-export { Entity, EntityOption, Target, EntityData };
+export { Entity, EntityOption, Target };
