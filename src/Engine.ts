@@ -395,7 +395,6 @@ class Engine extends EventTarget {
 
   setGrid(): void{
     this.grid = new Container();
-    this.grid.position.set(0,0);
 
     for(let posX: number = 0;posX < this.render.screen.width;posX += 25){
       const line = new Graphics()
@@ -444,7 +443,10 @@ class Engine extends EventTarget {
     this.clear({ force: true });
 
     this.spawn("ground",data.ground);
-    this.spawn("circle",data.circle);
+
+    if(data.circle){
+      this.spawn("circle",data.circle);
+    }
 
     if(data.entity){
       this.spawn("circle",data.entity);
