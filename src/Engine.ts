@@ -395,6 +395,7 @@ class Engine extends EventTarget {
 
   setGrid(): void{
     this.grid = new Container();
+    this.grid.position.set(0,0);
 
     for(let posX: number = 0;posX < this.render.screen.width;posX += 25){
       const line = new Graphics()
@@ -417,8 +418,6 @@ class Engine extends EventTarget {
     this.grid.visible = false;
 
     this.render.stage.addChild(this.grid);
-
-    console.log(this.grid)
   }
 
   export(): string{
