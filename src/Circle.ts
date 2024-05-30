@@ -32,8 +32,6 @@ class Circle extends EntityManager{
   constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: CircleOption){
     super();
 
-    entities.map(entity=>this.generate(entity));
-
     this.type = "circle";
     this.name = name;
     this.size = size;
@@ -42,15 +40,19 @@ class Circle extends EntityManager{
     this.color = color;
     this.image = image;
 
-    this.generate({
-      posX: posX,
-      posY: posY,
-      size: size,
-      mass: mass,
-      stiff: stiff,
-      speedX: speedX,
-      speedY: speedY
-    });
+    if(entities[0]){
+      entities.map(entity=>this.generate(entity));
+    }else{
+      this.generate({
+        posX: posX,
+        posY: posY,
+        size: size,
+        mass: mass,
+        stiff: stiff,
+        speedX: speedX,
+        speedY: speedY
+      });
+    }
   }
 
   load(render: Application): void{
