@@ -1,8 +1,23 @@
-import { Entity, EntityOption } from "./Entity";
+import { Entity, EntityData, EntityOption } from "./Entity";
 import { createId } from "./utils";
 
 interface EntityManager{
   entities: Entity[]
+}
+
+type ObjectData = {
+  type: string,
+  name: string;
+  posX: number;
+  posY: number;
+  size: number;
+  mass: number;
+  stiff: number;
+  speedX?: number;
+  speedY?: number;
+  color?: string;
+  image?: string | null;
+  entities: EntityData[];
 }
 
 class EntityManager{
@@ -37,4 +52,4 @@ class EntityManager{
   }
 }
 
-export { EntityManager };
+export { EntityManager, ObjectData };

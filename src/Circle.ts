@@ -1,6 +1,6 @@
 import { Application, Container, Sprite, Graphics } from "pixi.js";
-import { EntityManager } from "./EntityManager";
-import { Entity } from "./Entity";
+import { EntityManager, ObjectData } from "./EntityManager";
+import { Entity, EntityData } from "./Entity";
 
 interface Circle extends EntityManager{
   type: string;
@@ -25,12 +25,12 @@ type CircleOption = {
   speedY?: number;
   color?: string;
   image?: string | null;
-  entities: Entity[];
+  entities: EntityData[];
 }
 
 class Circle extends EntityManager{
   constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: CircleOption){
-    super(entities);
+    super(entities.map(entity=>new Entity(entity.name,entity)));
 
     this.type = "circle";
     this.name = name;
@@ -110,7 +110,7 @@ class Circle extends EntityManager{
     this.vector.destroy();
   }
 
-  toJSON(): CircleOption{
+  toJSON(): ObjectData{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 

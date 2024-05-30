@@ -27,6 +27,21 @@ type EntityOption = {
   targets?: Target[];
 }
 
+type EntityData = {
+  name: string;
+  posX: number;
+  posY: number;
+  size: number;
+  mass: number;
+  stiff: number;
+  speedX?: number;
+  speedY?: number;
+  rotate?: number;
+  rotateSpeed?: number;
+  targets?: Target[];
+}
+
+
 type Target = {
   name: string;
   distance: number;
@@ -63,8 +78,9 @@ class Entity{
     this.targets = this.targets.filter(target=>target.name !== targetId);
   }
 
-  toJSON(): EntityOption{
+  toJSON(): EntityData{
     return {
+      name: this.name,
       posX: this.posX,
       posY: this.posY,
       size: this.size,
@@ -79,4 +95,4 @@ class Entity{
   }
 }
 
-export { Entity, EntityOption, Target };
+export { Entity, EntityOption, Target, EntityData };

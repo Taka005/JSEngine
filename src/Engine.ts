@@ -4,6 +4,7 @@ import { Ground, GroundOption } from "./Ground";
 import { Track } from "./Track";
 import { Circle, CircleOption } from "./Circle";
 import { createId } from "./utils";
+import { ObjectData } from "./EntityManager";
 
 interface Engine extends EventTarget{
   render: Application
@@ -30,9 +31,9 @@ type EngineOption = {
 type ExportData = {
   gravity: number;
   friction: number;
-  entity: Circle[];
-  object: Circle[]
-  ground: Ground[];
+  entity: CircleOption[];
+  object: ObjectData[]
+  ground: GroundOption[];
 }
 
 class Engine extends EventTarget {
