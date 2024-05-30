@@ -4,7 +4,6 @@ import { Ground, GroundOption } from "./Ground";
 import { Track } from "./Track";
 import { Circle, CircleOption } from "./Circle";
 import { createId } from "./utils";
-import { ObjectData } from "./EntityManager";
 
 interface Engine extends EventTarget{
   render: Application
@@ -31,8 +30,8 @@ type EngineOption = {
 type ExportData = {
   gravity: number;
   friction: number;
-  entity: ObjectData[];
-  object: ObjectData[]
+  entity?: CircleOption[];
+  circle: CircleOption[];
   ground: GroundOption[];
 }
 
@@ -421,13 +420,16 @@ class Engine extends EventTarget {
   }
 
   export(): string{
-    const objects = Object.values(this.objects).map(object=>object.toJSON());
+    const circle = Object.values(this.objects)
+      .filter(object=>object.type === "circle")
+      .map(object=>object.toJSON());
+
     const grounds = Object.values(this.grounds).map(object=>object.toJSON());
 
     return JSON.stringify({
       gravity: this.gravity,
       friction: this.friction,
-      object: objects,
+      circle: circle,
       ground: grounds
     });
   }
@@ -441,12 +443,7 @@ class Engine extends EventTarget {
     this.clear({ force: true });
 
     this.spawn("ground",data.ground);
-
-    if(data.object){
-      data.object.forEach(object=>{
-        this.spawn(object.type,[object]);
-      });
-    }
+    this.spawn("circle",data.circle);
 
     if(data.entity){
       this.spawn("circle",data.entity);

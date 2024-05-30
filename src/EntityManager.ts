@@ -5,21 +5,6 @@ interface EntityManager{
   entities: Entity[]
 }
 
-type ObjectData = {
-  type: string,
-  name: string;
-  posX: number;
-  posY: number;
-  size: number;
-  mass: number;
-  stiff: number;
-  speedX?: number;
-  speedY?: number;
-  color?: string;
-  image?: string | null;
-  entities: EntityOption[];
-}
-
 type GenerateOption = {
   name?: string;
   posX: number;
@@ -70,4 +55,4 @@ class EntityManager{
   }
 }
 
-export { EntityManager, ObjectData };
+export { EntityManager };

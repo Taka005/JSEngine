@@ -1,5 +1,5 @@
 import { Application, Container, Sprite, Graphics } from "pixi.js";
-import { EntityManager, ObjectData } from "./EntityManager";
+import { EntityManager } from "./EntityManager";
 import { EntityOption } from "./Entity";
 
 interface Circle extends EntityManager{
@@ -112,12 +112,11 @@ class Circle extends EntityManager{
     this.vector.destroy();
   }
 
-  toJSON(): ObjectData{
+  toJSON(): CircleOption{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 
     return {
-      type: this.type,
       name: this.name,
       posX: posX,
       posY: posY,
