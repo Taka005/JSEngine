@@ -89,7 +89,7 @@ class Engine extends EventTarget {
     this.setGrid();
   }
 
-  clear({ force = false }: { force?: boolean }){
+  clear({ force = false }: { force?: boolean } = {}){
     Object.values(this.objects).forEach(object=>{
       object.destroy();
     });
