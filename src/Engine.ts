@@ -241,7 +241,7 @@ class Engine extends EventTarget {
   }
 
   solvePosition(source: Entity,target: Entity): void{
-    const totalMass: number = source.mass + target.mass;
+    const totalMass: number = source.invMass + target.invMass;
     if(totalMass === 0) return;
 
     let vecX: number = target.posX - source.posX;
@@ -265,18 +265,18 @@ class Engine extends EventTarget {
       vecX *= move;
       vecY *= move;
 
-      source.posX += vecX*source.mass;
-      source.posY += vecY*source.mass;
+      source.posX += vecX*source.invMass;
+      source.posY += vecY*source.invMass;
 
-      target.posX -= vecX*target.mass;
-      target.posY -= vecY*target.mass;
+      target.posX -= vecX*target.invMass;
+      target.posY -= vecY*target.invMass;
 
       this.solveRotate(source,target);
     }
   }
 
   solveGroundPosition(entity: Entity,ground: Ground): void{
-    if(entity.mass === 0) return;
+    if(entity.invMass === 0) return;
 
     const { posX, posY }: { posX: number, posY: number } = ground.solvePosition(entity.posX,entity.posY);
     let vecX: number = posX - entity.posX;
@@ -291,12 +291,12 @@ class Engine extends EventTarget {
         }
       }));
 
-      const move: number = (distance - (entity.size + ground.size/2))/(distance*entity.mass + 0.000001)*entity.stiff;
+      const move: number = (distance - (entity.size + ground.size/2))/(distance*entity.invMass + 0.000001)*entity.stiff;
       vecX *= move;
       vecY *= move;
 
-      entity.posX += vecX*entity.mass;
-      entity.posY += vecY*entity.mass;
+      entity.posX += vecX*entity.invMass;
+      entity.posY += vecY*entity.invMass;
 
       this.solveGroundRotate(entity,posX,posY);
     }
@@ -400,7 +400,7 @@ class Engine extends EventTarget {
       const line = new Graphics()
         .moveTo(posX,0)
         .lineTo(posX,this.render.screen.height)
-        .stroke({ width: 0.2, color: "black" });
+        .stroke({ width: 1, color: "black" });
 
       this.grid.addChild(line);
     }
@@ -409,7 +409,7 @@ class Engine extends EventTarget {
       const line = new Graphics()
         .moveTo(0,posY)
         .lineTo(this.render.screen.width,posY)
-        .stroke({ width: 0.2, color: "black" });
+        .stroke({ width: 1, color: "black" });
 
       this.grid.addChild(line);
     }

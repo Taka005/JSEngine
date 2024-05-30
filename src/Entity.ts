@@ -51,6 +51,12 @@ class Entity{
     this.targets = targets;
   }
 
+  get invMass(): number{
+    if(this.mass === 0) return 0;
+
+    return 1/(this.mass);
+  }
+
   savePosition(): void{
     this.prePosX = this.posX;
     this.prePosY = this.posY;
