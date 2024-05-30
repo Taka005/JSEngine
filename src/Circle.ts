@@ -11,7 +11,7 @@ interface Circle extends EntityManager{
   color?: string;
   image?: string | null;
   vector: Graphics;
-  container: Container;
+  view: Container;
 }
 
 type CircleOption = {
@@ -57,7 +57,7 @@ class Circle extends EntityManager{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 
-    this.container = new Container();
+    this.view = new Container();
     this.vector = new Graphics()
       .moveTo(0,0)
       .lineTo(speedX,speedY)
@@ -65,7 +65,7 @@ class Circle extends EntityManager{
 
     this.vector.visible = false;
 
-    this.container.position.set(posX,posY);
+    this.view.position.set(posX,posY);
     this.vector.position.set(posX,posY);
 
     if(this.image){
@@ -74,7 +74,7 @@ class Circle extends EntityManager{
       image.anchor.set(0.5);
       image.position.set(0,0);
 
-      this.container.addChild(image);
+      this.view.addChild(image);
     }else{
       const circle = new Graphics()
         .circle(0,0,this.size)
@@ -85,10 +85,10 @@ class Circle extends EntityManager{
         .lineTo(0,-this.size)
         .stroke({ width: 1, color: "black" });
 
-      this.container.addChild(circle,mark);
+      this.view.addChild(circle,mark);
     }
 
-    render.stage.addChild(this.container,this.vector);
+    render.stage.addChild(this.view,this.vector);
   }
 
   update(): void{
@@ -96,8 +96,8 @@ class Circle extends EntityManager{
     const { speedX, speedY } = this.getSpeed();
     const rotate = this.getRotate();
 
-    this.container.rotation = rotate*(Math.PI/180);
-    this.container.position.set(posX,posY);
+    this.view.rotation = rotate*(Math.PI/180);
+    this.view.position.set(posX,posY);
     this.vector.position.set(posX,posY);
 
     this.vector
@@ -108,7 +108,7 @@ class Circle extends EntityManager{
   }
 
   destroy(): void{
-    this.container.destroy();
+    this.view.destroy();
     this.vector.destroy();
   }
 

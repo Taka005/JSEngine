@@ -8,7 +8,7 @@ interface Ground{
   endX: number;
   endY: number;
   size: number;
-  container: Container;
+  view: Container;
 }
 
 type GroundOption = {
@@ -61,7 +61,7 @@ class Ground{
   }
 
   load(render: Application): void{
-    this.container = new Container();
+    this.view = new Container();
 
     const line = new Graphics()
       .moveTo(this.startX,this.startY)
@@ -76,13 +76,13 @@ class Ground{
       .circle(this.endX,this.endY,this.size/2)
       .fill("red");
 
-    this.container.addChild(line,startCircle,endCircle);
+    this.view.addChild(line,startCircle,endCircle);
 
-    render.stage.addChild(this.container);
+    render.stage.addChild(this.view);
   }
 
   destroy(): void{
-    this.container.destroy();
+    this.view.destroy();
   }
 
   toJSON(): GroundOption{

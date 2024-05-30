@@ -7,7 +7,7 @@ interface Track{
 
 class Track{
   constructor(object: Circle){
-    this.container = object.container;
+    this.container = object.view;
   }
 
   load(): void{
