@@ -4,7 +4,7 @@
   "description": "Webで動作する軽量な物理エンジン",
   "scripts": {
     "lint": "./node_modules/.bin/eslint ./dist/Engine.ts",
-    "docs": "npx typedoc --plugin typedoc-plugin-markdown 'src/Engine.ts'",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown --name JSEngine 'src/Entity.ts'",
     "build": "npx tsc",
     "bundle": "esbuild --bundle --minify --outfile=./public/Engine.js ./src/Engine.js"
   },
@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/Taka005/JSEngine#readme",
   "dependencies": {
-    "@microsoft/tsdoc": "^0.15.0",
     "pixi.js": "^8.1.5",
     "typescript": "^5.4.5"
   },
