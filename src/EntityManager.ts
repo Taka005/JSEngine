@@ -59,15 +59,20 @@ class EntityManager{
       this.entities.forEach(target=>{
         if(source.name === target.name) return;
 
+        const vecX = source.posX - target.posX;
+        const vecY = source.posY - target.posY;
+
+        const distance = Math.sqrt(vecX**2 + vecY**2);
+
         source.addTarget({
           name: target.name,
-          distance: source.size + target.size,
+          distance: distance,
           stiff: source.stiff
         });
 
         target.addTarget({
           name: source.name,
-          distance: source.size + target.size,
+          distance: distance,
           stiff: source.stiff
         });
       });
