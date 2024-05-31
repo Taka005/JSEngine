@@ -74,7 +74,6 @@ class Square extends EntityManager{
 
     this.vector.visible = false;
 
-    this.view.position.set(posX,posY);
     this.vector.position.set(posX,posY);
 
     if(this.image){
@@ -85,15 +84,13 @@ class Square extends EntityManager{
 
       this.view.addChild(image);
     }else{
-      for(let i = -1;i<=1;i+=2){
-        for(let k = -1;k<=1;k+=2){
-          const circle = new Graphics()
-            .circle(i*(this.size/2),k*(this.size/2),this.size)
-            .fill(this.color);
+      this.entities.forEach(entity=>{
+        const circle = new Graphics()
+          .circle(entity.posX,entity.posY,entity.size)
+          .fill(this.color);
 
-          this.view.addChild(circle);
-        }
-      }
+        this.view.addChild(circle);
+      });
     }
 
     render.stage.addChild(this.view,this.vector);
@@ -103,7 +100,25 @@ class Square extends EntityManager{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 
-    this.view.position.set(posX,posY);
+    this.view.removeChildren(0);
+
+    if(this.image){
+      const image = Sprite.from(this.image);
+
+      image.anchor.set(0.5);
+      image.position.set(0,0);
+
+      this.view.addChild(image);
+    }else{
+      this.entities.forEach(entity=>{
+        const circle = new Graphics()
+          .circle(entity.posX,entity.posY,entity.size)
+          .fill(this.color);
+
+        this.view.addChild(circle);
+      });
+    }
+
     this.vector.position.set(posX,posY);
 
     this.vector
