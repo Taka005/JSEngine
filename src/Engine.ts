@@ -1,8 +1,9 @@
-import { Application, Container, Graphics } from "pixi.js";
+import { Application, Container, Graphics, squaredDistanceToLineSegment } from "pixi.js";
 import { Entity } from "./Entity";
 import { Ground, GroundOption } from "./Ground";
 import { Track } from "./Track";
 import { Circle, CircleOption } from "./Circle";
+import { Square, SquareOption } from "./Square";
 import { createId } from "./utils";
 
 interface Engine extends EventTarget{
@@ -32,6 +33,7 @@ type ExportData = {
   friction: number;
   entity?: CircleOption[];
   circle: CircleOption[];
+  square: SquareOption[];
   ground: GroundOption[];
 }
 
@@ -192,7 +194,7 @@ class Engine extends EventTarget {
     //}
   }
 
-  spawn(type: string,objects: (CircleOption | GroundOption)[]): void{
+  spawn(type: string,objects: (CircleOption | GroundOption | SquareOption)[]): void{
     objects.forEach(object=>{
       object.name = object.name || createId(8);
 
@@ -202,6 +204,12 @@ class Engine extends EventTarget {
         circle.load(this.render);
 
         this.objects[object.name] = circle;
+      }else if(type === "square"){
+        const square = new Circle(object as SquareOption);
+
+        square.load(this.render);
+
+        this.objects[object.name] = square;
       }else if(type === "ground"){
         const ground = new Ground(object as GroundOption);
 
@@ -220,6 +228,13 @@ class Engine extends EventTarget {
       circle.destroy();
 
       delete this.objects[name];
+    }else if(type === "square"){
+        const square = this.get<Square>(type,name);
+        if(!square) return;
+  
+        square.destroy();
+  
+        delete this.objects[name];
     }else if(type === "ground"){
       const ground = this.get<Ground>(type,name);
       if(!ground) return;
@@ -233,10 +248,8 @@ class Engine extends EventTarget {
   get<T>(type: string,name: string): T | undefined{
     if(type === "entity"){
       return this.entities.find(entity=>entity.name === name) as T;
-    }else if(type === "circle"){
+    }else{
       return this.objects[name] as T;
-    }else if(type === "ground"){
-      return this.grounds[name] as T;
     }
   }
 
@@ -430,12 +443,17 @@ class Engine extends EventTarget {
       .filter(object=>object.type === "circle")
       .map(object=>object.toJSON());
 
+    const square = Object.values(this.objects)
+      .filter(object=>object.type === "square")
+      .map(object=>object.toJSON());
+
     const grounds = Object.values(this.grounds).map(object=>object.toJSON());
 
     return JSON.stringify({
       gravity: this.gravity,
       friction: this.friction,
       circle: circle,
+      square: square,
       ground: grounds
     });
   }
@@ -452,6 +470,10 @@ class Engine extends EventTarget {
 
     if(data.circle){
       this.spawn("circle",data.circle);
+    }
+
+    if(data.square){
+      this.spawn("square",data.square);
     }
 
     if(data.entity){

@@ -47,6 +47,7 @@ const engine = new Engine();
   ]);
 })();
 
+let tool = "circle";
 let size = 15;
 let mass = 10;
 let stiff = 0.5;
@@ -59,7 +60,7 @@ game.addEventListener("mousedown",(event)=>{
 
   const rect = event.target.getBoundingClientRect();
 
-  engine.spawn("circle",[{
+  engine.spawn(tool,[{
     posX: event.clientX - rect.left,
     posY: event.clientY - rect.top,
     size: size,
@@ -74,6 +75,8 @@ const gravityValue = document.getElementById("gravityValue");
 
 const frictionInput = document.getElementById("frictionInput");
 const frictionValue = document.getElementById("frictionValue");
+
+const toolInput = document.getElementById("toolInput");
 
 const sizeInput = document.getElementById("sizeInput");
 const sizeValue = document.getElementById("sizeValue");
@@ -115,6 +118,10 @@ gravityInput.addEventListener("input",(event)=>{
 frictionInput.addEventListener("input",(event)=>{
   frictionValue.textContent = event.target.value;
   engine.friction = event.target.value;
+});
+
+toolInput.addEventListener("input",(event)=>{
+  tool = event.target.value;
 });
 
 sizeInput.addEventListener("input",(event)=>{

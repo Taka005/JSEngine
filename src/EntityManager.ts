@@ -42,7 +42,7 @@ class EntityManager{
     return this.entities.reduce((total,entity)=>total + entity.rotate,0)/this.entities.length
   }
 
-  generate(object: GenerateOption): Entity{
+  create(object: GenerateOption): Entity{
     if(!object.name){
       object.name = createId(8);
     }
@@ -52,6 +52,26 @@ class EntityManager{
     this.entities.push(entity);
 
     return entity;
+  }
+
+  connect(): void{
+    this.entities.forEach(source=>{
+      this.entities.forEach(target=>{
+        if(source.name === target.name) return;
+
+        source.addTarget({
+          name: target.name,
+          distance: source.size + target.size,
+          stiff: source.stiff
+        });
+
+        target.addTarget({
+          name: source.name,
+          distance: source.size + target.size,
+          stiff: source.stiff
+        });
+      });
+    });
   }
 }
 

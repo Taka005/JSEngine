@@ -2,7 +2,7 @@ import { Application, Container, Sprite, Graphics } from "pixi.js";
 import { EntityManager } from "./EntityManager";
 import { EntityOption } from "./Entity";
 
-interface Circle extends EntityManager{
+interface Square extends EntityManager{
   type: string;
   name: string;
   size: number;
@@ -14,7 +14,7 @@ interface Circle extends EntityManager{
   view: Container;
 }
 
-type CircleOption = {
+type SquareOption = {
   name: string;
   posX: number;
   posY: number;
@@ -28,11 +28,11 @@ type CircleOption = {
   entities: EntityOption[];
 }
 
-class Circle extends EntityManager{
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: CircleOption){
+class Square extends EntityManager{
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: SquareOption){
     super();
 
-    this.type = "circle";
+    this.type = "square";
     this.name = name;
     this.size = size;
     this.mass = mass;
@@ -43,15 +43,21 @@ class Circle extends EntityManager{
     if(entities[0]){
       entities.map(entity=>this.create(entity));
     }else{
-      this.create({
-        posX: posX,
-        posY: posY,
-        size: size,
-        mass: mass,
-        stiff: stiff,
-        speedX: speedX,
-        speedY: speedY
-      });
+      for(let i = -1;i<=1;i+=2){
+        for(let k = -1;k<1;k+=2){
+          this.create({
+            posX: posX + i*(size/4),
+            posY: posY + k*(size/4),
+            size: size/4,
+            mass: mass/4,
+            stiff: stiff,
+            speedX: speedX,
+            speedY: speedY
+          });
+        }
+      }
+
+      this.connect();
     }
   }
 
@@ -60,7 +66,7 @@ class Circle extends EntityManager{
     const { speedX, speedY } = this.getSpeed();
 
     this.view = new Container();
-
+  
     this.vector = new Graphics()
       .moveTo(0,0)
       .lineTo(speedX,speedY)
@@ -79,16 +85,13 @@ class Circle extends EntityManager{
 
       this.view.addChild(image);
     }else{
-      const circle = new Graphics()
-        .circle(0,0,this.size)
-        .fill(this.color);
+      this.entities.forEach(entity=>{
+        const circle = new Graphics()
+          .circle(entity.posX,entity.posY,entity.size)
+          .fill(this.color);
 
-      const mark = new Graphics()
-        .moveTo(0,0)
-        .lineTo(0,-this.size)
-        .stroke({ width: 1, color: "black" });
-
-      this.view.addChild(circle,mark);
+          this.view.addChild(circle);
+      });
     }
 
     render.stage.addChild(this.view,this.vector);
@@ -97,9 +100,7 @@ class Circle extends EntityManager{
   update(): void{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
-    const rotate = this.getRotate();
 
-    this.view.rotation = rotate*(Math.PI/180);
     this.view.position.set(posX,posY);
     this.vector.position.set(posX,posY);
 
@@ -115,7 +116,7 @@ class Circle extends EntityManager{
     this.vector.destroy();
   }
 
-  toJSON(): CircleOption{
+  toJSON(): SquareOption{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 
@@ -135,4 +136,4 @@ class Circle extends EntityManager{
   }
 }
 
-export { Circle, CircleOption };
+export { Square, SquareOption };

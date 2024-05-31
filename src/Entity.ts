@@ -119,7 +119,7 @@ class Entity{
    * 接続対象を追加します
    * @param {Target} target 接続するエンティティー
    */
-  addTarget(target: Target){
+  addTarget(target: Target): void{
     this.targets.push(target);
   }
 
@@ -127,7 +127,7 @@ class Entity{
    * 接続対象を削除します
    * @param {number} targetId 削除するエンティティー名
    */
-  removeTarget(targetId: string){
+  removeTarget(targetId: string): void{
     this.targets = this.targets.filter(target=>target.name !== targetId);
   }
 
