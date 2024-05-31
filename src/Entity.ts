@@ -1,3 +1,20 @@
+/**
+ * エンティティーを表します
+ * @typedef {Object} Entity
+ * @property {string} name エンティティー名
+ * @property {number} posX X座標
+ * @property {number} posY Y座標
+ * @property {number} prePosX 保存されたX座標
+ * @property {number} prePosY 保存されたY座標
+ * @property {number} size 半径
+ * @property {number} mass 質量
+ * @property {number} stiff 剛性(これは0以上1以下です)
+ * @property {number} speedX X方向の速度
+ * @property {number} speedY Y方向の速度
+ * @property {number} rotate 回転角度
+ * @property {number} rotateSpeed 回転速度
+ * @property {Target[]} targets 接続された物体
+ */
 interface Entity{
   name: string;
   posX: number;
@@ -14,6 +31,21 @@ interface Entity{
   targets: Target[];
 }
 
+/**
+ * エンティティーの初期化オブジェクトです
+ * @typedef {Object} EntityOption
+ * @property {string} name エンティティー名
+ * @property {number} posX X座標
+ * @property {number} posY Y座標
+ * @property {number} size 半径
+ * @property {number} mass 質量
+ * @property {number} stiff 剛性(これは0以上一以下です)
+ * @property {number} speedX X方向の速度
+ * @property {number} speedY Y方向の速度
+ * @property {number} rotate 回転角度
+ * @property {number} rotateSpeed 回転速度
+ * @property {Target[]} targets 接続された物体
+ */
 type EntityOption = {
   name: string;
   posX: number;
@@ -28,13 +60,27 @@ type EntityOption = {
   targets?: Target[];
 }
 
+/**
+ * 物体の接続を表します
+ * @typedef {Object} Target
+ * @property {string} name エンティティー名
+ * @property {number} distance 接続距離
+ * @property {number} stiff 拘束する強さ(これは0以上1以下の値です)
+ */
 type Target = {
   name: string;
   distance: number;
   stiff: number;
 }
 
+/**
+ * エンティティークラス
+ * これは物理エンジンにおける物体の最小単位です
+ */
 class Entity{
+  /**
+   * @param {EntityOption} option エンティティーオプション
+   */
   constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, targets = [] }: EntityOption){
     this.name = name;
     this.posX = posX;
@@ -71,7 +117,7 @@ class Entity{
 
   /**
    * 接続対象を追加します
-   * @param target 接続するEntity
+   * @param {Target} target 接続するエンティティー
    */
   addTarget(target: Target){
     this.targets.push(target);
@@ -79,7 +125,7 @@ class Entity{
 
   /**
    * 接続対象を削除します
-   * @param targetId 削除するEntity名
+   * @param {number} targetId 削除するエンティティー名
    */
   removeTarget(targetId: string){
     this.targets = this.targets.filter(target=>target.name !== targetId);
@@ -87,7 +133,7 @@ class Entity{
 
   /**
    * JSONに変換します
-   * @return {EntityOption}
+   * @return {EntityOption} エンティティーオプション
    */
   toJSON(): EntityOption{
     return {

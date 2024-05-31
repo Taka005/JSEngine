@@ -4,7 +4,7 @@
   "description": "Webで動作する軽量な物理エンジン",
   "scripts": {
     "lint": "./node_modules/.bin/eslint ./dist/Engine.ts",
-    "docs": "npx typedoc --plugin typedoc-plugin-markdown --name JSEngine 'src/Entity.ts'",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown --name JSEngine --entryPointStrategy expand ./src",
     "build": "npx tsc",
     "bundle": "esbuild --bundle --minify --outfile=./public/Engine.js ./src/Engine.js"
   },
