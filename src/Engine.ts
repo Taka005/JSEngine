@@ -205,7 +205,7 @@ class Engine extends EventTarget {
 
         this.objects[object.name] = circle;
       }else if(type === "square"){
-        const square = new Circle(object as SquareOption);
+        const square = new Square(object as SquareOption);
 
         square.load(this.render);
 
