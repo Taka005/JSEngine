@@ -6,7 +6,7 @@ import { Circle, CircleOption } from "./Circle";
 import { createId } from "./utils";
 
 interface Engine extends EventTarget{
-  render: Application
+  render: Application;
   pps: number;
   gravity: number;
   friction: number;
@@ -279,8 +279,14 @@ class Engine extends EventTarget {
     if(entity.invMass === 0) return;
 
     const { posX, posY }: { posX: number, posY: number } = ground.solvePosition(entity.posX,entity.posY);
+
     let vecX: number = posX - entity.posX;
     let vecY: number = posY - entity.posY;
+
+    if(
+      Math.abs(vecX) >= entity.size + Math.abs(ground.startX - ground.endX) + ground.size&&
+      Math.abs(vecY) >= entity.size + Math.abs(ground.startY - ground.endY) + ground.size
+    ) return;
 
     const distance = Math.sqrt(vecX**2 + vecY**2);
     if(distance <= entity.size + ground.size/2){
