@@ -46,9 +46,9 @@ class Square extends EntityManager{
       for(let i = -1;i<=1;i+=2){
         for(let k = -1;k<=1;k+=2){
           this.create({
-            posX: posX + i*(size/4),
-            posY: posY + k*(size/4),
-            size: size/4,
+            posX: posX + i*(size/2),
+            posY: posY + k*(size/2),
+            size: size/2,
             mass: mass/4,
             stiff: stiff,
             speedX: speedX,
