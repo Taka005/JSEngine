@@ -1,6 +1,14 @@
 const game = document.getElementById("game");
 const engine = new Engine();
 
+let tool = "circle";
+let size = 15;
+let mass = 10;
+let stiff = 0.5;
+let color = "#ff0000";
+
+let saveData = engine.export();
+
 (async()=>{
   await engine.init();
 
@@ -45,15 +53,9 @@ const engine = new Engine();
       size: 15
     }
   ]);
+
+  saveData =  engine.export();
 })();
-
-let tool = "circle";
-let size = 15;
-let mass = 10;
-let stiff = 0.5;
-let color = "#ff0000";
-
-let saveData = engine.export();
 
 game.addEventListener("mousedown",(event)=>{
   event.preventDefault();
