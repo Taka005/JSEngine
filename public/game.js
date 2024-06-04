@@ -6,6 +6,7 @@ let size = 15;
 let mass = 10;
 let stiff = 0.5;
 let color = "#ff0000";
+let grounds = {};
 
 let saveData = engine.export();
 
@@ -62,14 +63,35 @@ game.addEventListener("mousedown",(event)=>{
 
   const rect = event.target.getBoundingClientRect();
 
-  engine.spawn(tool,[{
-    posX: event.clientX - rect.left,
-    posY: event.clientY - rect.top,
-    size: size,
-    mass: mass,
-    stiff: stiff,
-    color: color
-  }]);
+  if(tool !== "ground"){
+    grounds = {};
+
+    engine.spawn(tool,[{
+      posX: event.clientX - rect.left,
+      posY: event.clientY - rect.top,
+      size: size,
+      mass: mass,
+      stiff: stiff,
+      color: color
+    }]);
+  }else{
+    if(Object.keys(grounds).length === 0){
+      grounds = {
+        posX: event.clientX - rect.left,
+        posY: event.clientY - rect.top
+      }
+    }else{
+      editer.spawn({
+        startX: grounds.posX,
+        startY: grounds.posY,
+        endX: event.clientX - rect.left,
+        endY: event.clientY - rect.top,
+        stiff: 0.5
+      });
+
+      grounds = {};
+    }
+  }
 });
 
 const gravityInput = document.getElementById("gravityInput");
