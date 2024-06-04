@@ -81,14 +81,14 @@ game.addEventListener("mousedown",(event)=>{
         posY: event.clientY - rect.top
       }
     }else{
-      engine.spawn({
+      engine.spawn("ground",[{
         startX: grounds.posX,
         startY: grounds.posY,
         endX: event.clientX - rect.left,
         endY: event.clientY - rect.top,
         stiff: 0.5,
         size: size
-      });
+      }]);
 
       grounds = {};
     }
