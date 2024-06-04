@@ -8,6 +8,7 @@ interface Ground{
   endX: number;
   endY: number;
   size: number;
+  color: string;
   view: Container;
 }
 
@@ -17,13 +18,15 @@ type GroundOption = {
   startY: number;
   endX: number;
   endY: number;
-  size: number
+  size: number;
+  color: string;
 }
 
 class Ground{
-  constructor({ name, startX, startY, endX, endY, size }: GroundOption){
+  constructor({ name, startX, startY, endX, endY, size, color = "red" }: GroundOption){
     this.type = "ground";
     this.name = name;
+    this.color = color;
 
     this.startX = startX;
     this.startY = startY;
@@ -66,15 +69,15 @@ class Ground{
     const line = new Graphics()
       .moveTo(this.startX,this.startY)
       .lineTo(this.endX,this.endY)
-      .stroke({ width: this.size, color: "red" });
+      .stroke({ width: this.size, color: this.color });
 
     const startCircle = new Graphics()
       .circle(this.startX,this.startY,this.size/2)
-      .fill("red");
+      .fill(this.color);
 
     const endCircle = new Graphics()
       .circle(this.endX,this.endY,this.size/2)
-      .fill("red");
+      .fill(this.color);
 
     this.view.addChild(line,startCircle,endCircle);
 
@@ -92,7 +95,8 @@ class Ground{
       startY: this.startY,
       endX: this.endX,
       endY: this.endY,
-      size: this.size
+      size: this.size,
+      color: this.color
     }
   }
 }

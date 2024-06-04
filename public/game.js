@@ -87,7 +87,8 @@ game.addEventListener("mousedown",(event)=>{
         endX: event.clientX - rect.left,
         endY: event.clientY - rect.top,
         stiff: 0.5,
-        size: size
+        size: size,
+        color: color
       }]);
 
       grounds = {};
