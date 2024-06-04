@@ -1,11 +1,30 @@
 import { Entity, EntityOption, Target } from "./Entity";
 import { createId } from "./utils";
 
+/**
+ * @typedef {Object} EntityManager
+ * @property {Entity[]} 構成するエンティティーの配列
+ */
 interface EntityManager{
   entities: Entity[]
 }
 
-type GenerateOption = {
+/**
+ * エンティティー生成オプション
+ * @typedef {Object} CreateOption
+ * @property {string} name エンティティー名
+ * @property {number} posX X座標
+ * @property {number} posY Y座標
+ * @property {number} size 半径
+ * @property {number} mass 質量
+ * @property {number} stiff 剛性(これは0以上一以下です)
+ * @property {number} speedX X方向の速度
+ * @property {number} speedY Y方向の速度
+ * @property {number} rotate 回転角度
+ * @property {number} rotateSpeed 回転速度
+ * @property {Target[]} targets 接続された物体
+ */
+type CreateOption = {
   name?: string;
   posX: number;
   posY: number;
@@ -19,11 +38,19 @@ type GenerateOption = {
   targets?: Target[];
 }
 
+/**
+ * エンティティーマネージャー
+ * 構成するエンティティーを管理します
+ */
 class EntityManager{
   constructor(){
     this.entities = [];
   }
 
+  /**
+   * 平均されたエンティティーの位置を計算します
+   * @returns {Object} 位置データ
+   */
   getPosition(): { posX: number, posY: number }{
     return {
       posX: this.entities.reduce((total,entity)=>total + entity.posX,0)/this.entities.length,
@@ -31,6 +58,10 @@ class EntityManager{
     }
   }
 
+  /**
+   * 平均されたエンティティーの速度を計算します
+   * @returns {Object} 速度データ
+   */
   getSpeed(): { speedX: number, speedY: number }{
     return {
       speedX: this.entities.reduce((total,entity)=>total + entity.speedX,0)/this.entities.length,
@@ -38,11 +69,20 @@ class EntityManager{
     }
   }
 
-  getRotate(){
+  /**
+   * 平均されたエンティティーの回転位置を計算します
+   * @returns {number} 回転位置
+   */
+  getRotate(): number{
     return this.entities.reduce((total,entity)=>total + entity.rotate,0)/this.entities.length
   }
 
-  create(object: GenerateOption): Entity{
+  /**
+   * エンティティーを作成します
+   * @param {CreateOption} object クリエイトオプション
+   * @returns {Entity} 作成されたエンティティー
+   */
+  create(object: CreateOption): Entity{
     if(!object.name){
       object.name = createId(8);
     }
@@ -54,6 +94,9 @@ class EntityManager{
     return entity;
   }
 
+  /**
+   * 全ての物体を接続します
+   */
   connect(): void{
     this.entities.forEach(source=>{
       this.entities.forEach(target=>{
