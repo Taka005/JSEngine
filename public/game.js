@@ -192,6 +192,8 @@ reset.addEventListener("click",()=>{
 });
 
 allReset.addEventListener("click",()=>{
+  if(!confirm("全て削除しますか？")) return;
+
   engine.clear({ force: true });
 });
 
