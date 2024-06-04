@@ -81,12 +81,13 @@ game.addEventListener("mousedown",(event)=>{
         posY: event.clientY - rect.top
       }
     }else{
-      editer.spawn({
+      engine.spawn({
         startX: grounds.posX,
         startY: grounds.posY,
         endX: event.clientX - rect.left,
         endY: event.clientY - rect.top,
-        stiff: 0.5
+        stiff: 0.5,
+        size: size
       });
 
       grounds = {};
