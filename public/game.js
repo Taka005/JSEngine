@@ -119,6 +119,7 @@ const debug = document.getElementById("debug");
 const track = document.getElementById("track");
 const trackReset = document.getElementById("trackReset");
 const reset = document.getElementById("reset");
+const allReset = document.getElementById("allReset");
 
 const start = document.getElementById("start");
 const stop = document.getElementById("stop");
@@ -187,6 +188,10 @@ trackReset.addEventListener("click",()=>{
 
 reset.addEventListener("click",()=>{
   engine.clear();
+});
+
+allReset.addEventListener("click",()=>{
+  engine.clear({ force: true });
 });
 
 dataFile.addEventListener("change",(event)=>{
