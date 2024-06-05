@@ -1,5 +1,17 @@
 import { Application, Graphics, Container } from "pixi.js";
 
+/**
+ * @typedef {Object} Ground
+ * @property {string} type 物体の種類
+ * @property {strint} name 物体名
+ * @property {number} startX 始点X座標
+ * @property {number} startY 始点Y座標
+ * @property {number} endX 終点X座標
+ * @property {number} endY 終点Y座標
+ * @property {number} size 幅
+ * @property {string} color 色
+ * @property {Container} view 描画コンテナクラス
+ */
 interface Ground{
   type: string;
   name: string;
@@ -12,6 +24,16 @@ interface Ground{
   view: Container;
 }
 
+/**
+ * @typedef {Object} GroundOption
+ * @property {strint} name 物体名
+ * @property {number} startX 始点X座標
+ * @property {number} startY 始点Y座標
+ * @property {number} endX 終点X座標
+ * @property {number} endY 終点Y座標
+ * @property {number} size 幅
+ * @property {string} color 色
+ */
 type GroundOption = {
   name: string;
   startX: number;
@@ -22,7 +44,14 @@ type GroundOption = {
   color: string;
 }
 
+/**
+ * グラウンドクラス
+ * 地面を制御します
+ */
 class Ground{
+  /**
+   * @param {Object} GroundOption グラウンドオプション
+   */
   constructor({ name, startX, startY, endX, endY, size, color = "red" }: GroundOption){
     this.type = "ground";
     this.name = name;
@@ -36,6 +65,12 @@ class Ground{
     this.size = size;
   }
 
+  /**
+   * ある座標から地面への直交座標を計算します
+   * @param {number} posX X座標
+   * @param {number} posY Y座標
+   * @returns {Object} 直行座標の位置
+   */
   solvePosition(posX: number,posY: number): { posX: number, posY: number }{
     const t: number = Math.max(0,Math.min(1,((posX - this.startX)*(this.endX - this.startX) + (posY - this.startY)*(this.endY - this.startY))/Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2)**2));
     const crossX: number = this.startX + t*(this.endX - this.startX);
@@ -63,6 +98,10 @@ class Ground{
     }
   }
 
+  /**
+   * 描画を初期化します
+   * @param {Application} render アプリケーションクラス 
+   */
   load(render: Application): void{
     this.view = new Container();
 
@@ -84,10 +123,17 @@ class Ground{
     render.stage.addChild(this.view);
   }
 
+  /**
+   * 描画を破棄します
+   */
   destroy(): void{
     this.view.destroy();
   }
 
+  /**
+   * クラスのデータをJSONに変換します
+   * @returns {GroundOption} グラウンドオプション
+   */
   toJSON(): GroundOption{
     return {
       name: this.name,

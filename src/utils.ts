@@ -1,3 +1,8 @@
+/**
+ * 指定された長さのランダムな文字列を生成します
+ * @param {number} length 生成する長さ 
+ * @returns {string} 生成された文字列
+ */
 function createId(length: number): string{
   const str: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let id: string = "";
