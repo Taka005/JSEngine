@@ -248,6 +248,8 @@ class Engine extends EventTarget {
   get<T>(type: string,name: string): T | undefined{
     if(type === "entity"){
       return this.entities.find(entity=>entity.name === name) as T;
+    }else if(type === "ground"){
+      return this.grounds[name] as T;
     }else{
       return this.objects[name] as T;
     }
