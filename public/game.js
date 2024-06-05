@@ -68,7 +68,7 @@ game.addEventListener("mousedown",(event)=>{
       .forEach(object=>{
         engine.deSpawn(object.type,object.name);
       });
-  }else if(type === "ground"){
+  }else if(tool === "ground"){
     if(Object.keys(position).length === 0){
       position = {
         posX: event.clientX - rect.left,
