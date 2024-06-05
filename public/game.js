@@ -63,18 +63,12 @@ game.addEventListener("mousedown",(event)=>{
 
   const rect = event.target.getBoundingClientRect();
 
-  if(tool !== "ground"){
-    position = {};
-
-    engine.spawn(tool,[{
-      posX: event.clientX - rect.left,
-      posY: event.clientY - rect.top,
-      size: size,
-      mass: mass,
-      stiff: stiff,
-      color: color
-    }]);
-  }else{
+  if(tool === "delete"){
+    engine.checkPosition(event.clientX - rect.left,event.clientY - rect.top)
+      .forEach(object=>{
+        engine.deSpawn(object.type,object.name);
+      });
+  }else if(type === "ground"){
     if(Object.keys(position).length === 0){
       position = {
         posX: event.clientX - rect.left,
@@ -93,6 +87,17 @@ game.addEventListener("mousedown",(event)=>{
 
       position = {};
     }
+  }else{
+    position = {};
+
+    engine.spawn(tool,[{
+      posX: event.clientX - rect.left,
+      posY: event.clientY - rect.top,
+      size: size,
+      mass: mass,
+      stiff: stiff,
+      color: color
+    }]);
   }
 });
 
