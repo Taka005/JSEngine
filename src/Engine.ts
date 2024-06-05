@@ -12,7 +12,7 @@ interface Engine extends EventTarget{
   gravity: number;
   friction: number;
   grounds: { [key: string]: Ground };
-  objects: { [key: string]: Circle };
+  objects: { [key: string]: Circle | Square };
   tracks: Track[];
   isStart: boolean;
   isDebug: boolean;
@@ -410,6 +410,40 @@ class Engine extends EventTarget {
 
   updateRotate(entity: Entity): void{
     entity.rotate += entity.rotateSpeed*(1/this.pps);
+  }
+
+  checkPosition(posX: number,posY: number): (Circle | Square | Ground)[]{
+    const targets: (Circle | Square | Ground)[] = [];
+
+    Object.values(this.objects).forEach(object=>{
+      const entities = object.entities.filter(entity=>{
+        const vecX: number = entity.posX - posX;
+        const vecY: number = entity.posY - posY;
+    
+        const distance: number = Math.sqrt(vecX**2 + vecY**2);
+
+        return distance <= entity.size;
+      });
+
+      if(!entities.length) return;
+
+      targets.push(object);
+    });
+
+    Object.values(this.grounds).forEach(ground=>{
+      const data: { posX: number, posY: number } = ground.solvePosition(posX,posY);
+
+      const vecX: number = data.posX - posX;
+      const vecY: number = data.posY - posY;
+  
+      const distance = Math.sqrt(vecX**2 + vecY**2);
+
+      if(distance > ground.size/2) return;
+
+      targets.push(ground);
+    });
+
+    return targets;
   }
 
   setGrid(): void{

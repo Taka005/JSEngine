@@ -104,7 +104,7 @@ class Entity{
   get invMass(): number{
     if(this.mass === 0) return 0;
 
-    return 1/(this.mass);
+    return 1/this.mass;
   }
 
   /**

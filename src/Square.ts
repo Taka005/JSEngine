@@ -2,6 +2,18 @@ import { Application, Container, Sprite, Graphics } from "pixi.js";
 import { EntityManager } from "./EntityManager";
 import { EntityOption } from "./Entity";
 
+/**
+ * @typedef {Object} Square
+ * @property {string} type 物体の種類
+ * @property {strint} name 物体名
+ * @property {number} size 半径
+ * @property {number} mass 質量
+ * @property {number} stiff 剛性(これは0以上1以下です)
+ * @property {string} color 色
+ * @property {string | null} image 画像
+ * @property {Graphics} vector ベクトルの描画グラフィッククラス
+ * @property {Container} view 描画コンテナクラス
+ */
 interface Square extends EntityManager{
   type: string;
   name: string;
@@ -14,6 +26,20 @@ interface Square extends EntityManager{
   view: Container;
 }
 
+/**
+ * @typedef {Object} SquareOption
+ * @property {strint} name 物体名
+ * @property {number} posX X座標
+ * @property {number} posY Y座標
+ * @property {number} size 半径
+ * @property {number} mass 質量
+ * @property {number} stiff 剛性(これは0以上1以下です)
+ * @property {number} speedX X方向の速度
+ * @property {number} speedY Y方向の速度
+ * @property {string} color 色
+ * @property {string | null} image 画像
+ * @property {EntityOption[]} 構成されているエンティティーの初期化オプション
+ */
 type SquareOption = {
   name: string;
   posX: number;
@@ -28,7 +54,14 @@ type SquareOption = {
   entities: EntityOption[];
 }
 
+/**
+ * スクエアクラス
+ * 四角を制御します
+ */
 class Square extends EntityManager{
+  /**
+   * @param {SquareOption} スクエアオプション
+   */
   constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: SquareOption){
     super();
 
@@ -61,6 +94,10 @@ class Square extends EntityManager{
     }
   }
 
+  /**
+   * 描画を初期化します
+   * @param {Application} render アプリケーションクラス
+   */
   load(render: Application): void{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
@@ -96,6 +133,9 @@ class Square extends EntityManager{
     render.stage.addChild(this.view,this.vector);
   }
 
+  /**
+   * 描画を更新します
+   */
   update(): void{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
@@ -128,11 +168,19 @@ class Square extends EntityManager{
       .stroke({ width: 1, color: "black" });
   }
 
+  /**
+   * 描画を破棄します
+   */
   destroy(): void{
     this.view.destroy();
     this.vector.destroy();
   }
 
+
+  /**
+   * クラスのデータをJSONに変換します
+   * @returns {SquareOption} スクエアオプション
+   */
   toJSON(): SquareOption{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();

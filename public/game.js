@@ -6,7 +6,7 @@ let size = 15;
 let mass = 10;
 let stiff = 0.5;
 let color = "#ff0000";
-let grounds = {};
+let position = {};
 
 let saveData = engine.export();
 
@@ -64,7 +64,7 @@ game.addEventListener("mousedown",(event)=>{
   const rect = event.target.getBoundingClientRect();
 
   if(tool !== "ground"){
-    grounds = {};
+    position = {};
 
     engine.spawn(tool,[{
       posX: event.clientX - rect.left,
@@ -75,15 +75,15 @@ game.addEventListener("mousedown",(event)=>{
       color: color
     }]);
   }else{
-    if(Object.keys(grounds).length === 0){
-      grounds = {
+    if(Object.keys(position).length === 0){
+      position = {
         posX: event.clientX - rect.left,
         posY: event.clientY - rect.top
       }
     }else{
       engine.spawn("ground",[{
-        startX: grounds.posX,
-        startY: grounds.posY,
+        startX: position.posX,
+        startY: position.posY,
         endX: event.clientX - rect.left,
         endY: event.clientY - rect.top,
         stiff: 0.5,
@@ -91,7 +91,7 @@ game.addEventListener("mousedown",(event)=>{
         color: color
       }]);
 
-      grounds = {};
+      position = {};
     }
   }
 });
