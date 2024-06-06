@@ -69,6 +69,7 @@ class Engine extends EventTarget {
 
     if(force){
       this.grounds = {};
+      this.tracks = [];
     }
   }
 
