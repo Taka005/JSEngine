@@ -160,7 +160,7 @@ class Engine extends EventTarget {
       //});
     //}
 
-    requestAnimationFrame(this.draw);
+    requestAnimationFrame(()=>this.draw());
   }
 
   spawn(type: string,objects: (CircleOption | GroundOption | SquareOption)[]): void{
