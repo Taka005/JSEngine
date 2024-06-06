@@ -166,6 +166,12 @@ class Engine extends EventTarget {
         track.draw(this.ctx);
       });
 
+      if(this.isDebug){
+        Object.values(this.tracks).forEach(track=>{
+          track.drawVector(this.ctx);
+        });
+      }
+
       this.ctx.globalAlpha = 1;
     }
 
