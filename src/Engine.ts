@@ -159,7 +159,7 @@ class Engine extends EventTarget {
         //track.draw(this.render);
       //});
     //}
-
+    console.log("render")
     requestAnimationFrame(()=>this.draw());
   }
 
