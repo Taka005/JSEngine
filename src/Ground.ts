@@ -1,5 +1,3 @@
-import { Application, Graphics, Container } from "pixi.js";
-
 /**
  * @typedef {Object} Ground
  * @property {string} type 物体の種類
@@ -10,7 +8,6 @@ import { Application, Graphics, Container } from "pixi.js";
  * @property {number} endY 終点Y座標
  * @property {number} size 幅
  * @property {string} color 色
- * @property {Container} view 描画コンテナクラス
  */
 interface Ground{
   type: string;
@@ -21,7 +18,6 @@ interface Ground{
   endY: number;
   size: number;
   color: string;
-  view: Container;
 }
 
 /**
@@ -41,7 +37,7 @@ type GroundOption = {
   endX: number;
   endY: number;
   size: number;
-  color: string;
+  color?: string;
 }
 
 /**
@@ -99,35 +95,32 @@ class Ground{
   }
 
   /**
-   * 描画を初期化します
-   * @param {Application} render アプリケーションクラス 
+   * オブジェクトを描画
+   * @param {CanvasRenderingContext2D} ctx コンテキスト
    */
-  load(render: Application): void{
-    this.view = new Container();
+  draw(ctx: CanvasRenderingContext2D): void{
+    ctx.beginPath();
+    ctx.moveTo(this.startX,this.startY);
+    ctx.lineTo(this.endX,this.endY);
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = this.size;
+    ctx.stroke();
 
-    const line = new Graphics()
-      .moveTo(this.startX,this.startY)
-      .lineTo(this.endX,this.endY)
-      .stroke({ width: this.size, color: this.color });
+    ctx.beginPath();
+    ctx.arc(this.startX,this.startY,this.size/2-1,0,2*Math.PI);
+    ctx.strokeStyle = this.color;
+    ctx.fillStyle = this.color;
+    ctx.lineWidth = 1;
+    ctx.fill();
+    ctx.stroke();
 
-    const startCircle = new Graphics()
-      .circle(this.startX,this.startY,this.size/2)
-      .fill(this.color);
-
-    const endCircle = new Graphics()
-      .circle(this.endX,this.endY,this.size/2)
-      .fill(this.color);
-
-    this.view.addChild(line,startCircle,endCircle);
-
-    render.stage.addChild(this.view);
-  }
-
-  /**
-   * 描画を破棄します
-   */
-  destroy(): void{
-    this.view.destroy();
+    ctx.beginPath();
+    ctx.arc(this.endX,this.endY,this.size/2-1,0,2*Math.PI);
+    ctx.strokeStyle = this.color;
+    ctx.fillStyle = this.color;
+    ctx.lineWidth = 1;
+    ctx.fill();
+    ctx.stroke();
   }
 
   /**

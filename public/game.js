@@ -1,5 +1,5 @@
 const game = document.getElementById("game");
-const engine = new Engine();
+const engine = new Engine(game);
 
 let tool = "circle";
 let size = 15;
@@ -8,55 +8,47 @@ let stiff = 0.5;
 let color = "#ff0000";
 let position = {};
 
-let saveData = engine.export();
+engine.start();
 
-(async()=>{
-  await engine.init();
+engine.spawn("ground",[
+  {
+    startX: 30,
+    startY: 600,
+    endX: 600,
+    endY: 600,
+    size: 15
+  },
+  {
+    startX: 600,
+    startY: 600,
+    endX: 600,
+    endY: 500,
+    size: 15
+  },
+  {
+    startX: 30,
+    startY: 0,
+    endX: 30,
+    endY: 600,
+    size: 15
+  },
+  {
+    startX: 850,
+    startY: 0,
+    endX: 850,
+    endY: 600,
+    size: 15
+  },
+  {
+    startX: 500,
+    startY: 400,
+    endX: 850,
+    endY: 300,
+    size: 15
+  }
+]);
 
-  game.appendChild(engine.render.canvas);
-
-  engine.start();
-
-  engine.spawn("ground",[
-    {
-      startX: 30,
-      startY: 600,
-      endX: 600,
-      endY: 600,
-      size: 15
-    },
-    {
-      startX: 600,
-      startY: 600,
-      endX: 600,
-      endY: 500,
-      size: 15
-    },
-    {
-      startX: 30,
-      startY: 0,
-      endX: 30,
-      endY: 600,
-      size: 15
-    },
-    {
-      startX: 850,
-      startY: 0,
-      endX: 850,
-      endY: 600,
-      size: 15
-    },
-    {
-      startX: 500,
-      startY: 400,
-      endX: 850,
-      endY: 300,
-      size: 15
-    }
-  ]);
-
-  saveData =  engine.export();
-})();
+saveData =  engine.export();
 
 game.addEventListener("mousedown",(event)=>{
   event.preventDefault();

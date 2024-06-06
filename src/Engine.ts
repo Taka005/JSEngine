@@ -7,7 +7,8 @@ import { Square, SquareOption } from "./Square";
 import { createId } from "./utils";
 
 interface Engine extends EventTarget{
-  render: Application;
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D
   pps: number;
   gravity: number;
   friction: number;
@@ -38,10 +39,14 @@ type ExportData = {
 }
 
 class Engine extends EventTarget {
-  constructor({ pps = 90, gravity = 500, friction = 0.001 }: EngineOption = {}){
+  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001 }: EngineOption = {}){
     super();
 
-    this.render = new Application();
+    this.canvas = canvas;
+    const ctx = this.canvas.getContext("2d");
+    if(!ctx) throw new Error("無効な描画要素です");
+
+    this.ctx = ctx;
 
     this.pps = pps;
     this.gravity = gravity;
@@ -54,55 +59,18 @@ class Engine extends EventTarget {
     this.isStart = false;
     this.isDebug = false;
     this.isTrack = false;
+
+    this.draw();
   }
 
   get entities(): Entity[]{
     return Object.values(this.objects).map(object=>object.entities).flat();
   }
 
-  setDebug(): void{
-    if(!this.isDebug){
-      this.isDebug = true;
-
-      this.grid.visible = true;
-    }else{
-      this.isDebug = false;
-
-      this.grid.visible = false;
-
-      Object.values(this.objects).forEach(object=>{
-        object.vector.visible = false;
-      });
-    }
-  }
-
-  async init(): Promise<void>{
-    await this.render.init({
-      width: 900,
-      height: 700,
-      backgroundColor: "#eee",
-      antialias: true
-    });
-
-    this.render.ticker.add(()=>{
-      this.draw();
-    });
-
-    this.setGrid();
-  }
-
   clear({ force = false }: { force?: boolean } = {}): void{
-    Object.values(this.objects).forEach(object=>{
-      object.destroy();
-    });
-
     this.objects = {};
 
     if(force){
-      Object.values(this.grounds).forEach(ground=>{
-        ground.destroy();
-      });
-
       this.grounds = {};
     }
   }
@@ -169,7 +137,7 @@ class Engine extends EventTarget {
     Object.values(this.objects).forEach(object=>{
       const { posY } = object.getPosition();
 
-      if(posY > this.render.screen.height+100){
+      if(posY > this.canvas.height+100){
         this.deSpawn(object.type,object.name);
       }
     });
@@ -178,13 +146,14 @@ class Engine extends EventTarget {
   draw(): void{
     if(this.isDebug){
       Object.values(this.objects).forEach(object=>{
-        if(object.vector.visible) return;
-        object.vector.visible = true;
+        object.drawVector(this.ctx);
       });
+
+      this.drawGrid();
     }
 
     Object.values(this.objects).forEach(object=>{
-      object.update();
+      object.draw(this.ctx);
     });
 
     //if(this.isTrack){
@@ -192,6 +161,8 @@ class Engine extends EventTarget {
         //track.draw(this.render);
       //});
     //}
+
+    requestAnimationFrame(this.draw);
   }
 
   spawn(type: string,objects: (CircleOption | GroundOption | SquareOption)[]): void{
@@ -201,19 +172,13 @@ class Engine extends EventTarget {
       if(type === "circle"){
         const circle = new Circle(object as CircleOption);
 
-        circle.load(this.render);
-
         this.objects[object.name] = circle;
       }else if(type === "square"){
         const square = new Square(object as SquareOption);
 
-        square.load(this.render);
-
         this.objects[object.name] = square;
       }else if(type === "ground"){
         const ground = new Ground(object as GroundOption);
-
-        ground.load(this.render);
 
         this.grounds[object.name] = ground;
       }
@@ -225,21 +190,15 @@ class Engine extends EventTarget {
       const circle = this.get<Circle>(type,name);
       if(!circle) return;
 
-      circle.destroy();
-
       delete this.objects[name];
     }else if(type === "square"){
         const square = this.get<Square>(type,name);
         if(!square) return;
   
-        square.destroy();
-  
         delete this.objects[name];
     }else if(type === "ground"){
       const ground = this.get<Ground>(type,name);
       if(!ground) return;
-
-      ground.destroy();
 
       delete this.grounds[name];
     }
@@ -448,30 +407,22 @@ class Engine extends EventTarget {
     return targets;
   }
 
-  setGrid(): void{
-    this.grid = new Container();
+  drawGrid(): void{
+    this.ctx.beginPath();
 
-    for(let posX: number = 0;posX < this.render.screen.width;posX += 25){
-      const line = new Graphics()
-        .moveTo(posX,0)
-        .lineTo(posX,this.render.screen.height)
-        .stroke({ width: 1, color: "gray" });
-
-      this.grid.addChild(line);
+    for(let posX: number = 0;posX < this.canvas.width;posX += 25){
+      this.ctx.moveTo(posX,0);
+      this.ctx.lineTo(posX,this.canvas.height);
     }
 
-    for(let posY: number = 0;posY < this.render.screen.height;posY += 25){
-      const line = new Graphics()
-        .moveTo(0,posY)
-        .lineTo(this.render.screen.width,posY)
-        .stroke({ width: 1, color: "gray" });
-
-      this.grid.addChild(line);
+    for(let posY: number = 0;posY < this.canvas.height;posY += 25){
+      this.ctx.moveTo(0,posY);
+      this.ctx.lineTo(this.canvas.width,posY);
     }
 
-    this.grid.visible = false;
-
-    this.render.stage.addChild(this.grid);
+    this.ctx.strokeStyle = "black";
+    this.ctx.lineWidth = 0.1;
+    this.ctx.stroke();
   }
 
   export(): string{
