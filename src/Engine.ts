@@ -1,4 +1,3 @@
-import { Application, Container, Graphics } from "pixi.js";
 import { Entity } from "./Entity";
 import { Ground, GroundOption } from "./Ground";
 import { Track } from "./Track";
@@ -18,7 +17,6 @@ interface Engine extends EventTarget{
   isStart: boolean;
   isDebug: boolean;
   isTrack: boolean;
-  grid: Container;
   loop: number;
   trackLoop: number;
 }
