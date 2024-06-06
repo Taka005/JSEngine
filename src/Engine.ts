@@ -1,4 +1,4 @@
-import { Application, Container, Graphics, squaredDistanceToLineSegment } from "pixi.js";
+import { Application, Container, Graphics } from "pixi.js";
 import { Entity } from "./Entity";
 import { Ground, GroundOption } from "./Ground";
 import { Track } from "./Track";
