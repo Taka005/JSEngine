@@ -169,7 +169,11 @@ colorInput.addEventListener("input",(event)=>{
 });
 
 debug.addEventListener("click",()=>{
-  engine.setDebug();
+  if(engine.isDebug){
+    engine.isDebug = false;
+  }else{
+    engine.isDebug = true;
+  }
 });
 
 track.addEventListener("click",()=>{
