@@ -418,7 +418,7 @@ class Engine extends EventTarget {
     const targets: (Circle | Square | Ground)[] = [];
 
     Object.values(this.objects).forEach(object=>{
-      const entities = object.entities.filter(entity=>{
+      const entities: Entity[] = object.entities.filter(entity=>{
         const vecX: number = entity.posX - posX;
         const vecY: number = entity.posY - posY;
     
