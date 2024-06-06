@@ -110,11 +110,8 @@ class Circle extends EntityManager{
     }else{
       ctx.beginPath();
       ctx.arc(0,0,this.size,0,2*Math.PI);
-      ctx.strokeStyle = this.color;
       ctx.fillStyle = this.color;
-      ctx.lineWidth = 1;
       ctx.fill();
-      ctx.stroke();
 
       ctx.beginPath();
       ctx.moveTo(0,0);

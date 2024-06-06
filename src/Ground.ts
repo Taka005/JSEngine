@@ -107,20 +107,14 @@ class Ground{
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.arc(this.startX,this.startY,this.size/2-1,0,2*Math.PI);
-    ctx.strokeStyle = this.color;
+    ctx.arc(this.startX,this.startY,this.size/2,0,2*Math.PI);
     ctx.fillStyle = this.color;
-    ctx.lineWidth = 1;
     ctx.fill();
-    ctx.stroke();
 
     ctx.beginPath();
-    ctx.arc(this.endX,this.endY,this.size/2-1,0,2*Math.PI);
-    ctx.strokeStyle = this.color;
+    ctx.arc(this.endX,this.endY,this.size/2,0,2*Math.PI);
     ctx.fillStyle = this.color;
-    ctx.lineWidth = 1;
     ctx.fill();
-    ctx.stroke();
   }
 
   /**
