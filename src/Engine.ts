@@ -142,6 +142,8 @@ class Engine extends EventTarget {
   }
 
   draw(): void{
+    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+
     if(this.isDebug){
       Object.values(this.objects).forEach(object=>{
         object.drawVector(this.ctx);
@@ -149,6 +151,10 @@ class Engine extends EventTarget {
 
       this.drawGrid();
     }
+
+    Object.values(this.grounds).forEach(ground=>{
+      ground.draw(this.ctx);
+    });
 
     Object.values(this.objects).forEach(object=>{
       object.draw(this.ctx);
@@ -159,7 +165,7 @@ class Engine extends EventTarget {
         //track.draw(this.render);
       //});
     //}
-    console.log("render")
+
     requestAnimationFrame(()=>this.draw());
   }
 
