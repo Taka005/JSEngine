@@ -118,6 +118,14 @@ class Ground{
   }
 
   /**
+   * 物体を複製します
+   * @returns {Ground} 複製された物体
+   */
+  clone(): Ground{
+    return new Ground(this.toJSON());
+  }
+
+  /**
    * クラスのデータをJSONに変換します
    * @returns {GroundOption} グラウンドオプション
    */

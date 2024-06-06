@@ -133,6 +133,14 @@ class Square extends EntityManager{
   }
 
   /**
+   * 物体を複製します
+   * @returns {Square} 複製された物体
+   */
+  clone(): Square{
+    return new Square(this.toJSON());
+  }
+
+  /**
    * クラスのデータをJSONに変換します
    * @returns {SquareOption} スクエアオプション
    */

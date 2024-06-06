@@ -141,6 +141,14 @@ class Circle extends EntityManager{
   }
 
   /**
+   * 物体を複製します
+   * @returns {Circle} 複製された物体
+   */
+  clone(): Circle{
+    return new Circle(this.toJSON());
+  }
+
+  /**
    * クラスのデータをJSONに変換します
    * @returns {CircleOption} サークルオプション
    */

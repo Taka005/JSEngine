@@ -1,6 +1,5 @@
 import { Entity } from "./Entity";
 import { Ground, GroundOption } from "./Ground";
-import { Track } from "./Track";
 import { Circle, CircleOption } from "./Circle";
 import { Square, SquareOption } from "./Square";
 import { createId } from "./utils";
@@ -13,7 +12,7 @@ interface Engine extends EventTarget{
   friction: number;
   grounds: { [key: string]: Ground };
   objects: { [key: string]: Circle | Square };
-  tracks: Track[];
+  tracks: (Circle | Square)[];
   isStart: boolean;
   isDebug: boolean;
   isTrack: boolean;
@@ -82,8 +81,8 @@ class Engine extends EventTarget {
     },1000/this.pps);
 
     this.trackLoop = setInterval(()=>{
-      Object.values(this.entities).forEach(entity=>{
-        //this.tracks.push(new Track(entity));
+      Object.values(this.objects).forEach(object=>{
+        this.tracks.push(object.clone());
       });
     },100);
   }
@@ -160,11 +159,15 @@ class Engine extends EventTarget {
       object.draw(this.ctx);
     });
 
-    //if(this.isTrack){
-      //Object.values(this.tracks).forEach(track=>{
-        //track.draw(this.render);
-      //});
-    //}
+    if(this.isTrack){
+      this.ctx.globalAlpha = 0.5;
+
+      Object.values(this.tracks).forEach(track=>{
+        track.draw(this.ctx);
+      });
+
+      this.ctx.globalAlpha = 1;
+    }
 
     requestAnimationFrame(()=>this.draw());
   }
