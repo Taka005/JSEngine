@@ -109,7 +109,7 @@ class Square extends EntityManager{
     }else{
       this.entities.forEach(entity=>{
         ctx.beginPath();
-        ctx.arc(entity.posX,entity.posY,this.size,0,2*Math.PI);
+        ctx.arc(entity.posX,entity.posY,this.size/4,0,2*Math.PI);
         ctx.strokeStyle = this.color;
         ctx.fillStyle = this.color;
         ctx.lineWidth = 1;
