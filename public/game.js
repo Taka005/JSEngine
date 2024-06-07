@@ -6,6 +6,7 @@ let size = 15;
 let mass = 10;
 let stiff = 0.5;
 let color = "#ff0000";
+let image = null;
 let position = {};
 let saveData = engine.export();
 
@@ -93,7 +94,8 @@ game.addEventListener("mousedown",(event)=>{
       size: size,
       mass: mass,
       stiff: stiff,
-      color: color
+      color: color,
+      image: image
     }]);
   }
 });
@@ -117,6 +119,8 @@ const stiffValue = document.getElementById("stiffValue");
 
 const colorInput = document.getElementById("colorInput");
 const colorValue = document.getElementById("colorValue");
+
+const imageInput = document.getElementById("imageInput");
 
 const debug = document.getElementById("debug");
 const track = document.getElementById("track");
@@ -172,6 +176,10 @@ stiffInput.addEventListener("input",(event)=>{
 colorInput.addEventListener("input",(event)=>{
   colorValue.textContent = event.target.value;
   color = event.target.value;
+});
+
+imageInput.addEventListener("change",(event)=>{
+  image = event.target.value || null;
 });
 
 debug.addEventListener("click",()=>{
