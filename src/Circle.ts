@@ -104,8 +104,8 @@ class Circle extends EntityManager{
     if(this.image){
       ctx.drawImage(
         this.image,
-        this.image.width/2,
-        this.image.height/2
+        -this.image.width/2,
+        -this.image.height/2
       );
     }else{
       ctx.beginPath();
