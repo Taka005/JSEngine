@@ -211,6 +211,7 @@ dataFile.addEventListener("change",(event)=>{
 
     saveData = reader.result;
     engine.import(data);
+    localStorage.map = reader.result;
 
     gravityValue.textContent = data.gravity;
     gravityInput.value = data.gravity;
