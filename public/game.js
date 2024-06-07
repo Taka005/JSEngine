@@ -10,45 +10,49 @@ let position = {};
 
 engine.start();
 
-engine.spawn("ground",[
-  {
-    startX: 30,
-    startY: 600,
-    endX: 600,
-    endY: 600,
-    size: 15
-  },
-  {
-    startX: 600,
-    startY: 600,
-    endX: 600,
-    endY: 500,
-    size: 15
-  },
-  {
-    startX: 30,
-    startY: 0,
-    endX: 30,
-    endY: 600,
-    size: 15
-  },
-  {
-    startX: 850,
-    startY: 0,
-    endX: 850,
-    endY: 600,
-    size: 15
-  },
-  {
-    startX: 500,
-    startY: 400,
-    endX: 850,
-    endY: 300,
-    size: 15
-  }
-]);
-
-saveData =  engine.export();
+if(localStorage.map){
+  engine.import(JSON.parse(localStorage.map));
+}else{
+  engine.spawn("ground",[
+    {
+      startX: 30,
+      startY: 600,
+      endX: 600,
+      endY: 600,
+      size: 15
+    },
+    {
+      startX: 600,
+      startY: 600,
+      endX: 600,
+      endY: 500,
+      size: 15
+    },
+    {
+      startX: 30,
+      startY: 0,
+      endX: 30,
+      endY: 600,
+      size: 15
+    },
+    {
+      startX: 850,
+      startY: 0,
+      endX: 850,
+      endY: 600,
+      size: 15
+    },
+    {
+      startX: 500,
+      startY: 400,
+      endX: 850,
+      endY: 300,
+      size: 15
+    }
+  ]);
+  
+  saveData =  engine.export();  
+}
 
 game.addEventListener("mousedown",(event)=>{
   event.preventDefault();
@@ -124,6 +128,7 @@ const stop = document.getElementById("stop");
 const save = document.getElementById("save");
 const load = document.getElementById("load");
 const link = document.getElementById("link");
+const cache = document.getElementById("cahce");
 
 const dataFile = document.getElementById("dataFile");
 
@@ -226,6 +231,7 @@ stop.addEventListener("click",()=>{
 save.addEventListener("click",()=>{
   saveData = engine.export();
   link.href = URL.createObjectURL(new Blob([saveData],{"type":"application/json"}));
+  localStorage.map = saveData;
 });
 
 load.addEventListener("click",()=>{
@@ -238,4 +244,8 @@ load.addEventListener("click",()=>{
 
   frictionValue.textContent = data.friction;
   frictionInput.value = data.friction;
+});
+
+cache.addEventListener("click",()=>{
+  delete localStorage.map;
 });
