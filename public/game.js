@@ -7,6 +7,7 @@ let mass = 10;
 let stiff = 0.5;
 let color = "#ff0000";
 let position = {};
+let saveData = engine.export();
 
 engine.start();
 
