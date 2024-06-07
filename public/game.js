@@ -13,7 +13,15 @@ let saveData = engine.export();
 engine.start();
 
 if(localStorage.map){
-  engine.import(JSON.parse(localStorage.map));
+  const data = JSON.parse(localStorage.map);
+
+  engine.import(data);
+
+  gravityValue.textContent = data.gravity;
+  gravityInput.value = data.gravity;
+
+  frictionValue.textContent = data.friction;
+  frictionInput.value = data.friction;
 }else{
   engine.spawn("ground",[
     {
