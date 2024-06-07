@@ -409,6 +409,11 @@ class Engine extends EventTarget {
     }
   }
 
+  /**
+   * 物体と物体の衝突時の回転を計算します
+   * @param {Entity} source 対象のエンティティー
+   * @param {Entity} target 対象のエンティティー 
+   */
   solveRotate(source: Entity,target: Entity): void{
     const vecX: number = target.posX - source.posX;
     const vecY: number = target.posY - source.posY;
@@ -429,6 +434,12 @@ class Engine extends EventTarget {
     }
   }
 
+  /**
+   * 指定の座標と物体の回転を計算します
+   * @param {Entity} entity 対象のエンティティー 
+   * @param {number} posX 対象のX座標
+   * @param {number} posY 対象のY座標
+   */
   solveGroundRotate(entity: Entity,posX: number,posY: number): void{
     const vecX: number = posX - entity.posX;
     const vecY: number = posY - entity.posY;
@@ -447,6 +458,13 @@ class Engine extends EventTarget {
     }
   }
 
+  /**
+   * 物体と物体の結合を計算します
+   * @param {Entity} source 対象のエンティティー
+   * @param {Entity} target 対象のエンティティー 
+   * @param {number} connectDistance 結合距離
+   * @param {number} connectStiff 結合の剛性
+   */
   solveConnect(source: Entity,target: Entity,connectDistance: number,connectStiff: number): void{
     const totalMass: number = source.mass + target.mass;
     if(totalMass === 0) return;
@@ -467,6 +485,10 @@ class Engine extends EventTarget {
     target.posY -= vecY*target.mass;
   }
 
+  /**
+   * 物体の速度を更新
+   * @param {Entity} entity 対象のエンティティー 
+   */
   updateSpeed(entity: Entity): void{
     entity.speedX = (entity.posX - entity.prePosX)/(1/this.pps);
     entity.speedY = (entity.posY - entity.prePosY)/(1/this.pps);
@@ -476,6 +498,10 @@ class Engine extends EventTarget {
     }
   }
 
+  /**
+   * 物体の位置を更新
+   * @param {Entity} entity 対象のエンティティー 
+   */
   updatePosition(entity: Entity): void{
     entity.savePosition();
 
@@ -483,10 +509,20 @@ class Engine extends EventTarget {
     entity.posY += entity.speedY*(1/this.pps);
   }
 
+  /**
+   * 物体の回転を更新
+   * @param {Entity} entity 対象のエンティティー 
+   */
   updateRotate(entity: Entity): void{
     entity.rotate += entity.rotateSpeed*(1/this.pps);
   }
 
+  /**
+   * 指定した座標にある物体を計算します
+   * @param {number} posX 対象のX座標
+   * @param {number} posY 対象のY座標
+   * @returns {(Circle | Square | Ground)[]} 存在した物体の配列
+   */
   checkPosition(posX: number,posY: number): (Circle | Square | Ground)[]{
     const targets: (Circle | Square | Ground)[] = [];
 
@@ -521,6 +557,9 @@ class Engine extends EventTarget {
     return targets;
   }
 
+  /**
+   * マス目を描画
+   */
   drawGrid(): void{
     this.ctx.beginPath();
 
@@ -539,6 +578,10 @@ class Engine extends EventTarget {
     this.ctx.stroke();
   }
 
+  /**
+   * エンジンのデータを出力します
+   * @returns {string} エクスポートデータの文字列
+   */
   export(): string{
     const circle = Object.values(this.objects)
       .filter(object=>object.type === "circle")
@@ -559,6 +602,10 @@ class Engine extends EventTarget {
     });
   }
 
+  /**
+   * エクスポートデータを読み込みます
+   * @param {ExportData} data エクスポートデータ 
+   */
   import(data: ExportData): void{
     this.gravity = data.gravity;
     this.friction = data.friction;
