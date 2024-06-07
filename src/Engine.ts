@@ -4,6 +4,23 @@ import { Circle, CircleOption } from "./Circle";
 import { Square, SquareOption } from "./Square";
 import { createId } from "./utils";
 
+/**
+ * エンジンを表します
+ * @typedef {Object} Engine
+ * @property {HTMLCanvasElement} canvas 描画するキャンバス要素
+ * @property {CanvasRenderingContext2D} ctx コンテキスト
+ * @property {number} pps 1秒あたりの処理回数
+ * @property {number} gravity 重力加速度
+ * @property {number} friction 摩擦係数
+ * @property {{ [key: string]: Ground }} grounds グラウンドの格納オブジェクト
+ * @property {{ [key: string]: Circle | Square }} objects 物体の格納オブジェクト
+ * @property {(Circle | Square)[]} track 履歴の格納オブジェクト
+ * @property {boolean} isStart 開始しているかどうか
+ * @property {boolean} isDebug デバッグモードかどうか
+ * @property {boolean} isTrack 履歴を表示するかどうか
+ * @property {number} loop 処理インターバル
+ * @property {number} trackLoop 履歴インターバル
+ */
 interface Engine extends EventTarget{
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D
@@ -20,12 +37,37 @@ interface Engine extends EventTarget{
   trackLoop: number;
 }
 
+/**
+ * エンジンの初期化オブジェクトです
+ * @typedef {Object} EngineOption
+ * @property {number} pps 1秒あたりの処理回数
+ * @property {number} gravity 重力加速度
+ * @property {number} friction 摩擦係数
+ */
 type EngineOption = {
   pps?: number;
   gravity?: number;
   friction?: number;
 }
 
+/**
+ * 削除オプション
+ * @typedef {Object} ClearOption
+ * @property {boolean} force 全て削除するかどうか
+ */
+type ClearOption = {
+  force?: boolean
+}
+
+/**
+ * エンジンのエクスポートデータ
+ * @typedef {Object} ExportData
+ * @property {number} gravity 重力加速度
+ * @property {number} friction 摩擦係数
+ * @property {CircleOption[]} circle 全ての円の配列
+ * @property {SquareOption[]} square 全ての四角の配列
+ * @property {GroundOption[]} ground 全ての地面の配列
+ */
 type ExportData = {
   gravity: number;
   friction: number;
@@ -35,7 +77,15 @@ type ExportData = {
   ground: GroundOption[];
 }
 
+/**
+ * エンジンクラス
+ * 物理エンジンの中心システムです
+ */
 class Engine extends EventTarget {
+  /**
+   * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
+   * @param {EngineOption} option エンジンオプション
+   */
   constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001 }: EngineOption = {}){
     super();
 
@@ -60,11 +110,19 @@ class Engine extends EventTarget {
     this.draw();
   }
 
+  /**
+   * 全てのエンティティーの配列を返します
+   * @returns {Entity[]} エンティティーの配列
+   */
   get entities(): Entity[]{
     return Object.values(this.objects).map(object=>object.entities).flat();
   }
 
-  clear({ force = false }: { force?: boolean } = {}): void{
+  /**
+   * 物体を削除します
+   * @param {ClearOption} option クリアオプション
+   */
+  clear({ force = false }: ClearOption = {}): void{
     this.objects = {};
 
     if(force){
@@ -73,6 +131,9 @@ class Engine extends EventTarget {
     }
   }
 
+  /**
+   * エンジンをスタートします
+   */
   start(): void{
     if(this.isStart) return;
     this.isStart = true;
@@ -88,6 +149,9 @@ class Engine extends EventTarget {
     },100);
   }
 
+  /**
+   * エンジンを停止します
+   */
   stop(): void{
     if(!this.isStart) return;
     this.isStart = false;
@@ -96,6 +160,9 @@ class Engine extends EventTarget {
     clearInterval(this.trackLoop);
   }
 
+  /**
+   * 物体の状態を更新します
+   */
   update(): void{
     this.entities.forEach(entity=>{
       this.updatePosition(entity);
@@ -141,6 +208,9 @@ class Engine extends EventTarget {
     });
   }
 
+  /**
+   * 物体を描画します
+   */
   draw(): void{
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
@@ -179,6 +249,11 @@ class Engine extends EventTarget {
     requestAnimationFrame(()=>this.draw());
   }
 
+  /**
+   * 物体を生成します
+   * @param {string} type 生成する種類
+   * @param {(CircleOption | GroundOption | SquareOption)[]} objects 生成するオブジェクトの配列
+   */
   spawn(type: string,objects: (CircleOption | GroundOption | SquareOption)[]): void{
     objects.forEach(object=>{
       object.name = object.name || createId(8);
@@ -199,6 +274,11 @@ class Engine extends EventTarget {
     });
   }
 
+  /**
+   * 物体を削除します
+   * @param {string} type 削除するタイプ 
+   * @param {string} name 削除する物体名
+   */
   deSpawn(type: string,name: string): void{
     if(type === "circle"){
       const circle = this.get<Circle>(type,name);
@@ -218,6 +298,12 @@ class Engine extends EventTarget {
     }
   }
 
+  /**
+   * 指定した物体を取得します
+   * @param {string} type 取得する種類 
+   * @param {string} name 取得する物体名 
+   * @returns {T | undefined} 取得した物体
+   */
   get<T>(type: string,name: string): T | undefined{
     if(type === "entity"){
       return this.entities.find(entity=>entity.name === name) as T;
@@ -228,6 +314,11 @@ class Engine extends EventTarget {
     }
   }
 
+  /**
+   * 物体と物体の衝突を計算します
+   * @param {Entity} source 対象のエンティティー
+   * @param {Entity} target 対象のエンティティー
+   */
   solvePosition(source: Entity,target: Entity): void{
     const totalMass: number = source.invMass + target.invMass;
     if(totalMass === 0) return;
@@ -263,6 +354,11 @@ class Engine extends EventTarget {
     }
   }
 
+  /**
+   * 物体と地面の衝突を計算します
+   * @param {Entity} entity 対象のエンティティー
+   * @param {Ground} ground 対象の地面
+   */
   solveGroundPosition(entity: Entity,ground: Ground): void{
     if(entity.invMass === 0) return;
 
@@ -296,6 +392,10 @@ class Engine extends EventTarget {
     }
   }
 
+  /**
+   * 物体の速度を計算
+   * @param {Entity} entity 対象のエンティティー
+   */
   solveSpeed(entity: Entity): void{
     const rate: number = this.friction*entity.size*entity.mass;
 
