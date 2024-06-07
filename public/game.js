@@ -10,6 +10,50 @@ let image = null;
 let position = {};
 let saveData = engine.export();
 
+const gravityInput = document.getElementById("gravityInput");
+const gravityValue = document.getElementById("gravityValue");
+
+const frictionInput = document.getElementById("frictionInput");
+const frictionValue = document.getElementById("frictionValue");
+
+const toolInput = document.getElementById("toolInput");
+
+const sizeInput = document.getElementById("sizeInput");
+const sizeValue = document.getElementById("sizeValue");
+
+const massInput = document.getElementById("massInput");
+const massValue = document.getElementById("massValue");
+
+const stiffInput = document.getElementById("stiffInput");
+const stiffValue = document.getElementById("stiffValue");
+
+const colorInput = document.getElementById("colorInput");
+const colorValue = document.getElementById("colorValue");
+
+const imageInput = document.getElementById("imageInput");
+
+const debug = document.getElementById("debug");
+const track = document.getElementById("track");
+const trackReset = document.getElementById("trackReset");
+const reset = document.getElementById("reset");
+const allReset = document.getElementById("allReset");
+
+const start = document.getElementById("start");
+const stop = document.getElementById("stop");
+const save = document.getElementById("save");
+const load = document.getElementById("load");
+const link = document.getElementById("link");
+const cache = document.getElementById("cache");
+
+const dataFile = document.getElementById("dataFile");
+
+gravityValue.textContent = gravityInput.value;
+frictionValue.textContent = frictionInput.value;
+sizeValue.textContent = sizeInput.value;
+massValue.textContent = massInput.value;
+stiffValue.textContent = stiffInput.value;
+colorValue.textContent = colorInput.value;
+
 engine.start();
 
 if(localStorage.map){
@@ -107,50 +151,6 @@ game.addEventListener("mousedown",(event)=>{
     }]);
   }
 });
-
-const gravityInput = document.getElementById("gravityInput");
-const gravityValue = document.getElementById("gravityValue");
-
-const frictionInput = document.getElementById("frictionInput");
-const frictionValue = document.getElementById("frictionValue");
-
-const toolInput = document.getElementById("toolInput");
-
-const sizeInput = document.getElementById("sizeInput");
-const sizeValue = document.getElementById("sizeValue");
-
-const massInput = document.getElementById("massInput");
-const massValue = document.getElementById("massValue");
-
-const stiffInput = document.getElementById("stiffInput");
-const stiffValue = document.getElementById("stiffValue");
-
-const colorInput = document.getElementById("colorInput");
-const colorValue = document.getElementById("colorValue");
-
-const imageInput = document.getElementById("imageInput");
-
-const debug = document.getElementById("debug");
-const track = document.getElementById("track");
-const trackReset = document.getElementById("trackReset");
-const reset = document.getElementById("reset");
-const allReset = document.getElementById("allReset");
-
-const start = document.getElementById("start");
-const stop = document.getElementById("stop");
-const save = document.getElementById("save");
-const load = document.getElementById("load");
-const link = document.getElementById("link");
-const cache = document.getElementById("cache");
-
-const dataFile = document.getElementById("dataFile");
-
-gravityValue.textContent = gravityInput.value;
-frictionValue.textContent = frictionInput.value;
-sizeValue.textContent = sizeInput.value;
-massValue.textContent = massInput.value;
-stiffValue.textContent = stiffInput.value;
-colorValue.textContent = colorInput.value;
 
 gravityInput.addEventListener("input",(event)=>{
   gravityValue.textContent = event.target.value;
