@@ -128,7 +128,7 @@ const stop = document.getElementById("stop");
 const save = document.getElementById("save");
 const load = document.getElementById("load");
 const link = document.getElementById("link");
-const cache = document.getElementById("cahce");
+const cache = document.getElementById("cache");
 
 const dataFile = document.getElementById("dataFile");
 
