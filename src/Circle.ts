@@ -70,7 +70,7 @@ class Circle extends EntityManager{
     this.color = color;
 
     if(image){
-      this.image = new Image();
+      this.image = new Image(this.size,this.size);
       this.image.src = image;
     }
 
