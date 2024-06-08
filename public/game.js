@@ -132,7 +132,8 @@ game.addEventListener("mousedown",(event)=>{
         endY: event.clientY - rect.top,
         stiff: 0.5,
         size: size,
-        color: color
+        color: color,
+        image: image
       }]);
 
       position = {};
