@@ -8,6 +8,7 @@
  * @property {number} endY 終点Y座標
  * @property {number} size 幅
  * @property {string} color 色
+ * @property {HTMLImageElement | null} image 画像
  */
 interface Ground{
   type: string;
@@ -18,6 +19,7 @@ interface Ground{
   endY: number;
   size: number;
   color: string;
+  image: HTMLImageElement | null;
 }
 
 /**
@@ -29,6 +31,7 @@ interface Ground{
  * @property {number} endY 終点Y座標
  * @property {number} size 幅
  * @property {string} color 色
+ * @property {string | null} 画像リンク
  */
 type GroundOption = {
   name: string;
@@ -38,6 +41,7 @@ type GroundOption = {
   endY: number;
   size: number;
   color?: string;
+  image?: string | null;
 }
 
 /**
@@ -48,7 +52,7 @@ class Ground{
   /**
    * @param {Object} GroundOption グラウンドオプション
    */
-  constructor({ name, startX, startY, endX, endY, size, color = "red" }: GroundOption){
+  constructor({ name, startX, startY, endX, endY, size, color = "red", image = null }: GroundOption){
     this.type = "ground";
     this.name = name;
     this.color = color;
@@ -59,6 +63,11 @@ class Ground{
     this.endY = endY;
 
     this.size = size;
+
+    if(image){
+      this.image = new Image();
+      this.image.src = image;
+    }
   }
 
   /**
@@ -99,22 +108,33 @@ class Ground{
    * @param {CanvasRenderingContext2D} ctx コンテキスト
    */
   draw(ctx: CanvasRenderingContext2D): void{
-    ctx.beginPath();
-    ctx.moveTo(this.startX,this.startY);
-    ctx.lineTo(this.endX,this.endY);
-    ctx.strokeStyle = this.color;
-    ctx.lineWidth = this.size;
-    ctx.stroke();
+    if(this.image){
+      const posX = (this.startX + this.endX)/2;
+      const posY = (this.startY + this.endY)/2;
 
-    ctx.beginPath();
-    ctx.arc(this.startX,this.startY,this.size/2,0,2*Math.PI);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(this.endX,this.endY,this.size/2,0,2*Math.PI);
-    ctx.fillStyle = this.color;
-    ctx.fill();
+      ctx.drawImage(
+        this.image,
+        posX - this.image.width/2,
+        posY - this.image.height/2
+      );
+    }else{
+      ctx.beginPath();
+      ctx.moveTo(this.startX,this.startY);
+      ctx.lineTo(this.endX,this.endY);
+      ctx.strokeStyle = this.color;
+      ctx.lineWidth = this.size;
+      ctx.stroke();
+  
+      ctx.beginPath();
+      ctx.arc(this.startX,this.startY,this.size/2,0,2*Math.PI);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+  
+      ctx.beginPath();
+      ctx.arc(this.endX,this.endY,this.size/2,0,2*Math.PI);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    }
   }
 
   /**
