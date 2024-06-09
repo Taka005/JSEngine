@@ -129,7 +129,9 @@ game.addEventListener("mousedown",(event)=>{
     }else{
       const source = engine.checkEntityPosition(position.posX,position.posY)[0];
       const target = engine.checkEntityPosition(event.clientX - rect.left,event.clientY - rect.top)[0];
-      if(!source||!target) return;
+      if(!source||!target) return position = {};
+
+      if(source.name === target.name) return position = {};
 
       source.addTarget({
         name: target.name,
