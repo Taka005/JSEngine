@@ -8,6 +8,7 @@ let stiff = 0.5;
 let color = "#ff0000";
 let image = null;
 let position = {};
+let targetEntity = null;
 let saveData = engine.export();
 
 const gravityInput = document.getElementById("gravityInput");
@@ -111,17 +112,16 @@ if(localStorage.map){
 game.addEventListener("mousemove",(event)=>{
   event.preventDefault();
 
-  if(event.buttons === 1&&tool === "move"){
+  if(event.buttons === 1){
+    if(!targetEntity) return;
+
     const rect = event.target.getBoundingClientRect();
 
     const posX = event.clientX - rect.left;
     const posY = event.clientY - rect.top;
 
-    const entity = engine.checkEntityPosition(posX,posY)[0];
-    if(!entity) return;
-
-    entity.posX = posX;
-    entity.posY = posY;
+    targetEntity.posX = posX;
+    targetEntity.posY = posY;
   }
 });
 
@@ -130,13 +130,16 @@ game.addEventListener("mousedown",(event)=>{
 
   const rect = event.target.getBoundingClientRect();
 
-  if(tool === "move") return;
-
   if(tool === "delete"){
     engine.checkObjectPosition(event.clientX - rect.left,event.clientY - rect.top)
       .forEach(object=>{
         engine.deSpawn(object.type,object.name);
       });
+  }else if(tool === "move"){
+    const entity = engine.checkEntityPosition(posX,posY)[0];
+    if(!entity) return;
+
+    targetEntity = entity;
   }else if(tool === "connect"){
     if(Object.keys(position).length === 0){
       position = {
@@ -215,6 +218,12 @@ game.addEventListener("mousedown",(event)=>{
   }
 });
 
+game.addEventListener("mouseup",(event)=>{
+  if(targetEntity){
+    targetEntity = null;
+  }
+});
+
 gravityInput.addEventListener("input",(event)=>{
   gravityValue.textContent = event.target.value;
   engine.gravity = event.target.value;
@@ -229,6 +238,7 @@ toolInput.addEventListener("input",(event)=>{
   tool = event.target.value;
 
   position = {};
+  targetEntity = null;
 });
 
 sizeInput.addEventListener("input",(event)=>{
