@@ -147,6 +147,24 @@ game.addEventListener("mousedown",(event)=>{
 
       position = {};
     }
+  }else if(tool === "disConnect"){
+    if(Object.keys(position).length === 0){
+      position = {
+        posX: event.clientX - rect.left,
+        posY: event.clientY - rect.top
+      }
+    }else{
+      const source = engine.checkEntityPosition(position.posX,position.posY)[0];
+      const target = engine.checkEntityPosition(event.clientX - rect.left,event.clientY - rect.top)[0];
+      if(!source||!target) return position = {};
+
+      if(source.name === target.name) return position = {};
+
+      source.removeTarget(target.name);
+      target.removeTarget(source.name);
+
+      position = {};
+    }
   }else if(tool === "ground"){
     if(Object.keys(position).length === 0){
       position = {
