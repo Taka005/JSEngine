@@ -108,6 +108,23 @@ if(localStorage.map){
   saveData =  engine.export();
 }
 
+game.addEventListener("mousemove",(event)=>{
+  event.preventDefault();
+
+  if(event.buttons === 2){
+    const rect = event.target.getBoundingClientRect();
+
+    const posX = event.clientX - rect.left;
+    const posY = event.clientY - rect.top;
+
+    const object = engine.checkObjectPosition(posX,posY)[0];
+    if(!object) return;
+
+    object.posX = posX;
+    object.posY = posY;
+  }
+});
+
 game.addEventListener("mousedown",(event)=>{
   event.preventDefault();
 
