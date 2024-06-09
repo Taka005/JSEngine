@@ -111,7 +111,7 @@ if(localStorage.map){
 game.addEventListener("mousemove",(event)=>{
   event.preventDefault();
 
-  if(event.buttons === 2){
+  if(event.buttons === 2&&tool === "move"){
     const rect = event.target.getBoundingClientRect();
 
     const posX = event.clientX - rect.left;
@@ -129,6 +129,8 @@ game.addEventListener("mousedown",(event)=>{
   event.preventDefault();
 
   const rect = event.target.getBoundingClientRect();
+
+  if(tool === "move") return;
 
   if(tool === "delete"){
     engine.checkObjectPosition(event.clientX - rect.left,event.clientY - rect.top)
