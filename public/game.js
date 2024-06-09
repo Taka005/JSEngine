@@ -104,8 +104,8 @@ if(localStorage.map){
       size: 15
     }
   ]);
-  
-  saveData =  engine.export();  
+
+  saveData =  engine.export();
 }
 
 game.addEventListener("mousedown",(event)=>{
@@ -114,7 +114,7 @@ game.addEventListener("mousedown",(event)=>{
   const rect = event.target.getBoundingClientRect();
 
   if(tool === "delete"){
-    engine.checkPosition(event.clientX - rect.left,event.clientY - rect.top)
+    engine.checkObjectPosition(event.clientX - rect.left,event.clientY - rect.top)
       .forEach(object=>{
         engine.deSpawn(object.type,object.name);
       });

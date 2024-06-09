@@ -276,7 +276,7 @@ class Engine extends EventTarget {
 
   /**
    * 物体を削除します
-   * @param {string} type 削除するタイプ 
+   * @param {string} type 削除するタイプ
    * @param {string} name 削除する物体名
    */
   deSpawn(type: string,name: string): void{
@@ -288,7 +288,7 @@ class Engine extends EventTarget {
     }else if(type === "square"){
         const square = this.get<Square>(type,name);
         if(!square) return;
-  
+
         delete this.objects[name];
     }else if(type === "ground"){
       const ground = this.get<Ground>(type,name);
@@ -300,8 +300,8 @@ class Engine extends EventTarget {
 
   /**
    * 指定した物体を取得します
-   * @param {string} type 取得する種類 
-   * @param {string} name 取得する物体名 
+   * @param {string} type 取得する種類
+   * @param {string} name 取得する物体名
    * @returns {T | undefined} 取得した物体
    */
   get<T>(type: string,name: string): T | undefined{
@@ -412,7 +412,7 @@ class Engine extends EventTarget {
   /**
    * 物体と物体の衝突時の回転を計算します
    * @param {Entity} source 対象のエンティティー
-   * @param {Entity} target 対象のエンティティー 
+   * @param {Entity} target 対象のエンティティー
    */
   solveRotate(source: Entity,target: Entity): void{
     const vecX: number = target.posX - source.posX;
@@ -436,7 +436,7 @@ class Engine extends EventTarget {
 
   /**
    * 指定の座標と物体の回転を計算します
-   * @param {Entity} entity 対象のエンティティー 
+   * @param {Entity} entity 対象のエンティティー
    * @param {number} posX 対象のX座標
    * @param {number} posY 対象のY座標
    */
@@ -461,7 +461,7 @@ class Engine extends EventTarget {
   /**
    * 物体と物体の結合を計算します
    * @param {Entity} source 対象のエンティティー
-   * @param {Entity} target 対象のエンティティー 
+   * @param {Entity} target 対象のエンティティー
    * @param {number} connectDistance 結合距離
    * @param {number} connectStiff 結合の剛性
    */
@@ -487,7 +487,7 @@ class Engine extends EventTarget {
 
   /**
    * 物体の速度を更新
-   * @param {Entity} entity 対象のエンティティー 
+   * @param {Entity} entity 対象のエンティティー
    */
   updateSpeed(entity: Entity): void{
     entity.speedX = (entity.posX - entity.prePosX)/(1/this.pps);
@@ -500,7 +500,7 @@ class Engine extends EventTarget {
 
   /**
    * 物体の位置を更新
-   * @param {Entity} entity 対象のエンティティー 
+   * @param {Entity} entity 対象のエンティティー
    */
   updatePosition(entity: Entity): void{
     entity.savePosition();
@@ -511,26 +511,26 @@ class Engine extends EventTarget {
 
   /**
    * 物体の回転を更新
-   * @param {Entity} entity 対象のエンティティー 
+   * @param {Entity} entity 対象のエンティティー
    */
   updateRotate(entity: Entity): void{
     entity.rotate += entity.rotateSpeed*(1/this.pps);
   }
 
   /**
-   * 指定した座標にある物体を計算します
+   * 指定した座標にある物体を取得します
    * @param {number} posX 対象のX座標
    * @param {number} posY 対象のY座標
    * @returns {(Circle | Square | Ground)[]} 存在した物体の配列
    */
-  checkPosition(posX: number,posY: number): (Circle | Square | Ground)[]{
+  checkObjectPosition(posX: number,posY: number): (Circle | Square | Ground)[]{
     const targets: (Circle | Square | Ground)[] = [];
 
     Object.values(this.objects).forEach(object=>{
       const entities: Entity[] = object.entities.filter(entity=>{
         const vecX: number = entity.posX - posX;
         const vecY: number = entity.posY - posY;
-    
+
         const distance: number = Math.sqrt(vecX**2 + vecY**2);
 
         return distance <= entity.size;
@@ -546,12 +546,35 @@ class Engine extends EventTarget {
 
       const vecX: number = data.posX - posX;
       const vecY: number = data.posY - posY;
-  
+
       const distance = Math.sqrt(vecX**2 + vecY**2);
 
       if(distance > ground.size/2) return;
 
       targets.push(ground);
+    });
+
+    return targets;
+  }
+
+  /**
+   * 指定した座標にあるエンティティーを計算します
+   * @param {number} posX 対象のX座標
+   * @param {number} posY 対象のY座標
+   * @returns {Entity[]} 存在したエンティティー
+   */
+  checkEntityPosition(posX: number,posY: number): Entity[]{
+    const targets = [];
+
+    this.entities.forEach(entity=>{
+      const vecX: number = entity.posX - posX;
+      const vecY: number = entity.posY - posY;
+
+      const distance: number = Math.sqrt(vecX**2 + vecY**2);
+
+      if(distance > entity.size) return;
+
+      targets.push(entity);
     });
 
     return targets;
@@ -604,7 +627,7 @@ class Engine extends EventTarget {
 
   /**
    * エクスポートデータを読み込みます
-   * @param {ExportData} data エクスポートデータ 
+   * @param {ExportData} data エクスポートデータ
    */
   import(data: ExportData): void{
     this.gravity = data.gravity;
