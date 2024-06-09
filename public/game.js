@@ -118,8 +118,6 @@ game.addEventListener("mousedown",(event)=>{
       .forEach(object=>{
         engine.deSpawn(object.type,object.name);
       });
-
-    position = {};
   }else if(tool === "connect"){
     if(Object.keys(position).length === 0){
       position = {
@@ -186,8 +184,6 @@ game.addEventListener("mousedown",(event)=>{
       position = {};
     }
   }else{
-    position = {};
-
     engine.spawn(tool,[{
       posX: event.clientX - rect.left,
       posY: event.clientY - rect.top,
@@ -212,6 +208,8 @@ frictionInput.addEventListener("input",(event)=>{
 
 toolInput.addEventListener("input",(event)=>{
   tool = event.target.value;
+
+  position = {};
 });
 
 sizeInput.addEventListener("input",(event)=>{

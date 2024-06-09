@@ -116,10 +116,21 @@ class Entity{
   }
 
   /**
+   * 接続状態を取得します
+   * @param {string} targetId ターゲット名
+   * @returns {Target} 取得したターゲット
+   */
+  getTarget(targetId: string): Target{
+    return this.targets.find(target=>target.name === targetId);
+  }
+
+  /**
    * 接続対象を追加します
    * @param {Target} target 接続するエンティティー
    */
   addTarget(target: Target): void{
+    if(this.getTarget(target.name)) return;
+
     this.targets.push(target);
   }
 
