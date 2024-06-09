@@ -136,11 +136,10 @@ game.addEventListener("mousedown",(event)=>{
         engine.deSpawn(object.type,object.name);
       });
   }else if(tool === "move"){
-    const entity = engine.checkEntityPosition(posX,posY)[0];
+    const entity = engine.checkEntityPosition(event.clientX - rect.left,event.clientY - rect.top)[0];
     if(!entity) return;
 
     targetEntity = entity;
-    console.log(entity)
   }else if(tool === "connect"){
     if(Object.keys(position).length === 0){
       position = {
