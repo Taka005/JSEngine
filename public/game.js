@@ -117,11 +117,11 @@ game.addEventListener("mousemove",(event)=>{
     const posX = event.clientX - rect.left;
     const posY = event.clientY - rect.top;
 
-    const object = engine.checkObjectPosition(posX,posY)[0];
-    if(!object) return;
+    const entity = engine.checkEntityPosition(posX,posY)[0];
+    if(!entity) return;
 
-    object.posX = posX;
-    object.posY = posY;
+    entity.posX = posX;
+    entity.posY = posY;
   }
 });
 
