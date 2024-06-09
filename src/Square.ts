@@ -97,7 +97,7 @@ class Square extends EntityManager{
    * オブジェクトを描画します
    * @param {CanvasRenderingContext2D} ctx コンテキスト
    */
-  draw(ctx: CanvasRenderingContext2D): void{
+  public draw(ctx: CanvasRenderingContext2D): void{
     const { posX, posY } = this.getPosition();
 
     if(this.image){
@@ -120,7 +120,7 @@ class Square extends EntityManager{
    * 速度ベクトルを描画します
    * @param {CanvasRenderingContext2D} ctx コンテキスト
    */
-  drawVector(ctx: CanvasRenderingContext2D): void{
+  public drawVector(ctx: CanvasRenderingContext2D): void{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 
@@ -136,7 +136,7 @@ class Square extends EntityManager{
    * 物体を複製します
    * @returns {Square} 複製された物体
    */
-  clone(): Square{
+  public clone(): Square{
     return new Square(this.toJSON());
   }
 
@@ -144,7 +144,7 @@ class Square extends EntityManager{
    * クラスのデータをJSONに変換します
    * @returns {SquareOption} スクエアオプション
    */
-  toJSON(): SquareOption{
+  public toJSON(): SquareOption{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 

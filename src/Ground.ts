@@ -76,7 +76,7 @@ class Ground{
    * @param {number} posY Y座標
    * @returns {Object} 直行座標の位置
    */
-  solvePosition(posX: number,posY: number): { posX: number, posY: number }{
+  public solvePosition(posX: number,posY: number): { posX: number, posY: number }{
     const t: number = Math.max(0,Math.min(1,((posX - this.startX)*(this.endX - this.startX) + (posY - this.startY)*(this.endY - this.startY))/Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2)**2));
     const crossX: number = this.startX + t*(this.endX - this.startX);
     const crossY: number = this.startY + t*(this.endY - this.startY);
@@ -107,7 +107,7 @@ class Ground{
    * オブジェクトを描画
    * @param {CanvasRenderingContext2D} ctx コンテキスト
    */
-  draw(ctx: CanvasRenderingContext2D): void{
+  public draw(ctx: CanvasRenderingContext2D): void{
     if(this.image){
       const posX = (this.startX + this.endX)/2;
       const posY = (this.startY + this.endY)/2;
@@ -141,7 +141,7 @@ class Ground{
    * 物体を複製します
    * @returns {Ground} 複製された物体
    */
-  clone(): Ground{
+  public clone(): Ground{
     return new Ground(this.toJSON());
   }
 
@@ -149,7 +149,7 @@ class Ground{
    * クラスのデータをJSONに変換します
    * @returns {GroundOption} グラウンドオプション
    */
-  toJSON(): GroundOption{
+  public toJSON(): GroundOption{
     return {
       name: this.name,
       startX: this.startX,

@@ -93,7 +93,7 @@ class Circle extends EntityManager{
    * オブジェクトを描画します
    * @param {CanvasRenderingContext2D} ctx コンテキスト
    */
-  draw(ctx: CanvasRenderingContext2D): void{
+  public draw(ctx: CanvasRenderingContext2D): void{
     const { posX, posY } = this.getPosition();
     const rotate = this.getRotate();
 
@@ -128,7 +128,7 @@ class Circle extends EntityManager{
    * 速度ベクトルを描画します
    * @param {CanvasRenderingContext2D} ctx コンテキスト
    */
-  drawVector(ctx: CanvasRenderingContext2D): void{
+  public drawVector(ctx: CanvasRenderingContext2D): void{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 
@@ -144,7 +144,7 @@ class Circle extends EntityManager{
    * 物体を複製します
    * @returns {Circle} 複製された物体
    */
-  clone(): Circle{
+  public clone(): Circle{
     return new Circle(this.toJSON());
   }
 
@@ -152,7 +152,7 @@ class Circle extends EntityManager{
    * クラスのデータをJSONに変換します
    * @returns {CircleOption} サークルオプション
    */
-  toJSON(): CircleOption{
+  public toJSON(): CircleOption{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 

@@ -114,7 +114,7 @@ class Engine extends EventTarget {
    * 全てのエンティティーの配列を返します
    * @returns {Entity[]} エンティティーの配列
    */
-  get entities(): Entity[]{
+  private get entities(): Entity[]{
     return Object.values(this.objects).map(object=>object.entities).flat();
   }
 
@@ -122,7 +122,7 @@ class Engine extends EventTarget {
    * 物体を削除します
    * @param {ClearOption} option クリアオプション
    */
-  clear({ force = false }: ClearOption = {}): void{
+  public clear({ force = false }: ClearOption = {}): void{
     this.objects = {};
 
     if(force){
@@ -134,7 +134,7 @@ class Engine extends EventTarget {
   /**
    * エンジンをスタートします
    */
-  start(): void{
+  public start(): void{
     if(this.isStart) return;
     this.isStart = true;
 
@@ -152,7 +152,7 @@ class Engine extends EventTarget {
   /**
    * エンジンを停止します
    */
-  stop(): void{
+  public stop(): void{
     if(!this.isStart) return;
     this.isStart = false;
 
@@ -163,7 +163,7 @@ class Engine extends EventTarget {
   /**
    * 物体の状態を更新します
    */
-  update(): void{
+  private update(): void{
     this.entities.forEach(entity=>{
       this.updatePosition(entity);
       this.updateRotate(entity);
@@ -211,7 +211,7 @@ class Engine extends EventTarget {
   /**
    * 物体を描画します
    */
-  draw(): void{
+  private draw(): void{
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
     if(this.isDebug){
@@ -254,7 +254,7 @@ class Engine extends EventTarget {
    * @param {string} type 生成する種類
    * @param {(CircleOption | GroundOption | SquareOption)[]} objects 生成するオブジェクトの配列
    */
-  spawn(type: string,objects: (CircleOption | GroundOption | SquareOption)[]): void{
+  public spawn(type: string,objects: (CircleOption | GroundOption | SquareOption)[]): void{
     objects.forEach(object=>{
       object.name = object.name || createId(8);
 
@@ -279,7 +279,7 @@ class Engine extends EventTarget {
    * @param {string} type 削除するタイプ
    * @param {string} name 削除する物体名
    */
-  deSpawn(type: string,name: string): void{
+  public deSpawn(type: string,name: string): void{
     if(type === "circle"){
       const circle = this.get<Circle>(type,name);
       if(!circle) return;
@@ -304,7 +304,7 @@ class Engine extends EventTarget {
    * @param {string} name 取得する物体名
    * @returns {T | undefined} 取得した物体
    */
-  get<T>(type: string,name: string): T | undefined{
+  public get<T>(type: string,name: string): T | undefined{
     if(type === "entity"){
       return this.entities.find(entity=>entity.name === name) as T;
     }else if(type === "ground"){
@@ -319,7 +319,7 @@ class Engine extends EventTarget {
    * @param {Entity} source 対象のエンティティー
    * @param {Entity} target 対象のエンティティー
    */
-  solvePosition(source: Entity,target: Entity): void{
+  private solvePosition(source: Entity,target: Entity): void{
     const totalMass: number = source.invMass + target.invMass;
     if(totalMass === 0) return;
 
@@ -359,7 +359,7 @@ class Engine extends EventTarget {
    * @param {Entity} entity 対象のエンティティー
    * @param {Ground} ground 対象の地面
    */
-  solveGroundPosition(entity: Entity,ground: Ground): void{
+  private solveGroundPosition(entity: Entity,ground: Ground): void{
     if(entity.invMass === 0) return;
 
     const { posX, posY }: { posX: number, posY: number } = ground.solvePosition(entity.posX,entity.posY);
@@ -396,7 +396,7 @@ class Engine extends EventTarget {
    * 物体の速度を計算
    * @param {Entity} entity 対象のエンティティー
    */
-  solveSpeed(entity: Entity): void{
+  private solveSpeed(entity: Entity): void{
     const rate: number = this.friction*entity.size*entity.mass;
 
     entity.speedX -= entity.speedX*rate*(1/this.pps);
@@ -414,7 +414,7 @@ class Engine extends EventTarget {
    * @param {Entity} source 対象のエンティティー
    * @param {Entity} target 対象のエンティティー
    */
-  solveRotate(source: Entity,target: Entity): void{
+  private solveRotate(source: Entity,target: Entity): void{
     const vecX: number = target.posX - source.posX;
     const vecY: number = target.posY - source.posY;
 
@@ -440,7 +440,7 @@ class Engine extends EventTarget {
    * @param {number} posX 対象のX座標
    * @param {number} posY 対象のY座標
    */
-  solveGroundRotate(entity: Entity,posX: number,posY: number): void{
+  private solveGroundRotate(entity: Entity,posX: number,posY: number): void{
     const vecX: number = posX - entity.posX;
     const vecY: number = posY - entity.posY;
 
@@ -465,7 +465,7 @@ class Engine extends EventTarget {
    * @param {number} connectDistance 結合距離
    * @param {number} connectStiff 結合の剛性
    */
-  solveConnect(source: Entity,target: Entity,connectDistance: number,connectStiff: number): void{
+  private solveConnect(source: Entity,target: Entity,connectDistance: number,connectStiff: number): void{
     const totalMass: number = source.mass + target.mass;
     if(totalMass === 0) return;
 
@@ -489,7 +489,7 @@ class Engine extends EventTarget {
    * 物体の速度を更新
    * @param {Entity} entity 対象のエンティティー
    */
-  updateSpeed(entity: Entity): void{
+   private updateSpeed(entity: Entity): void{
     entity.speedX = (entity.posX - entity.prePosX)/(1/this.pps);
     entity.speedY = (entity.posY - entity.prePosY)/(1/this.pps);
 
@@ -502,7 +502,7 @@ class Engine extends EventTarget {
    * 物体の位置を更新
    * @param {Entity} entity 対象のエンティティー
    */
-  updatePosition(entity: Entity): void{
+  private updatePosition(entity: Entity): void{
     entity.savePosition();
 
     entity.posX += entity.speedX*(1/this.pps);
@@ -513,7 +513,7 @@ class Engine extends EventTarget {
    * 物体の回転を更新
    * @param {Entity} entity 対象のエンティティー
    */
-  updateRotate(entity: Entity): void{
+  private updateRotate(entity: Entity): void{
     entity.rotate += entity.rotateSpeed*(1/this.pps);
   }
 
@@ -523,7 +523,7 @@ class Engine extends EventTarget {
    * @param {number} posY 対象のY座標
    * @returns {(Circle | Square | Ground)[]} 存在した物体の配列
    */
-  checkObjectPosition(posX: number,posY: number): (Circle | Square | Ground)[]{
+  public checkObjectPosition(posX: number,posY: number): (Circle | Square | Ground)[]{
     const targets: (Circle | Square | Ground)[] = [];
 
     Object.values(this.objects).forEach(object=>{
@@ -563,8 +563,8 @@ class Engine extends EventTarget {
    * @param {number} posY 対象のY座標
    * @returns {Entity[]} 存在したエンティティー
    */
-  checkEntityPosition(posX: number,posY: number): Entity[]{
-    const targets = [];
+  public checkEntityPosition(posX: number,posY: number): Entity[]{
+    const targets: Entity[] = [];
 
     this.entities.forEach(entity=>{
       const vecX: number = entity.posX - posX;
@@ -583,7 +583,7 @@ class Engine extends EventTarget {
   /**
    * マス目を描画
    */
-  drawGrid(): void{
+  private drawGrid(): void{
     this.ctx.beginPath();
 
     for(let posX: number = 0;posX < this.canvas.width;posX += 25){
@@ -605,7 +605,7 @@ class Engine extends EventTarget {
    * エンジンのデータを出力します
    * @returns {string} エクスポートデータの文字列
    */
-  export(): string{
+  public export(): string{
     const circle = Object.values(this.objects)
       .filter(object=>object.type === "circle")
       .map(object=>object.toJSON());
@@ -629,7 +629,7 @@ class Engine extends EventTarget {
    * エクスポートデータを読み込みます
    * @param {ExportData} data エクスポートデータ
    */
-  import(data: ExportData): void{
+  public import(data: ExportData): void{
     this.gravity = data.gravity;
     this.friction = data.friction;
 

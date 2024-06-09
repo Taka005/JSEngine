@@ -101,7 +101,7 @@ class Entity{
    * 質量の逆数を返します
    * @returns {number} 逆数の質量
    */
-  get invMass(): number{
+  public get invMass(): number{
     if(this.mass === 0) return 0;
 
     return 1/this.mass;
@@ -110,7 +110,7 @@ class Entity{
   /**
    * 位置を保存します
    */
-  savePosition(): void{
+  public savePosition(): void{
     this.prePosX = this.posX;
     this.prePosY = this.posY;
   }
@@ -118,9 +118,9 @@ class Entity{
   /**
    * 接続状態を取得します
    * @param {string} targetId ターゲット名
-   * @returns {Target} 取得したターゲット
+   * @returns {Target | undefined} 取得したターゲット
    */
-  getTarget(targetId: string): Target{
+  public getTarget(targetId: string): Target | undefined{
     return this.targets.find(target=>target.name === targetId);
   }
 
@@ -128,7 +128,7 @@ class Entity{
    * 接続対象を追加します
    * @param {Target} target 接続するエンティティー
    */
-  addTarget(target: Target): void{
+  public addTarget(target: Target): void{
     if(this.getTarget(target.name)) return;
 
     this.targets.push(target);
@@ -138,7 +138,7 @@ class Entity{
    * 接続対象を削除します
    * @param {number} targetId 削除するエンティティー名
    */
-  removeTarget(targetId: string): void{
+  public removeTarget(targetId: string): void{
     this.targets = this.targets.filter(target=>target.name !== targetId);
   }
 
@@ -146,7 +146,7 @@ class Entity{
    * JSONに変換します
    * @return {EntityOption} エンティティーオプション
    */
-  toJSON(): EntityOption{
+  public toJSON(): EntityOption{
     return {
       name: this.name,
       posX: this.posX,
