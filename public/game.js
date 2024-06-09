@@ -111,7 +111,7 @@ if(localStorage.map){
 game.addEventListener("mousemove",(event)=>{
   event.preventDefault();
 
-  if(event.buttons === 2&&tool === "move"){
+  if(event.button === 0&&tool === "move"){
     const rect = event.target.getBoundingClientRect();
 
     const posX = event.clientX - rect.left;
