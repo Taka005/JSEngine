@@ -10,6 +10,7 @@ let image = null;
 let position = {};
 let targetEntity = null;
 let saveData = engine.export();
+let autoSave = false;
 
 const gravityInput = document.getElementById("gravityInput");
 const gravityValue = document.getElementById("gravityValue");
@@ -32,6 +33,8 @@ const colorInput = document.getElementById("colorInput");
 const colorValue = document.getElementById("colorValue");
 
 const imageInput = document.getElementById("imageInput");
+
+const autoSaveInput = document.getElementById("autoSaveInput");
 
 const debug = document.getElementById("debug");
 const track = document.getElementById("track");
@@ -218,7 +221,7 @@ game.addEventListener("mousedown",(event)=>{
   }
 });
 
-game.addEventListener("mouseup",(event)=>{
+game.addEventListener("mouseup",()=>{
   if(targetEntity){
     targetEntity = null;
   }
@@ -263,6 +266,10 @@ colorInput.addEventListener("input",(event)=>{
 
 imageInput.addEventListener("change",(event)=>{
   image = event.target.value || null;
+});
+
+autoSaveInput.addEventListener("change",()=>{
+  autoSave = autoSaveInput.checked;
 });
 
 debug.addEventListener("click",()=>{
@@ -343,3 +350,9 @@ load.addEventListener("click",()=>{
 cache.addEventListener("click",()=>{
   delete localStorage.map;
 });
+
+setInterval(()=>{
+  if(autoSave){
+    saveData = engine.export();
+  }
+},15000);
