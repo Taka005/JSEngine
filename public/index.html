@@ -50,8 +50,14 @@
                 <p>剛性: <output id="stiffValue"></output></p>
                 <input type="color" class="form-range" id="colorInput" value="#ff0000">
                 <p>色: <output id="colorValue"></output></p>
-                <input type="text" id="imageInput" class="form-control">
-                <p>画像</p>
+                <input class="form-check-input" type="checkbox" id="autoSaveInput">
+                <div>
+                    <input type="text" id="useImage" class="form-control">
+                    <p>画像URL</p>
+                    <input class="form-control" type="file" id="imageFileInput" accept="image/*">
+                    <p>画像ファイル</p>
+                    <input type="button" class="btn btn-danger" id="imageReset" value="画像をリセット">
+                </div>
                 <input class="form-check-input" type="checkbox" id="autoSaveInput">
                 <label class="form-check-label" for="autoSaveInput">自動保存(15秒間隔)</label>
             </div>

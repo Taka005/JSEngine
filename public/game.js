@@ -32,7 +32,9 @@ const stiffValue = document.getElementById("stiffValue");
 const colorInput = document.getElementById("colorInput");
 const colorValue = document.getElementById("colorValue");
 
+const imageReset = document.getElementById("imageReset");
 const imageInput = document.getElementById("imageInput");
+const imageFileInput = document.getElementById("imageFileInput");
 
 const autoSaveInput = document.getElementById("autoSaveInput");
 
@@ -320,6 +322,20 @@ dataFile.addEventListener("change",(event)=>{
     frictionValue.textContent = data.friction;
     frictionInput.value = data.friction;
   });
+});
+
+imageFileInput.addEventListener("change",(event)=>{
+  const reader = new FileReader();
+  reader.readAsDataURL(event.target.files[0]);
+  reader.addEventListener("load",()=>{
+    image = reader.result;
+  });
+});
+
+imageReset.addEventListener("click",()=>{
+  imageInput.value = "";
+  imageFileInput.value = "";
+  image = null;
 });
 
 start.addEventListener("click",()=>{
