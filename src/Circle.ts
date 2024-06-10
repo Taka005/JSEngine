@@ -106,10 +106,10 @@ class Circle extends EntityManager{
       if(this.image.width > this.image.height){
         const ratio = this.image.height/this.image.width;
         width = this.size;
-        height = this.size*ratio;
+        height = this.size*2*ratio;
       }else{
         const ratio = this.image.width/this.image.height;
-        width = this.size*ratio;
+        width = this.size*2*ratio;
         height = this.size;
       }
 
@@ -117,10 +117,6 @@ class Circle extends EntityManager{
         this.image,
         -this.image.width/2,
         -this.image.height/2,
-        this.image.width,
-        this.image.height,
-        0,
-        0,
         width,
         height
       );
