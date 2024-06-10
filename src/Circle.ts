@@ -115,8 +115,8 @@ class Circle extends EntityManager{
 
       ctx.drawImage(
         this.image,
-        -this.image.width/2,
-        -this.image.height/2,
+        -width/2,
+        -height/2,
         width,
         height
       );
