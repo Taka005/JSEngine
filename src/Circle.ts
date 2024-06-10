@@ -105,12 +105,12 @@ class Circle extends EntityManager{
       let width, height;
       if(this.image.width > this.image.height){
         const ratio = this.image.height/this.image.width;
-        width = this.size;
+        width = this.size*2;
         height = this.size*2*ratio;
       }else{
         const ratio = this.image.width/this.image.height;
         width = this.size*2*ratio;
-        height = this.size;
+        height = this.size*2;
       }
 
       ctx.drawImage(
