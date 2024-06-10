@@ -52,7 +52,7 @@ type CircleOption = {
 /**
  * サークルクラス
  * 円を制御します
- * 
+ *
  * @extends EntityManager
  */
 class Circle extends EntityManager{
@@ -102,10 +102,23 @@ class Circle extends EntityManager{
     ctx.rotate(rotate*(Math.PI/180));
 
     if(this.image){
+      let width, height;
+      if(this.image.width > this.image.height){
+        const ratio = this.image.height/this.image.width;
+        width = this.size;
+        height = this.size*ratio;
+      }else{
+        const ratio = this.image.width/this.image.height;
+        width = this.size*ratio;
+        height = this.size;
+      }
+
       ctx.drawImage(
         this.image,
         -this.image.width/2,
-        -this.image.height/2
+        -this.image.height/2,
+        width,
+        height
       );
     }else{
       ctx.beginPath();
