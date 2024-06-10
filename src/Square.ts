@@ -101,10 +101,24 @@ class Square extends EntityManager{
     const { posX, posY } = this.getPosition();
 
     if(this.image){
+      let width: number = 0;
+      let height: number = 0;
+      const rate: number = this.image.height/this.image.width;
+
+      if(this.image.width > this.image.height){
+        width = this.size*2;
+        height = this.size*2*rate;
+      }else{
+        width = this.size*2*rate;
+        height = this.size*2;
+      }
+
       ctx.drawImage(
         this.image,
-        posX - this.image.width/2,
-        posY - this.image.height/2
+        posX - width/2,
+        posY - height/2,
+        width,
+        height
       );
     }else{
       this.entities.forEach(entity=>{

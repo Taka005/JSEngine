@@ -61,6 +61,8 @@ colorValue.textContent = colorInput.value;
 engine.start();
 
 if(localStorage.map){
+  saveData = localStorage.map;
+
   const data = JSON.parse(localStorage.map);
 
   engine.import(data);
