@@ -117,6 +117,10 @@ class Circle extends EntityManager{
         this.image,
         -this.image.width/2,
         -this.image.height/2,
+        this.image.width,
+        this.image.height,
+        0,
+        0,
         width,
         height
       );
