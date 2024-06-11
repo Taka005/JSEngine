@@ -53,6 +53,8 @@ type SquareOption = {
 /**
  * スクエアクラス
  * 四角を制御します
+ *
+ * @extends EntityManager
  */
 class Square extends EntityManager{
   /**

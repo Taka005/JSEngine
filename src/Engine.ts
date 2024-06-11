@@ -2,8 +2,8 @@ import { Entity } from "./Entity";
 import { Ground, GroundOption } from "./Ground";
 import { Circle, CircleOption } from "./Circle";
 import { Square, SquareOption } from "./Square";
-import { createId } from "./utils";
 import { Rope, RopeOption } from "./Rope";
+import { createId } from "./utils";
 
 /**
  * エンジンを表します
@@ -14,8 +14,8 @@ import { Rope, RopeOption } from "./Rope";
  * @property {number} gravity 重力加速度
  * @property {number} friction 摩擦係数
  * @property {{ [key: string]: Ground }} grounds グラウンドの格納オブジェクト
- * @property {{ [key: string]: Circle | Square }} objects 物体の格納オブジェクト
- * @property {(Circle | Square)[]} track 履歴の格納オブジェクト
+ * @property {{ [key: string]: Circle | Square | Rope }} objects 物体の格納オブジェクト
+ * @property {(Circle | Square | Rope)[]} track 履歴の格納オブジェクト
  * @property {boolean} isStart 開始しているかどうか
  * @property {boolean} isDebug デバッグモードかどうか
  * @property {boolean} isTrack 履歴を表示するかどうか

@@ -32,8 +32,17 @@ type RopeOption = {
   entities: EntityOption;
 }
 
+/**
+ * ロープクラス
+ * ロープを制御します
+ *
+ * @extends EntityManager
+ */
 class Rope extends EntityManager{
-  constructor(name, startX, startY, endX, endY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = []): RopeOption{
+  /**
+   * @param {RopeOption} ロープオプション
+   */
+  constructor({name, startX, startY, endX, endY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = []}: RopeOption){
     super();
 
     this.type = "rope";
@@ -121,15 +130,15 @@ class Rope extends EntityManager{
 
   /**
    * 物体を複製します
-   * @returns {Square} 複製された物体
+   * @returns {Rope} 複製された物体
    */
   public clone(): Square{
-    return new Square(this.toJSON());
+    return new Rope(this.toJSON());
   }
 
   /**
    * クラスのデータをJSONに変換します
-   * @returns {SquareOption} スクエアオプション
+   * @returns {RopeOption} ロープオプション
    */
   public toJSON(): RopeOption{
     const { posX, posY } = this.getPosition();
