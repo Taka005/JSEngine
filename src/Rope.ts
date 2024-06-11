@@ -77,17 +77,19 @@ class Rope extends EntityManager{
           speedY: speedY
         });
 
-        entity.addTarget({
-          name: target.name,
-          distance: size*2,
-          stiff: this.stiff
-        });
+        if(entity){
+          entity.addTarget({
+            name: target.name,
+            distance: size*2,
+            stiff: this.stiff
+          });
 
-        target.addTarget({
-          name: entity.name,
-          distance: size*2,
-          stiff: this.stiff
-        });
+          target.addTarget({
+            name: entity.name,
+            distance: size*2,
+            stiff: this.stiff
+          });
+        }
 
         entity = target;
       }
