@@ -58,14 +58,14 @@ class Rope extends EntityManager{
       entities.map(entity=>this.create(entity));
     }else{
       const width: number = startX - endX;
-      const height: number = endX - endY;
+      const height: number = startY - endY;
 
       const count: number = Math.floor(Math.sqrt(width*width + height*height)/this.size);
 
       let entity: Entity | null = null;
       for(let i: number = 0;i <= count;i++){
-        let posX: number = startX + (i*width)/count;
-        let posY: number = startY + (i*height)/count;
+        let posX: number = startX + i*(width/count);
+        let posY: number = startY + i*(height/count);
 
         const target = this.create({
           posX: posX,
@@ -80,13 +80,13 @@ class Rope extends EntityManager{
         if(entity){
           entity.addTarget({
             name: target.name,
-            distance: size*2,
+            distance: this.size*2,
             stiff: this.stiff
           });
 
           target.addTarget({
             name: entity.name,
-            distance: size*2,
+            distance: this.size*2,
             stiff: this.stiff
           });
         }
