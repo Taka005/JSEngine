@@ -204,7 +204,27 @@ game.addEventListener("mousedown",(event)=>{
         startY: position.posY,
         endX: event.clientX - rect.left,
         endY: event.clientY - rect.top,
-        stiff: 0.5,
+        stiff: stiff,
+        size: size,
+        color: color,
+        image: image
+      }]);
+
+      position = {};
+    }
+  }else if(tool === "rope"){
+    if(Object.keys(position).length === 0){
+      position = {
+        posX: event.clientX - rect.left,
+        posY: event.clientY - rect.top
+      }
+    }else{
+      engine.spawn("rope",[{
+        startX: position.posX,
+        startY: position.posY,
+        endX: event.clientX - rect.left,
+        endY: event.clientY - rect.top,
+        stiff: stiff,
         size: size,
         color: color,
         image: image
