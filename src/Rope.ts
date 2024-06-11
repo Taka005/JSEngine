@@ -60,7 +60,7 @@ class Rope extends EntityManager{
       const width: number = startX - endX;
       const height: number = startY - endY;
 
-      const count: number = Math.floor(Math.sqrt(width*width + height*height)/this.size);
+      const count: number = Math.floor(Math.sqrt(width*width + height*height)/(this.size*2));
 
       let entity: Entity | null = null;
       for(let i: number = 0;i <= count;i++){
