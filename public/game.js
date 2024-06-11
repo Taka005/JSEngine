@@ -224,6 +224,7 @@ game.addEventListener("mousedown",(event)=>{
         startY: position.posY,
         endX: event.clientX - rect.left,
         endY: event.clientY - rect.top,
+        mass: mass,
         stiff: stiff,
         size: size,
         color: color,
