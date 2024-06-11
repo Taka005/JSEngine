@@ -1,5 +1,6 @@
 import { EntityManager } from "./EntityManager";
 import { EntityOption } from "./Entity";
+import { resize } from "./utils";
 
 /**
  * @typedef {Object} Square
@@ -101,17 +102,7 @@ class Square extends EntityManager{
     const { posX, posY } = this.getPosition();
 
     if(this.image){
-      let width: number = 0;
-      let height: number = 0;
-      const rate: number = this.image.height/this.image.width;
-
-      if(this.image.width > this.image.height){
-        width = this.size*2;
-        height = this.size*2*rate;
-      }else{
-        width = this.size*2*rate;
-        height = this.size*2;
-      }
+      const { width, height } = resize(this.image,this.size*2);
 
       ctx.drawImage(
         this.image,

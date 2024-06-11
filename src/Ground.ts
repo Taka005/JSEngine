@@ -1,3 +1,5 @@
+import { resize } from "./utils";
+
 /**
  * @typedef {Object} Ground
  * @property {string} type 物体の種類
@@ -112,10 +114,12 @@ class Ground{
       const posX = (this.startX + this.endX)/2;
       const posY = (this.startY + this.endY)/2;
 
+      const { width, height } = resize(this.image,this.size*2);
+
       ctx.drawImage(
         this.image,
-        posX - this.image.width/2,
-        posY - this.image.height/2
+        posX - width/2,
+        posY - height/2
       );
     }else{
       ctx.beginPath();
@@ -124,12 +128,12 @@ class Ground{
       ctx.strokeStyle = this.color;
       ctx.lineWidth = this.size;
       ctx.stroke();
-  
+
       ctx.beginPath();
       ctx.arc(this.startX,this.startY,this.size/2,0,2*Math.PI);
       ctx.fillStyle = this.color;
       ctx.fill();
-  
+
       ctx.beginPath();
       ctx.arc(this.endX,this.endY,this.size/2,0,2*Math.PI);
       ctx.fillStyle = this.color;
