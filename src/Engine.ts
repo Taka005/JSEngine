@@ -533,10 +533,10 @@ class Engine extends EventTarget {
    * 指定した座標にある物体を取得します
    * @param {number} posX 対象のX座標
    * @param {number} posY 対象のY座標
-   * @returns {(Circle | Square | Ground)[]} 存在した物体の配列
+   * @returns {(Circle | Square | Rope | Ground)[]} 存在した物体の配列
    */
-  public checkObjectPosition(posX: number,posY: number): (Circle | Square | Ground)[]{
-    const targets: (Circle | Square | Ground)[] = [];
+  public checkObjectPosition(posX: number,posY: number): (Circle | Square | Rope | Ground)[]{
+    const targets: (Circle | Square | Rope | Ground)[] = [];
 
     Object.values(this.objects).forEach(object=>{
       const entities: Entity[] = object.entities.filter(entity=>{
