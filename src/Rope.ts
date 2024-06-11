@@ -57,8 +57,8 @@ class Rope extends EntityManager{
     if(entities[0]){
       entities.map(entity=>this.create(entity));
     }else{
-      const width: number = startX - endX;
-      const height: number = startY - endY;
+      const width: number = endX - startX;
+      const height: number = endY - startY;
 
       const count: number = Math.floor(Math.sqrt(width*width + height*height)/(this.size*2));
 
