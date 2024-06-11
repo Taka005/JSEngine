@@ -114,7 +114,7 @@ class Rope extends EntityManager{
         );
       }else{
         ctx.beginPath();
-        ctx.arc(entity.posX,entity.posY,this.size/2,0,2*Math.PI);
+        ctx.arc(entity.posX,entity.posY,this.size,0,2*Math.PI);
         ctx.fillStyle = this.color;
         ctx.fill();
       }
