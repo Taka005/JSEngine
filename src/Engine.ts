@@ -3,6 +3,7 @@ import { Ground, GroundOption } from "./Ground";
 import { Circle, CircleOption } from "./Circle";
 import { Square, SquareOption } from "./Square";
 import { createId } from "./utils";
+import { Rope, RopeOption } from "./Rope";
 
 /**
  * エンジンを表します
@@ -28,8 +29,8 @@ interface Engine extends EventTarget{
   gravity: number;
   friction: number;
   grounds: { [key: string]: Ground };
-  objects: { [key: string]: Circle | Square };
-  tracks: (Circle | Square)[];
+  objects: { [key: string]: Circle | Square | Rope };
+  tracks: (Circle | Square | Rope)[];
   isStart: boolean;
   isDebug: boolean;
   isTrack: boolean;
@@ -66,6 +67,7 @@ type ClearOption = {
  * @property {number} friction 摩擦係数
  * @property {CircleOption[]} circle 全ての円の配列
  * @property {SquareOption[]} square 全ての四角の配列
+ * @property {RopeOption[]} rope 全てのロープの配列
  * @property {GroundOption[]} ground 全ての地面の配列
  */
 type ExportData = {
@@ -74,6 +76,7 @@ type ExportData = {
   entity?: CircleOption[];
   circle: CircleOption[];
   square: SquareOption[];
+  rope: RopeOption[];
   ground: GroundOption[];
 }
 
@@ -252,9 +255,9 @@ class Engine extends EventTarget {
   /**
    * 物体を生成します
    * @param {string} type 生成する種類
-   * @param {(CircleOption | GroundOption | SquareOption)[]} objects 生成するオブジェクトの配列
+   * @param {(CircleOption | GroundOption | SquareOption | RopeOption)[]} objects 生成するオブジェクトの配列
    */
-  public spawn(type: string,objects: (CircleOption | GroundOption | SquareOption)[]): void{
+  public spawn(type: string,objects: (CircleOption | GroundOption | SquareOption | RopeOption)[]): void{
     objects.forEach(object=>{
       object.name = object.name || createId(8);
 
@@ -266,6 +269,10 @@ class Engine extends EventTarget {
         const square = new Square(object as SquareOption);
 
         this.objects[object.name] = square;
+      }else if(type === "rope"){
+        const rope = new Rope(object as RopeOption);
+
+        this.objects[object.name] = rope;
       }else if(type === "ground"){
         const ground = new Ground(object as GroundOption);
 
@@ -286,10 +293,15 @@ class Engine extends EventTarget {
 
       delete this.objects[name];
     }else if(type === "square"){
-        const square = this.get<Square>(type,name);
-        if(!square) return;
+      const square = this.get<Square>(type,name);
+      if(!square) return;
 
-        delete this.objects[name];
+      delete this.objects[name];
+    }else if(type === "rope"){
+      const rope = this.get<Rope>(type,name);
+      if(!rope) return;
+
+      delete this.objects[name];
     }else if(type === "ground"){
       const ground = this.get<Ground>(type,name);
       if(!ground) return;
@@ -614,6 +626,10 @@ class Engine extends EventTarget {
       .filter(object=>object.type === "square")
       .map(object=>object.toJSON());
 
+    const rope = Object.values(this.objects)
+      .filter(object=>object.type === "rope")
+      .map(object=>object.toJSON());
+
     const grounds = Object.values(this.grounds).map(object=>object.toJSON());
 
     return JSON.stringify({
@@ -621,6 +637,7 @@ class Engine extends EventTarget {
       friction: this.friction,
       circle: circle,
       square: square,
+      rope: rope,
       ground: grounds
     });
   }
@@ -643,6 +660,10 @@ class Engine extends EventTarget {
 
     if(data.square){
       this.spawn("square",data.square);
+    }
+
+    if(data.rope){
+      this.spawn("square",data.rope);
     }
 
     if(data.entity){
