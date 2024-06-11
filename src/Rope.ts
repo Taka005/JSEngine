@@ -1,14 +1,10 @@
-import { EntityOption } from "./Entity";
+import { Entity, EntityOption } from "./Entity";
 import { EntityManager } from "./EntityManager";
 import { resize } from "./utils";
 
 interface Rope extends EntityManager{
   type: string;
   name: string;
-  startX: number;
-  startY: number;
-  endX: number;
-  endY: number;
   size: number;
   mass: number;
   stiff: number;
@@ -49,11 +45,6 @@ class Rope extends EntityManager{
     this.name = name;
     this.color = color;
 
-    this.startX = startX;
-    this.startY = startY;
-    this.endX = endX;
-    this.endY = endY;
-
     this.size = size;
     this.mass = mass;
     this.stiff = stiff;
@@ -66,15 +57,17 @@ class Rope extends EntityManager{
     if(entities[0]){
       entities.map(entity=>this.create(entity));
     }else{
-      const width: number = this.startX - this.endX;
-      const height: number = this.endX - this.endY;
+      const width: number = startX - endX;
+      const height: number = endX - endY;
 
       const count: number = Math.sqrt(width*width + height*height)/this.size;
+
+      let entity: Entity | null = null;
       for(let i: number = 0;i < count;i++){
         let posX: number = startX + i*(width/count);
         let posY: number = startY + i*(height/count);
 
-        this.create({
+        const target = this.create({
           posX: posX,
           posY: posY,
           size: this.size,
@@ -83,6 +76,20 @@ class Rope extends EntityManager{
           speedX: speedX,
           speedY: speedY
         });
+
+        entity.addTarget({
+          name: target.name,
+          distance: size*2,
+          stiff: this.stiff
+        });
+
+        target.addTarget({
+          name: entity.name,
+          distance: size*2,
+          stiff: this.stiff
+        });
+
+        entity = target;
       }
     }
   }
