@@ -29,7 +29,7 @@ type RopeOption = {
   speedY?: number;
   color?: string;
   image?: string | null;
-  entities: EntityOption;
+  entities: EntityOption[];
 }
 
 /**
@@ -132,7 +132,7 @@ class Rope extends EntityManager{
    * 物体を複製します
    * @returns {Rope} 複製された物体
    */
-  public clone(): Square{
+  public clone(): Rope{
     return new Rope(this.toJSON());
   }
 
@@ -141,13 +141,16 @@ class Rope extends EntityManager{
    * @returns {RopeOption} ロープオプション
    */
   public toJSON(): RopeOption{
-    const { posX, posY } = this.getPosition();
+    const start = this.entities[0];
+    const end = this.entities[this.entities.length - 1];
     const { speedX, speedY } = this.getSpeed();
 
     return {
       name: this.name,
-      posX: posX,
-      posY: posY,
+      startX: start.posX,
+      startY: start.posY,
+      endX: end.posX,
+      endY: end.posX,
       size: this.size,
       mass: this.mass,
       stiff: this.stiff,
