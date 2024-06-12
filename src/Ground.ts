@@ -117,7 +117,7 @@ class Ground{
       const posX: number = (this.startX + this.endX)/2;
       const posY: number = (this.startY + this.endY)/2;
 
-      const { width, height } = resize(this.image,distance/2);
+      const { width, height } = resize(this.image,distance);
 
       ctx.save();
       ctx.translate(posX,posY);
