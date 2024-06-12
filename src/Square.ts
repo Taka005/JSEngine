@@ -104,15 +104,26 @@ class Square extends EntityManager{
     const { posX, posY } = this.getPosition();
 
     if(this.image){
+      const start = this.entities[0];
+      const end = this.entities[2];
+
+      const rotate: number = Math.atan2(start.posY - end.posY,end.posX - start.posX);
+
       const { width, height } = resize(this.image,this.size*2);
+
+      ctx.save();
+      ctx.translate(posX,posY);
+      ctx.rotate(rotate);
 
       ctx.drawImage(
         this.image,
-        posX - width/2,
-        posY - height/2,
+        -width/2,
+        -height/2,
         width,
         height
       );
+
+      ctx.restore();
     }else{
       this.entities.forEach(entity=>{
         ctx.beginPath();
