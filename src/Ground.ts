@@ -114,7 +114,7 @@ class Ground{
       const posX = (this.startX + this.endX)/2;
       const posY = (this.startY + this.endY)/2;
 
-      const { width, height } = resize(this.image,this.size*2);
+      const { width, height } = resize(this.image,this.size);
 
       ctx.drawImage(
         this.image,
