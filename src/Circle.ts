@@ -76,7 +76,7 @@ class Circle extends EntityManager{
     }
 
     if(entities[0]){
-      entities.map(entity=>this.create(entity));
+      entities.forEach(entity=>this.create(entity));
     }else{
       this.create({
         posX: posX,

@@ -14,6 +14,12 @@ function createId(length: number): string{
   return id;
 }
 
+/**
+ * 画像をリサイズします
+ * @param {HTMLImageElement} image 対象の画像
+ * @param {number} maxSize 最大のサイズ
+ * @returns {Object} 計算された縦幅と横幅
+ */
 function resize(image: HTMLImageElement,maxSize: number): { width: number, height: number }{
   let width: number = 0;
   let height: number = 0;

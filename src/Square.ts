@@ -76,7 +76,7 @@ class Square extends EntityManager{
     }
 
     if(entities[0]){
-      entities.map(entity=>this.create(entity));
+      entities.forEach(entity=>this.create(entity));
     }else{
       for(let i = -1;i<=1;i+=2){
         for(let k = -1;k<=1;k+=2){

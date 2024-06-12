@@ -55,7 +55,7 @@ class Rope extends EntityManager{
     }
 
     if(entities[0]){
-      entities.map(entity=>this.create(entity));
+      entities.forEach(entity=>this.create(entity));
     }else{
       const width: number = endX - startX;
       const height: number = endY - startY;
