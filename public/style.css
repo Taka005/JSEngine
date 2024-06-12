@@ -1,7 +1,6 @@
 #game {
-    display: flex;
+    width: 900px;
     margin: 0 auto;
-    justify-content: center;
 }
 
 canvas {
