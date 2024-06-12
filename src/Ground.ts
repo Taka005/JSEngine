@@ -112,7 +112,8 @@ class Ground{
   public draw(ctx: CanvasRenderingContext2D): void{
     if(this.image){
       const distance: number = Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2);
-      const rotate: number = Math.atan2(this.endY - this.startY, this.endX - this.startX);
+      const rotate: number = Math.atan2(this.endY - this.startY,this.endX - this.startX);
+
       const posX: number = (this.startX + this.endX)/2;
       const posY: number = (this.startY + this.endY)/2;
 
@@ -125,7 +126,9 @@ class Ground{
       ctx.drawImage(
         this.image,
         -width/2,
-        -height/2
+        -height/2,
+        width,
+        height
       );
 
       ctx.restore();
