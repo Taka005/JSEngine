@@ -111,16 +111,24 @@ class Ground{
    */
   public draw(ctx: CanvasRenderingContext2D): void{
     if(this.image){
-      const posX = (this.startX + this.endX)/2;
-      const posY = (this.startY + this.endY)/2;
+      const distance: number = Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2);
+      const rotate: number = Math.atan2(this.endY - this.startY, this.endX - this.startX);
+      const posX: number = (this.startX + this.endX)/2;
+      const posY: number = (this.startY + this.endY)/2;
 
-      const { width, height } = resize(this.image,this.size*2);
+      const { width, height } = resize(this.image,distance/2);
+
+      ctx.save();
+      ctx.translate(posX,posY);
+      ctx.rotate(rotate);
 
       ctx.drawImage(
         this.image,
-        posX - width/2,
-        posY - height/2
+        -width/2,
+        -height/2
       );
+
+      ctx.restore();
     }else{
       ctx.beginPath();
       ctx.moveTo(this.startX,this.startY);
