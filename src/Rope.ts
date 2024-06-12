@@ -108,7 +108,7 @@ class Rope extends EntityManager{
         ctx.drawImage(
           this.image,
           entity.posX - width/2,
-          entity.posX - height/2,
+          entity.posY - height/2,
           width,
           height
         );
