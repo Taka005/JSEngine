@@ -286,8 +286,8 @@ class Engine extends Process{
   public spawn(type: string,objects: (CircleOption | GroundOption | SquareOption | RopeOption)[]): void{
     objects.forEach(object=>{
       object.name = object.name || createId(8);
-      object.posX += this.posX;
-      object.posY += this.posY;
+      object.posX -= this.posX;
+      object.posY -= this.posY;
 
       if(type === "circle"){
         const circle = new Circle(object as CircleOption);
