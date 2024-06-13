@@ -38,6 +38,12 @@ const imageFileInput = document.getElementById("imageFileInput");
 
 const autoSaveInput = document.getElementById("autoSaveInput");
 
+const backgroundColorInput = document.getElementById("backgroundColorInput");
+const backgroundColorValue = document.getElementById("backgroundColorValue");
+const backgroundImageReset = document.getElementById("backgroundImageReset");
+const backgroundImageInput = document.getElementById("backgroundImageInput");
+const backgroundFileInput = document.getElementById("backgroundFileInput");
+
 const debug = document.getElementById("debug");
 const track = document.getElementById("track");
 const trackReset = document.getElementById("trackReset");
@@ -59,6 +65,7 @@ sizeValue.textContent = sizeInput.value;
 massValue.textContent = massInput.value;
 stiffValue.textContent = stiffInput.value;
 colorValue.textContent = colorInput.value;
+backgroundColorValue.textContent = backgroundColorInput.value;
 
 engine.start();
 
@@ -297,6 +304,15 @@ autoSaveInput.addEventListener("change",()=>{
   autoSave = autoSaveInput.checked;
 });
 
+backgroundColorInput.addEventListener("input",(event)=>{
+  backgroundColorValue.textContent = event.target.value;
+  engine.backgroundColor = event.target.value;
+});
+
+backgroundImageInput.addEventListener("change",(event)=>{
+  engine.setBackgroundImage(event.target.value || null);
+});
+
 debug.addEventListener("click",()=>{
   if(engine.isDebug){
     engine.isDebug = false;
@@ -357,6 +373,22 @@ imageReset.addEventListener("click",()=>{
   imageInput.value = "";
   imageFileInput.value = "";
   image = null;
+});
+
+backgroundFileInput.addEventListener("change",(event)=>{
+  const reader = new FileReader();
+  reader.readAsDataURL(event.target.files[0]);
+  reader.addEventListener("load",()=>{
+    engine.setBackgroundImage(reader.result);
+  });
+});
+
+backgroundImageReset.addEventListener("click",()=>{
+  backgroundColorInput.value = "#eeeeee";
+  backgroundImageInput.value = "";
+  backgroundFileInput.value = "";
+
+  engine.setBackgroundImage(null);
 });
 
 start.addEventListener("click",()=>{

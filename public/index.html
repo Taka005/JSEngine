@@ -60,6 +60,15 @@
                 </div>
                 <input class="form-check-input" type="checkbox" id="autoSaveInput">
                 <label class="form-check-label" for="autoSaveInput">自動保存(15秒間隔)</label>
+                <div>
+                    <input type="color" class="form-range" id="backgroundColorInput" value="#eeeeee">
+                    <p>色: <output id="backgroundColorValue"></output></p>
+                    <input type="text" id="bsckgroundImageInput" class="form-control">
+                    <p>背景画像URL</p>
+                    <input class="form-control" type="file" id="backgroundFileInput" accept="image/*">
+                    <p>背景画像ファイル</p>
+                    <input type="button" class="btn btn-danger" id="backgroundImageReset" value="画像をリセット">
+                </div>
             </div>
         </div>
     </body>

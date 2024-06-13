@@ -31,7 +31,7 @@ interface Engine extends EventTarget{
   gravity: number;
   friction: number;
   backgroundColor: string;
-  backgroundImage: string | null;
+  backgroundImage: HTMLImageElement | null;
   grounds: { [key: string]: Ground };
   objects: { [key: string]: Circle | Square | Rope };
   tracks: (Circle | Square | Rope)[];
@@ -49,7 +49,7 @@ interface Engine extends EventTarget{
  * @property {number} gravity 重力加速度
  * @property {number} friction 摩擦係数
  * @property {string} backgroundColor 背景色
- * @property {string} backgroundImage 背景画像
+ * @property {string} backgroundImage 背景画像URL
  */
 type EngineOption = {
   pps?: number;
@@ -607,6 +607,19 @@ class Engine extends EventTarget{
     });
 
     return targets;
+  }
+
+  /**
+   * 背景画像を設定します
+   * @param {string} value 画像URL
+   */
+  public setBackgroundImage(value?: string): void{
+    if(value){
+      this.backgroundImage = new Image();
+      this.backgroundImage.src = value;
+    }else{
+      this.backgroundImage = null;
+    }
   }
 
   /**
