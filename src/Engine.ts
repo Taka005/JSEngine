@@ -631,8 +631,8 @@ class Engine extends EventTarget{
 
       this.ctx.drawImage(
         this.backgroundImage,
-        -width/2,
-        -height/2,
+        0,
+        0,
         width,
         height
       );
