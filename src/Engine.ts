@@ -49,14 +49,14 @@ interface Engine extends EventTarget{
  * @property {number} gravity 重力加速度
  * @property {number} friction 摩擦係数
  * @property {string} backgroundColor 背景色
- * @property {string} backgroundImage 背景画像URL
+ * @property {string | null} backgroundImage 背景画像URL
  */
 type EngineOption = {
   pps?: number;
   gravity?: number;
   friction?: number;
   backgroundColor?: string;
-  backgroundImage?: string;
+  backgroundImage?: string | null;
 }
 
 /**
@@ -119,11 +119,7 @@ class Engine extends EventTarget{
     this.isTrack = false;
 
     this.backgroundColor = backgroundColor;
-
-    if(backgroundImage){
-      this.backgroundImage = new Image();
-      backgroundImage.src = backgroundImage;
-    }
+    this.setBackgroundImage(backgroundImage);
 
     this.draw();
   }
@@ -611,9 +607,9 @@ class Engine extends EventTarget{
 
   /**
    * 背景画像を設定します
-   * @param {string} value 画像URL
+   * @param {string | null} value 画像URL
    */
-  public setBackgroundImage(value?: string): void{
+  public setBackgroundImage(value: string | null): void{
     if(value){
       this.backgroundImage = new Image();
       this.backgroundImage.src = value;
