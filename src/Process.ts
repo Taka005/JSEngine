@@ -1,4 +1,11 @@
 import { Entity } from "./Entity";
+import { Ground } from "./Ground";
+
+interface Process extends EventTarget{
+  pps: number;
+  gravity: number;
+  friction: number;
+}
 
 /**
  * プロセスクラス
