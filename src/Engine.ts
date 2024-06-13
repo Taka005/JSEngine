@@ -13,6 +13,8 @@ import { createId, resize } from "./utils";
  * @property {CanvasRenderingContext2D} ctx コンテキスト
  * @property {string} backgroundColor 背景色
  * @property {string | null} backgroundImage 背景画像
+ * @property {number} posX 描画X座標
+ * @property {number} posY 描画Y座標
  * @property {{ [key: string]: Ground }} grounds グラウンドの格納オブジェクト
  * @property {{ [key: string]: Circle | Square | Rope }} objects 物体の格納オブジェクト
  * @property {(Circle | Square | Rope)[]} track 履歴の格納オブジェクト
@@ -27,6 +29,8 @@ interface Engine extends Process{
   ctx: CanvasRenderingContext2D;
   backgroundColor: string;
   backgroundImage: HTMLImageElement | null;
+  posX: number;
+  posY: number;
   grounds: { [key: string]: Ground };
   objects: { [key: string]: Circle | Square | Rope };
   tracks: (Circle | Square | Rope)[];
@@ -43,6 +47,8 @@ interface Engine extends Process{
  * @property {number} pps 1秒あたりの処理回数
  * @property {number} gravity 重力加速度
  * @property {number} friction 摩擦係数
+ * @property {number} posX 描画X座標
+ * @property {number} posY 描画Y座標
  * @property {string} backgroundColor 背景色
  * @property {string | null} backgroundImage 背景画像URL
  */
@@ -50,6 +56,8 @@ type EngineOption = {
   pps?: number;
   gravity?: number;
   friction?: number;
+  posX: number;
+  posY: number;
   backgroundColor?: string;
   backgroundImage?: string | null;
 }
@@ -94,7 +102,7 @@ class Engine extends Process{
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
    * @param {EngineOption} option エンジンオプション
    */
-  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, backgroundColor = "#eeeeee", backgroundImage = null }: EngineOption = {}){
+  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null }: EngineOption = {}){
     super({
       pps: pps,
       gravity: gravity,
@@ -117,6 +125,9 @@ class Engine extends Process{
 
     this.backgroundColor = backgroundColor;
     this.setBackgroundImage(backgroundImage);
+
+    this.posX = posX;
+    this.posY = posY;
 
     this.draw();
   }
@@ -225,6 +236,9 @@ class Engine extends Process{
   private draw(): void{
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
+    this.ctx.save();
+    this.ctx.translate(this.posX,this.posY);
+
     this.drawBackground();
 
     if(this.isDebug){
@@ -258,6 +272,8 @@ class Engine extends Process{
 
       this.ctx.globalAlpha = 1;
     }
+
+    this.ctx.restore();
 
     requestAnimationFrame(()=>this.draw());
   }
