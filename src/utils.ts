@@ -39,4 +39,16 @@ function resize(image: HTMLImageElement,maxSize: number): { width: number, heigh
   }
 }
 
-export { createId, resize };
+/**
+ * 文字列を画像に変換します
+ * @param {string} value 画像URL
+ * @returns {HTMLImageElement} 画像エレメント
+ */
+function parseImage(value: string): HTMLImageElement{
+  const image: HTMLImageElement = new Image();
+  image.src = value;
+
+  return image;
+}
+
+export { createId, resize, parseImage };
