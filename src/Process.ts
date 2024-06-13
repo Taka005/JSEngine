@@ -1,6 +1,12 @@
 import { Entity } from "./Entity";
 import { Ground } from "./Ground";
 
+/**
+ * @typedef {Object} Process
+ * @property {number} pps 1秒あたりの処理回数
+ * @property {number} gravity 重力加速度
+ * @property {number} friction 摩擦係数
+ */
 interface Process extends EventTarget{
   pps: number;
   gravity: number;
@@ -12,8 +18,12 @@ interface Process extends EventTarget{
  * 物理演算のコアを処理します
  */
 class Process extends EventTarget{
-  constructor(){
+  constructor(pps: number,gravity: number,friction: number){
     super();
+
+    this.pps = pps;
+    this.gravity = gravity;
+    this.friction = friction;
   }
 
   /**

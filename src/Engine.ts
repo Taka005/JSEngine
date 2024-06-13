@@ -11,9 +11,6 @@ import { createId, resize } from "./utils";
  * @typedef {Object} Engine
  * @property {HTMLCanvasElement} canvas 描画するキャンバス要素
  * @property {CanvasRenderingContext2D} ctx コンテキスト
- * @property {number} pps 1秒あたりの処理回数
- * @property {number} gravity 重力加速度
- * @property {number} friction 摩擦係数
  * @property {string} backgroundColor 背景色
  * @property {string | null} backgroundImage 背景画像
  * @property {{ [key: string]: Ground }} grounds グラウンドの格納オブジェクト
@@ -27,10 +24,7 @@ import { createId, resize } from "./utils";
  */
 interface Engine extends Process{
   canvas: HTMLCanvasElement;
-  ctx: CanvasRenderingContext2D
-  pps: number;
-  gravity: number;
-  friction: number;
+  ctx: CanvasRenderingContext2D;
   backgroundColor: string;
   backgroundImage: HTMLImageElement | null;
   grounds: { [key: string]: Ground };
@@ -101,17 +95,13 @@ class Engine extends Process{
    * @param {EngineOption} option エンジンオプション
    */
   constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, backgroundColor = "#eeeeee", backgroundImage = null }: EngineOption = {}){
-    super();
+    super(pps,gravity,friction);
 
     this.canvas = canvas;
     const ctx = this.canvas.getContext("2d");
     if(!ctx) throw new Error("無効な描画要素です");
 
     this.ctx = ctx;
-
-    this.pps = pps;
-    this.gravity = gravity;
-    this.friction = friction;
 
     this.grounds = {};
     this.objects = {};
