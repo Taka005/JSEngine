@@ -1,5 +1,5 @@
-import { Entity } from "./Entity";
-import { Ground } from "./Ground";
+import { Entity } from "./Objects/Entity";
+import { Ground } from "./Objects/Ground";
 
 /**
  * @typedef {Object} Process
@@ -14,11 +14,26 @@ interface Process extends EventTarget{
 }
 
 /**
+ * @typedef {Object} ProcessOption
+ * @property {number} pps 1秒あたりの処理回数
+ * @property {number} gravity 重力加速度
+ * @property {number} friction 摩擦係数
+ */
+type ProcessOption = {
+  pps: number;
+  gravity: number;
+  friction: number;
+}
+
+/**
  * プロセスクラス
  * 物理演算のコアを処理します
  */
 class Process extends EventTarget{
-  constructor(pps: number,gravity: number,friction: number){
+  /**
+   * @param {ProcessOption} プロセスオプション
+   */
+  constructor({ pps, gravity, friction }: ProcessOption){
     super();
 
     this.pps = pps;

@@ -1,5 +1,5 @@
 import { Entity, EntityOption, Target } from "./Entity";
-import { createId } from "./utils";
+import { createId } from "../utils";
 
 /**
  * @typedef {Object} EntityManager

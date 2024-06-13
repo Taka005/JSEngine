@@ -1,4 +1,4 @@
-import { resize } from "./utils";
+import { resize } from "../utils";
 
 /**
  * @typedef {Object} Ground

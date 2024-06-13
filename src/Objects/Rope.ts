@@ -1,6 +1,6 @@
 import { Entity, EntityOption } from "./Entity";
 import { EntityManager } from "./EntityManager";
-import { resize } from "./utils";
+import { resize } from "../utils";
 
 interface Rope extends EntityManager{
   type: string;

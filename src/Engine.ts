@@ -1,9 +1,9 @@
 import { Process } from "./Process";
-import { Entity } from "./Entity";
-import { Ground, GroundOption } from "./Ground";
-import { Circle, CircleOption } from "./Circle";
-import { Square, SquareOption } from "./Square";
-import { Rope, RopeOption } from "./Rope";
+import { Entity } from "./Objects/Entity";
+import { Ground, GroundOption } from "./Objects/Ground";
+import { Circle, CircleOption } from "./Objects/Circle";
+import { Square, SquareOption } from "./Objects/Square";
+import { Rope, RopeOption } from "./Objects/Rope";
 import { createId, resize } from "./utils";
 
 /**
@@ -95,7 +95,11 @@ class Engine extends Process{
    * @param {EngineOption} option エンジンオプション
    */
   constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, backgroundColor = "#eeeeee", backgroundImage = null }: EngineOption = {}){
-    super(pps,gravity,friction);
+    super({
+      pps: pps,
+      gravity: gravity,
+      friction: friction
+    });
 
     this.canvas = canvas;
     const ctx = this.canvas.getContext("2d");

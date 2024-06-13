@@ -1,9 +1,9 @@
 import { EntityManager } from "./EntityManager";
 import { EntityOption } from "./Entity";
-import { resize } from "./utils";
+import { resize } from "../utils";
 
 /**
- * @typedef {Object} Square
+ * @typedef {Object} Circle
  * @property {string} type 物体の種類
  * @property {strint} name 物体名
  * @property {number} size 半径
@@ -12,7 +12,7 @@ import { resize } from "./utils";
  * @property {string} color 色
  * @property {HTMLImageElement | null} image 画像
  */
-interface Square extends EntityManager{
+interface Circle extends EntityManager{
   type: string;
   name: string;
   size: number;
@@ -23,7 +23,7 @@ interface Square extends EntityManager{
 }
 
 /**
- * @typedef {Object} SquareOption
+ * @typedef {Object} CircleOption
  * @property {strint} name 物体名
  * @property {number} posX X座標
  * @property {number} posY Y座標
@@ -36,7 +36,7 @@ interface Square extends EntityManager{
  * @property {string | null} image 画像
  * @property {EntityOption[]} 構成されているエンティティーの初期化オプション
  */
-type SquareOption = {
+type CircleOption = {
   name: string;
   posX: number;
   posY: number;
@@ -51,19 +51,19 @@ type SquareOption = {
 }
 
 /**
- * スクエアクラス
- * 四角を制御します
+ * サークルクラス
+ * 円を制御します
  *
  * @extends EntityManager
  */
-class Square extends EntityManager{
+class Circle extends EntityManager{
   /**
-   * @param {SquareOption} スクエアオプション
+   * @param {CircleOption} サークルオプション
    */
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: SquareOption){
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: CircleOption){
     super();
 
-    this.type = "square";
+    this.type = "circle";
     this.name = name;
     this.size = size;
     this.mass = mass;
@@ -78,21 +78,15 @@ class Square extends EntityManager{
     if(entities[0]){
       entities.forEach(entity=>this.create(entity));
     }else{
-      for(let i = -1;i<=1;i+=2){
-        for(let k = -1;k<=1;k+=2){
-          this.create({
-            posX: posX + i*(size/2),
-            posY: posY + k*(size/2),
-            size: size/2,
-            mass: mass/4,
-            stiff: stiff,
-            speedX: speedX,
-            speedY: speedY
-          });
-        }
-      }
-
-      this.connect();
+      this.create({
+        posX: posX,
+        posY: posY,
+        size: size,
+        mass: mass,
+        stiff: stiff,
+        speedX: speedX,
+        speedY: speedY
+      });
     }
   }
 
@@ -102,18 +96,14 @@ class Square extends EntityManager{
    */
   public draw(ctx: CanvasRenderingContext2D): void{
     const { posX, posY } = this.getPosition();
+    const rotate = this.getRotate();
+
+    ctx.save();
+    ctx.translate(posX,posY);
+    ctx.rotate(rotate*(Math.PI/180));
 
     if(this.image){
-      const start = this.entities[0];
-      const end = this.entities[2];
-
-      const rotate: number = Math.atan2(start.posY - end.posY,end.posX - start.posX);
-
       const { width, height } = resize(this.image,this.size*2);
-
-      ctx.save();
-      ctx.translate(posX,posY);
-      ctx.rotate(rotate);
 
       ctx.drawImage(
         this.image,
@@ -122,16 +112,21 @@ class Square extends EntityManager{
         width,
         height
       );
-
-      ctx.restore();
     }else{
-      this.entities.forEach(entity=>{
-        ctx.beginPath();
-        ctx.arc(entity.posX,entity.posY,this.size/2,0,2*Math.PI);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-      });
+      ctx.beginPath();
+      ctx.arc(0,0,this.size,0,2*Math.PI);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.lineTo(0,-this.size);
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 1;
+      ctx.stroke();
     }
+
+    ctx.restore();
   }
 
   /**
@@ -152,17 +147,17 @@ class Square extends EntityManager{
 
   /**
    * 物体を複製します
-   * @returns {Square} 複製された物体
+   * @returns {Circle} 複製された物体
    */
-  public clone(): Square{
-    return new Square(this.toJSON());
+  public clone(): Circle{
+    return new Circle(this.toJSON());
   }
 
   /**
    * クラスのデータをJSONに変換します
-   * @returns {SquareOption} スクエアオプション
+   * @returns {CircleOption} サークルオプション
    */
-  public toJSON(): SquareOption{
+  public toJSON(): CircleOption{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 
@@ -182,4 +177,4 @@ class Square extends EntityManager{
   }
 }
 
-export { Square, SquareOption };
+export { Circle, CircleOption };
