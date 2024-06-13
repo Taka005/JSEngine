@@ -80,27 +80,24 @@ class Ground{
    */
   public solvePosition(posX: number,posY: number): { posX: number, posY: number }{
     const t: number = Math.max(0,Math.min(1,((posX - this.startX)*(this.endX - this.startX) + (posY - this.startY)*(this.endY - this.startY))/Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2)**2));
-    const crossX: number = this.startX + t*(this.endX - this.startX);
-    const crossY: number = this.startY + t*(this.endY - this.startY);
 
-    if(t > 0 && t < 1){
+    if(t <= 0){
+      return {
+        posX: this.startX,
+        posY: this.startY
+      }
+    }else if(t >= 1){
+      return {
+        posX: this.endX,
+        posY: this.endY
+      }
+    }else{
+      const crossX: number = this.startX + t*(this.endX - this.startX);
+      const crossY: number = this.startY + t*(this.endY - this.startY);  
+
       return {
         posX: crossX,
         posY: crossY
-      }
-    }else{
-      const startDistance: number = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
-      const endDistance: number = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
-      if(startDistance < endDistance){
-        return {
-          posX: this.startX,
-          posY: this.startY
-        }
-      }else{
-        return {
-          posX: this.endX,
-          posY: this.endY
-        }
       }
     }
   }
