@@ -3,7 +3,7 @@ import { Ground, GroundOption } from "./Ground";
 import { Circle, CircleOption } from "./Circle";
 import { Square, SquareOption } from "./Square";
 import { Rope, RopeOption } from "./Rope";
-import { createId } from "./utils";
+import { createId, resize } from "./utils";
 
 /**
  * エンジンを表します
@@ -13,6 +13,8 @@ import { createId } from "./utils";
  * @property {number} pps 1秒あたりの処理回数
  * @property {number} gravity 重力加速度
  * @property {number} friction 摩擦係数
+ * @property {string} backgroundColor 背景色
+ * @property {string | null} backgroundImage 背景画像
  * @property {{ [key: string]: Ground }} grounds グラウンドの格納オブジェクト
  * @property {{ [key: string]: Circle | Square | Rope }} objects 物体の格納オブジェクト
  * @property {(Circle | Square | Rope)[]} track 履歴の格納オブジェクト
@@ -28,6 +30,8 @@ interface Engine extends EventTarget{
   pps: number;
   gravity: number;
   friction: number;
+  backgroundColor: string;
+  backgroundImage: string | null;
   grounds: { [key: string]: Ground };
   objects: { [key: string]: Circle | Square | Rope };
   tracks: (Circle | Square | Rope)[];
@@ -44,11 +48,15 @@ interface Engine extends EventTarget{
  * @property {number} pps 1秒あたりの処理回数
  * @property {number} gravity 重力加速度
  * @property {number} friction 摩擦係数
+ * @property {string} backgroundColor 背景色
+ * @property {string} backgroundImage 背景画像
  */
 type EngineOption = {
   pps?: number;
   gravity?: number;
   friction?: number;
+  backgroundColor?: string;
+  backgroundImage?: string;
 }
 
 /**
@@ -84,12 +92,12 @@ type ExportData = {
  * エンジンクラス
  * 物理エンジンの中心システムです
  */
-class Engine extends EventTarget {
+class Engine extends EventTarget{
   /**
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
    * @param {EngineOption} option エンジンオプション
    */
-  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001 }: EngineOption = {}){
+  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, backgroundColor = "#eeeeee", backgroundImage = null }: EngineOption = {}){
     super();
 
     this.canvas = canvas;
@@ -109,6 +117,13 @@ class Engine extends EventTarget {
     this.isStart = false;
     this.isDebug = false;
     this.isTrack = false;
+
+    this.backgroundColor = backgroundColor;
+
+    if(backgroundImage){
+      this.backgroundImage = new Image();
+      backgroundImage.src = backgroundImage;
+    }
 
     this.draw();
   }
@@ -216,6 +231,8 @@ class Engine extends EventTarget {
    */
   private draw(): void{
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+
+    this.drawBackground();
 
     if(this.isDebug){
       Object.values(this.objects).forEach(object=>{
@@ -590,6 +607,26 @@ class Engine extends EventTarget {
     });
 
     return targets;
+  }
+
+  /**
+   * 背景を描画
+   */
+  private drawBackground(): void{
+    if(this.backgroundImage){
+      const { width, height } = resize(this.backgroundImage,this.canvas.width > this.canvas.height ? this.canvas.width : this.canvas.height);
+
+      this.ctx.drawImage(
+        this.backgroundImage,
+        -width/2,
+        -height/2,
+        width,
+        height
+      );
+    }else{
+      this.ctx.fillStyle = this.backgroundColor;
+      this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+    }
   }
 
   /**
