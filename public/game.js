@@ -131,8 +131,8 @@ game.addEventListener("mousemove",(event)=>{
 
     const rect = event.target.getBoundingClientRect();
 
-    const posX = event.clientX - rect.left;
-    const posY = event.clientY - rect.top;
+    const posX = event.clientX - rect.left - engine.posX;
+    const posY = event.clientY - rect.top - engine.posY;
 
     targetEntity.posX = posX;
     targetEntity.posY = posY;
@@ -145,24 +145,24 @@ game.addEventListener("mousedown",(event)=>{
   const rect = event.target.getBoundingClientRect();
 
   if(tool === "delete"){
-    engine.checkObjectPosition(event.clientX - rect.left,event.clientY - rect.top)
+    engine.checkObjectPosition(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)
       .forEach(object=>{
         engine.deSpawn(object.type,object.name);
       });
   }else if(tool === "move"){
-    const entity = engine.checkEntityPosition(event.clientX - rect.left,event.clientY - rect.top)[0];
+    const entity = engine.checkEntityPosition(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
     if(!entity) return;
 
     targetEntity = entity;
   }else if(tool === "connect"){
     if(Object.keys(position).length === 0){
       position = {
-        posX: event.clientX - rect.left,
-        posY: event.clientY - rect.top
+        posX: event.clientX - rect.left - engine.posX,
+        posY: event.clientY - rect.top - engine.posY
       }
     }else{
       const source = engine.checkEntityPosition(position.posX,position.posY)[0];
-      const target = engine.checkEntityPosition(event.clientX - rect.left,event.clientY - rect.top)[0];
+      const target = engine.checkEntityPosition(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
       if(!source||!target) return position = {};
 
       if(source.name === target.name) return position = {};
@@ -184,12 +184,12 @@ game.addEventListener("mousedown",(event)=>{
   }else if(tool === "disConnect"){
     if(Object.keys(position).length === 0){
       position = {
-        posX: event.clientX - rect.left,
-        posY: event.clientY - rect.top
+        posX: event.clientX - rect.left - engine.posX,
+        posY: event.clientY - rect.top - engine.posY
       }
     }else{
       const source = engine.checkEntityPosition(position.posX,position.posY)[0];
-      const target = engine.checkEntityPosition(event.clientX - rect.left,event.clientY - rect.top)[0];
+      const target = engine.checkEntityPosition(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
       if(!source||!target) return position = {};
 
       if(source.name === target.name) return position = {};
@@ -202,15 +202,15 @@ game.addEventListener("mousedown",(event)=>{
   }else if(tool === "ground"){
     if(Object.keys(position).length === 0){
       position = {
-        posX: event.clientX - rect.left,
-        posY: event.clientY - rect.top
+        posX: event.clientX - rect.left - engine.posX,
+        posY: event.clientY - rect.top - engine.posY
       }
     }else{
       engine.spawn("ground",[{
         startX: position.posX,
         startY: position.posY,
-        endX: event.clientX - rect.left,
-        endY: event.clientY - rect.top,
+        endX: event.clientX - rect.left - engine.posX,
+        endY: event.clientY - rect.top - engine.posY,
         stiff: stiff,
         size: size,
         color: color,
@@ -222,15 +222,15 @@ game.addEventListener("mousedown",(event)=>{
   }else if(tool === "rope"){
     if(Object.keys(position).length === 0){
       position = {
-        posX: event.clientX - rect.left,
-        posY: event.clientY - rect.top
+        posX: event.clientX - rect.left - engine.posX,
+        posY: event.clientY - rect.top - engine.posY
       }
     }else{
       engine.spawn("rope",[{
         startX: position.posX,
         startY: position.posY,
-        endX: event.clientX - rect.left,
-        endY: event.clientY - rect.top,
+        endX: event.clientX - rect.left - engine.posX,
+        endY: event.clientY - rect.top - engine.posY,
         mass: mass,
         stiff: stiff,
         size: size,
@@ -242,8 +242,8 @@ game.addEventListener("mousedown",(event)=>{
     }
   }else{
     engine.spawn(tool,[{
-      posX: event.clientX - rect.left,
-      posY: event.clientY - rect.top,
+      posX: event.clientX - rect.left - engine.posX,
+      posY: event.clientY - rect.top - engine.posY,
       size: size,
       mass: mass,
       stiff: stiff,
