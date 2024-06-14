@@ -116,8 +116,18 @@ class Rope extends EntityManager{
           ctx.moveTo(target.posX,target.posY);
           ctx.lineTo(entity.posX,entity.posY);
           ctx.strokeStyle = this.color;
-          ctx.lineWidth = this.size;
+          ctx.lineWidth = this.size*2;
           ctx.stroke();
+
+          ctx.beginPath();
+          ctx.arc(target.posX,target.posY,this.size,0,2*Math.PI);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(entity.posX,entity.posY,this.size,0,2*Math.PI);
+          ctx.fillStyle = this.color;
+          ctx.fill();
         }
       }
 

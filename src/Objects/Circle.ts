@@ -71,11 +71,6 @@ class Circle extends EntityManager{
     this.color = color;
     this.image = parseImage(image);
 
-    if(image){
-      this.image = new Image();
-      this.image.src = image;
-    }
-
     if(entities[0]){
       entities.forEach(entity=>this.create(entity));
     }else{
