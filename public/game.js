@@ -195,7 +195,6 @@ game.addEventListener("mousedown",(event)=>{
     if(!entity) return;
 
     targetEntity = entity;
-    console.log(targetEntity)
   }else if(tool === "connect"){
     if(Object.keys(position).length === 0){
       position = {
@@ -296,7 +295,7 @@ game.addEventListener("mousedown",(event)=>{
 });
 
 game.addEventListener("mouseup",()=>{
-  if(targetEntity){
+  if(targetEntity&&tool === "move"){
     targetEntity = null;
   }
 });
