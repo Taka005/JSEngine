@@ -399,7 +399,7 @@ class Engine extends Process{
    * @returns {Entity[]} 存在したエンティティー
    */
   public checkEntityPosition(posX: number,posY: number): Entity[]{
-    const targets: Entity[] = [];
+    let targets: Entity[] = [];
 
     this.entities.forEach(entity=>{
       const vecX: number = entity.posX - posX;
