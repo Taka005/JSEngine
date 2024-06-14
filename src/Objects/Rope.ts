@@ -97,7 +97,7 @@ class Rope extends EntityManager{
    * @param {CanvasRenderingContext2D} ctx コンテキスト
    */
   public draw(ctx: CanvasRenderingContext2D): void{
-    const target: Entity | null = null;
+    let target: Entity | null = null;
 
     this.entities.forEach(entity=>{
       if(this.image){
