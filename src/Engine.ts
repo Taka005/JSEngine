@@ -522,7 +522,7 @@ class Engine extends Process{
     }
 
     if(data.rope){
-      this.spawn("square",data.rope);
+      this.spawn("rope",data.rope);
     }
 
     if(data.entity){
