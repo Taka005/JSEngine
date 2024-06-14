@@ -97,6 +97,8 @@ class Rope extends EntityManager{
    * @param {CanvasRenderingContext2D} ctx コンテキスト
    */
   public draw(ctx: CanvasRenderingContext2D): void{
+    const target: Entity | null = null;
+
     this.entities.forEach(entity=>{
       if(this.image){
         const { width, height } = resize(this.image,entity.size*2);
@@ -109,11 +111,17 @@ class Rope extends EntityManager{
           height
         );
       }else{
+        if(!target) return;
+
         ctx.beginPath();
-        ctx.arc(entity.posX,entity.posY,this.size,0,2*Math.PI);
-        ctx.fillStyle = this.color;
-        ctx.fill();
+        ctx.moveTo(target.posX,target.posY);
+        ctx.lineTo(entity.posX,entity.posY);
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = this.size;
+        ctx.stroke();
       }
+
+      target = entity;
     });
   }
 
