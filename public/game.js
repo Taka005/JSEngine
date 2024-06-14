@@ -126,7 +126,7 @@ if(localStorage.map){
 document.addEventListener("keydown",(event)=>{
   if(event.code === "KeyW"){
     if(tool === "screen"){
-      engine.posY -= 10;
+      engine.posY += 10;
     }
   }else if(event.code === "KeyA"){
     if(tool === "screen"){
@@ -134,7 +134,7 @@ document.addEventListener("keydown",(event)=>{
     }
   }else if(event.code === "KeyS"){
     if(tool === "screen"){
-      engine.posY += 10;
+      engine.posY -= 10;
     }
   }else if(event.code === "KeyD"){
     if(tool === "screen"){
