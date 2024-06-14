@@ -409,6 +409,7 @@ backgroundImageReset.addEventListener("click",()=>{
   backgroundColorInput.value = "#eeeeee";
   backgroundImageInput.value = "";
   backgroundFileInput.value = "";
+  backgroundColorValue.textContent = "#eeeeee";
 
   engine.setBackgroundImage(null);
 });
