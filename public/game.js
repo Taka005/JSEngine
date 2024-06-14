@@ -124,21 +124,35 @@ if(localStorage.map){
 }
 
 document.addEventListener("keydown",(event)=>{
+  if(tool === "control"&&!targetEntity) return;
+
   if(event.code === "KeyW"){
     if(tool === "screen"){
       engine.posY += 10;
+    }else if(tool === "control"){
+      targetEntity.posY -= 10;
     }
   }else if(event.code === "KeyA"){
     if(tool === "screen"){
       engine.posX += 10;
+    }else if(tool === "control"){
+      targetEntity.posX -= 10;
     }
   }else if(event.code === "KeyS"){
     if(tool === "screen"){
       engine.posY -= 10;
+    }else if(tool === "control"){
+      targetEntity.posY += 10;
     }
   }else if(event.code === "KeyD"){
     if(tool === "screen"){
       engine.posX -= 10;
+    }else if(tool === "control"){
+      targetEntity.posX += 10;
+    }
+  }else if(event.code === "Space"){
+    if(tool === "control"){
+      targetEntity.speedY -= 10;
     }
   }
 });
@@ -172,6 +186,11 @@ game.addEventListener("mousedown",(event)=>{
         engine.deSpawn(object.type,object.name);
       });
   }else if(tool === "move"){
+    const entity = engine.checkEntityPosition(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
+    if(!entity) return;
+
+    targetEntity = entity;
+  }else if(tool === "control"){
     const entity = engine.checkEntityPosition(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
     if(!entity) return;
 

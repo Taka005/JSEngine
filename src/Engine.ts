@@ -489,7 +489,8 @@ class Engine extends Process{
       .filter(object=>object.type === "rope")
       .map(object=>object.toJSON());
 
-    const grounds = Object.values(this.grounds).map(object=>object.toJSON());
+    const grounds = Object.values(this.grounds)
+      .map(object=>object.toJSON());
 
     return JSON.stringify({
       gravity: this.gravity,
