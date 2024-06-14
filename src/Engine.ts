@@ -438,14 +438,14 @@ class Engine extends Process{
 
       this.ctx.drawImage(
         this.backgroundImage,
-        this.posX,
-        this.posY,
-        width + this.posX,
-        height + this.posY
+        -this.posX,
+        -this.posY,
+        width - this.posX,
+        height - this.posY
       );
     }else{
       this.ctx.fillStyle = this.backgroundColor;
-      this.ctx.fillRect(this.posX,this.posY,this.canvas.width + this.posX,this.canvas.height + this.posY);
+      this.ctx.fillRect(-this.posX,-this.posY,this.canvas.width - this.posX,this.canvas.height - this.posY);
     }
   }
 
