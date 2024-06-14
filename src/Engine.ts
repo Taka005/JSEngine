@@ -236,17 +236,18 @@ class Engine extends Process{
   private draw(): void{
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
+    this.drawBackground();
+    if(this.isDebug){
+      this.drawGrid();
+    }
+
     this.ctx.save();
     this.ctx.translate(this.posX,this.posY);
-
-    this.drawBackground();
 
     if(this.isDebug){
       Object.values(this.objects).forEach(object=>{
         object.drawVector(this.ctx);
       });
-
-      this.drawGrid();
     }
 
     Object.values(this.grounds).forEach(ground=>{
