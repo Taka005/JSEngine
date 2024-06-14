@@ -1,6 +1,6 @@
 import { Entity, EntityOption } from "./Entity";
 import { EntityManager } from "./EntityManager";
-import { resize } from "../utils";
+import { parseImage, resize } from "../utils";
 
 interface Rope extends EntityManager{
   type: string;
@@ -44,15 +44,11 @@ class Rope extends EntityManager{
     this.type = "rope";
     this.name = name;
     this.color = color;
+    this.image = parseImage(image);
 
     this.size = size;
     this.mass = mass;
     this.stiff = stiff;
-
-    if(image){
-      this.image = new Image();
-      this.image.src = image;
-    }
 
     if(entities[0]){
       entities.forEach(entity=>this.create(entity));

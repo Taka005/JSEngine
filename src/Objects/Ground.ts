@@ -1,4 +1,4 @@
-import { resize } from "../utils";
+import { parseImage, resize } from "../utils";
 
 /**
  * @typedef {Object} Ground
@@ -58,6 +58,7 @@ class Ground{
     this.type = "ground";
     this.name = name;
     this.color = color;
+    this.image = parseImage(image);
 
     this.startX = startX;
     this.startY = startY;
@@ -65,11 +66,6 @@ class Ground{
     this.endY = endY;
 
     this.size = size;
-
-    if(image){
-      this.image = new Image();
-      this.image.src = image;
-    }
   }
 
   /**
@@ -93,7 +89,7 @@ class Ground{
       }
     }else{
       const crossX: number = this.startX + t*(this.endX - this.startX);
-      const crossY: number = this.startY + t*(this.endY - this.startY);  
+      const crossY: number = this.startY + t*(this.endY - this.startY);
 
       return {
         posX: crossX,

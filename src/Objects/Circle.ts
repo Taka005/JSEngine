@@ -1,6 +1,6 @@
 import { EntityManager } from "./EntityManager";
 import { EntityOption } from "./Entity";
-import { resize } from "../utils";
+import { parseImage, resize } from "../utils";
 
 /**
  * @typedef {Object} Circle
@@ -69,6 +69,7 @@ class Circle extends EntityManager{
     this.mass = mass;
     this.stiff = stiff;
     this.color = color;
+    this.image = parseImage(image);
 
     if(image){
       this.image = new Image();

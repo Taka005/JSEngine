@@ -1,6 +1,6 @@
 import { EntityManager } from "./EntityManager";
 import { EntityOption } from "./Entity";
-import { resize } from "../utils";
+import { parseImage, resize } from "../utils";
 
 /**
  * @typedef {Object} Square
@@ -69,11 +69,7 @@ class Square extends EntityManager{
     this.mass = mass;
     this.stiff = stiff;
     this.color = color;
-
-    if(image){
-      this.image = new Image();
-      this.image.src = image;
-    }
+    this.image = parseImage(image);
 
     if(entities[0]){
       entities.forEach(entity=>this.create(entity));

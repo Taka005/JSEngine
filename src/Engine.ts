@@ -352,7 +352,6 @@ class Engine extends Process{
     }
   }
 
-
   /**
    * 指定した座標にある物体を取得します
    * @param {number} posX 対象のX座標
