@@ -237,9 +237,6 @@ class Engine extends Process{
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
     this.drawBackground();
-    if(this.isDebug){
-      this.drawGrid();
-    }
 
     this.ctx.save();
     this.ctx.translate(this.posX,this.posY);
@@ -248,6 +245,8 @@ class Engine extends Process{
       Object.values(this.objects).forEach(object=>{
         object.drawVector(this.ctx);
       });
+
+      this.drawGrid();
     }
 
     Object.values(this.grounds).forEach(ground=>{
@@ -439,14 +438,14 @@ class Engine extends Process{
 
       this.ctx.drawImage(
         this.backgroundImage,
-        0,
-        0,
-        width,
-        height
+        this.posX,
+        this.posY,
+        width + this.posX,
+        height + this.posY
       );
     }else{
       this.ctx.fillStyle = this.backgroundColor;
-      this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+      this.ctx.fillRect(this.posX,this.posY,this.canvas.width + this.posX,this.canvas.height + this.posY);
     }
   }
 
@@ -456,14 +455,14 @@ class Engine extends Process{
   private drawGrid(): void{
     this.ctx.beginPath();
 
-    for(let posX: number = 0;posX < this.canvas.width;posX += 25){
-      this.ctx.moveTo(posX,0);
-      this.ctx.lineTo(posX,this.canvas.height);
+    for(let posX: number = this.posX;posX < this.canvas.width + this.posX;posX += 25){
+      this.ctx.moveTo(posX,this.posY);
+      this.ctx.lineTo(posX,this.canvas.height + this.posY);
     }
 
-    for(let posY: number = 0;posY < this.canvas.height;posY += 25){
-      this.ctx.moveTo(0,posY);
-      this.ctx.lineTo(this.canvas.width,posY);
+    for(let posY: number = this.posY;posY < this.canvas.height + this.posY;posY += 25){
+      this.ctx.moveTo(this.posX,posY);
+      this.ctx.lineTo(this.canvas.width + this.posX,posY);
     }
 
     this.ctx.strokeStyle = "black";
