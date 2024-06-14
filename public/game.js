@@ -123,6 +123,26 @@ if(localStorage.map){
   saveData =  engine.export();
 }
 
+document.addEventListener("keydown",(event)=>{
+  if(event.code === "KeyW"){
+    if(tool === "screen"){
+      engine.posY -= 10;
+    }
+  }else if(event.code === "KeyA"){
+    if(tool === "screen"){
+      engine.posX += 10;
+    }
+  }else if(event.code === "KeyS"){
+    if(tool === "screen"){
+      engine.posY += 10;
+    }
+  }else if(event.code === "KeyD"){
+    if(tool === "screen"){
+      engine.posX -= 10;
+    }
+  }
+});
+
 game.addEventListener("mousemove",(event)=>{
   event.preventDefault();
 
@@ -141,6 +161,8 @@ game.addEventListener("mousemove",(event)=>{
 
 game.addEventListener("mousedown",(event)=>{
   event.preventDefault();
+
+  if(tool === "screen") return;
 
   const rect = event.target.getBoundingClientRect();
 
