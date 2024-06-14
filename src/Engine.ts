@@ -236,10 +236,10 @@ class Engine extends Process{
   private draw(): void{
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
-    this.drawBackground();
-
     this.ctx.save();
     this.ctx.translate(this.posX,this.posY);
+
+    this.drawBackground();
 
     if(this.isDebug){
       Object.values(this.objects).forEach(object=>{
@@ -459,7 +459,7 @@ class Engine extends Process{
 
     for(let posX: number = -startX;startX < this.canvas.width - posX;posX += 25){
       //if(posX%25 === 0){
-        this.ctx.moveTo(posX,-startX);
+        this.ctx.moveTo(posX,-this.posY);
         this.ctx.lineTo(posX,this.canvas.height - this.posY);
       //}
     }
