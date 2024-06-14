@@ -111,14 +111,14 @@ class Rope extends EntityManager{
           height
         );
       }else{
-        if(!target) return;
-
-        ctx.beginPath();
-        ctx.moveTo(target.posX,target.posY);
-        ctx.lineTo(entity.posX,entity.posY);
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = this.size;
-        ctx.stroke();
+        if(target){
+          ctx.beginPath();
+          ctx.moveTo(target.posX,target.posY);
+          ctx.lineTo(entity.posX,entity.posY);
+          ctx.strokeStyle = this.color;
+          ctx.lineWidth = this.size;
+          ctx.stroke();
+        }
       }
 
       target = entity;
