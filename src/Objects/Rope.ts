@@ -99,7 +99,7 @@ class Rope extends EntityManager{
   public draw(ctx: CanvasRenderingContext2D): void{
     let target: Entity | null = null;
 
-    this.entities.forEach(entity=>{
+    this.entities.forEach((entity,i,array)=>{
       if(this.image){
         const { width, height } = resize(this.image,entity.size*2);
 
@@ -123,7 +123,9 @@ class Rope extends EntityManager{
           ctx.arc(target.posX,target.posY,this.size,0,2*Math.PI);
           ctx.fillStyle = this.color;
           ctx.fill();
+        }
 
+        if(i === array.length-1){
           ctx.beginPath();
           ctx.arc(entity.posX,entity.posY,this.size,0,2*Math.PI);
           ctx.fillStyle = this.color;
