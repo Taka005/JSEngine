@@ -192,10 +192,10 @@ game.addEventListener("mousedown",(event)=>{
     targetEntity = entity;
   }else if(tool === "control"){
     const entity = engine.checkEntityPosition(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
-    console.log("GET Entity")
     if(!entity) return;
 
     targetEntity = entity;
+    console.log(targetEntity)
   }else if(tool === "connect"){
     if(Object.keys(position).length === 0){
       position = {
