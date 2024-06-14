@@ -455,12 +455,16 @@ class Engine extends Process{
   private drawGrid(): void{
     this.ctx.beginPath();
 
-    for(let posX: number = this.posX;posX < this.canvas.width + this.posX;posX += 25){
+    for(let posX: number = this.posX;posX < this.canvas.width + this.posX;posX += 1){
+      if(posX%25 !== 0) return;
+
       this.ctx.moveTo(posX,this.posY);
       this.ctx.lineTo(posX,this.canvas.height + this.posY);
     }
 
-    for(let posY: number = this.posY;posY < this.canvas.height + this.posY;posY += 25){
+    for(let posY: number = this.posY;posY < this.canvas.height + this.posY;posY += 1){
+      if(posY%25 !== 0) return;
+
       this.ctx.moveTo(this.posX,posY);
       this.ctx.lineTo(this.canvas.width + this.posX,posY);
     }
