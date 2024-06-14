@@ -455,7 +455,7 @@ class Engine extends Process{
   private drawGrid(): void{
     this.ctx.beginPath();
 
-    const startX = this.posX - this.posX%25;
+    const startX = this.posX - (this.posX%25);
 
     for(let posX: number = -startX;posX < this.canvas.width - this.posX;posX += 25){
       //if(posX%25 === 0){
