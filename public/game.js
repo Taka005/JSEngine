@@ -130,29 +130,25 @@ document.addEventListener("keydown",(event)=>{
     if(tool === "screen"){
       engine.posY += 10;
     }else if(tool === "control"){
-      targetEntity.posY -= 10;
+      targetEntity.speedY -= 10;
     }
   }else if(event.code === "KeyA"){
     if(tool === "screen"){
       engine.posX += 10;
     }else if(tool === "control"){
-      targetEntity.posX -= 10;
+      targetEntity.speedX -= 10;
     }
   }else if(event.code === "KeyS"){
     if(tool === "screen"){
       engine.posY -= 10;
     }else if(tool === "control"){
-      targetEntity.posY += 10;
+      targetEntity.speedY += 10;
     }
   }else if(event.code === "KeyD"){
     if(tool === "screen"){
       engine.posX -= 10;
     }else if(tool === "control"){
-      targetEntity.posX += 10;
-    }
-  }else if(event.code === "Space"){
-    if(tool === "control"){
-      targetEntity.speedY -= 10;
+      targetEntity.speedX += 10;
     }
   }
 });
