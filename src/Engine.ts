@@ -56,8 +56,8 @@ type EngineOption = {
   pps?: number;
   gravity?: number;
   friction?: number;
-  posX: number;
-  posY: number;
+  posX?: number;
+  posY?: number;
   backgroundColor?: string;
   backgroundImage?: string | null;
 }
