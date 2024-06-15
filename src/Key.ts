@@ -17,7 +17,7 @@ class Key{
    * @returns {boolean} 推されているかどうか
    */
   get(code: string): boolean{
-    if(this.keys.hasOwnProperty(code)) return false;
+    if(!this.keys.hasOwnProperty(code)) return false;
 
     return this.keys[code];
   }
