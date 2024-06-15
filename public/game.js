@@ -129,33 +129,33 @@ engine.addEventListener("update",()=>{
 
   if(key.get("KeyW")){
     if(tool === "screen"){
-      engine.posY += 10;
+      engine.posY += 100*(1/engine.pps);
     }else if(tool === "control"){
-      targetEntity.speedY -= 10;
+      targetEntity.speedY -= 50*(1/engine.pps);
     }
   }
 
   if(key.get("KeyA")){
     if(tool === "screen"){
-      engine.posX += 10;
+      engine.posX += 100*(1/engine.pps);
     }else if(tool === "control"){
-      targetEntity.speedX -= 10;
+      targetEntity.speedX -= 50*(1/engine.pps);
     }
   }
 
   if(key.get("KeyS")){
     if(tool === "screen"){
-      engine.posY -= 10;
+      engine.posY -= 100(1/engine.pps);
     }else if(tool === "control"){
-      targetEntity.speedY += 10;
+      targetEntity.speedY += 50*(1/engine.pps);
     }
   }
 
   if(key.get("KeyD")){
     if(tool === "screen"){
-      engine.posX -= 10;
+      engine.posX -= 100*(1/engine.pps);
     }else if(tool === "control"){
-      targetEntity.speedX += 10;
+      targetEntity.speedX += 50*(1/engine.pps);
     }
   }
 });
