@@ -214,12 +214,6 @@ class Engine extends Process{
     this.entities.forEach(entity=>{
       this.updateSpeed(entity);
       this.solveSpeed(entity);
-
-      this.dispatchEvent(new CustomEvent("update",{
-        detail:{
-          entity: entity
-        }
-      }));
     });
 
     Object.values(this.objects).forEach(object=>{
@@ -229,6 +223,8 @@ class Engine extends Process{
         this.deSpawn(object.type,object.name);
       }
     });
+
+    this.dispatchEvent(new CustomEvent("update"));
   }
 
   /**
