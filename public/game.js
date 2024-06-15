@@ -166,6 +166,8 @@ game.addEventListener("mousemove",(event)=>{
 
     targetEntity.posX = posX;
     targetEntity.posY = posY;
+    targetEntity.speedX = 0;
+    targetEntity.speedY = 0;
   }
 });
 
