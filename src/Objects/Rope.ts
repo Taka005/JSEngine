@@ -70,7 +70,8 @@ class Rope extends EntityManager{
           mass: this.mass,
           stiff: this.stiff,
           speedX: speedX,
-          speedY: speedY
+          speedY: speedY,
+          parent: this.name
         });
 
         if(entity){

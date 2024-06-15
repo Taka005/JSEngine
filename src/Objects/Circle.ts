@@ -77,11 +77,12 @@ class Circle extends EntityManager{
       this.create({
         posX: posX,
         posY: posY,
-        size: size,
-        mass: mass,
-        stiff: stiff,
+        size: this.size,
+        mass: this.mass,
+        stiff: this.stiff,
         speedX: speedX,
-        speedY: speedY
+        speedY: speedY,
+        parent: this.name
       });
     }
   }

@@ -14,6 +14,7 @@
  * @property {number} rotate 回転角度
  * @property {number} rotateSpeed 回転速度
  * @property {Target[]} targets 接続された物体
+ * @property {string} parent 親のID
  */
 interface Entity{
   name: string;
@@ -29,6 +30,7 @@ interface Entity{
   rotate: number;
   rotateSpeed: number;
   targets: Target[];
+  parent: string;
 }
 
 /**
@@ -45,6 +47,7 @@ interface Entity{
  * @property {number} rotate 回転角度
  * @property {number} rotateSpeed 回転速度
  * @property {Target[]} targets 接続された物体
+ * @property {string} parent 親のID
  */
 type EntityOption = {
   name: string;
@@ -58,6 +61,7 @@ type EntityOption = {
   rotate?: number;
   rotateSpeed?: number;
   targets?: Target[];
+  parent: string;
 }
 
 /**
@@ -81,7 +85,7 @@ class Entity{
   /**
    * @param {EntityOption} option エンティティーオプション
    */
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, targets = [] }: EntityOption){
+  constructor({ name, posX, posY, size, mass, stiff, parent, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, targets = [] }: EntityOption){
     this.name = name;
     this.posX = posX;
     this.posY = posY;
@@ -95,6 +99,7 @@ class Entity{
     this.mass = mass;
     this.stiff = stiff;
     this.targets = targets;
+    this.parent = parent;
   }
 
   /**

@@ -23,6 +23,7 @@ interface EntityManager{
  * @property {number} rotate 回転角度
  * @property {number} rotateSpeed 回転速度
  * @property {Target[]} targets 接続された物体
+ * @property {string} parent 親のID
  */
 type CreateOption = {
   name?: string;
@@ -36,6 +37,7 @@ type CreateOption = {
   rotate?: number;
   rotateSpeed?: number;
   targets?: Target[];
+  parent: string;
 }
 
 /**
