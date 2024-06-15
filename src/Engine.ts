@@ -5,6 +5,7 @@ import { Circle, CircleOption } from "./Objects/Circle";
 import { Square, SquareOption } from "./Objects/Square";
 import { Rope, RopeOption } from "./Objects/Rope";
 import { createId, resize } from "./utils";
+import { Key } from "./Key";
 
 /**
  * エンジンを表します
@@ -534,6 +535,8 @@ class Engine extends Process{
 
 declare global {
   var Engine: any;
+  var Key: any;
 }
 
 globalThis.Engine = Engine;
+globalThis.Key = Key;
