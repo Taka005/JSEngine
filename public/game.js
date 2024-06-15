@@ -1,5 +1,6 @@
 const game = document.getElementById("game");
 const engine = new Engine(game);
+const key = new Key();
 
 let tool = "circle";
 let size = 15;
@@ -123,34 +124,48 @@ if(localStorage.map){
   saveData =  engine.export();
 }
 
-document.addEventListener("keydown",(event)=>{
+engine.addEventListener("update",()=>{
   if(tool === "control"&&!targetEntity) return;
 
-  if(event.code === "KeyW"){
+  if(key.get("KeyW")){
     if(tool === "screen"){
       engine.posY += 10;
     }else if(tool === "control"){
       targetEntity.speedY -= 10;
     }
-  }else if(event.code === "KeyA"){
+  }
+
+  if(key.get("KeyA")){
     if(tool === "screen"){
       engine.posX += 10;
     }else if(tool === "control"){
       targetEntity.speedX -= 10;
     }
-  }else if(event.code === "KeyS"){
+  }
+
+  if(key.get("KeyS")){
     if(tool === "screen"){
       engine.posY -= 10;
     }else if(tool === "control"){
       targetEntity.speedY += 10;
     }
-  }else if(event.code === "KeyD"){
+  }
+
+  if(key.get("KeyD")){
     if(tool === "screen"){
       engine.posX -= 10;
     }else if(tool === "control"){
       targetEntity.speedX += 10;
     }
   }
+});
+
+document.addEventListener("keydown",(event)=>{
+  key.keyDown(event);
+});
+
+document.addEventListener("keyup",(event)=>{
+  key.keyUp(event);
 });
 
 game.addEventListener("mousemove",(event)=>{
