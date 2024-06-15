@@ -145,7 +145,7 @@ engine.addEventListener("update",()=>{
 
   if(key.get("KeyS")){
     if(tool === "screen"){
-      engine.posY -= 300(1/engine.pps);
+      engine.posY -= 300*(1/engine.pps);
     }else if(tool === "control"){
       targetEntity.speedY += 100*(1/engine.pps);
     }
