@@ -460,7 +460,7 @@ class Engine extends Process{
     for(let posX: number = -startX;posX < this.canvas.width - this.posX;posX += 25){
       this.ctx.moveTo(posX,-this.posY);
       this.ctx.lineTo(posX,this.canvas.height - this.posY);
-      console.log(Math.round(posX),posX,-this.posY + 20)
+
       this.ctx.fillText(Math.round(posX),posX,-this.posY + 20);
     }
 
