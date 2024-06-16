@@ -239,11 +239,11 @@ class Engine extends Process{
     this.ctx.translate(this.posX,this.posY);
 
     if(this.isDebug){
+      this.drawGrid();
+
       Object.values(this.objects).forEach(object=>{
         object.drawVector(this.ctx);
       });
-
-      this.drawGrid();
     }
 
     Object.values(this.grounds).forEach(ground=>{
@@ -454,14 +454,14 @@ class Engine extends Process{
     const startX = this.posX - this.posX%25;
     const startY = this.posY - this.posY%25;
 
-    this.ctx.font = "5px serif";
+    this.ctx.font = "10px serif";
     this.ctx.textAlign = "center";
 
     for(let posX: number = -startX;posX < this.canvas.width - this.posX;posX += 25){
       this.ctx.moveTo(posX,-this.posY);
       this.ctx.lineTo(posX,this.canvas.height - this.posY);
-      console.log(Math.round(posX),posX,-this.posY + 10)
-      this.ctx.fillText(Math.round(posX),posX,-this.posY + 10);
+      console.log(Math.round(posX),posX,-this.posY + 20)
+      this.ctx.fillText(Math.round(posX),posX,-this.posY + 20);
     }
 
     for(let posY: number = -startY;posY < this.canvas.height - this.posY;posY += 25){
