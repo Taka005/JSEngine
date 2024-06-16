@@ -460,16 +460,15 @@ class Engine extends Process{
     for(let posX: number = -startX;posX < this.canvas.width - this.posX;posX += 25){
       this.ctx.moveTo(posX,-this.posY);
       this.ctx.lineTo(posX,this.canvas.height - this.posY);
-
-      this.ctx.fillText(Math.round(posX),posX,-this.posY - 10);
-      this.ctx.fillText(10,10,10)
+      console.log(Math.round(posX),posX,-this.posY + 10)
+      this.ctx.fillText(Math.round(posX),posX,-this.posY + 10);
     }
 
     for(let posY: number = -startY;posY < this.canvas.height - this.posY;posY += 25){
       this.ctx.moveTo(-this.posX,posY);
       this.ctx.lineTo(this.canvas.width - this.posX,posY);
 
-      this.ctx.fillText(Math.round(posY),-this.posX - 10,posY);
+      this.ctx.fillText(Math.round(posY),-this.posX + 10,posY);
     }
 
     this.ctx.strokeStyle = "black";
