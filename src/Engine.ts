@@ -454,6 +454,8 @@ class Engine extends Process{
     const startX = this.posX - this.posX%25;
     const startY = this.posY - this.posY%25;
 
+    this.ctx.font = "3px serif";
+
     for(let posX: number = -startX;posX < this.canvas.width - this.posX;posX += 25){
       this.ctx.moveTo(posX,-this.posY);
       this.ctx.lineTo(posX,this.canvas.height - this.posY);
