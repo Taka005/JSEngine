@@ -457,11 +457,15 @@ class Engine extends Process{
     for(let posX: number = -startX;posX < this.canvas.width - this.posX;posX += 25){
       this.ctx.moveTo(posX,-this.posY);
       this.ctx.lineTo(posX,this.canvas.height - this.posY);
+
+      this.ctx.fillText(posX,posX + 2,10);
     }
 
     for(let posY: number = -startY;posY < this.canvas.height - this.posY;posY += 25){
       this.ctx.moveTo(-this.posX,posY);
       this.ctx.lineTo(this.canvas.width - this.posX,posY);
+
+      this.ctx.fillText(posY,posY + 2,10);
     }
 
     this.ctx.strokeStyle = "black";
