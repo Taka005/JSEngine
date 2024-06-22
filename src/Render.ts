@@ -20,5 +20,27 @@ class Render{
 
     this.posX = posX;
     this.posY = posY;
+
+    this.ctx.font = "10px Arial";
+    this.ctx.fillStyle = "black";
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "middle";
+  }
+
+  line(startX: number,startY: number,endX: number,endY: number): void{
+    this.ctx.beginPath();
+
+    this.ctx.moveTo(startX,startY);
+    this.ctx.lineTo(endX,endY);
+
+    this.ctx.closePath();
+  }
+
+  text(posX: number,posY: number,value: string = ""): void{
+    this.ctx.beginPath();
+
+    this.ctx.fillText(value,posX,posY);
+
+    this.ctx.closePath();
   }
 }
