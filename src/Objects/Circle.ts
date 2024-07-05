@@ -1,6 +1,6 @@
-import { Application, Container, Sprite, Graphics } from "pixi.js";
 import { EntityManager } from "./EntityManager";
 import { EntityOption } from "./Entity";
+import { parseImage, resize } from "../utils";
 
 /**
  * @typedef {Object} Circle
@@ -10,9 +10,7 @@ import { EntityOption } from "./Entity";
  * @property {number} mass 質量
  * @property {number} stiff 剛性(これは0以上1以下です)
  * @property {string} color 色
- * @property {string | null} image 画像
- * @property {Graphics} vector ベクトルの描画グラフィッククラス
- * @property {Container} view 描画コンテナクラス
+ * @property {HTMLImageElement | null} image 画像
  */
 interface Circle extends EntityManager{
   type: string;
@@ -20,10 +18,8 @@ interface Circle extends EntityManager{
   size: number;
   mass: number;
   stiff: number;
-  color?: string;
-  image?: string | null;
-  vector: Graphics;
-  view: Container;
+  color: string;
+  image: HTMLImageElement | null;
 }
 
 /**
@@ -57,7 +53,7 @@ type CircleOption = {
 /**
  * サークルクラス
  * 円を制御します
- * 
+ *
  * @extends EntityManager
  */
 class Circle extends EntityManager{
@@ -73,98 +69,92 @@ class Circle extends EntityManager{
     this.mass = mass;
     this.stiff = stiff;
     this.color = color;
-    this.image = image;
+    this.image = parseImage(image);
 
     if(entities[0]){
-      entities.map(entity=>this.create(entity));
+      entities.forEach(entity=>this.create(entity));
     }else{
       this.create({
         posX: posX,
         posY: posY,
-        size: size,
-        mass: mass,
-        stiff: stiff,
+        size: this.size,
+        mass: this.mass,
+        stiff: this.stiff,
         speedX: speedX,
-        speedY: speedY
+        speedY: speedY,
+        parent: this.name
       });
     }
   }
 
   /**
-   * 描画を初期化します
-   * @param render {Application} アプリケーションクラス
+   * オブジェクトを描画します
+   * @param {CanvasRenderingContext2D} ctx コンテキスト
    */
-  load(render: Application): void{
+  public draw(ctx: CanvasRenderingContext2D): void{
     const { posX, posY } = this.getPosition();
-    const { speedX, speedY } = this.getSpeed();
-
-    this.view = new Container();
-
-    this.vector = new Graphics()
-      .moveTo(0,0)
-      .lineTo(speedX,speedY)
-      .stroke({ width: 1, color: "black" });
-
-    this.vector.visible = false;
-
-    this.view.position.set(posX,posY);
-    this.vector.position.set(posX,posY);
-
-    if(this.image){
-      const image = Sprite.from(this.image);
-
-      image.anchor.set(0.5);
-      image.position.set(0,0);
-
-      this.view.addChild(image);
-    }else{
-      const circle = new Graphics()
-        .circle(0,0,this.size)
-        .fill(this.color);
-
-      const mark = new Graphics()
-        .moveTo(0,0)
-        .lineTo(0,-this.size)
-        .stroke({ width: 1, color: "black" });
-
-      this.view.addChild(circle,mark);
-    }
-
-    render.stage.addChild(this.view,this.vector);
-  }
-
-  /**
-   * 描画を更新します
-   */
-  update(): void{
-    const { posX, posY } = this.getPosition();
-    const { speedX, speedY } = this.getSpeed();
     const rotate = this.getRotate();
 
-    this.view.rotation = rotate*(Math.PI/180);
-    this.view.position.set(posX,posY);
-    this.vector.position.set(posX,posY);
+    ctx.save();
+    ctx.translate(posX,posY);
+    ctx.rotate(rotate*(Math.PI/180));
 
-    this.vector
-      .clear()
-      .moveTo(0,0)
-      .lineTo(speedX,speedY)
-      .stroke({ width: 1, color: "black" });
+    if(this.image){
+      const { width, height } = resize(this.image,this.size*2);
+
+      ctx.drawImage(
+        this.image,
+        -width/2,
+        -height/2,
+        width,
+        height
+      );
+    }else{
+      ctx.beginPath();
+      ctx.arc(0,0,this.size,0,2*Math.PI);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.lineTo(0,-this.size);
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    ctx.restore();
   }
 
   /**
-   * 描画を破棄します
+   * 速度ベクトルを描画します
+   * @param {CanvasRenderingContext2D} ctx コンテキスト
    */
-  destroy(): void{
-    this.view.destroy();
-    this.vector.destroy();
+  public drawVector(ctx: CanvasRenderingContext2D): void{
+    const { posX, posY } = this.getPosition();
+    const { speedX, speedY } = this.getSpeed();
+
+    ctx.beginPath();
+    ctx.moveTo(posX,posY);
+    ctx.lineTo(posX + speedX,posY + speedY);
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  /**
+   * 物体を複製します
+   * @returns {Circle} 複製された物体
+   */
+  public clone(): Circle{
+    return new Circle(this.toJSON());
   }
 
   /**
    * クラスのデータをJSONに変換します
    * @returns {CircleOption} サークルオプション
    */
-  toJSON(): CircleOption{
+  public toJSON(): CircleOption{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 
@@ -178,7 +168,7 @@ class Circle extends EntityManager{
       speedX: speedX,
       speedY: speedY,
       color: this.color,
-      image: this.image,
+      image: this.image?.src || null,
       entities: this.entities.map(entity=>entity.toJSON())
     }
   }

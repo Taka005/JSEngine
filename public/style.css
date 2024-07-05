@@ -1,6 +1,10 @@
 #game {
-    display: block;
+    width: 900px;
     margin: 0 auto;
+}
+
+canvas {
+    background: #eee;
 }
 
 .config {

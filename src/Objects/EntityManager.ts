@@ -1,5 +1,5 @@
 import { Entity, EntityOption, Target } from "./Entity";
-import { createId } from "./utils";
+import { createId } from "../utils";
 
 /**
  * @typedef {Object} EntityManager
@@ -23,6 +23,7 @@ interface EntityManager{
  * @property {number} rotate 回転角度
  * @property {number} rotateSpeed 回転速度
  * @property {Target[]} targets 接続された物体
+ * @property {string} parent 親のID
  */
 type CreateOption = {
   name?: string;
@@ -36,6 +37,7 @@ type CreateOption = {
   rotate?: number;
   rotateSpeed?: number;
   targets?: Target[];
+  parent: string;
 }
 
 /**
@@ -51,7 +53,7 @@ class EntityManager{
    * 平均されたエンティティーの位置を計算します
    * @returns {Object} 位置データ
    */
-  getPosition(): { posX: number, posY: number }{
+  public getPosition(): { posX: number, posY: number }{
     return {
       posX: this.entities.reduce((total,entity)=>total + entity.posX,0)/this.entities.length,
       posY:  this.entities.reduce((total,entity)=>total + entity.posY,0)/this.entities.length
@@ -62,7 +64,7 @@ class EntityManager{
    * 平均されたエンティティーの速度を計算します
    * @returns {Object} 速度データ
    */
-  getSpeed(): { speedX: number, speedY: number }{
+  public getSpeed(): { speedX: number, speedY: number }{
     return {
       speedX: this.entities.reduce((total,entity)=>total + entity.speedX,0)/this.entities.length,
       speedY:  this.entities.reduce((total,entity)=>total + entity.speedY,0)/this.entities.length
@@ -73,7 +75,7 @@ class EntityManager{
    * 平均されたエンティティーの回転位置を計算します
    * @returns {number} 回転位置
    */
-  getRotate(): number{
+  public getRotate(): number{
     return this.entities.reduce((total,entity)=>total + entity.rotate,0)/this.entities.length
   }
 
@@ -82,7 +84,7 @@ class EntityManager{
    * @param {CreateOption} object クリエイトオプション
    * @returns {Entity} 作成されたエンティティー
    */
-  create(object: CreateOption): Entity{
+  protected create(object: CreateOption): Entity{
     if(!object.name){
       object.name = createId(8);
     }
@@ -97,7 +99,7 @@ class EntityManager{
   /**
    * 全ての物体を接続します
    */
-  connect(): void{
+  protected connect(): void{
     this.entities.forEach(source=>{
       this.entities.forEach(target=>{
         if(source.name === target.name) return;

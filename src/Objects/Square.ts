@@ -1,6 +1,6 @@
-import { Application, Container, Sprite, Graphics } from "pixi.js";
 import { EntityManager } from "./EntityManager";
 import { EntityOption } from "./Entity";
+import { parseImage, resize } from "../utils";
 
 /**
  * @typedef {Object} Square
@@ -10,9 +10,7 @@ import { EntityOption } from "./Entity";
  * @property {number} mass 質量
  * @property {number} stiff 剛性(これは0以上1以下です)
  * @property {string} color 色
- * @property {string | null} image 画像
- * @property {Graphics} vector ベクトルの描画グラフィッククラス
- * @property {Container} view 描画コンテナクラス
+ * @property {HTMLImageElement | null} image 画像
  */
 interface Square extends EntityManager{
   type: string;
@@ -20,10 +18,8 @@ interface Square extends EntityManager{
   size: number;
   mass: number;
   stiff: number;
-  color?: string;
-  image?: string | null;
-  vector: Graphics;
-  view: Container;
+  color: string;
+  image: HTMLImageElement | null;
 }
 
 /**
@@ -57,6 +53,8 @@ type SquareOption = {
 /**
  * スクエアクラス
  * 四角を制御します
+ *
+ * @extends EntityManager
  */
 class Square extends EntityManager{
   /**
@@ -71,21 +69,22 @@ class Square extends EntityManager{
     this.mass = mass;
     this.stiff = stiff;
     this.color = color;
-    this.image = image;
+    this.image = parseImage(image);
 
     if(entities[0]){
-      entities.map(entity=>this.create(entity));
+      entities.forEach(entity=>this.create(entity));
     }else{
       for(let i = -1;i<=1;i+=2){
         for(let k = -1;k<=1;k+=2){
           this.create({
-            posX: posX + i*(size/2),
-            posY: posY + k*(size/2),
-            size: size/2,
-            mass: mass/4,
-            stiff: stiff,
+            posX: posX + i*(this.size/2),
+            posY: posY + k*(this.size/2),
+            size: this.size/2,
+            mass: this.mass/4,
+            stiff: this.stiff,
             speedX: speedX,
-            speedY: speedY
+            speedY: speedY,
+            parent: this.name
           });
         }
       }
@@ -95,93 +94,72 @@ class Square extends EntityManager{
   }
 
   /**
-   * 描画を初期化します
-   * @param {Application} render アプリケーションクラス
+   * オブジェクトを描画します
+   * @param {CanvasRenderingContext2D} ctx コンテキスト
    */
-  load(render: Application): void{
+  public draw(ctx: CanvasRenderingContext2D): void{
     const { posX, posY } = this.getPosition();
-    const { speedX, speedY } = this.getSpeed();
-
-    this.view = new Container();
-  
-    this.vector = new Graphics()
-      .moveTo(0,0)
-      .lineTo(speedX,speedY)
-      .stroke({ width: 1, color: "black" });
-
-    this.vector.visible = false;
-
-    this.vector.position.set(posX,posY);
 
     if(this.image){
-      const image = Sprite.from(this.image);
+      const start = this.entities[0];
+      const end = this.entities[2];
 
-      image.anchor.set(0.5);
-      image.position.set(0,0);
+      const rotate: number = Math.atan2(start.posY - end.posY,end.posX - start.posX);
 
-      this.view.addChild(image);
+      const { width, height } = resize(this.image,this.size*2);
+
+      ctx.save();
+      ctx.translate(posX,posY);
+      ctx.rotate(rotate);
+
+      ctx.drawImage(
+        this.image,
+        -width/2,
+        -height/2,
+        width,
+        height
+      );
+
+      ctx.restore();
     }else{
       this.entities.forEach(entity=>{
-        const circle = new Graphics()
-          .circle(entity.posX,entity.posY,entity.size)
-          .fill(this.color);
-
-        this.view.addChild(circle);
+        ctx.beginPath();
+        ctx.arc(entity.posX,entity.posY,this.size/2,0,2*Math.PI);
+        ctx.fillStyle = this.color;
+        ctx.fill();
       });
     }
-
-    render.stage.addChild(this.view,this.vector);
   }
 
   /**
-   * 描画を更新します
+   * 速度ベクトルを描画します
+   * @param {CanvasRenderingContext2D} ctx コンテキスト
    */
-  update(): void{
+  public drawVector(ctx: CanvasRenderingContext2D): void{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 
-    this.view.removeChildren(0);
-
-    if(this.image){
-      const image = Sprite.from(this.image);
-
-      image.anchor.set(0.5);
-      image.position.set(0,0);
-
-      this.view.addChild(image);
-    }else{
-      this.entities.forEach(entity=>{
-        const circle = new Graphics()
-          .circle(entity.posX,entity.posY,entity.size)
-          .fill(this.color);
-
-        this.view.addChild(circle);
-      });
-    }
-
-    this.vector.position.set(posX,posY);
-
-    this.vector
-      .clear()
-      .moveTo(0,0)
-      .lineTo(speedX,speedY)
-      .stroke({ width: 1, color: "black" });
+    ctx.beginPath();
+    ctx.moveTo(posX,posY);
+    ctx.lineTo(posX + speedX,posY + speedY);
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 1;
+    ctx.stroke();
   }
 
   /**
-   * 描画を破棄します
+   * 物体を複製します
+   * @returns {Square} 複製された物体
    */
-  destroy(): void{
-    this.view.destroy();
-    this.vector.destroy();
+  public clone(): Square{
+    return new Square(this.toJSON());
   }
-
 
   /**
    * クラスのデータをJSONに変換します
    * @returns {SquareOption} スクエアオプション
    */
-  toJSON(): SquareOption{
+  public toJSON(): SquareOption{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 
@@ -195,7 +173,7 @@ class Square extends EntityManager{
       speedX: speedX,
       speedY: speedY,
       color: this.color,
-      image: this.image,
+      image: this.image?.src || null,
       entities: this.entities.map(entity=>entity.toJSON())
     }
   }

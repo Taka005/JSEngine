@@ -14,6 +14,7 @@
  * @property {number} rotate 回転角度
  * @property {number} rotateSpeed 回転速度
  * @property {Target[]} targets 接続された物体
+ * @property {string} parent 親のID
  */
 interface Entity{
   name: string;
@@ -29,6 +30,7 @@ interface Entity{
   rotate: number;
   rotateSpeed: number;
   targets: Target[];
+  parent: string;
 }
 
 /**
@@ -45,6 +47,7 @@ interface Entity{
  * @property {number} rotate 回転角度
  * @property {number} rotateSpeed 回転速度
  * @property {Target[]} targets 接続された物体
+ * @property {string} parent 親のID
  */
 type EntityOption = {
   name: string;
@@ -58,6 +61,7 @@ type EntityOption = {
   rotate?: number;
   rotateSpeed?: number;
   targets?: Target[];
+  parent: string;
 }
 
 /**
@@ -81,7 +85,7 @@ class Entity{
   /**
    * @param {EntityOption} option エンティティーオプション
    */
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, targets = [] }: EntityOption){
+  constructor({ name, posX, posY, size, mass, stiff, parent, speedX = 0, speedY = 0, rotate = 0, rotateSpeed = 0, targets = [] }: EntityOption){
     this.name = name;
     this.posX = posX;
     this.posY = posY;
@@ -95,13 +99,14 @@ class Entity{
     this.mass = mass;
     this.stiff = stiff;
     this.targets = targets;
+    this.parent = parent;
   }
 
   /**
    * 質量の逆数を返します
    * @returns {number} 逆数の質量
    */
-  get invMass(): number{
+  public get invMass(): number{
     if(this.mass === 0) return 0;
 
     return 1/this.mass;
@@ -110,16 +115,27 @@ class Entity{
   /**
    * 位置を保存します
    */
-  savePosition(): void{
+  public savePosition(): void{
     this.prePosX = this.posX;
     this.prePosY = this.posY;
+  }
+
+  /**
+   * 接続状態を取得します
+   * @param {string} targetId ターゲット名
+   * @returns {Target | undefined} 取得したターゲット
+   */
+  public getTarget(targetId: string): Target | undefined{
+    return this.targets.find(target=>target.name === targetId);
   }
 
   /**
    * 接続対象を追加します
    * @param {Target} target 接続するエンティティー
    */
-  addTarget(target: Target): void{
+  public addTarget(target: Target): void{
+    if(this.getTarget(target.name)) return;
+
     this.targets.push(target);
   }
 
@@ -127,7 +143,7 @@ class Entity{
    * 接続対象を削除します
    * @param {number} targetId 削除するエンティティー名
    */
-  removeTarget(targetId: string): void{
+  public removeTarget(targetId: string): void{
     this.targets = this.targets.filter(target=>target.name !== targetId);
   }
 
@@ -135,7 +151,7 @@ class Entity{
    * JSONに変換します
    * @return {EntityOption} エンティティーオプション
    */
-  toJSON(): EntityOption{
+  public toJSON(): EntityOption{
     return {
       name: this.name,
       posX: this.posX,
