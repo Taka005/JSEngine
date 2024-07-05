@@ -43,7 +43,7 @@ interface Engine extends Process{
 }
 
 /**
- * エンジンの初期化オブジェクトです
+ * エンジンの初期化オブジェクト
  * @typedef {Object} EngineOption
  * @property {number} pps 1秒あたりの処理回数
  * @property {number} gravity 重力加速度
