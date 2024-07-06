@@ -13,6 +13,7 @@ type RenderOption = {
 class Render{
   constructor(canvas: HTMLCanvasElement,{ posX = 0, posY = 0 }: RenderOption){
     this.canvas = canvas;
+
     const ctx = this.canvas.getContext("2d");
     if(!ctx) throw new Error("無効な描画要素です");
 

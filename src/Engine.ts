@@ -111,6 +111,7 @@ class Engine extends Process{
     });
 
     this.canvas = canvas;
+
     const ctx = this.canvas.getContext("2d");
     if(!ctx) throw new Error("無効な描画要素です");
 
@@ -501,6 +502,10 @@ class Engine extends Process{
     return JSON.stringify({
       gravity: this.gravity,
       friction: this.friction,
+      backgroundColor: backgroundColor,
+      backgroundImage: backgroundImage.src
+      posX: this.posX,
+      posY: this.posY,
       circle: circle,
       square: square,
       rope: rope,
@@ -518,7 +523,23 @@ class Engine extends Process{
 
     this.clear({ force: true });
 
-    this.spawn("ground",data.ground);
+    if(data.backgroundImage){
+      this.setBackgroundImage(data.backgroundImage);
+    }else if(data.backgroundColor){
+      this.backgroundColor = data.backgroundColor;
+    }
+
+    if(data.posX){
+      this.posX = data.posX;
+    }
+
+    if(data.posY){
+      this.posY = data.posY;
+    }
+
+    if(data.ground){
+      this.spawn("ground",data.ground);
+    }
 
     if(data.circle){
       this.spawn("circle",data.circle);
