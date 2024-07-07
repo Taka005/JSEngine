@@ -503,7 +503,7 @@ class Engine extends Process{
       gravity: this.gravity,
       friction: this.friction,
       backgroundColor: this.backgroundColor,
-      backgroundImage: this.backgroundImage?.src,
+      backgroundImage: this.backgroundImage?.src||null,
       posX: this.posX,
       posY: this.posY,
       circle: circle,
