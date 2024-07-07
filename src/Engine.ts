@@ -502,8 +502,8 @@ class Engine extends Process{
     return JSON.stringify({
       gravity: this.gravity,
       friction: this.friction,
-      backgroundColor: backgroundColor,
-      backgroundImage: backgroundImage.src,
+      backgroundColor: this.backgroundColor,
+      backgroundImage: this.backgroundImage?.src,
       posX: this.posX,
       posY: this.posY,
       circle: circle,
