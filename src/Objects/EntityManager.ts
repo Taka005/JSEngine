@@ -56,7 +56,7 @@ class EntityManager{
   public getPosition(): { posX: number, posY: number }{
     return {
       posX: this.entities.reduce((total,entity)=>total + entity.posX,0)/this.entities.length,
-      posY:  this.entities.reduce((total,entity)=>total + entity.posY,0)/this.entities.length
+      posY: this.entities.reduce((total,entity)=>total + entity.posY,0)/this.entities.length
     }
   }
 
@@ -67,7 +67,7 @@ class EntityManager{
   public getSpeed(): { speedX: number, speedY: number }{
     return {
       speedX: this.entities.reduce((total,entity)=>total + entity.speedX,0)/this.entities.length,
-      speedY:  this.entities.reduce((total,entity)=>total + entity.speedY,0)/this.entities.length
+      speedY: this.entities.reduce((total,entity)=>total + entity.speedY,0)/this.entities.length
     }
   }
 
