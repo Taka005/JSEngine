@@ -136,14 +136,14 @@ class Square extends EntityManager{
         ctx.moveTo(start.posX,start.posY);
         ctx.lineTo(entity.posX,entity.posY);
         ctx.strokeStyle = this.color;
-        ctx.lineWidth = this.size*2;
+        ctx.lineWidth = this.size;
         ctx.stroke();
 
         ctx.beginPath();
         ctx.moveTo(end.posX,end.posY);
         ctx.lineTo(entity.posX,entity.posY);
         ctx.strokeStyle = this.color;
-        ctx.lineWidth = this.size*2;
+        ctx.lineWidth = this.size;
         ctx.stroke();
       });
     }
