@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8"/>
+
+        <title>Engine</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="config">
+                <input type="range" class="form-range" id="gravityInput" min="0" max="3000" value="500">
+                <p>重力: <output id="gravityValue"></output></p>
+                <input type="range" class="form-range" id="frictionInput" min="-0.1" max="0.1" value="0.001" step="0.001">
+                <p>摩擦: <output id="frictionValue"></output></p>
+                <input type="button" class="btn btn-warning" id="debug" value="デバッグモード">
+                <input type="button" class="btn btn-success" id="track" value="トラッキングモード">
+                <input type="button" class="btn btn-danger" id="trackReset" value="トラッキングリセット">
+                <input type="button" class="btn btn-danger" id="reset" value="リセット">
+                <input type="button" class="btn btn-danger" id="allReset" value="全てリセット">
+            </div>
+            <canvas id="game" height="700" width="900"></canvas>
+            <div class="file">
+                <input type="button" class="btn btn-success" id="start" value="開始">
+                <input type="button" class="btn btn-danger" id="stop" value="停止">
+                <input type="button" class="btn btn-primary" id="save" value="保存">
+                <input type="button" class="btn btn-primary" id="load" value="ロード">
+                <a role="button" class="btn btn-primary" id="link" target="_blank" download="map.json">エクスポート</a>
+                <input type="button" class="btn btn-danger" id="cache" value="キャッシュをクリア">
+                <input class="form-control" type="file" id="dataFile" accept="application/json">
+            </div>
+            <div class="config">
+                <select class="form-select" id="toolInput">
+                    <option value="circle" selected>円</option>
+                    <option value="square">四角</option>
+                    <option value="rope">ロープ</option>
+                    <option value="ground">地面</option>
+                    <option value="move">移動</option>
+                    <option value="connect">接続</option>
+                    <option value="disConnect">接続解除</option>
+                    <option value="delete">削除</option>
+                    <option value="control">操作</option>
+                    <option value="screen">画面移動</option>
+                </select>
+                <p>ツール</p>
+                <input type="range" class="form-range" id="sizeInput" min="1" max="100" value="15" step="1">
+                <p>サイズ: <output id="sizeValue"></output></p>
+                <input type="range" class="form-range" id="massInput" min="0" max="100" value="10" step="1">
+                <p>質量: <output id="massValue"></output></p>
+                <input type="range" class="form-range" id="stiffInput" min="0" max="1" value="0.5" step="0.1">
+                <p>剛性: <output id="stiffValue"></output></p>
+                <input type="color" class="form-range" id="colorInput" value="#ff0000">
+                <p>色: <output id="colorValue"></output></p>
+                <div>
+                    <input type="text" id="imageInput" class="form-control">
+                    <p>画像URL</p>
+                    <input class="form-control" type="file" id="imageFileInput" accept="image/*">
+                    <p>画像ファイル</p>
+                    <input type="button" class="btn btn-danger" id="imageReset" value="画像をリセット">
+                </div>
+                <input class="form-check-input" type="checkbox" id="autoSaveInput">
+                <label class="form-check-label" for="autoSaveInput">自動保存(15秒間隔)</label>
+                <div>
+                    <input type="color" class="form-range" id="backgroundColorInput" value="#eeeeee">
+                    <p>色: <output id="backgroundColorValue"></output></p>
+                    <input type="text" id="backgroundImageInput" class="form-control">
+                    <p>背景画像URL</p>
+                    <input class="form-control" type="file" id="backgroundFileInput" accept="image/*">
+                    <p>背景画像ファイル</p>
+                    <input type="button" class="btn btn-danger" id="backgroundImageReset" value="画像をリセット">
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="Engine.js"></script>
+    <script src="game.js"></script>
+</html>

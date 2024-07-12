@@ -567,10 +567,4 @@ class Engine extends Process{
   }
 }
 
-declare global {
-  var Engine: any;
-  var Key: any;
-}
-
-globalThis.Engine = Engine;
-globalThis.Key = Key;
+export { Engine, EngineOption, ExportData, ClearOption };
