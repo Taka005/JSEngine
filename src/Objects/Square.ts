@@ -100,10 +100,10 @@ class Square extends EntityManager{
   public draw(ctx: CanvasRenderingContext2D): void{
     const { posX, posY } = this.getPosition();
 
-    const start = this.entities[0];
-    const end = this.entities[2];
-
     if(this.image){
+      const start = this.entities[0];
+      const end = this.entities[2];
+
       const rotate: number = Math.atan2(start.posY - end.posY,end.posX - start.posX);
 
       const { width, height } = resize(this.image,this.size*2);
@@ -122,14 +122,15 @@ class Square extends EntityManager{
 
       ctx.restore();
     }else{
+      const start = this.entities[0];
+      const end = this.entities[3];
+
       this.entities.forEach(entity=>{
         ctx.beginPath();
         ctx.arc(entity.posX,entity.posY,this.size/2,0,2*Math.PI);
         ctx.fillStyle = this.color;
         ctx.fill();
-      });
 
-      this.entities.forEach(entity=>{
         if(start.name === entity.name&&end.name === entity.name) return;
 
         ctx.beginPath();
