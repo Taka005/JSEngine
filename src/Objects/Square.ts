@@ -130,7 +130,7 @@ class Square extends EntityManager{
       });
 
       this.entities.forEach(entity=>{
-        if(start.name === entity.name||end.name === entity.name) return;
+        if(start.name === entity.name&&end.name === entity.name) return;
 
         ctx.beginPath();
         ctx.moveTo(start.posX,start.posY);
