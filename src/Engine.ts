@@ -77,6 +77,10 @@ type ClearOption = {
  * @typedef {Object} ExportData
  * @property {number} gravity 重力加速度
  * @property {number} friction 摩擦係数
+ * @property {string} backgroundColor 背景色
+ * @property {string | null} backgroundImage 背景画像
+ * @property {number} posX 描画X座標
+ * @property {number} posY 描画Y座標
  * @property {CircleOption[]} circle 全ての円の配列
  * @property {SquareOption[]} square 全ての四角の配列
  * @property {RopeOption[]} rope 全てのロープの配列
@@ -85,6 +89,10 @@ type ClearOption = {
 type ExportData = {
   gravity: number;
   friction: number;
+  backgroundColor: string;
+  backgroundImage: string | null;
+  posX: number;
+  posY: number;
   entity?: CircleOption[];
   circle: CircleOption[];
   square: SquareOption[];
