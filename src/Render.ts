@@ -22,26 +22,60 @@ class Render{
     this.posX = posX;
     this.posY = posY;
 
-    this.ctx.font = "10px Arial";
-    this.ctx.fillStyle = "black";
+    this.reset();
+
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "middle";
   }
 
-  line(startX: number,startY: number,endX: number,endY: number): void{
+  reset(): Render{
+    this.ctx.font = "10px Arial";
+    this.ctx.fillStyle = "black";
+    this.ctx.strokeStyle = "black";
+
+    return this;
+  }
+
+  line(startX: number,startY: number,endX: number,endY: number): Render{
     this.ctx.beginPath();
 
     this.ctx.moveTo(startX,startY);
     this.ctx.lineTo(endX,endY);
 
     this.ctx.closePath();
+
+    return this;
   }
 
-  text(posX: number,posY: number,value: string = ""): void{
+  text(posX: number,posY: number,value: string = ""): Render{
     this.ctx.beginPath();
 
     this.ctx.fillText(value,posX,posY);
 
     this.ctx.closePath();
+
+    return this;
+  }
+
+  circle(): Render{
+    this.ctx.beginPath();
+
+    ctx.arc(0,0,0,0,2*Math.PI);
+    ctx.fill();
+
+    this.ctx.closePath();
+  }
+
+  setFont(value: string): Render{
+    this.ctx.font = value;
+
+    return this;
+  }
+
+  setColor(value: string): Render{
+    this.ctx.fillStyle = value;
+    this.ctx.strokeStyle = value;
+
+    return this;
   }
 }
