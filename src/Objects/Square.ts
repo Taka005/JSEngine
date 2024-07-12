@@ -75,10 +75,10 @@ class Square extends EntityManager{
       entities.forEach(entity=>this.create(entity));
     }else{
       for(let i = -1;i<=1;i+=2){
-        for(let k = -1;k<=1;k+=2){
+        for(let j = -1;j<=1;j+=2){
           this.create({
             posX: posX + i*(this.size/2),
-            posY: posY + k*(this.size/2),
+            posY: posY + j*(this.size/2),
             size: this.size/2,
             mass: this.mass/4,
             stiff: this.stiff,
@@ -100,10 +100,10 @@ class Square extends EntityManager{
   public draw(ctx: CanvasRenderingContext2D): void{
     const { posX, posY } = this.getPosition();
 
-    if(this.image){
-      const start = this.entities[0];
-      const end = this.entities[2];
+    const start = this.entities[0];
+    const end = this.entities[2];
 
+    if(this.image){
       const rotate: number = Math.atan2(start.posY - end.posY,end.posX - start.posX);
 
       const { width, height } = resize(this.image,this.size*2);
@@ -127,6 +127,24 @@ class Square extends EntityManager{
         ctx.arc(entity.posX,entity.posY,this.size/2,0,2*Math.PI);
         ctx.fillStyle = this.color;
         ctx.fill();
+      });
+
+      this.entities.forEach(entity=>{
+        if(start.name === entity.name||end.name === entity.name) return;
+
+        ctx.beginPath();
+        ctx.moveTo(start.posX,start.posY);
+        ctx.lineTo(entity.posX,entity.posY);
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = this.size*2;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(end.posX,end.posY);
+        ctx.lineTo(entity.posX,entity.posY);
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = this.size*2;
+        ctx.stroke();
       });
     }
   }
