@@ -60,10 +60,12 @@ class Render{
   circle(): Render{
     this.ctx.beginPath();
 
-    ctx.arc(0,0,0,0,2*Math.PI);
-    ctx.fill();
+    this.ctx.arc(0,0,0,0,2*Math.PI);
+    this.ctx.fill();
 
     this.ctx.closePath();
+
+    return this;
   }
 
   setFont(value: string): Render{

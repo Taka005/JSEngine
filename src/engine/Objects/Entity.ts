@@ -163,7 +163,8 @@ class Entity{
       speedY: this.speedY,
       rotate: this.rotate,
       rotateSpeed: this.rotateSpeed,
-      targets: this.targets
+      targets: this.targets,
+      parent: this.parent
     }
   }
 }

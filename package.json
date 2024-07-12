@@ -6,7 +6,7 @@
     "lint": "./node_modules/.bin/eslint ./dist/Engine.ts",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown --name JSEngine --entryPointStrategy expand ./src",
     "build": "npx tsc",
-    "bundle": "esbuild --bundle --minify --outfile=./public/Engine.js ./src/Engine.js"
+    "bundle": "esbuild --bundle --minify --outfile=./public/client.js ./src/app/index.tsx"
   },
   "repository": {
     "type": "git",
