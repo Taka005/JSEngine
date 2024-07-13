@@ -5,7 +5,6 @@ import { Circle, CircleOption } from "./Objects/Circle";
 import { Square, SquareOption } from "./Objects/Square";
 import { Rope, RopeOption } from "./Objects/Rope";
 import { createId, resize } from "./utils";
-import { Key } from "./Key";
 
 /**
  * エンジンを表します
