@@ -18,8 +18,8 @@ class Canvas extends React.Component<CanvasProps>{
       <>
         <canvas
           ref={this.canvasRef}
-          width="700px"
-          height="900px"
+          width="900px"
+          height="700px"
         />
       </>
     )
