@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { Client } from "../../engine/Client";
 
 interface Select {
@@ -16,11 +16,15 @@ class Select extends React.Component<SelectProps>{
     this.client = props.client;
   }
 
+  onChange(event: ChangeEvent): void{
+    
+  }
+
   render(): JSX.Element{
     return (
       <>
-        <select className="form-select" id="toolInput">
-          <option value="circle" selected>円</option>
+        <select className="form-select" defaultValue="circle" onChange={this.onChange}>
+          <option value="circle">円</option>
           <option value="square">四角</option>
           <option value="rope">ロープ</option>
           <option value="ground">地面</option>
