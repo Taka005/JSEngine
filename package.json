@@ -6,7 +6,8 @@
     "lint": "./node_modules/.bin/eslint ./src/app/index.tsx",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown --name JSEngine --entryPointStrategy expand ./src",
     "build": "npx tsc",
-    "bundle": "esbuild --bundle --minify --outfile=./public/client.js ./src/app/index.tsx"
+    "bundle": "esbuild --bundle --minify --outfile=./public/client.js ./src/app/index.tsx",
+    "bundle:css": "npx tailwindcss -i ./src/style/global.css -o ./public/client.css --minify"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "esbuild": "^0.21.4",
+    "tailwindcss": "^3.4.4",
     "typedoc": "^0.25.13",
     "typedoc-plugin-markdown": "^4.0.3"
   }
