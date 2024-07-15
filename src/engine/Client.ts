@@ -1,28 +1,39 @@
-import { Engine } from "./Engine";
+import { Engine, EngineOption } from "./Engine";
 
 interface Client {
-
+  canvas: HTMLCanvasElement;
+  engine: Engine;
+  tool: string;
+  isReady: boolean;
 }
 
-type ClientOption = {
-  canvas?: HTMLCanvasElement;
-}
+type ClientOption = {};
 
 /**
  * クライアントクラス
  * エンジンを使いやすくします
  */
 class Client{
-  constructor({ canvas }: ClientOption = {}){
-    if(canvas){
-      this.setCanvas(canvas);
-    }
+  constructor({}: ClientOption = {}){
+    this.tool = "circle";
+    this.isReady = false;
   }
 
   setCanvas(canvas: HTMLCanvasElement): void{
     this.canvas = canvas;
+  }
 
-    this.engine = new Engine(this.canvas);
+  setEngine(option: EngineOption = {}): void{
+    if(!this.canvas) throw new Error("描画要素が設定されていません");
+
+    this.engine = new Engine(this.canvas,option);
+
+    this.isReady = true;
+  }
+
+
+  setTool(value: string): void{
+    this.tool = value;
   }
 }
 

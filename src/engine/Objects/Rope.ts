@@ -25,7 +25,7 @@ type RopeOption = {
   speedY?: number;
   color?: string;
   image?: string | null;
-  entities: EntityOption[];
+  entities?: EntityOption[];
 }
 
 /**
