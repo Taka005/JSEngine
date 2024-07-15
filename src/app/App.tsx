@@ -1,5 +1,7 @@
 import React from "react";
 import { Canvas } from "./components/Canvas";
+import { Group } from "./components/Group";
+import { Select } from "./components/Select";
 import { Client } from "../engine/Client";
 
 interface App {
@@ -24,6 +26,9 @@ class App extends React.Component<AppProps>{
         <Canvas 
           client={this.client}
         />
+        <Group>
+          <Select client={this.client}/>
+        </Group>
       </>
     )
   }

@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from "react";
+import { Label } from "./Label";
 import { Client } from "../../engine/Client";
 
 interface Select {
@@ -23,6 +24,7 @@ class Select extends React.Component<SelectProps>{
   render(): JSX.Element{
     return (
       <>
+        <Label title="ツール" description="実行する操作を選択します" />
         <select className="form-select" defaultValue="circle" onChange={this.onChange}>
           <option value="circle">円</option>
           <option value="square">四角</option>

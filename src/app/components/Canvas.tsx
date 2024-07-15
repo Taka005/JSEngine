@@ -1,10 +1,10 @@
 import React from "react";
 import { Client } from "../../engine/Client";
 
-interface Canvas {
+interface Canvas{
   canvasRef: React.RefObject<HTMLCanvasElement>;
   client: Client;
-}
+};
 
 type CanvasProps = {
   client: Client;
