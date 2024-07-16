@@ -7,7 +7,7 @@
     "docs": "npx typedoc --plugin typedoc-plugin-markdown --name JSEngine --entryPointStrategy expand ./src",
     "build": "npx tsc",
     "bundle": "esbuild --bundle --minify --outfile=./public/client.js ./src/app/index.tsx",
-    "bundle:css": "npx tailwindcss -i ./src/style/global.css -o ./public/client.css --minify"
+    "bundle:css": "npx tailwindcss -i ./src/style/global.css -o ./public/client.css"
   },
   "repository": {
     "type": "git",
