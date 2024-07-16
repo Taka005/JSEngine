@@ -30,6 +30,7 @@ class Canvas extends React.Component<CanvasProps>{
     return (
       <>
         <canvas
+          className="flex justify-center"
           ref={this.canvasRef}
           width="900px"
           height="700px"

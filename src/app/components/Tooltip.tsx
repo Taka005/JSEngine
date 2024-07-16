@@ -2,7 +2,7 @@ import React from "react";
 
 interface Tooltip {
   textRef: React.RefObject<HTMLDivElement>;
-}
+};
 
 type TooltipProps = {
   description: string;
@@ -35,16 +35,17 @@ class Tooltip extends React.Component<TooltipProps>{
 
   render(): JSX.Element{
     return (
-      <div className="flex relative items-center">
+      <div className="relative items-center">
         <div
-          className="flex whitespace-nowrap rounded bg-black px-2 py-1 text-white absolute -top-12 left-1/2 -translate-x-1/2 before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-4 before:border-transparent before:border-t-black opacity-0 group-hover:opacity-100 transition pointer-events-none"
+          className="whitespace-nowrap rounded bg-black px-2 py-1 text-white absolute -top-12 left-1/2 -translate-x-1/2 before:content-[''] before:absolute before:-translate-x-1/2 before:left-1/2 before:top-full before:border-4 before:border-transparent before:border-t-black opacity-0 group-hover:opacity-100 transition pointer-events-none"
           ref={this.textRef}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
         >
           {this.props.description}
         </div>
-        <div 
+        <div
+          className="text-center"
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
         >

@@ -20,15 +20,17 @@ class App extends React.Component<AppProps>{
   render(): JSX.Element{
     return (
       <>
-        <h1>
+        <h1 className="flex justify-center">
           JSEngine
         </h1>
-        <Canvas 
+        <Canvas
           client={this.client}
         />
-        <Group>
-          <Select client={this.client}/>
-        </Group>
+        <div className="flex justify-center">
+          <Group>
+            <Select client={this.client}/>
+          </Group>
+        </div>
       </>
     )
   }
