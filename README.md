@@ -89,3 +89,10 @@
 - 背景に設定する画像URLやファイルを設定します
 - URLとファイルは後から設定した値が優先されます
 - 画像は自動的にリサイズされます
+## ビルド方法
+- ※ Node.js、NPMがインストールされている必要があります
+- `git clone https://github.com/Taka005/JSEngine.git`を実行してレポジトリをクローンします
+- `npm i`を実行して依存関係をインストール
+- `npm run bundle`を実行してコンパイル
+- 正常にビルドされるとpublicフォルダの中にEngine.jsが生成されます
+- public/index.htmlを開いてデモサイトを起動できます
