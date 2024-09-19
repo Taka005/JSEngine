@@ -6,6 +6,8 @@ let tool = "circle";
 let size = 15;
 let mass = 10;
 let stiff = 0.5;
+let speedX = 0;
+let speedY = 0;
 let color = "#ff0000";
 let image = null;
 let position = {};
@@ -29,6 +31,12 @@ const massValue = document.getElementById("massValue");
 
 const stiffInput = document.getElementById("stiffInput");
 const stiffValue = document.getElementById("stiffValue");
+
+const speedXInput = document.getElementById("speedXInput");
+const speedXValue = document.getElementById("speedXValue");
+
+const speedYInput = document.getElementById("speedYInput");
+const speedYValue = document.getElementById("speedYValue");
 
 const colorInput = document.getElementById("colorInput");
 const colorValue = document.getElementById("colorValue");
@@ -65,6 +73,8 @@ frictionValue.textContent = frictionInput.value;
 sizeValue.textContent = sizeInput.value;
 massValue.textContent = massInput.value;
 stiffValue.textContent = stiffInput.value;
+speedXValue.textContent = speedXInput.value;
+speedXValue.textContent = speedYInput.value;
 colorValue.textContent = colorInput.value;
 backgroundColorValue.textContent = backgroundColorInput.value;
 
@@ -287,6 +297,8 @@ game.addEventListener("mousedown",(event)=>{
         endY: event.clientY - rect.top - engine.posY,
         mass: mass,
         stiff: stiff,
+        speedX: speedX,
+        speedY: speedY,
         size: size,
         color: color,
         image: image
@@ -301,6 +313,8 @@ game.addEventListener("mousedown",(event)=>{
       size: size,
       mass: mass,
       stiff: stiff,
+      speedX: speedX,
+      speedY: speedY,
       color: color,
       image: image
     }]);
@@ -343,6 +357,16 @@ massInput.addEventListener("input",(event)=>{
 stiffInput.addEventListener("input",(event)=>{
   stiffValue.textContent = event.target.value;
   stiff = Number(event.target.value);
+});
+
+speedXInput.addEventListener("input",(event)=>{
+  speedXValue.textContent = event.target.value;
+  speedX = Number(event.target.value);
+});
+
+speedYInput.addEventListener("input",(event)=>{
+  speedYValue.textContent = event.target.value;
+  speedY = Number(event.target.value);
 });
 
 colorInput.addEventListener("input",(event)=>{

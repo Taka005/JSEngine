@@ -52,6 +52,10 @@
                 <p>質量: <output id="massValue"></output></p>
                 <input type="range" class="form-range" id="stiffInput" min="0" max="1" value="0.5" step="0.1">
                 <p>剛性: <output id="stiffValue"></output></p>
+                <input type="range" class="form-range" id="speedXInput" min="-100" max="100" value="0">
+                <p>速度(X軸方向): <output id="speedXValue"></output></p>
+                <input type="range" class="form-range" id="speedYInput" min="-100" max="100" value="0">
+                <p>速度(Y軸方向): <output id="speedYValue"></output></p>
                 <input type="color" class="form-range" id="colorInput" value="#ff0000">
                 <p>色: <output id="colorValue"></output></p>
                 <div>
@@ -65,7 +69,7 @@
                 <label class="form-check-label" for="autoSaveInput">自動保存(15秒間隔)</label>
                 <div>
                     <input type="color" class="form-range" id="backgroundColorInput" value="#eeeeee">
-                    <p>色: <output id="backgroundColorValue"></output></p>
+                    <p>背景色: <output id="backgroundColorValue"></output></p>
                     <input type="text" id="backgroundImageInput" class="form-control">
                     <p>背景画像URL</p>
                     <input class="form-control" type="file" id="backgroundFileInput" accept="image/*">
