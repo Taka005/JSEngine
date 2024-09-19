@@ -74,7 +74,7 @@ sizeValue.textContent = sizeInput.value;
 massValue.textContent = massInput.value;
 stiffValue.textContent = stiffInput.value;
 speedXValue.textContent = speedXInput.value;
-speedXValue.textContent = speedYInput.value;
+speedYValue.textContent = speedYInput.value;
 colorValue.textContent = colorInput.value;
 backgroundColorValue.textContent = backgroundColorInput.value;
 
