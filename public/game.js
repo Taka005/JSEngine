@@ -306,7 +306,6 @@ game.addEventListener("mousedown",(event)=>{
         speedY: speedY,
         size: size,
         color: color,
-        subColor: subColor,
         image: image
       }]);
 
@@ -322,6 +321,7 @@ game.addEventListener("mousedown",(event)=>{
       speedX: speedX,
       speedY: speedY,
       color: color,
+      subColor: subColor,
       image: image
     }]);
   }
