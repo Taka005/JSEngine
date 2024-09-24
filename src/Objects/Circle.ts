@@ -10,6 +10,7 @@ import { parseImage, resize } from "../utils";
  * @property {number} mass 質量
  * @property {number} stiff 剛性(これは0以上1以下です)
  * @property {string} color 色
+ * @property {string} subColor サブカラー
  * @property {HTMLImageElement | null} image 画像
  */
 interface Circle extends EntityManager{
@@ -19,6 +20,7 @@ interface Circle extends EntityManager{
   mass: number;
   stiff: number;
   color: string;
+  subColor: string;
   image: HTMLImageElement | null;
 }
 
@@ -33,6 +35,7 @@ interface Circle extends EntityManager{
  * @property {number} speedX X方向の速度
  * @property {number} speedY Y方向の速度
  * @property {string} color 色
+ * @property {string} subColor サブカラー
  * @property {string | null} image 画像
  * @property {EntityOption[]} 構成されているエンティティーの初期化オプション
  */
@@ -46,6 +49,7 @@ type CircleOption = {
   speedX?: number;
   speedY?: number;
   color?: string;
+  subColor?: string;
   image?: string | null;
   entities: EntityOption[];
 }
@@ -60,7 +64,7 @@ class Circle extends EntityManager{
   /**
    * @param {CircleOption} サークルオプション
    */
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: CircleOption){
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", subColor = "black", image = null, entities = [] }: CircleOption){
     super();
 
     this.type = "circle";
@@ -69,6 +73,7 @@ class Circle extends EntityManager{
     this.mass = mass;
     this.stiff = stiff;
     this.color = color;
+    this.subColor = subColor;
     this.image = parseImage(image);
 
     if(entities[0]){
@@ -118,7 +123,7 @@ class Circle extends EntityManager{
       ctx.beginPath();
       ctx.moveTo(0,0);
       ctx.lineTo(0,-this.size);
-      ctx.strokeStyle = "black";
+      ctx.strokeStyle = this.subColor;
       ctx.lineWidth = 1;
       ctx.stroke();
     }
