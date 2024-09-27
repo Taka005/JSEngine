@@ -159,8 +159,8 @@ class Curve{
     }
 
     return {
-      x: crossX,
-      y: crossY
+      posX: crossX,
+      posY: crossY
     }
   }
 
