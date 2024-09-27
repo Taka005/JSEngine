@@ -196,7 +196,6 @@ class Curve{
       const endAngle = Math.atan2(this.endY - this.centerY,this.endX - this.centerX);
 
       ctx.beginPath();
-      ctx.moveTo(this.centerX,this.centerY);
       ctx.arc(this.centerX,this.centerY,this.radius,startAngle,endAngle);
       ctx.strokeStyle = this.color;
       ctx.lineWidth = this.size;
