@@ -1,6 +1,7 @@
 import { Process } from "./Process";
 import { Entity } from "./Objects/Entity";
 import { Ground, GroundOption } from "./Objects/Ground";
+import { Curve, CurveOption } from "./Objects/Curve";
 import { Circle, CircleOption } from "./Objects/Circle";
 import { Square, SquareOption } from "./Objects/Square";
 import { Rope, RopeOption } from "./Objects/Rope";
@@ -16,7 +17,7 @@ import { Key } from "./Key";
  * @property {string | null} backgroundImage 背景画像
  * @property {number} posX 描画X座標
  * @property {number} posY 描画Y座標
- * @property {{ [key: string]: Ground }} grounds グラウンドの格納オブジェクト
+ * @property {{ [key: string]: Ground | Curve }} grounds グラウンドの格納オブジェクト
  * @property {{ [key: string]: Circle | Square | Rope }} objects 物体の格納オブジェクト
  * @property {(Circle | Square | Rope)[]} track 履歴の格納オブジェクト
  * @property {boolean} isStart 開始しているかどうか
@@ -32,7 +33,7 @@ interface Engine extends Process{
   backgroundImage: HTMLImageElement | null;
   posX: number;
   posY: number;
-  grounds: { [key: string]: Ground };
+  grounds: { [key: string]: Ground | Curve };
   objects: { [key: string]: Circle | Square | Rope };
   tracks: (Circle | Square | Rope)[];
   isStart: boolean;
@@ -85,6 +86,7 @@ type ClearOption = {
  * @property {SquareOption[]} square 全ての四角の配列
  * @property {RopeOption[]} rope 全てのロープの配列
  * @property {GroundOption[]} ground 全ての地面の配列
+ * @property {CurveOption[]} curve 全ての曲線の配列
  */
 type ExportData = {
   gravity: number;
@@ -98,6 +100,7 @@ type ExportData = {
   square: SquareOption[];
   rope: RopeOption[];
   ground: GroundOption[];
+  curve: CurveOption[];
 }
 
 /**
@@ -287,9 +290,9 @@ class Engine extends Process{
   /**
    * 物体を生成します
    * @param {string} type 生成する種類
-   * @param {(CircleOption | GroundOption | SquareOption | RopeOption)[]} objects 生成するオブジェクトの配列
+   * @param {(CircleOption | GroundOption | SquareOption | RopeOption | CurveOption)[]} objects 生成するオブジェクトの配列
    */
-  public spawn(type: string,objects: (CircleOption | GroundOption | SquareOption | RopeOption)[]): void{
+  public spawn(type: string,objects: (CircleOption | GroundOption | SquareOption | RopeOption | CurveOption)[]): void{
     objects.forEach(object=>{
       object.name = object.name || createId(8);
 
@@ -309,6 +312,10 @@ class Engine extends Process{
         const ground = new Ground(object as GroundOption);
 
         this.grounds[object.name] = ground;
+      }else if(type === "curve"){
+        const curve = new Curve(object as CurveOption);
+
+        this.grounds[object.name] = curve;
       }
     });
   }
@@ -334,8 +341,8 @@ class Engine extends Process{
       if(!rope) return;
 
       delete this.objects[name];
-    }else if(type === "ground"){
-      const ground = this.get<Ground>(type,name);
+    }else if(type === "ground" || type === "curve"){
+      const ground = this.get<Ground | Curve>(type,name);
       if(!ground) return;
 
       delete this.grounds[name];
@@ -351,7 +358,7 @@ class Engine extends Process{
   public get<T>(type: string,name: string): T | undefined{
     if(type === "entity"){
       return this.entities.find(entity=>entity.name === name) as T;
-    }else if(type === "ground"){
+    }else if(type === "ground" || type === "curve"){
       return this.grounds[name] as T;
     }else{
       return this.objects[name] as T;
@@ -362,10 +369,10 @@ class Engine extends Process{
    * 指定した座標にある物体を取得します
    * @param {number} posX 対象のX座標
    * @param {number} posY 対象のY座標
-   * @returns {(Circle | Square | Rope | Ground)[]} 存在した物体の配列
+   * @returns {(Circle | Square | Rope | Ground | Curve)[]} 存在した物体の配列
    */
-  public checkObjectPosition(posX: number,posY: number): (Circle | Square | Rope | Ground)[]{
-    const targets: (Circle | Square | Rope | Ground)[] = [];
+  public checkObjectPosition(posX: number,posY: number): (Circle | Square | Rope | Ground | Curve)[]{
+    const targets: (Circle | Square | Rope | Ground | Curve)[] = [];
 
     Object.values(this.objects).forEach(object=>{
       const entities: Entity[] = object.entities.filter(entity=>{
@@ -505,6 +512,11 @@ class Engine extends Process{
       .map(object=>object.toJSON());
 
     const grounds = Object.values(this.grounds)
+      .filter(object=>object.type === "ground")
+      .map(object=>object.toJSON());
+
+    const curves = Object.values(this.grounds)
+      .filter(object=>object.type === "curve")
       .map(object=>object.toJSON());
 
     return JSON.stringify({
@@ -517,7 +529,8 @@ class Engine extends Process{
       circle: circle,
       square: square,
       rope: rope,
-      ground: grounds
+      ground: grounds,
+      curve: curves
     });
   }
 
@@ -547,6 +560,10 @@ class Engine extends Process{
 
     if(data.ground){
       this.spawn("ground",data.ground);
+    }
+
+    if(data.curve){
+      this.spawn("curve",data.curve);
     }
 
     if(data.circle){
