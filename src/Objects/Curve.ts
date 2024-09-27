@@ -107,7 +107,7 @@ class Curve{
     const equat2 = (middleY + endY)/2 - slope2*(middleX + endX)/2;
 
     this.centerX = (equat2 - equat1)/(slope1 - slope2);
-    this.centerY = slope1*centerX + equat1;
+    this.centerY = slope1*this.centerX + equat1;
 
     this.radius = Math.sqrt((this.centerX - startX)**2 + (this.centerY - startY)**2);
   }
@@ -131,8 +131,8 @@ class Curve{
 
     const scale = this.radius/distance;
 
-    const crossX = centerX + vecX*scale;
-    const crossY = centerY + vecY*scale;
+    const crossX = this.centerX + vecX*scale;
+    const crossY = this.centerY + vecY*scale;
 
     const startAngle = Math.atan2(this.startY - this.centerY,this.startX - this.centerX);
     const endAngle = Math.atan2(this.endY - this.centerY,this.endX - this.centerX);
