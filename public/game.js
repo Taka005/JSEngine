@@ -280,7 +280,32 @@ game.addEventListener("mousedown",(event)=>{
         startY: position.posY,
         endX: event.clientX - rect.left - engine.posX,
         endY: event.clientY - rect.top - engine.posY,
-        stiff: stiff,
+        size: size,
+        color: color,
+        image: image
+      }]);
+
+      position = {};
+    }
+  }else if(tool === "curve"){
+    if(Object.keys(position).length === 0){
+      position = {
+        startX: event.clientX - rect.left - engine.posX,
+        startY: event.clientY - rect.top - engine.posY
+      }
+    }else if(Object.keys(position).length === 1){
+      position = {
+        middleX: event.clientX - rect.left - engine.posX,
+        middleY: event.clientY - rect.top - engine.posY
+      }
+    }else{
+      engine.spawn("curve",[{
+        startX: position.startX,
+        startY: position.startY,
+        middleX: position.middleX,
+        middleY: position.middleY,
+        endX: event.clientX - rect.left - engine.posX,
+        endY: event.clientY - rect.top - engine.posY,
         size: size,
         color: color,
         image: image
