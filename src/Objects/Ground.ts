@@ -88,8 +88,8 @@ class Ground{
         posY: this.endY
       }
     }else{
-      const crossX: number = this.startX + t*(this.endX - this.startX);
-      const crossY: number = this.startY + t*(this.endY - this.startY);
+      const crossX: number = this.startX + flag*(this.endX - this.startX);
+      const crossY: number = this.startY + flag*(this.endY - this.startY);
 
       return {
         posX: crossX,
