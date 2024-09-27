@@ -75,14 +75,14 @@ class Ground{
    * @returns {Object} 直行座標の位置
    */
   public solvePosition(posX: number,posY: number): { posX: number, posY: number }{
-    const t: number = ((posX - this.startX)*(this.endX - this.startX) + (posY - this.startY)*(this.endY - this.startY))/Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2)**2;
+    const flag: number = ((posX - this.startX)*(this.endX - this.startX) + (posY - this.startY)*(this.endY - this.startY))/Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2)**2;
 
-    if(t <= 0){
+    if(flag <= 0){
       return {
         posX: this.startX,
         posY: this.startY
       }
-    }else if(t >= 1){
+    }else if(flag >= 1){
       return {
         posX: this.endX,
         posY: this.endY
@@ -165,7 +165,8 @@ class Ground{
       endX: this.endX,
       endY: this.endY,
       size: this.size,
-      color: this.color
+      color: this.color,
+      image: this.image?.src || null
     }
   }
 }
