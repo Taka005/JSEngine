@@ -99,6 +99,11 @@ class Process extends EventTarget{
         Math.abs(vecX) >= entity.size + Math.abs(ground.startX - ground.endX) + ground.size&&
         Math.abs(vecY) >= entity.size + Math.abs(ground.startY - ground.endY) + ground.size
       ) return;
+    }else if(ground.type === "curve"){
+      if(
+        Math.abs(vecX) >= entity.size + 2*ground.radius + ground.size&&
+        Math.abs(vecY) >= entity.size + 2*ground.radius + ground.size
+      ) return;
     }
 
     const distance = Math.sqrt(vecX**2 + vecY**2);
