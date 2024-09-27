@@ -173,8 +173,8 @@ class Curve{
       const distance: number = Math.sqrt((this.startX - this.endX)**2 + (this.startY - this.endY)**2);
       const rotate: number = Math.atan2(this.endY - this.startY,this.endX - this.startX);
 
-      const posX: number = (this.startX + this.endX)/2;
-      const posY: number = (this.startY + this.endY)/2;
+      const posX: number = (this.startX + this.middleX + this.endX)/3;
+      const posY: number = (this.startY + this.middleX + this.endY)/3;
 
       const { width, height } = resize(this.image,distance);
 
