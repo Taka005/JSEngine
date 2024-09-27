@@ -139,7 +139,7 @@ class Curve{
     const crossAngle = Math.atan2(crossY - this.centerY,crossX - this.centerX);
 
     const isWithinSemiCircle = !(startAngle <= crossAngle&&crossAngle <= endAngle)||
-      !(startAngle > endAngle&&(crossAngle >= startAngle||crossAngle <= endAngle));
+      (startAngle > endAngle&&(crossAngle >= startAngle||crossAngle <= endAngle));
 
     if(!isWithinSemiCircle){
       const startDistance = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
