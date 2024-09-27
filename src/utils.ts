@@ -55,11 +55,4 @@ function parseImage(value?: string): HTMLImageElement | null{
   }
 }
 
-/**
- * 角度を正規化します
- */
-function normalizeAngle(angle: number): number{
-  return (angle + Math.PI * 2) % (Math.PI * 2);
-}
-
-export { createId, resize, parseImage, normalizeAngle };
+export { createId, resize, parseImage };

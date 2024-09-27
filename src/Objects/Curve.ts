@@ -1,4 +1,4 @@
-import { parseImage, resize, normalizeAngle } from "../utils";
+import { parseImage, resize } from "../utils";
 
 /**
  * @typedef {Object} CurveOption
@@ -134,14 +134,14 @@ class Curve{
     const crossX = this.centerX + vecX*scale;
     const crossY = this.centerY + vecY*scale;
 
-    const startAngle = normalizeAngle(Math.atan2(this.startY - this.centerY,this.startX - this.centerX));
-    const endAngle = normalizeAngle(Math.atan2(this.endY - this.centerY,this.endX - this.centerX));
-    const crossAngle = normalizeAngle(Math.atan2(crossY - this.centerY,crossX - this.centerX));
+    const startAngle = Math.atan2(this.startY - this.centerY,this.startX - this.centerX);
+    const endAngle = Math.atan2(this.endY - this.centerY,this.endX - this.centerX);
+    const crossAngle = Math.atan2(crossY - this.centerY,crossX - this.centerX);
 
-    if(
-      (startAngle <= crossAngle&&crossAngle <= endAngle)||
-      (startAngle > endAngle&&(crossAngle >= startAngle||crossAngle <= endAngle))
-    ){
+    const isWithinSemiCircle = (startAngle <= crossAngle&&crossAngle <= endAngle)||
+      (startAngle > endAngle&&(crossAngle >= startAngle||crossAngle <= endAngle));
+
+    if(!isWithinSemiCircle){
       const startDistance = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
       const endDistance = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
 
