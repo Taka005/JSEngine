@@ -103,8 +103,8 @@ class Curve{
 
     const slope1 = (middleX - startX)/(startY - middleY);
     const slope2 = (endX - middleX)/(middleY - endY);
-    const equat1 = (startY + middleY)/2 - slope1*(startX + middleX)/2;
-    const equat2 = (middleY + endY)/2 - slope2*(middleX + endX)/2;
+    const equat1 = (startY + middleY)/2 - slope1*((startX + middleX)/2);
+    const equat2 = (middleY + endY)/2 - slope2*((middleX + endX)/2);
 
     this.centerX = (equat2 - equat1)/(slope1 - slope2);
     this.centerY = slope1*this.centerX + equat1;
