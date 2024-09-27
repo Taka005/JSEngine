@@ -293,9 +293,9 @@ game.addEventListener("mousedown",(event)=>{
         startX: event.clientX - rect.left - engine.posX,
         startY: event.clientY - rect.top - engine.posY
       }
-    }else if(Object.keys(position).length === 1){
-        position.middleX = event.clientX - rect.left - engine.posX,
-        position.middleY = event.clientY - rect.top - engine.posY
+    }else if(Object.keys(position).length === 2){
+        position.middleX = event.clientX - rect.left - engine.posX;
+        position.middleY = event.clientY - rect.top - engine.posY;
     }else{
       engine.spawn("curve",[{
         startX: position.startX,
