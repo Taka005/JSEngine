@@ -94,10 +94,12 @@ class Process extends EventTarget{
     let vecX: number = posX - entity.posX;
     let vecY: number = posY - entity.posY;
 
-    if(
-      Math.abs(vecX) >= entity.size + Math.abs(ground.startX - ground.endX) + ground.size&&
-      Math.abs(vecY) >= entity.size + Math.abs(ground.startY - ground.endY) + ground.size
-    ) return;
+    if(ground.type === "ground"){
+      if(
+        Math.abs(vecX) >= entity.size + Math.abs(ground.startX - ground.endX) + ground.size&&
+        Math.abs(vecY) >= entity.size + Math.abs(ground.startY - ground.endY) + ground.size
+      ) return;
+    }
 
     const distance = Math.sqrt(vecX**2 + vecY**2);
     if(distance <= entity.size + ground.size/2){
