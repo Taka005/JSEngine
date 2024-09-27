@@ -294,10 +294,8 @@ game.addEventListener("mousedown",(event)=>{
         startY: event.clientY - rect.top - engine.posY
       }
     }else if(Object.keys(position).length === 1){
-      position = {
-        middleX: event.clientX - rect.left - engine.posX,
-        middleY: event.clientY - rect.top - engine.posY
-      }
+        position.middleX = event.clientX - rect.left - engine.posX,
+        position.middleY = event.clientY - rect.top - engine.posY
     }else{
       engine.spawn("curve",[{
         startX: position.startX,
