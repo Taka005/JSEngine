@@ -194,9 +194,11 @@ class Curve{
     }else{
       const startAngle = Math.atan2(this.startY - this.centerY,this.startX - this.centerX);
       const endAngle = Math.atan2(this.endY - this.centerY,this.endX - this.centerX);
+      const midAngle = Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX);
+      const clockwise = midAngle < startAngle || midAngle > endAngle;
 
       ctx.beginPath();
-      ctx.arc(this.centerX,this.centerY,this.radius,startAngle,endAngle);
+      ctx.arc(this.centerX,this.centerY,this.radius,startAngle,endAngle,clockwise);
       ctx.strokeStyle = this.color;
       ctx.lineWidth = this.size;
       ctx.stroke();
