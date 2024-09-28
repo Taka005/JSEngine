@@ -141,7 +141,7 @@ class Curve{
 
     const clockwise: boolean = (startAngle > endAngle) ? (midAngle > startAngle || midAngle < endAngle) : (midAngle > startAngle && midAngle < endAngle);
 
-    const isWithinArc = (startAngle < endAngle)
+    const isWithinArc = clockwise
       ? (crossAngle >= startAngle && crossAngle <= endAngle)
       : (crossAngle >= startAngle || crossAngle <= endAngle);
 
