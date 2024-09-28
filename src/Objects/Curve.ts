@@ -134,10 +134,10 @@ class Curve{
     const crossX: number = this.centerX + vecX*scale;
     const crossY: number = this.centerY + vecY*scale;
 
-    const startAngle: number = normalizeAngle(Math.atan2(this.startY - this.centerY,this.startX - this.centerX));
-    const midAngle: number = normalizeAngle(Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX));
-    const endAngle: number = normalizeAngle(Math.atan2(this.endY - this.centerY,this.endX - this.centerX));
-    const crossAngle = normalizeAngle(Math.atan2(crossY - this.centerY,crossX - this.centerX));
+    const startAngle: number = (Math.atan2(this.startY - this.centerY,this.startX - this.centerX));
+    const midAngle: number = (Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX));
+    const endAngle: number = (Math.atan2(this.endY - this.centerY,this.endX - this.centerX));
+    const crossAngle: number = (Math.atan2(crossY - this.centerY,crossX - this.centerX));
 
     if(!(crossAngle >= Math.min(startAngle,midAngle,endAngle)&&crossAngle <= Math.max(startAngle,midAngle,endAngle))){
       const startDistance: number = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
