@@ -119,7 +119,6 @@ class Curve{
    * @returns {Object} 直行座標の位置
    */
   public solvePosition(posX: number,posY: number): { posX: number, posY: number }{
-
     const vecX: number = posX - this.centerX;
     const vecY: number = posY - this.centerY;
 
@@ -141,7 +140,7 @@ class Curve{
 
     const clockwise: boolean = (startAngle > endAngle) ? (midAngle > startAngle || midAngle < endAngle) : (midAngle > startAngle && midAngle < endAngle);
 
-    if(clockwise  ? (crossAngle < startAngle&&crossAngle > endAngle) : (crossAngle > startAngle&&crossAngle < endAngle)){
+    if(this.isAngleBetween(crossAngle,startAngle,endAngle,clockwise)){
       const startDistance: number = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
       const endDistance: number = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
 
@@ -163,6 +162,31 @@ class Curve{
       posY: crossY
     }
   }
+
+  /**
+   * 二つの角度間でターゲットの位置を判定します
+   * @param {number} targetAngle ターゲットの角度
+   * @param {number} startAngle 開始角度
+   * @param {number} endAngle 終了角度
+   * @param {boolean} clockwise 時計回りかどうか
+   * @returns {boolean} 間に存在したかどうか
+   */
+  private isAngleBetween(targetAngle: number,startAngle: number,endAngle: number,clockwise: boolean): boolean {
+    if(clockwise){
+      if(startAngle > endAngle){
+        return targetAngle >= startAngle||targetAngle <= endAngle;
+      }else{
+        return targetAngle >= startAngle&&targetAngle <= endAngle;
+      }
+    }else{
+      if(startAngle < endAngle){
+        return targetAngle >= endAngle||targetAngle <= startAngle;
+      }else{
+        return targetAngle <= startAngle&&targetAngle >= endAngle;
+      }
+    }
+  }
+  
 
   /**
    * オブジェクトを描画
