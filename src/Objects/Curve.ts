@@ -195,9 +195,9 @@ class Curve{
 
       ctx.restore();
     }else{
-      const startAngle: number = normalizeAngle(Math.atan2(this.startY - this.centerY,this.startX - this.centerX));
-      const endAngle: number = normalizeAngle(Math.atan2(this.endY - this.centerY,this.endX - this.centerX));
-      const midAngle: number = normalizeAngle(Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX));
+      const startAngle: number = normalizeAngle(Math.atan2(this.startY - this.centerY,this.startX - this.centerX))+2*Math.PI;
+      const endAngle: number = normalizeAngle(Math.atan2(this.endY - this.centerY,this.endX - this.centerX))+2*Math.PI;
+      const midAngle: number = normalizeAngle(Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX))+2*Math.PI;
       const clockwise: boolean = (startAngle > endAngle) ? (midAngle > startAngle || midAngle < endAngle) : (midAngle > startAngle && midAngle < endAngle);
   
       ctx.beginPath();
