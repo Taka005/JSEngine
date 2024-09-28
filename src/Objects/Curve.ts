@@ -134,17 +134,17 @@ class Curve{
     const crossX: number = this.centerX + vecX*scale;
     const crossY: number = this.centerY + vecY*scale;
 
-    const startAngle: number = normalizeAngle(Math.atan2(this.startY - this.centerY,this.startX - this.centerX))+2*Math.PI;
-    const midAngle: number = normalizeAngle(Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX))+2*Math.PI;
-    const endAngle: number = normalizeAngle(Math.atan2(this.endY - this.centerY,this.endX - this.centerX))+2*Math.PI;
-    const crossAngle: number = normalizeAngle(Math.atan2(crossY - this.centerY,crossX - this.centerX))+2*Math.PI;
+    const startAngle: number = normalizeAngle(Math.atan2(this.startY - this.centerY,this.startX - this.centerX));
+    const midAngle: number = normalizeAngle(Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX));
+    const endAngle: number = normalizeAngle(Math.atan2(this.endY - this.centerY,this.endX - this.centerX));
+    const crossAngle: number = normalizeAngle(Math.atan2(crossY - this.centerY,crossX - this.centerX));
 
     const clockwise: boolean = (startAngle > endAngle) ? (midAngle > startAngle || midAngle < endAngle) : (midAngle > startAngle && midAngle < endAngle);
 
     //if(crossAngle < Math.min(startAngle,endAngle)||crossAngle > Math.max(startAngle,endAngle)){
     if(clockwise 
-      ? (crossAngle < startAngle && crossAngle > endAngle) 
-      : (crossAngle < Math.min(startAngle, endAngle) || crossAngle > Math.max(startAngle, endAngle))){
+      ? (crossAngle < startAngle&&crossAngle > endAngle)
+      : (crossAngle >= Math.min(startAngle,endAngle)&&crossAngle <= Math.max(startAngle,endAngle))){
       const startDistance: number = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
       const endDistance: number = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
 
@@ -195,9 +195,9 @@ class Curve{
 
       ctx.restore();
     }else{
-      const startAngle: number = normalizeAngle(Math.atan2(this.startY - this.centerY,this.startX - this.centerX))+2*Math.PI;
-      const endAngle: number = normalizeAngle(Math.atan2(this.endY - this.centerY,this.endX - this.centerX))+2*Math.PI;
-      const midAngle: number = normalizeAngle(Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX))+2*Math.PI;
+      const startAngle: number = normalizeAngle(Math.atan2(this.startY - this.centerY,this.startX - this.centerX));
+      const endAngle: number = normalizeAngle(Math.atan2(this.endY - this.centerY,this.endX - this.centerX));
+      const midAngle: number = normalizeAngle(Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX));
       const clockwise: boolean = (startAngle > endAngle) ? (midAngle > startAngle || midAngle < endAngle) : (midAngle > startAngle && midAngle < endAngle);
   
       ctx.beginPath();
