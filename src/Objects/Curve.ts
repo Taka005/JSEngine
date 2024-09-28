@@ -163,38 +163,21 @@ class Curve{
     }
   }
 
-  public isAngleBetween(target: number, start: number, end: number, clockwise: boolean): boolean {
-    if (clockwise) {
-      return (target >= start && target <= end) || (start > end && (target >= start || target <= end));
-    } else {
-      return (target <= start && target >= end) || (start < end && (target <= start || target >= end));
-    }
-  }
-
   /**
    * 二つの角度間でターゲットの位置を判定します
-   * @param {number} targetAngle ターゲットの角度
-   * @param {number} startAngle 開始角度
-   * @param {number} endAngle 終了角度
+   * @param {number} target ターゲットの角度
+   * @param {number} start 開始角度
+   * @param {number} end 終了角度
    * @param {boolean} clockwise 時計回りかどうか
    * @returns {boolean} 間に存在したかどうか
    */
-  private _isAngleBetween(targetAngle: number,startAngle: number,endAngle: number,clockwise: boolean): boolean {
+  private isAngleBetween(target: number,start: number,end: number,clockwise: boolean): boolean{
     if(clockwise){
-      if(startAngle > endAngle){
-        return targetAngle >= startAngle||targetAngle <= endAngle;
-      }else{
-        return targetAngle >= startAngle&&targetAngle <= endAngle;
-      }
-    }else{
-      if(startAngle < endAngle){
-        return targetAngle >= endAngle||targetAngle <= startAngle;
-      }else{
-        return targetAngle <= startAngle&&targetAngle >= endAngle;
-      }
+      return (target >= start&&target <= end)||(start > end&&(target >= start||target <= end));
+    } else {
+      return (target <= start&&target >= end)||(start < end&&(target <= start||target >= end));
     }
   }
-  
 
   /**
    * オブジェクトを描画
