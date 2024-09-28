@@ -141,12 +141,10 @@ class Curve{
 
     const clockwise: boolean = (startAngle > endAngle) ? (midAngle > startAngle || midAngle < endAngle) : (midAngle > startAngle && midAngle < endAngle);
 
-    const isWithinArc = clockwise
-      ? (crossAngle >= startAngle && crossAngle <= endAngle)
-      : (crossAngle >= startAngle || crossAngle <= endAngle);
-
     //if(crossAngle < Math.min(startAngle,endAngle)||crossAngle > Math.max(startAngle,endAngle)){
-    if(!isWithinArc){
+    if(clockwise 
+      ? (crossAngle < startAngle && crossAngle > endAngle) 
+      : (crossAngle < Math.min(startAngle, endAngle) || crossAngle > Math.max(startAngle, endAngle))){
       const startDistance: number = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
       const endDistance: number = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
 
