@@ -140,11 +140,11 @@ class Curve{
     const crossAngle: number = normalizeAngle(Math.atan2(crossY - this.centerY,crossX - this.centerX));
 
     const clockwise: boolean = (startAngle > endAngle) ? (midAngle > startAngle || midAngle < endAngle) : (midAngle > startAngle && midAngle < endAngle);
-
+    console.log(clockwise)
     //if(crossAngle < Math.min(startAngle,endAngle)||crossAngle > Math.max(startAngle,endAngle)){
     if(clockwise 
       ? (crossAngle < startAngle&&crossAngle > endAngle)
-      : (crossAngle >= Math.min(startAngle,endAngle)&&crossAngle <= Math.max(startAngle,endAngle))){
+      : (crossAngle >= Math.min(startAngle,endAngle)||crossAngle <= Math.max(startAngle,endAngle))){
       const startDistance: number = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
       const endDistance: number = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
 
