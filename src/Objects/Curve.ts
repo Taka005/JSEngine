@@ -1,4 +1,4 @@
-import { parseImage, resize } from "../utils";
+import { parseImage, resize, normalizeAngle } from "../utils";
 
 /**
  * @typedef {Object} CurveOption
@@ -137,10 +137,6 @@ class Curve{
     const startAngle = Math.atan2(this.startY - this.centerY,this.startX - this.centerX);
     const endAngle = Math.atan2(this.endY - this.centerY,this.endX - this.centerX);
     const crossAngle = Math.atan2(crossY - this.centerY,crossX - this.centerX);
-
-    function normalizeAngle(angle) {
-      return (angle + Math.PI * 2) % (Math.PI * 2);
-    }
       
     const normStartAngle = normalizeAngle(startAngle);
     const normEndAngle = normalizeAngle(endAngle);
@@ -201,9 +197,9 @@ class Curve{
 
       ctx.restore();
     }else{
-      const startAngle: number = Math.atan2(this.startY - this.centerY,this.startX - this.centerX);
-      const endAngle: number = Math.atan2(this.endY - this.centerY,this.endX - this.centerX);
-      const midAngle: number = Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX);
+      const startAngle: number = normalizeAngle(Math.atan2(this.startY - this.centerY,this.startX - this.centerX));
+      const endAngle: number = normalizeAngle(Math.atan2(this.endY - this.centerY,this.endX - this.centerX));
+      const midAngle: number = normalizeAngle(Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX));
       const clockwise = (startAngle > endAngle) ? (midAngle > startAngle || midAngle < endAngle) : (midAngle > startAngle && midAngle < endAngle);
   
       ctx.beginPath();
