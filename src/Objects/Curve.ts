@@ -101,10 +101,10 @@ class Curve{
     this.endY = endY;
     this.size = size;
 
-    const slope1 = (middleX - startX)/(startY - middleY);
-    const slope2 = (endX - middleX)/(middleY - endY);
-    const equat1 = (startY + middleY)/2 - slope1*((startX + middleX)/2);
-    const equat2 = (middleY + endY)/2 - slope2*((middleX + endX)/2);
+    const slope1: number = (middleX - startX)/(startY - middleY);
+    const slope2: number = (endX - middleX)/(middleY - endY);
+    const equat1: number = (startY + middleY)/2 - slope1*((startX + middleX)/2);
+    const equat2: number = (middleY + endY)/2 - slope2*((middleX + endX)/2);
 
     this.centerX = (equat2 - equat1)/(slope1 - slope2);
     this.centerY = slope1*this.centerX + equat1;
@@ -120,27 +120,28 @@ class Curve{
    */
   public solvePosition(posX: number,posY: number): { posX: number, posY: number }{
 
-    const vecX = posX - this.centerX;
-    const vecY = posY - this.centerY;
+    const vecX: number = posX - this.centerX;
+    const vecY: number = posY - this.centerY;
 
-    const distance = Math.sqrt(vecX**2 + vecY**2);
+    const distance: number = Math.sqrt(vecX**2 + vecY**2);
     if(distance === 0) return {
       posX: this.startX,
       posY: this.startY
     }
 
-    const scale = this.radius/distance;
+    const scale: number = this.radius/distance;
 
-    const crossX = this.centerX + vecX*scale;
-    const crossY = this.centerY + vecY*scale;
+    const crossX: number = this.centerX + vecX*scale;
+    const crossY: number = this.centerY + vecY*scale;
 
-    const startAngle = normalizeAngle(Math.atan2(this.startY - this.centerY,this.startX - this.centerX));
-    const endAngle = normalizeAngle(Math.atan2(this.endY - this.centerY,this.endX - this.centerX));
+    const startAngle: number = normalizeAngle(Math.atan2(this.startY - this.centerY,this.startX - this.centerX));
+    const midAngle: number = normalizeAngle(Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX));
+    const endAngle: number = normalizeAngle(Math.atan2(this.endY - this.centerY,this.endX - this.centerX));
     const crossAngle = normalizeAngle(Math.atan2(crossY - this.centerY,crossX - this.centerX));
 
-    if(!(crossAngle >= Math.min(startAngle,endAngle)&&crossAngle <= Math.max(startAngle,endAngle))){
-      const startDistance = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
-      const endDistance = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
+    if(!(crossAngle >= Math.min(startAngle,midAngle,endAngle)&&crossAngle <= Math.max(startAngle,midAngle,endAngle))){
+      const startDistance: number = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
+      const endDistance: number = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
 
       if(startDistance < endDistance){
         return {
@@ -192,7 +193,7 @@ class Curve{
       const startAngle: number = normalizeAngle(Math.atan2(this.startY - this.centerY,this.startX - this.centerX));
       const endAngle: number = normalizeAngle(Math.atan2(this.endY - this.centerY,this.endX - this.centerX));
       const midAngle: number = normalizeAngle(Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX));
-      const clockwise = (startAngle > endAngle) ? (midAngle > startAngle || midAngle < endAngle) : (midAngle > startAngle && midAngle < endAngle);
+      const clockwise: boolean = (startAngle > endAngle) ? (midAngle > startAngle || midAngle < endAngle) : (midAngle > startAngle && midAngle < endAngle);
   
       ctx.beginPath();
       ctx.arc(this.centerX,this.centerY,this.radius,startAngle,endAngle,!clockwise);
