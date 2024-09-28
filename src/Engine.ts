@@ -9,41 +9,6 @@ import { createId, resize } from "./utils";
 import { Key } from "./Key";
 
 /**
- * エンジンを表します
- * @typedef {Object} Engine
- * @property {HTMLCanvasElement} canvas 描画するキャンバス要素
- * @property {CanvasRenderingContext2D} ctx コンテキスト
- * @property {string} backgroundColor 背景色
- * @property {string | null} backgroundImage 背景画像
- * @property {number} posX 描画X座標
- * @property {number} posY 描画Y座標
- * @property {{ [key: string]: Ground | Curve }} grounds グラウンドの格納オブジェクト
- * @property {{ [key: string]: Circle | Square | Rope }} objects 物体の格納オブジェクト
- * @property {(Circle | Square | Rope)[]} track 履歴の格納オブジェクト
- * @property {boolean} isStart 開始しているかどうか
- * @property {boolean} isDebug デバッグモードかどうか
- * @property {boolean} isTrack 履歴を表示するかどうか
- * @property {number} loop 処理インターバル
- * @property {number} trackLoop 履歴インターバル
- */
-interface Engine extends Process{
-  canvas: HTMLCanvasElement;
-  ctx: CanvasRenderingContext2D;
-  backgroundColor: string;
-  backgroundImage: HTMLImageElement | null;
-  posX: number;
-  posY: number;
-  grounds: { [key: string]: Ground | Curve };
-  objects: { [key: string]: Circle | Square | Rope };
-  tracks: (Circle | Square | Rope)[];
-  isStart: boolean;
-  isDebug: boolean;
-  isTrack: boolean;
-  loop: number;
-  trackLoop: number;
-}
-
-/**
  * エンジンの初期化オブジェクト
  * @typedef {Object} EngineOption
  * @property {number} pps 1秒あたりの処理回数
@@ -110,6 +75,73 @@ type ExportData = {
  * @extends Process
  */
 class Engine extends Process{
+  
+  /**
+   * キャンバス要素
+   */
+  private readonly canvas: HTMLCanvasElement;
+
+  /**
+   * コンテキスト
+   */
+  private readonly ctx: CanvasRenderingContext2D;
+
+  /**
+   * 背景色
+   */
+  public backgroundColor: string;
+
+  /**
+   * 背景画像
+   */
+  public backgroundImage: HTMLImageElement | null;
+
+  /**
+   * 描画位置座標
+   */
+  public posX: number;
+  public posY: number;
+
+  /**
+   * 地面の配列
+   */
+  private grounds: { [key: string]: Ground | Curve };
+
+  /**
+   * 物体の配列
+   */
+  private objects: { [key: string]: Circle | Square | Rope };
+
+  /**
+   * 履歴の配列
+   */
+  private tracks: (Circle | Square | Rope)[];
+
+  /**
+   * 演算状態
+   */
+  private isStart: boolean;
+  
+  /**
+   * デバッグモード
+   */
+  public isDebug: boolean;
+  
+  /**
+   * トラッキングモード
+   */
+  public isTrack: boolean;
+  
+  /**
+   * 処理インターバル
+   */
+  private loop: number;
+  
+  /**
+   * 履歴インターバル
+   */
+  private trackLoop: number;
+
   /**
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
    * @param {EngineOption} option エンジンオプション
