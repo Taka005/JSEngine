@@ -140,7 +140,7 @@ class Curve{
 
     const clockwise: boolean = (startAngle > endAngle) ? (midAngle > startAngle || midAngle < endAngle) : (midAngle > startAngle && midAngle < endAngle);
 
-    if(this.isAngleBetween(crossAngle,startAngle,endAngle,clockwise)){
+    if(!this.isAngleBetween(crossAngle,startAngle,endAngle,clockwise)){
       const startDistance: number = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
       const endDistance: number = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
 
@@ -163,6 +163,14 @@ class Curve{
     }
   }
 
+  public isAngleBetween(target: number, start: number, end: number, clockwise: boolean): boolean {
+    if (clockwise) {
+      return (target >= start && target <= end) || (start > end && (target >= start || target <= end));
+    } else {
+      return (target <= start && target >= end) || (start < end && (target <= start || target >= end));
+    }
+  }
+
   /**
    * 二つの角度間でターゲットの位置を判定します
    * @param {number} targetAngle ターゲットの角度
@@ -171,7 +179,7 @@ class Curve{
    * @param {boolean} clockwise 時計回りかどうか
    * @returns {boolean} 間に存在したかどうか
    */
-  private isAngleBetween(targetAngle: number,startAngle: number,endAngle: number,clockwise: boolean): boolean {
+  private _isAngleBetween(targetAngle: number,startAngle: number,endAngle: number,clockwise: boolean): boolean {
     if(clockwise){
       if(startAngle > endAngle){
         return targetAngle >= startAngle||targetAngle <= endAngle;
