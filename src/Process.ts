@@ -2,18 +2,6 @@ import { Entity } from "./Objects/Entity";
 import { Ground } from "./Objects/Ground";
 
 /**
- * @typedef {Object} Process
- * @property {number} pps 1秒あたりの処理回数
- * @property {number} gravity 重力加速度
- * @property {number} friction 摩擦係数
- */
-interface Process extends EventTarget{
-  pps: number;
-  gravity: number;
-  friction: number;
-}
-
-/**
  * @typedef {Object} ProcessOption
  * @property {number} pps 1秒あたりの処理回数
  * @property {number} gravity 重力加速度
@@ -30,6 +18,22 @@ type ProcessOption = {
  * 物理演算のコアを処理します
  */
 class Process extends EventTarget{
+
+  /**
+   * 1秒あたりの処理回数
+   */
+  public pps: number;
+
+  /**
+   * 重力加速度
+   */
+  public gravity: number;
+
+  /**
+   * 摩擦係数
+   */
+  public friction: number;
+
   /**
    * @param {ProcessOption} プロセスオプション
    */

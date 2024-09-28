@@ -1,15 +1,9 @@
-interface Key{
-  keys: { [key: string]: boolean };
-}
-
 /**
  * キークラス
  * キー入力をより使いやすくします
  */
 class Key{
-  constructor(){
-    this.keys = {};
-  }
+  private keys: { [key: string]: boolean } = {};
 
   /**
    * キーの状態を取得します
