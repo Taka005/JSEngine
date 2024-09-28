@@ -138,10 +138,19 @@ class Curve{
     const endAngle = Math.atan2(this.endY - this.centerY,this.endX - this.centerX);
     const crossAngle = Math.atan2(crossY - this.centerY,crossX - this.centerX);
 
-    const isWithinSemiCircle = (startAngle <= crossAngle&&crossAngle <= endAngle)||
-      !(startAngle > endAngle&&(crossAngle >= startAngle||crossAngle <= endAngle));
+    function normalizeAngle(angle) {
+      return (angle + Math.PI * 2) % (Math.PI * 2);
+    }
+      
+    const normStartAngle = normalizeAngle(startAngle);
+    const normEndAngle = normalizeAngle(endAngle);
+    const normCrossAngle = normalizeAngle(crossAngle);
 
-    if(!(crossAngle >= Math.min(startAngle,endAngle)&&crossAngle <= Math.max(startAngle,endAngle))){
+    const isBetweenAngles = normStartAngle < normEndAngle
+      ? normCrossAngle >= normStartAngle && normCrossAngle <= normEndAngle
+      : normCrossAngle >= normStartAngle || normCrossAngle <= normEndAngle;
+
+    if(!isBetweenAngles){
       const startDistance = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
       const endDistance = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
 
@@ -195,10 +204,7 @@ class Curve{
       const startAngle: number = Math.atan2(this.startY - this.centerY,this.startX - this.centerX);
       const endAngle: number = Math.atan2(this.endY - this.centerY,this.endX - this.centerX);
       const midAngle: number = Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX);
-      //const clockwise: number = midAngle < startAngle || midAngle > endAngle;
-      const clockwise = (startAngle > endAngle) 
-      ? (midAngle > startAngle || midAngle < endAngle)
-      : (midAngle > startAngle && midAngle < endAngle);
+      const clockwise = (startAngle > endAngle) ? (midAngle > startAngle || midAngle < endAngle) : (midAngle > startAngle && midAngle < endAngle);
   
       ctx.beginPath();
       ctx.arc(this.centerX,this.centerY,this.radius,startAngle,endAngle,!clockwise);
