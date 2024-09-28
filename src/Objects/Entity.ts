@@ -1,39 +1,4 @@
 /**
- * エンティティーを表します
- * @typedef {Object} Entity
- * @property {string} name エンティティー名
- * @property {number} posX X座標
- * @property {number} posY Y座標
- * @property {number} prePosX 保存されたX座標
- * @property {number} prePosY 保存されたY座標
- * @property {number} size 半径
- * @property {number} mass 質量
- * @property {number} stiff 剛性(これは0以上1以下です)
- * @property {number} speedX X方向の速度
- * @property {number} speedY Y方向の速度
- * @property {number} rotate 回転角度
- * @property {number} rotateSpeed 回転速度
- * @property {Target[]} targets 接続された物体
- * @property {string} parent 親のID
- */
-interface Entity{
-  name: string;
-  posX: number;
-  posY: number;
-  prePosX: number;
-  prePosY: number;
-  size: number;
-  mass: number;
-  stiff: number;
-  speedX: number;
-  speedY: number;
-  rotate: number;
-  rotateSpeed: number;
-  targets: Target[];
-  parent: string;
-}
-
-/**
  * エンティティーの初期化オブジェクトです
  * @typedef {Object} EntityOption
  * @property {string} name エンティティー名
@@ -82,6 +47,65 @@ type Target = {
  * これは物理エンジンにおける物体の最小単位です
  */
 class Entity{
+
+  /**
+   * 名前
+   */
+  public readonly name: string;
+
+  /**
+   * 位置座標
+   */
+  public posX: number;
+  public posY: number;
+
+  /**
+   * 前の位置座標
+   */
+  public prePosX: number;
+  public prePosY: number;
+
+  /**
+   * 速度ベクトル
+   */
+  public speedX: number;
+  public speedY: number;
+
+  /**
+   * 回転位置
+   */
+  public rotate: number;
+
+  /**
+   * 回転速度
+   */
+  public rotateSpeed: number;
+
+  /**
+   * 半径
+   */
+  public size: number;
+
+  /**
+   * 質量
+   */
+  public mass: number;
+
+  /**
+   * 剛性
+   */
+  public stiff: number;
+
+  /**
+   * ターゲット配列
+   */
+  public targets: Target[];
+
+  /**
+   * 親の名前
+   */
+  public parent: string;
+
   /**
    * @param {EntityOption} option エンティティーオプション
    */
@@ -103,7 +127,7 @@ class Entity{
   }
 
   /**
-   * 質量の逆数を返します
+   * 質量の逆数
    * @returns {number} 逆数の質量
    */
   public get invMass(): number{

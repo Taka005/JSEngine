@@ -35,17 +35,51 @@ type RopeOption = {
  * @extends EntityManager
  */
 class Rope extends EntityManager{
+
+  /**
+   * 種類
+   */
+  public readonly type: string = "rope";
+
+  /**
+   * 名前
+   */
+  public readonly name: string;
+
+  /**
+   * 色
+   */
+  public color: string;
+
+  /**
+   * 画像
+   */
+  public image: HTMLImageElement | null;
+
+  /**
+   * 厚さ
+   */
+  public size: number;
+
+  /**
+   * 質量
+   */
+  public mass: number;
+
+  /**
+   * 剛性
+   */
+  public stiff: number;
+
   /**
    * @param {RopeOption} ロープオプション
    */
   constructor({name, startX, startY, endX, endY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = []}: RopeOption){
     super();
 
-    this.type = "rope";
     this.name = name;
     this.color = color;
     this.image = parseImage(image);
-
     this.size = size;
     this.mass = mass;
     this.stiff = stiff;

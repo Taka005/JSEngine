@@ -2,14 +2,6 @@ import { Entity, EntityOption, Target } from "./Entity";
 import { createId } from "../utils";
 
 /**
- * @typedef {Object} EntityManager
- * @property {Entity[]} 構成するエンティティーの配列
- */
-interface EntityManager{
-  entities: Entity[]
-}
-
-/**
  * エンティティー生成オプション
  * @typedef {Object} CreateOption
  * @property {string} name エンティティー名
@@ -45,9 +37,7 @@ type CreateOption = {
  * 構成するエンティティーを管理します
  */
 class EntityManager{
-  constructor(){
-    this.entities = [];
-  }
+  public entities: Entity[] = [];
 
   /**
    * 平均されたエンティティーの位置を計算します

@@ -3,28 +3,6 @@ import { EntityOption } from "./Entity";
 import { parseImage, resize } from "../utils";
 
 /**
- * @typedef {Object} Circle
- * @property {string} type 物体の種類
- * @property {strint} name 物体名
- * @property {number} size 半径
- * @property {number} mass 質量
- * @property {number} stiff 剛性(これは0以上1以下です)
- * @property {string} color 色
- * @property {string} subColor サブカラー
- * @property {HTMLImageElement | null} image 画像
- */
-interface Circle extends EntityManager{
-  type: string;
-  name: string;
-  size: number;
-  mass: number;
-  stiff: number;
-  color: string;
-  subColor: string;
-  image: HTMLImageElement | null;
-}
-
-/**
  * @typedef {Object} CircleOption
  * @property {strint} name 物体名
  * @property {number} posX X座標
@@ -61,13 +39,53 @@ type CircleOption = {
  * @extends EntityManager
  */
 class Circle extends EntityManager{
+
+  /**
+   * 種類
+   */
+  public readonly type: string = "circle";
+
+  /**
+   * 名前
+   */
+  public readonly name: string;
+
+  /**
+   * 半径
+   */
+  public size: number;
+
+  /**
+   * 質量
+   */
+  public mass: number;
+
+  /**
+   * 剛性
+   */
+  public stiff: number;
+
+  /**
+   * 色
+   */
+  public color: string;
+
+  /**
+   * 補色
+   */
+  public subColor: string;
+
+  /**
+   * 画像
+   */
+  public image: HTMLImageElement | null;
+
   /**
    * @param {CircleOption} サークルオプション
    */
   constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", subColor = "black", image = null, entities = [] }: CircleOption){
     super();
 
-    this.type = "circle";
     this.name = name;
     this.size = size;
     this.mass = mass;

@@ -1,30 +1,6 @@
 import { parseImage, resize } from "../utils";
 
 /**
- * @typedef {Object} Ground
- * @property {string} type 物体の種類
- * @property {strint} name 物体名
- * @property {number} startX 始点X座標
- * @property {number} startY 始点Y座標
- * @property {number} endX 終点X座標
- * @property {number} endY 終点Y座標
- * @property {number} size 幅
- * @property {string} color 色
- * @property {HTMLImageElement | null} image 画像
- */
-interface Ground{
-  type: string;
-  name: string;
-  startX: number;
-  startY: number;
-  endX: number;
-  endY: number;
-  size: number;
-  color: string;
-  image: HTMLImageElement | null;
-}
-
-/**
  * @typedef {Object} GroundOption
  * @property {strint} name 物体名
  * @property {number} startX 始点X座標
@@ -51,20 +27,55 @@ type GroundOption = {
  * 地面を制御します
  */
 class Ground{
+
+  /**
+   * 種類
+   */
+  public readonly type: string = "ground";
+
+  /**
+   * 名前
+   */
+  public readonly name: string;
+
+  /**
+   * 色
+   */
+  public color: string;
+
+  /**
+   * 画像
+   */
+  public image: HTMLImageElement | null
+
+  /**
+   * 始点
+   */
+  public startX: number;
+  public startY: number;
+
+  /**
+   * 終点
+   */
+  public endX: number;
+  public endY: number;
+
+  /**
+   * 厚さ
+   */
+  public size: number;
+
   /**
    * @param {Object} GroundOption グラウンドオプション
    */
   constructor({ name, startX, startY, endX, endY, size, color = "red", image = null }: GroundOption){
-    this.type = "ground";
     this.name = name;
     this.color = color;
     this.image = parseImage(image);
-
     this.startX = startX;
     this.startY = startY;
     this.endX = endX;
     this.endY = endY;
-
     this.size = size;
   }
 
