@@ -141,8 +141,7 @@ class Curve{
     const isWithinSemiCircle = (startAngle <= crossAngle&&crossAngle <= endAngle)||
       !(startAngle > endAngle&&(crossAngle >= startAngle||crossAngle <= endAngle));
 
-    if(((crossAngle >= startAngle && crossAngle <= endAngle) ||
-    (crossAngle + Math.PI * 2 >= startAngle && crossAngle + Math.PI * 2 <= endAngle))){
+    if(!(crossAngle >= Math.min(startAngle,endAngle)&&crossAngle <= Math.max(startAngle,endAngle))){
       const startDistance = Math.sqrt((posX - this.startX)**2 + (posY - this.startY)**2);
       const endDistance = Math.sqrt((posX - this.endX)**2 + (posY - this.endY)**2);
 
