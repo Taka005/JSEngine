@@ -195,10 +195,13 @@ class Curve{
       const startAngle: number = Math.atan2(this.startY - this.centerY,this.startX - this.centerX);
       const endAngle: number = Math.atan2(this.endY - this.centerY,this.endX - this.centerX);
       const midAngle: number = Math.atan2(this.middleY - this.centerY,this.middleX - this.centerX);
-      const clockwise: number = midAngle < startAngle || midAngle > endAngle;
-
+      //const clockwise: number = midAngle < startAngle || midAngle > endAngle;
+      const clockwise = (startAngle > endAngle) 
+      ? (midAngle > startAngle || midAngle < endAngle)
+      : (midAngle > startAngle && midAngle < endAngle);
+  
       ctx.beginPath();
-      ctx.arc(this.centerX,this.centerY,this.radius,startAngle,endAngle,clockwise);
+      ctx.arc(this.centerX,this.centerY,this.radius,startAngle,endAngle,!clockwise);
       ctx.strokeStyle = this.color;
       ctx.lineWidth = this.size;
       ctx.stroke();
