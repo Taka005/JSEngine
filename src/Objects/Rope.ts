@@ -2,16 +2,6 @@ import { Entity, EntityOption } from "./Entity";
 import { EntityManager } from "./EntityManager";
 import { parseImage, resize } from "../utils";
 
-interface Rope extends EntityManager{
-  type: string;
-  name: string;
-  size: number;
-  mass: number;
-  stiff: number;
-  color: string;
-  image: HTMLImageElement | null;
-}
-
 type RopeOption = {
   name: string;
   startX: number;

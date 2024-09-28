@@ -3,26 +3,6 @@ import { EntityOption } from "./Entity";
 import { parseImage, resize } from "../utils";
 
 /**
- * @typedef {Object} Square
- * @property {string} type 物体の種類
- * @property {strint} name 物体名
- * @property {number} size 半径
- * @property {number} mass 質量
- * @property {number} stiff 剛性(これは0以上1以下です)
- * @property {string} color 色
- * @property {HTMLImageElement | null} image 画像
- */
-interface Square extends EntityManager{
-  type: string;
-  name: string;
-  size: number;
-  mass: number;
-  stiff: number;
-  color: string;
-  image: HTMLImageElement | null;
-}
-
-/**
  * @typedef {Object} SquareOption
  * @property {strint} name 物体名
  * @property {number} posX X座標
@@ -57,13 +37,48 @@ type SquareOption = {
  * @extends EntityManager
  */
 class Square extends EntityManager{
+
+  /**
+   * 種類
+   */
+  public readonly type: string = "square";
+
+  /**
+   * 名前
+   */
+  public readonly name: string;
+
+  /**
+   * 幅
+   */
+  public size: number;
+
+  /**
+   * 質量
+   */
+  public mass: number;
+
+  /**
+   * 剛性
+   */
+  public stiff: number;
+
+  /**
+   * 色
+   */
+  public color: string;
+
+  /**
+   * 画像
+   */
+  public image: HTMLImageElement | null;
+
   /**
    * @param {SquareOption} スクエアオプション
    */
   constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: SquareOption){
     super();
 
-    this.type = "square";
     this.name = name;
     this.size = size;
     this.mass = mass;
