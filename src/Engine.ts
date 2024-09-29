@@ -5,7 +5,7 @@ import { Curve, CurveOption } from "./Objects/Curve";
 import { Circle, CircleOption } from "./Objects/Circle";
 import { Square, SquareOption } from "./Objects/Square";
 import { Rope, RopeOption } from "./Objects/Rope";
-import { createId, resize, ObjectType } from "./utils";
+import { createId, resize, ObjectType, Event } from "./utils";
 import { Key } from "./Key";
 
 /**
@@ -261,14 +261,19 @@ class Engine extends Process{
     });
 
     Object.values(this.objects).forEach(object=>{
-      const { posY } = object.getPosition();
+      const { posX, posY } = object.getPosition();
 
-      if(posY > this.canvas.height+100){
+      if(
+        posX > 10000||
+        posX < -10000||
+        posY > 10000||
+        posY < -10000
+      ){
         this.deSpawn(object.type,object.name);
       }
     });
 
-    this.dispatchEvent(new CustomEvent("update"));
+    this.dispatchEvent(new CustomEvent(Event.Update));
   }
 
   /**
@@ -373,7 +378,7 @@ class Engine extends Process{
       if(!rope) return;
 
       delete this.objects[name];
-    }else if(type === ObjectType.Ground || type === ObjectType.Curve){
+    }else if(type === ObjectType.Ground||type === ObjectType.Curve){
       const ground = this.get<Ground | Curve>(type,name);
       if(!ground) return;
 
@@ -390,7 +395,7 @@ class Engine extends Process{
   public get<T>(type: string,name: string): T | undefined{
     if(type === ObjectType.Entity){
       return this.entities.find(entity=>entity.name === name) as T;
-    }else if(type === ObjectType.Ground || type === ObjectType.Curve){
+    }else if(type === ObjectType.Ground||type === ObjectType.Curve){
       return this.grounds[name] as T;
     }else{
       return this.objects[name] as T;

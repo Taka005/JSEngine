@@ -76,4 +76,13 @@ const ObjectType = {
   Entity: "entity"
 }
 
-export { createId, resize, parseImage, normalizeAngle, ObjectType };
+/**
+ * イベント一覧
+ */
+const Event = {
+  Update: "update",
+  HitEntity: "hitEntity",
+  HitGround: "hitGround"
+}
+
+export { createId, resize, parseImage, normalizeAngle, ObjectType, Event };

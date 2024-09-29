@@ -1,5 +1,6 @@
 import { Entity } from "./Objects/Entity";
 import { Ground } from "./Objects/Ground";
+import { ObjectType, Event } from "./utils";
 
 /**
  * @typedef {Object} ProcessOption
@@ -64,7 +65,7 @@ class Process extends EventTarget{
 
     const distance: number = Math.sqrt(vecX**2 + vecY**2);
     if(distance <= source.size + target.size){
-      this.dispatchEvent(new CustomEvent("hitEntity",{
+      this.dispatchEvent(new CustomEvent(Event.HitEntity,{
         detail:{
           source: source,
           target: target
@@ -98,12 +99,12 @@ class Process extends EventTarget{
     let vecX: number = posX - entity.posX;
     let vecY: number = posY - entity.posY;
 
-    if(ground.type === "ground"){
+    if(ground.type === ObjectType.Ground){
       if(
         Math.abs(vecX) >= entity.size + Math.abs(ground.startX - ground.endX) + ground.size&&
         Math.abs(vecY) >= entity.size + Math.abs(ground.startY - ground.endY) + ground.size
       ) return;
-    }else if(ground.type === "curve"){
+    }else if(ground.type === ObjectType.Curve){
       if(
         Math.abs(vecX) >= entity.size + 2*ground.radius + ground.size&&
         Math.abs(vecY) >= entity.size + 2*ground.radius + ground.size
@@ -112,7 +113,7 @@ class Process extends EventTarget{
 
     const distance = Math.sqrt(vecX**2 + vecY**2);
     if(distance <= entity.size + ground.size/2){
-      this.dispatchEvent(new CustomEvent("hitGround",{
+      this.dispatchEvent(new CustomEvent(Event.HitGround,{
         detail:{
           source: entity,
           target: ground

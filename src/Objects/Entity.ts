@@ -6,7 +6,7 @@
  * @property {number} posY Y座標
  * @property {number} size 半径
  * @property {number} mass 質量
- * @property {number} stiff 剛性(これは0以上一以下です)
+ * @property {number} stiff 剛性(これは0以上1以下です)
  * @property {number} speedX X方向の速度
  * @property {number} speedY Y方向の速度
  * @property {number} rotate 回転角度
