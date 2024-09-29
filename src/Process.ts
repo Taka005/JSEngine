@@ -100,12 +100,12 @@ class Process extends EventTarget{
     let vecX: number = posX - entity.posX;
     let vecY: number = posY - entity.posY;
 
-    if(ground.type === ObjectType.Ground){
+    if(ground instanceof Ground){
       if(
         Math.abs(vecX) >= entity.size + Math.abs(ground.startX - ground.endX) + ground.size&&
         Math.abs(vecY) >= entity.size + Math.abs(ground.startY - ground.endY) + ground.size
       ) return;
-    }else if(ground.type === ObjectType.Curve){
+    }else if(ground instanceof Curve){
       if(
         Math.abs(vecX) >= entity.size + 2*ground.radius + ground.size&&
         Math.abs(vecY) >= entity.size + 2*ground.radius + ground.size

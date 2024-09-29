@@ -57,15 +57,6 @@ class Render{
     return this;
   }
 
-  circle(): Render{
-    this.ctx.beginPath();
-
-    ctx.arc(0,0,0,0,2*Math.PI);
-    ctx.fill();
-
-    this.ctx.closePath();
-  }
-
   setFont(value: string): Render{
     this.ctx.font = value;
 

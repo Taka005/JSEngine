@@ -135,12 +135,12 @@ class Engine extends Process{
   /**
    * 処理インターバル
    */
-  private loop: number;
+  private loop: number | null = null;
   
   /**
    * 履歴インターバル
    */
-  private trackLoop: number;
+  private trackLoop: number | null = null;
 
   /**
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
@@ -223,8 +223,13 @@ class Engine extends Process{
     if(!this.isStart) return;
     this.isStart = false;
 
-    clearInterval(this.loop);
-    clearInterval(this.trackLoop);
+    if(this.loop){
+      clearInterval(this.loop);
+    }
+
+    if(this.trackLoop){
+      clearInterval(this.trackLoop);
+    }
   }
 
   /**
