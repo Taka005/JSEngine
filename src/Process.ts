@@ -1,7 +1,7 @@
 import { Curve } from "./Objects/Curve";
 import { Entity } from "./Objects/Entity";
 import { Ground } from "./Objects/Ground";
-import { ObjectType, Event } from "./utils";
+import { Event } from "./utils";
 
 /**
  * @typedef {Object} ProcessOption
