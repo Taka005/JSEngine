@@ -1,4 +1,4 @@
-import { parseImage, resize, normalizeAngle } from "../utils";
+import { parseImage, resize, normalizeAngle, ObjectType } from "../utils";
 
 /**
  * @typedef {Object} CurveOption
@@ -35,7 +35,7 @@ class Curve{
   /**
    * 種類
    */
-  public readonly type: string = "curve";
+  public readonly type: string = ObjectType.Curve;
 
   /**
    * 名前

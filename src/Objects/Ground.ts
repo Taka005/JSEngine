@@ -1,4 +1,4 @@
-import { parseImage, resize } from "../utils";
+import { parseImage, resize, ObjectType } from "../utils";
 
 /**
  * @typedef {Object} GroundOption
@@ -31,7 +31,7 @@ class Ground{
   /**
    * 種類
    */
-  public readonly type: string = "ground";
+  public readonly type: string = ObjectType.Ground;
 
   /**
    * 名前

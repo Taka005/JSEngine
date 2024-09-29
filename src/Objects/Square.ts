@@ -1,6 +1,6 @@
 import { EntityManager } from "./EntityManager";
 import { EntityOption } from "./Entity";
-import { parseImage, resize } from "../utils";
+import { parseImage, resize, ObjectType } from "../utils";
 
 /**
  * @typedef {Object} SquareOption
@@ -41,7 +41,7 @@ class Square extends EntityManager{
   /**
    * 種類
    */
-  public readonly type: string = "square";
+  public readonly type: string = ObjectType.Square;
 
   /**
    * 名前

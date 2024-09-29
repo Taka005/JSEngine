@@ -64,4 +64,16 @@ function normalizeAngle(angle: number): number{
   return (angle + 2*Math.PI)%(2*Math.PI);
 }
 
-export { createId, resize, parseImage, normalizeAngle };
+/**
+ * 物体の種類
+ */
+const ObjectType = {
+  Circle: "circle",
+  Curve: "curve",
+  Ground: "ground",
+  Rope: "rope",
+  Square: "square",
+  Entity: "entity"
+}
+
+export { createId, resize, parseImage, normalizeAngle, ObjectType };

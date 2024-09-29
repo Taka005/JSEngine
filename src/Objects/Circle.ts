@@ -1,6 +1,6 @@
 import { EntityManager } from "./EntityManager";
 import { EntityOption } from "./Entity";
-import { parseImage, resize } from "../utils";
+import { parseImage, resize, ObjectType } from "../utils";
 
 /**
  * @typedef {Object} CircleOption
@@ -43,7 +43,7 @@ class Circle extends EntityManager{
   /**
    * 種類
    */
-  public readonly type: string = "circle";
+  public readonly type: string = ObjectType.Circle;
 
   /**
    * 名前

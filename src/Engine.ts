@@ -5,7 +5,7 @@ import { Curve, CurveOption } from "./Objects/Curve";
 import { Circle, CircleOption } from "./Objects/Circle";
 import { Square, SquareOption } from "./Objects/Square";
 import { Rope, RopeOption } from "./Objects/Rope";
-import { createId, resize } from "./utils";
+import { createId, resize, ObjectType } from "./utils";
 import { Key } from "./Key";
 
 /**
@@ -248,7 +248,7 @@ class Engine extends Process{
       });
 
       entity.targets.forEach(data=>{
-        const target = this.get<Entity>("entity",data.name);
+        const target = this.get<Entity>(ObjectType.Entity,data.name);
         if(!target) return entity.removeTarget(data.name);
 
         this.solveConnect(entity,target,data.distance,data.stiff);
@@ -328,23 +328,23 @@ class Engine extends Process{
     objects.forEach(object=>{
       object.name = object.name || createId(8);
 
-      if(type === "circle"){
+      if(type === ObjectType.Circle){
         const circle = new Circle(object as CircleOption);
 
         this.objects[object.name] = circle;
-      }else if(type === "square"){
+      }else if(type === ObjectType.Square){
         const square = new Square(object as SquareOption);
 
         this.objects[object.name] = square;
-      }else if(type === "rope"){
+      }else if(type === ObjectType.Rope){
         const rope = new Rope(object as RopeOption);
 
         this.objects[object.name] = rope;
-      }else if(type === "ground"){
+      }else if(type === ObjectType.Ground){
         const ground = new Ground(object as GroundOption);
 
         this.grounds[object.name] = ground;
-      }else if(type === "curve"){
+      }else if(type === ObjectType.Curve){
         const curve = new Curve(object as CurveOption);
 
         this.grounds[object.name] = curve;
@@ -358,22 +358,22 @@ class Engine extends Process{
    * @param {string} name 削除する物体名
    */
   public deSpawn(type: string,name: string): void{
-    if(type === "circle"){
+    if(type === ObjectType.Circle){
       const circle = this.get<Circle>(type,name);
       if(!circle) return;
 
       delete this.objects[name];
-    }else if(type === "square"){
+    }else if(type === ObjectType.Square){
       const square = this.get<Square>(type,name);
       if(!square) return;
 
       delete this.objects[name];
-    }else if(type === "rope"){
+    }else if(type === ObjectType.Rope){
       const rope = this.get<Rope>(type,name);
       if(!rope) return;
 
       delete this.objects[name];
-    }else if(type === "ground" || type === "curve"){
+    }else if(type === ObjectType.Ground || type === ObjectType.Curve){
       const ground = this.get<Ground | Curve>(type,name);
       if(!ground) return;
 
@@ -388,9 +388,9 @@ class Engine extends Process{
    * @returns {T | undefined} 取得した物体
    */
   public get<T>(type: string,name: string): T | undefined{
-    if(type === "entity"){
+    if(type === ObjectType.Entity){
       return this.entities.find(entity=>entity.name === name) as T;
-    }else if(type === "ground" || type === "curve"){
+    }else if(type === ObjectType.Ground || type === ObjectType.Curve){
       return this.grounds[name] as T;
     }else{
       return this.objects[name] as T;
@@ -532,23 +532,23 @@ class Engine extends Process{
    */
   public export(): string{
     const circle = Object.values(this.objects)
-      .filter(object=>object.type === "circle")
+      .filter(object=>object.type === ObjectType.Circle)
       .map(object=>object.toJSON());
 
     const square = Object.values(this.objects)
-      .filter(object=>object.type === "square")
+      .filter(object=>object.type === ObjectType.Square)
       .map(object=>object.toJSON());
 
     const rope = Object.values(this.objects)
-      .filter(object=>object.type === "rope")
+      .filter(object=>object.type === ObjectType.Rope)
       .map(object=>object.toJSON());
 
     const grounds = Object.values(this.grounds)
-      .filter(object=>object.type === "ground")
+      .filter(object=>object.type === ObjectType.Ground)
       .map(object=>object.toJSON());
 
     const curves = Object.values(this.grounds)
-      .filter(object=>object.type === "curve")
+      .filter(object=>object.type === ObjectType.Curve)
       .map(object=>object.toJSON());
 
     return JSON.stringify({
@@ -591,27 +591,27 @@ class Engine extends Process{
     }
 
     if(data.ground){
-      this.spawn("ground",data.ground);
+      this.spawn(ObjectType.Ground,data.ground);
     }
 
     if(data.curve){
-      this.spawn("curve",data.curve);
+      this.spawn(ObjectType.Curve,data.curve);
     }
 
     if(data.circle){
-      this.spawn("circle",data.circle);
+      this.spawn(ObjectType.Circle,data.circle);
     }
 
     if(data.square){
-      this.spawn("square",data.square);
+      this.spawn(ObjectType.Square,data.square);
     }
 
     if(data.rope){
-      this.spawn("rope",data.rope);
+      this.spawn(ObjectType.Rope,data.rope);
     }
 
     if(data.entity){
-      this.spawn("circle",data.entity);
+      this.spawn(ObjectType.Circle,data.entity);
     }
   }
 }

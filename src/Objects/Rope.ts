@@ -1,6 +1,6 @@
 import { Entity, EntityOption } from "./Entity";
 import { EntityManager } from "./EntityManager";
-import { parseImage, resize } from "../utils";
+import { parseImage, resize, ObjectType } from "../utils";
 
 type RopeOption = {
   name: string;
@@ -29,7 +29,7 @@ class Rope extends EntityManager{
   /**
    * 種類
    */
-  public readonly type: string = "rope";
+  public readonly type: string = ObjectType.Rope;
 
   /**
    * 名前
