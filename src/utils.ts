@@ -44,7 +44,7 @@ function resize(image: HTMLImageElement,maxSize: number): { width: number, heigh
  * @param {string} value 画像URL
  * @returns {HTMLImageElement | null} 画像エレメント
  */
-function parseImage(value?: string): HTMLImageElement | null{
+function parseImage(value?: string | null): HTMLImageElement | null{
   if(value){
     const image: HTMLImageElement = new Image();
     image.src = value;

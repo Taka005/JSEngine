@@ -94,7 +94,7 @@ class Engine extends Process{
   /**
    * 背景画像
    */
-  public backgroundImage: HTMLImageElement | null;
+  public backgroundImage: HTMLImageElement | null = null;
 
   /**
    * 描画位置座標

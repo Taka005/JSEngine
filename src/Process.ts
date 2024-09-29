@@ -1,3 +1,4 @@
+import { Curve } from "./Objects/Curve";
 import { Entity } from "./Objects/Entity";
 import { Ground } from "./Objects/Ground";
 import { ObjectType, Event } from "./utils";
@@ -91,7 +92,7 @@ class Process extends EventTarget{
    * @param {Entity} entity 対象のエンティティー
    * @param {Ground} ground 対象の地面
    */
-  protected solveGroundPosition(entity: Entity,ground: Ground): void{
+  protected solveGroundPosition(entity: Entity,ground: Ground | Curve): void{
     if(entity.invMass === 0) return;
 
     const { posX, posY }: { posX: number, posY: number } = ground.solvePosition(entity.posX,entity.posY);
