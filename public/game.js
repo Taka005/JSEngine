@@ -174,7 +174,7 @@ engine.addEventListener("update",()=>{
     }
   }
 
-  if(key.get("Space")){
+  if(key.get("KeyT")){
     if(!engine.isStart){
       engine.step();
     }
