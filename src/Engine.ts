@@ -155,6 +155,11 @@ class Engine extends Process{
   private trackCount: number = 0;
 
   /**
+   * フレームカウント
+   */
+  private frameCount: number = 0;
+
+  /**
    * 最終更新時間
    */
   private lastUpdate: DOMHighResTimeStamp = performance.now();
@@ -352,14 +357,15 @@ class Engine extends Process{
 
     this.ctx.restore();
 
+    this.frameCount++;
     const nextTime: DOMHighResTimeStamp = performance.now();
     const deltaTime: number = nextTime - this.lastUpdate;
-    console.log(nextTime,this.lastUpdate,deltaTime);
-    if(deltaTime >= 500){
-      this.fps = Math.round(1000/deltaTime);
-    }
 
-    this.lastUpdate = nextTime;
+    if(deltaTime >= 500){
+      this.fps = Math.round(1000*this.frameCount/deltaTime);
+      this.lastUpdate = nextTime;
+      this.frameCount = 0;
+    }
 
     if(this.isDev){
       this.ctx.font = "20px Arial";
