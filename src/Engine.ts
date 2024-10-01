@@ -381,7 +381,7 @@ class Engine extends Process{
       this.ctx.textAlign = "center";
       this.ctx.textBaseline = "middle";
       this.ctx.fillText(`${this.correntPps}PPS`,38,15);
-      this.ctx.fillText(`${this.correntFps}FPS`,100,15);
+      this.ctx.fillText(`${this.correntFps}FPS`,110,15);
     }
 
     this.dispatchEvent(new CustomEvent(Event.DrawUpdate));
