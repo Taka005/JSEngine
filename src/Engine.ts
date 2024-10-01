@@ -312,8 +312,11 @@ class Engine extends Process{
    */
   private draw(): void{
     const nextTime: DOMHighResTimeStamp = performance.now();
-    this.fps = Math.round(1000/(nextTime - this.lastUpdate));
-    this.lastUpdate = nextTime;
+    
+    if(nextTime - this.lastUpdate >= 500){
+      this.fps = Math.round(1000/(nextTime - this.lastUpdate));
+      this.lastUpdate = nextTime;
+    }
 
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
@@ -361,7 +364,7 @@ class Engine extends Process{
       this.ctx.fillStyle = "black";
       this.ctx.textAlign = "center";
       this.ctx.textBaseline = "middle";
-      this.ctx.fillText(`${this.fps}FPS`,30,20);
+      this.ctx.fillText(`${this.fps}FPS`,35,15);
     }
 
     this.dispatchEvent(new CustomEvent(Event.DrawUpdate));
