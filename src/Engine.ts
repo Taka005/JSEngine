@@ -208,17 +208,7 @@ class Engine extends Process{
     this.isStart = true;
 
     this.loop = setInterval(()=>{
-      this.trackCount++;
-
-      if(this.trackCount >= this.trackInterval/(1000/this.pps)){
-        Object.values(this.objects).forEach(object=>{
-          this.tracks.push(object.clone());
-        });
-
-        this.trackCount = 0;
-      }
-
-      this.update();
+      this.step();
     },1000/this.pps);
   }
 
@@ -229,13 +219,16 @@ class Engine extends Process{
     if(!this.isStart) return;
 
     this.isStart = false;
-    this.trackTime = 0;
+    this.trackCount = 0;
 
     if(this.loop){
       clearInterval(this.loop);
     }
   }
 
+  /**
+   * 処理を1フレーム進めます
+   */
   public step(): void{
     this.trackCount++;
 

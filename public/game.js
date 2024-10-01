@@ -173,6 +173,12 @@ engine.addEventListener("update",()=>{
       targetEntity.speedX += 100*(1/engine.pps);
     }
   }
+
+  if(key.get("Space")){
+    if(!engine.isStart){
+      engine.step();
+    }
+  }
 });
 
 document.addEventListener("keydown",(event)=>{
