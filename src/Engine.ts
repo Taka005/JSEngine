@@ -353,9 +353,10 @@ class Engine extends Process{
     this.ctx.restore();
 
     const nextTime: DOMHighResTimeStamp = performance.now();
-    
-    if(nextTime - this.lastUpdate >= 500){
-      this.fps = Math.round(1000/(nextTime - this.lastUpdate));
+    const deltaTime: number = nextTime - this.lastUpdate;
+
+    if(deltaTime >= 500){
+      this.fps = Math.round(1000/deltaTime);
     }
 
     this.lastUpdate = nextTime;
