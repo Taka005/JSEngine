@@ -155,9 +155,14 @@ class Engine extends Process{
   private trackCount: number = 0;
 
   /**
-   * フレームカウント
+   * 更新カウント
    */
-  private frameCount: number = 0;
+  private updateCount: number = 0;
+
+  /**
+   * 描画カウント
+   */
+  private drawCount: number = 0;
 
   /**
    * 最終更新時間
@@ -165,9 +170,19 @@ class Engine extends Process{
   private lastUpdate: DOMHighResTimeStamp = performance.now();
 
   /**
+   * 最終描画時間
+   */
+  private lastDraw: DOMHighResTimeStamp = performance.now();
+
+  /**
+   * 現在のPPS
+   */
+  public correntPps: number = 0;
+
+  /**
    * 現在のFPS
    */
-  public fps: number = 0;
+  public correntFps: number = 0;
 
   /**
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
@@ -228,6 +243,7 @@ class Engine extends Process{
     this.isStart = true;
 
     this.loop = setInterval(()=>{
+      this.setPPS();
       this.step();
     },1000/this.pps);
   }
@@ -364,7 +380,8 @@ class Engine extends Process{
       this.ctx.fillStyle = "black";
       this.ctx.textAlign = "center";
       this.ctx.textBaseline = "middle";
-      this.ctx.fillText(`${this.fps}FPS`,38,15);
+      this.ctx.fillText(`${this.correntPps}PPS`,38,15);
+      this.ctx.fillText(`${this.correntFps}FPS`,50,15);
     }
 
     this.dispatchEvent(new CustomEvent(Event.DrawUpdate));
@@ -373,17 +390,32 @@ class Engine extends Process{
   }
 
   /**
+   * PPSを計算します
+   */
+  private setPPS(): void{
+    this.updateCount++;
+    const nextTime: DOMHighResTimeStamp = performance.now();
+    const deltaTime: number = nextTime - this.lastUpdate;
+  
+    if(deltaTime >= 500){
+      this.correntPps = Math.round(1000*this.updateCount/deltaTime);
+      this.lastUpdate = nextTime;
+      this.updateCount = 0;
+    }
+  }  
+
+  /**
    * FPSを計算します
    */
   private setFPS(): void{
-    this.frameCount++;
+    this.drawCount++;
     const nextTime: DOMHighResTimeStamp = performance.now();
-    const deltaTime: number = nextTime - this.lastUpdate;
+    const deltaTime: number = nextTime - this.lastDraw;
 
     if(deltaTime >= 500){
-      this.fps = Math.round(1000*this.frameCount/deltaTime);
-      this.lastUpdate = nextTime;
-      this.frameCount = 0;
+      this.correntFps = Math.round(1000*this.drawCount/deltaTime);
+      this.lastDraw = nextTime;
+      this.drawCount = 0;
     }
   }
 
