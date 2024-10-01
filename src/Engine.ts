@@ -311,13 +311,6 @@ class Engine extends Process{
    * 物体を描画します
    */
   private draw(): void{
-    const nextTime: DOMHighResTimeStamp = performance.now();
-    
-    if(nextTime - this.lastUpdate >= 500){
-      this.fps = Math.round(1000/(nextTime - this.lastUpdate));
-      this.lastUpdate = nextTime;
-    }
-
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
     this.drawBackground();
@@ -358,6 +351,14 @@ class Engine extends Process{
     }
 
     this.ctx.restore();
+
+    const nextTime: DOMHighResTimeStamp = performance.now();
+    
+    if(nextTime - this.lastUpdate >= 500){
+      this.fps = Math.round(1000/(nextTime - this.lastUpdate));
+    }
+
+    this.lastUpdate = nextTime;
 
     if(this.isDev){
       this.ctx.font = "20px Arial";
