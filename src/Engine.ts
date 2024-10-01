@@ -354,7 +354,7 @@ class Engine extends Process{
 
     const nextTime: DOMHighResTimeStamp = performance.now();
     const deltaTime: number = nextTime - this.lastUpdate;
-
+    console.log(nextTime,this.lastUpdate,deltaTime);
     if(deltaTime >= 500){
       this.fps = Math.round(1000/deltaTime);
     }
