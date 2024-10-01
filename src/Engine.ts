@@ -127,7 +127,7 @@ class Engine extends Process{
   /**
    * 演算状態
    */
-  private isStart: boolean = false;
+  public isStart: boolean = false;
   
   /**
    * デバッグモード
@@ -148,6 +148,16 @@ class Engine extends Process{
    * 履歴のカウント
    */
   private trackCount: number = 0; 
+
+  /**
+   * 最終更新時間
+   */
+  private lastUpdate: DOMHighResTimeStamp = performance.now();
+
+  /**
+   * 現在のFPS
+   */
+  public fps: number = 0;
 
   /**
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
@@ -296,6 +306,10 @@ class Engine extends Process{
    * 物体を描画します
    */
   private draw(): void{
+    const nextTime: DOMHighResTimeStamp = performance.now();
+    this.fps = Math.round(1000/(nextTime - this.lastUpdate));
+    this.lastUpdate = nextTime;
+
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
     this.drawBackground();
@@ -330,6 +344,9 @@ class Engine extends Process{
         Object.values(this.tracks).forEach(track=>{
           track.drawVector(this.ctx);
         });
+
+        this.ctx.font = "20pt Arial";
+        this.ctx.fillText(`${this.fps}FPS`,10,30);
       }
 
       this.ctx.globalAlpha = 1;
