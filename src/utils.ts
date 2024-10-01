@@ -81,6 +81,7 @@ const ObjectType = {
  */
 const Event = {
   Update: "update",
+  DrawUpdate: "drawUpdate",
   HitEntity: "hitEntity",
   HitGround: "hitGround"
 }

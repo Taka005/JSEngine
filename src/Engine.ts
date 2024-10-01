@@ -337,6 +337,8 @@ class Engine extends Process{
 
     this.ctx.restore();
 
+    this.dispatchEvent(new CustomEvent(Event.DrawUpdate));
+
     requestAnimationFrame(()=>this.draw());
   }
 

@@ -139,7 +139,7 @@ if(localStorage.map){
   saveData =  engine.export();
 }
 
-engine.addEventListener("update",()=>{
+engine.addEventListener("drawUpdate",()=>{
   if(tool === "control"&&!targetEntity) return;
 
   if(key.get("KeyW")){
@@ -173,16 +173,16 @@ engine.addEventListener("update",()=>{
       targetEntity.speedX += 100*(1/engine.pps);
     }
   }
-});
 
-document.addEventListener("keydown",(event)=>{
-  key.keyDown(event);
-
-  if(event.code === "KeyT"){
+  if(key.get("KeyT")){
     if(!engine.isStart){
       engine.step();
     }
   }
+});
+
+document.addEventListener("keydown",(event)=>{
+  key.keyDown(event);
 });
 
 document.addEventListener("keyup",(event)=>{
