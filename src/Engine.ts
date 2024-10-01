@@ -77,7 +77,7 @@ type ExportData = {
  * @extends Process
  */
 class Engine extends Process{
-  
+
   /**
    * キャンバス要素
    */
@@ -128,26 +128,31 @@ class Engine extends Process{
    * 演算状態
    */
   public isStart: boolean = false;
-  
+
   /**
    * デバッグモード
    */
   public isDebug: boolean = false;
-  
+
+  /**
+   * 開発者モード
+   */
+  public isDev: boolean = false;
+
   /**
    * トラッキングモード
    */
   public isTrack: boolean = false;
-  
+
   /**
    * 処理インターバル
    */
   private loop: number | null = null;
-  
+
   /**
    * 履歴のカウント
    */
-  private trackCount: number = 0; 
+  private trackCount: number = 0;
 
   /**
    * 最終更新時間
@@ -344,15 +349,20 @@ class Engine extends Process{
         Object.values(this.tracks).forEach(track=>{
           track.drawVector(this.ctx);
         });
-
-        this.ctx.font = "20pt Arial";
-        this.ctx.fillText(`${this.fps}FPS`,10,30);
       }
 
       this.ctx.globalAlpha = 1;
     }
 
     this.ctx.restore();
+
+    if(this.isDev){
+      this.ctx.font = "20px Arial";
+      this.ctx.fillStyle = "black";
+      this.ctx.textAlign = "center";
+      this.ctx.textBaseline = "middle";
+      this.ctx.fillText(`${this.fps}FPS`,10,30);
+    }
 
     this.dispatchEvent(new CustomEvent(Event.DrawUpdate));
 
