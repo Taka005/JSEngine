@@ -173,16 +173,16 @@ engine.addEventListener("drawUpdate",()=>{
       targetEntity.speedX += 100*(1/engine.pps);
     }
   }
-
-  if(key.get("KeyT")){
-    if(!engine.isStart){
-      engine.step();
-    }
-  }
 });
 
 document.addEventListener("keydown",(event)=>{
   key.keyDown(event);
+
+  if(event.code === "KeyT"){
+    if(!engine.isStart){
+      engine.step();
+    }
+  }
 });
 
 document.addEventListener("keyup",(event)=>{
