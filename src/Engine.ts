@@ -18,6 +18,7 @@ import { Key } from "./Key";
  * @property {number} posY 描画Y座標
  * @property {string} backgroundColor 背景色
  * @property {string | null} backgroundImage 背景画像URL
+ * @property {number} trackInterval 履歴の保存間隔(ミリ秒)
  */
 type EngineOption = {
   pps?: number;
@@ -27,6 +28,7 @@ type EngineOption = {
   posY?: number;
   backgroundColor?: string;
   backgroundImage?: string | null;
+  trackInterval?: number;
 }
 
 /**
@@ -97,6 +99,11 @@ class Engine extends Process{
   public backgroundImage: HTMLImageElement | null = null;
 
   /**
+   * 履歴の保存間隔
+   */
+  public trackInterval: number;
+
+  /**
    * 描画位置座標
    */
   public posX: number;
@@ -105,32 +112,32 @@ class Engine extends Process{
   /**
    * 地面の配列
    */
-  private grounds: { [key: string]: Ground | Curve };
+  private grounds: { [key: string]: Ground | Curve } = {};
 
   /**
    * 物体の配列
    */
-  private objects: { [key: string]: Circle | Square | Rope };
+  private objects: { [key: string]: Circle | Square | Rope } = {};
 
   /**
    * 履歴の配列
    */
-  private tracks: (Circle | Square | Rope)[];
+  private tracks: (Circle | Square | Rope)[] = [];
 
   /**
    * 演算状態
    */
-  private isStart: boolean;
+  private isStart: boolean = false;
   
   /**
    * デバッグモード
    */
-  public isDebug: boolean;
+  public isDebug: boolean = false;
   
   /**
    * トラッキングモード
    */
-  public isTrack: boolean;
+  public isTrack: boolean = false;
   
   /**
    * 処理インターバル
@@ -138,15 +145,15 @@ class Engine extends Process{
   private loop: number | null = null;
   
   /**
-   * 履歴インターバル
+   * 履歴のカウント
    */
-  private trackLoop: number | null = null;
+  private trackCount: number = 0; 
 
   /**
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
    * @param {EngineOption} option エンジンオプション
    */
-  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null }: EngineOption = {}){
+  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, trackInterval = 100 }: EngineOption = {}){
     super({
       pps: pps,
       gravity: gravity,
@@ -160,16 +167,10 @@ class Engine extends Process{
 
     this.ctx = ctx;
 
-    this.grounds = {};
-    this.objects = {};
-    this.tracks = [];
-
-    this.isStart = false;
-    this.isDebug = false;
-    this.isTrack = false;
-
     this.backgroundColor = backgroundColor;
     this.setBackgroundImage(backgroundImage);
+
+    this.trackInterval = trackInterval;
 
     this.posX = posX;
     this.posY = posY;
@@ -203,17 +204,22 @@ class Engine extends Process{
    */
   public start(): void{
     if(this.isStart) return;
+
     this.isStart = true;
 
     this.loop = setInterval(()=>{
+      this.trackCount++;
+
+      if(this.trackCount >= this.trackInterval/(1000/this.pps)){
+        Object.values(this.objects).forEach(object=>{
+          this.tracks.push(object.clone());
+        });
+
+        this.trackCount = 0;
+      }
+
       this.update();
     },1000/this.pps);
-
-    this.trackLoop = setInterval(()=>{
-      Object.values(this.objects).forEach(object=>{
-        this.tracks.push(object.clone());
-      });
-    },100);
   }
 
   /**
@@ -221,15 +227,27 @@ class Engine extends Process{
    */
   public stop(): void{
     if(!this.isStart) return;
+
     this.isStart = false;
+    this.trackTime = 0;
 
     if(this.loop){
       clearInterval(this.loop);
     }
+  }
 
-    if(this.trackLoop){
-      clearInterval(this.trackLoop);
+  public step(): void{
+    this.trackCount++;
+
+    if(this.trackCount >= this.trackInterval/(1000/this.pps)){
+      Object.values(this.objects).forEach(object=>{
+        this.tracks.push(object.clone());
+      });
+
+      this.trackCount = 0;
     }
+
+    this.update();
   }
 
   /**
