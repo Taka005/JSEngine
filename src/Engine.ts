@@ -357,6 +357,25 @@ class Engine extends Process{
 
     this.ctx.restore();
 
+    this.setFPS();
+
+    if(this.isDev){
+      this.ctx.font = "20px Arial";
+      this.ctx.fillStyle = "black";
+      this.ctx.textAlign = "center";
+      this.ctx.textBaseline = "middle";
+      this.ctx.fillText(`${this.fps}FPS`,38,15);
+    }
+
+    this.dispatchEvent(new CustomEvent(Event.DrawUpdate));
+
+    requestAnimationFrame(()=>this.draw());
+  }
+
+  /**
+   * FPSを計算します
+   */
+  private setFPS(): void{
     this.frameCount++;
     const nextTime: DOMHighResTimeStamp = performance.now();
     const deltaTime: number = nextTime - this.lastUpdate;
@@ -366,18 +385,6 @@ class Engine extends Process{
       this.lastUpdate = nextTime;
       this.frameCount = 0;
     }
-
-    if(this.isDev){
-      this.ctx.font = "20px Arial";
-      this.ctx.fillStyle = "black";
-      this.ctx.textAlign = "center";
-      this.ctx.textBaseline = "middle";
-      this.ctx.fillText(`${this.fps}FPS`,35,15);
-    }
-
-    this.dispatchEvent(new CustomEvent(Event.DrawUpdate));
-
-    requestAnimationFrame(()=>this.draw());
   }
 
   /**
