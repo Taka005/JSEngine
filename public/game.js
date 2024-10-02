@@ -219,17 +219,17 @@ game.addEventListener("mousedown",(event)=>{
   const rect = event.target.getBoundingClientRect();
 
   if(tool === "delete"){
-    engine.checkObjectPosition(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)
+    engine.checkObject(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)
       .forEach(object=>{
         engine.deSpawn(object.type,object.name);
       });
   }else if(tool === "move"){
-    const entity = engine.checkEntityPosition(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
+    const entity = engine.checkEntity(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
     if(!entity) return;
 
     targetEntity = entity;
   }else if(tool === "control"){
-    const entity = engine.checkEntityPosition(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
+    const entity = engine.checkEntity(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
     if(!entity) return;
 
     targetEntity = entity;
@@ -240,8 +240,8 @@ game.addEventListener("mousedown",(event)=>{
         posY: event.clientY - rect.top - engine.posY
       }
     }else{
-      const source = engine.checkEntityPosition(position.posX,position.posY)[0];
-      const target = engine.checkEntityPosition(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
+      const source = engine.checkEntity(position.posX,position.posY)[0];
+      const target = engine.checkEntity(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
       if(!source||!target) return position = {};
 
       if(source.name === target.name) return position = {};
@@ -267,8 +267,8 @@ game.addEventListener("mousedown",(event)=>{
         posY: event.clientY - rect.top - engine.posY
       }
     }else{
-      const source = engine.checkEntityPosition(position.posX,position.posY)[0];
-      const target = engine.checkEntityPosition(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
+      const source = engine.checkEntity(position.posX,position.posY)[0];
+      const target = engine.checkEntity(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
       if(!source||!target) return position = {};
 
       if(source.name === target.name) return position = {};

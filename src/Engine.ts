@@ -47,6 +47,8 @@ type ClearOption = {
  * @property {number} friction 摩擦係数
  * @property {string} backgroundColor 背景色
  * @property {string | null} backgroundImage 背景画像
+ * @property {number} trackInterval 履歴の保存間隔
+ * @property {number} existLimit 物体の存在範囲
  * @property {number} posX 描画X座標
  * @property {number} posY 描画Y座標
  * @property {CircleOption[]} circle 全ての円の配列
@@ -60,6 +62,8 @@ type ExportData = {
   friction: number;
   backgroundColor: string;
   backgroundImage: string | null;
+  trackInterval: number;
+  existLimit: number;
   posX: number;
   posY: number;
   entity?: CircleOption[];
@@ -102,6 +106,11 @@ class Engine extends Process{
    * 履歴の保存間隔
    */
   public trackInterval: number;
+
+  /**
+   * 物体の存在範囲
+   */
+  public existLimit: number;
 
   /**
    * 描画位置座標
@@ -188,7 +197,7 @@ class Engine extends Process{
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
    * @param {EngineOption} option エンジンオプション
    */
-  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, trackInterval = 100 }: EngineOption = {}){
+  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, trackInterval = 100, existLimit = 10000 }: EngineOption = {}){
     super({
       pps: pps,
       gravity: gravity,
@@ -206,6 +215,7 @@ class Engine extends Process{
     this.setBackgroundImage(backgroundImage);
 
     this.trackInterval = trackInterval;
+    this.existLimit = existLimit;
 
     this.posX = posX;
     this.posY = posY;
@@ -315,12 +325,7 @@ class Engine extends Process{
     Object.values(this.objects).forEach(object=>{
       const { posX, posY } = object.getPosition();
 
-      if(
-        posX > 10000||
-        posX < -10000||
-        posY > 10000||
-        posY < -10000
-      ){
+      if(Math.abs(posX) > this.existLimit||Math.abs(posY) > this.existLimit){
         this.deSpawn(object.type,object.name);
       }
     });
@@ -503,7 +508,7 @@ class Engine extends Process{
    * @param {number} posY 対象のY座標
    * @returns {(Circle | Square | Rope | Ground | Curve)[]} 存在した物体の配列
    */
-  public checkObjectPosition(posX: number,posY: number): (Circle | Square | Rope | Ground | Curve)[]{
+  public checkObject(posX: number,posY: number): (Circle | Square | Rope | Ground | Curve)[]{
     const targets: (Circle | Square | Rope | Ground | Curve)[] = [];
 
     Object.values(this.objects).forEach(object=>{
@@ -543,7 +548,7 @@ class Engine extends Process{
    * @param {number} posY 対象のY座標
    * @returns {Entity[]} 存在したエンティティー
    */
-  public checkEntityPosition(posX: number,posY: number): Entity[]{
+  public checkEntity(posX: number,posY: number): Entity[]{
     const targets: Entity[] = [];
 
     this.entities.forEach(entity=>{
@@ -656,6 +661,8 @@ class Engine extends Process{
       friction: this.friction,
       backgroundColor: this.backgroundColor,
       backgroundImage: this.backgroundImage?.src||null,
+      trackInterval: this.trackInterval,
+      existLimit: this.existLimit,
       posX: this.posX,
       posY: this.posY,
       circle: circle,
@@ -671,23 +678,18 @@ class Engine extends Process{
    * @param {ExportData} data エクスポートデータ
    */
   public import(data: ExportData): void{
-    this.gravity = data.gravity;
-    this.friction = data.friction;
+    this.gravity = data.gravity||5000;
+    this.friction = data.friction||0.001;
+    this.trackInterval = data.trackInterval||100;
+    this.existLimit = data.existLimit||10000;
+    this.posX = data.posX||0;
+    this.posY = data.posY||0;
+    this.backgroundColor = data.backgroundColor;
 
     this.clear({ force: true });
 
     if(data.backgroundImage){
       this.setBackgroundImage(data.backgroundImage);
-    }else if(data.backgroundColor){
-      this.backgroundColor = data.backgroundColor;
-    }
-
-    if(data.posX){
-      this.posX = data.posX;
-    }
-
-    if(data.posY){
-      this.posY = data.posY;
     }
 
     if(data.ground){
