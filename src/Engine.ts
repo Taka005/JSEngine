@@ -357,6 +357,7 @@ class Engine extends Process{
 
     if(this.isTrack){
       this.ctx.globalAlpha = 0.5;
+      this.ctx.globalCompositeOperation = "source-out";
 
       Object.values(this.tracks).forEach(track=>{
         track.draw(this.ctx);
@@ -369,6 +370,7 @@ class Engine extends Process{
       }
 
       this.ctx.globalAlpha = 1;
+      this.ctx.globalCompositeOperation = "source-over";
     }
 
     this.ctx.restore();
@@ -382,8 +384,9 @@ class Engine extends Process{
       this.ctx.textBaseline = "middle";
       this.ctx.fillText(`${this.correntPps}PPS`,38,15);
       this.ctx.fillText(`${this.correntFps}FPS`,110,15);
-      this.ctx.fillText(`${Object.values(this.objects).length + Object.values(this.grounds).length}Objects`,195,15);
-      this.ctx.fillText(`${this.entities.length}Entities`,295,15);
+      this.ctx.fillText(`${Object.values(this.objects).length + Object.values(this.grounds).length}Objects`,192,15);
+      this.ctx.fillText(`${this.entities.length}Entities`,290,15);
+      this.ctx.fillText(`${this.tracks.length}Tracks`,340,15);
     }
 
     this.dispatchEvent(new CustomEvent(Event.DrawUpdate));
