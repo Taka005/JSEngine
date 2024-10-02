@@ -211,6 +211,8 @@ class Engine extends Process{
 
     this.ctx = ctx;
 
+    this.ctx.globalCompositeOperation = "source-atop";
+
     this.backgroundColor = backgroundColor;
     this.setBackgroundImage(backgroundImage);
 
