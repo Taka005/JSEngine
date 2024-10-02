@@ -183,6 +183,10 @@ document.addEventListener("keydown",(event)=>{
       engine.step();
     }
   }
+
+  if(event.code === "KeyC"){
+    eval(prompt("スクリプトを実行"));
+  }
 });
 
 document.addEventListener("keyup",(event)=>{
