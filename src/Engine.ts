@@ -382,11 +382,8 @@ class Engine extends Process{
       this.ctx.fillStyle = "black";
       this.ctx.textAlign = "center";
       this.ctx.textBaseline = "middle";
-      this.ctx.fillText(`${this.correntPps}PPS`,38,15);
-      this.ctx.fillText(`${this.correntFps}FPS`,110,15);
-      this.ctx.fillText(`${Object.values(this.objects).length + Object.values(this.grounds).length}Objects`,194,15);
-      this.ctx.fillText(`${this.entities.length}Entities`,290,15);
-      this.ctx.fillText(`${this.tracks.length}Tracks`,360,15);
+
+      this.ctx.fillText(`${this.correntPps}PPS ${this.correntFps}FPS ${Object.values(this.objects).length + Object.values(this.grounds).length} ${this.entities.length}Entities ${this.tracks.length}Tracks`,this.canvas.width/2,15)
     }
 
     this.dispatchEvent(new CustomEvent(Event.DrawUpdate));
