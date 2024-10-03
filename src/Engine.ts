@@ -48,7 +48,7 @@ type ClearOption = {
  * @property {string} backgroundColor 背景色
  * @property {string | null} backgroundImage 背景画像
  * @property {number} trackInterval 履歴の保存間隔
- * @property {number} existLimit 物体の存在範囲
+ * @property {number} mapSize 物体の存在範囲
  * @property {number} posX 描画X座標
  * @property {number} posY 描画Y座標
  * @property {CircleOption[]} circle 全ての円の配列
@@ -63,7 +63,7 @@ type ExportData = {
   backgroundColor: string;
   backgroundImage: string | null;
   trackInterval: number;
-  existLimit: number;
+  mapSize: number;
   posX: number;
   posY: number;
   entity?: CircleOption[];
@@ -110,7 +110,7 @@ class Engine extends Process{
   /**
    * 物体の存在範囲
    */
-  public existLimit: number;
+  public mapSize: number;
 
   /**
    * 描画位置座標
@@ -197,7 +197,7 @@ class Engine extends Process{
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
    * @param {EngineOption} option エンジンオプション
    */
-  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, trackInterval = 100, existLimit = 10000 }: EngineOption = {}){
+  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, trackInterval = 100, mapSize = 10000 }: EngineOption = {}){
     super({
       pps: pps,
       gravity: gravity,
@@ -215,7 +215,7 @@ class Engine extends Process{
     this.setBackgroundImage(backgroundImage);
 
     this.trackInterval = trackInterval;
-    this.existLimit = existLimit;
+    this.mapSize = mapSize;
 
     this.posX = posX;
     this.posY = posY;
@@ -325,7 +325,7 @@ class Engine extends Process{
     Object.values(this.objects).forEach(object=>{
       const { posX, posY } = object.getPosition();
 
-      if(Math.abs(posX) > this.existLimit||Math.abs(posY) > this.existLimit){
+      if(Math.abs(posX) > this.mapSize||Math.abs(posY) > this.mapSize){
         this.deSpawn(object.type,object.name);
       }
     });
@@ -399,6 +399,7 @@ class Engine extends Process{
    */
   private setPPS(): void{
     this.updateCount++;
+
     const nextTime: DOMHighResTimeStamp = performance.now();
     const deltaTime: number = nextTime - this.lastUpdate;
   
@@ -414,6 +415,7 @@ class Engine extends Process{
    */
   private setFPS(): void{
     this.drawCount++;
+
     const nextTime: DOMHighResTimeStamp = performance.now();
     const deltaTime: number = nextTime - this.lastDraw;
 
@@ -662,7 +664,7 @@ class Engine extends Process{
       backgroundColor: this.backgroundColor,
       backgroundImage: this.backgroundImage?.src||null,
       trackInterval: this.trackInterval,
-      existLimit: this.existLimit,
+      mapSize: this.mapSize,
       posX: this.posX,
       posY: this.posY,
       circle: circle,
@@ -681,7 +683,7 @@ class Engine extends Process{
     this.gravity = data.gravity||5000;
     this.friction = data.friction||0.001;
     this.trackInterval = data.trackInterval||100;
-    this.existLimit = data.existLimit||10000;
+    this.mapSize = data.mapSize||10000;
     this.posX = data.posX||0;
     this.posY = data.posY||0;
     this.backgroundColor = data.backgroundColor;
