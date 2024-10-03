@@ -617,7 +617,7 @@ class Engine extends Process{
       this.ctx.moveTo(posX,-this.posY);
       this.ctx.lineTo(posX,this.canvas.height - this.posY);
 
-      if(posX > this.mapSize){
+      if(Math.abs(posX) > this.mapSize){
         this.ctx.fillStyle = "red";
       }else{
         this.ctx.fillStyle = "black";
@@ -630,7 +630,7 @@ class Engine extends Process{
       this.ctx.moveTo(-this.posX,posY);
       this.ctx.lineTo(this.canvas.width - this.posX,posY);
 
-      if(posY > this.mapSize){
+      if(Math.abs(posY) > this.mapSize){
         this.ctx.fillStyle = "red";
       }else{
         this.ctx.fillStyle = "black";
