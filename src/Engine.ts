@@ -610,7 +610,6 @@ class Engine extends Process{
     const startY = this.posY - this.posY%25;
 
     this.ctx.font = "10px Arial";
-    this.ctx.fillStyle = "black";
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "middle";
 
@@ -618,12 +617,24 @@ class Engine extends Process{
       this.ctx.moveTo(posX,-this.posY);
       this.ctx.lineTo(posX,this.canvas.height - this.posY);
 
+      if(posX > this.mapSize){
+        this.ctx.fillStyle = "red";
+      }else{
+        this.ctx.fillStyle = "black";
+      }
+
       this.ctx.fillText(`${Math.round(posX)}`,posX,-this.posY + 10);
     }
 
     for(let posY: number = -startY;posY < this.canvas.height - this.posY;posY += 25){
       this.ctx.moveTo(-this.posX,posY);
       this.ctx.lineTo(this.canvas.width - this.posX,posY);
+
+      if(posY > this.mapSize){
+        this.ctx.fillStyle = "red";
+      }else{
+        this.ctx.fillStyle = "black";
+      }
 
       this.ctx.fillText(`${Math.round(posY)}`,-this.posX + 15,posY);
     }
