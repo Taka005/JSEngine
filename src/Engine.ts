@@ -351,17 +351,12 @@ class Engine extends Process{
   private draw(): void{
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
-    const centerX = this.canvas.width/2;
-    const centerY = this.canvas.height/2;
-  
-    this.ctx.translate(centerX,centerY);
-    this.ctx.scale(this.scale,this.scale);
-    this.ctx.translate(-centerX,-centerY);
-
     this.drawBackground();
 
     this.ctx.save();
     this.ctx.translate(this.posX,this.posY);
+
+    this.setScale();
 
     if(this.isDebug){
       this.drawGrid();
@@ -399,7 +394,7 @@ class Engine extends Process{
 
     this.setFPS();
 
-    this.ctx.setTransform(1,0,0,1,0,0);
+    //this.ctx.setTransform(1,0,0,1,0,0);
 
     if(this.isDev){
       this.ctx.font = "20px Arial";
@@ -445,6 +440,18 @@ class Engine extends Process{
       this.lastDraw = nextTime;
       this.drawCount = 0;
     }
+  }
+
+  /**
+   * 描画倍率を設定します
+   */
+  private setScale(): void{
+    const centerX = this.canvas.width/2;
+    const centerY = this.canvas.height/2;
+  
+    this.ctx.translate(centerX,centerY);
+    this.ctx.scale(this.scale,this.scale);
+    this.ctx.translate(-centerX,-centerY);
   }
 
   /**
