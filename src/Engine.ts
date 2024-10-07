@@ -394,8 +394,6 @@ class Engine extends Process{
 
     this.setFPS();
 
-    //this.ctx.setTransform(1,0,0,1,0,0);
-
     if(this.isDev){
       this.ctx.font = "20px Arial";
       this.ctx.fillStyle = "black";
