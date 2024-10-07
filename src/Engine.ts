@@ -647,7 +647,7 @@ class Engine extends Process{
         this.ctx.fillStyle = "black";
       }
 
-      this.ctx.fillText(`${Math.round(posX*this.scale)}`,posX,-this.posY + 10);
+      this.ctx.fillText(`${Math.round(posX)}`,posX,-this.posY + 10);
     }
 
     for(let posY: number = -startY;posY < this.canvas.height - this.posY;posY += 25){
@@ -660,7 +660,7 @@ class Engine extends Process{
         this.ctx.fillStyle = "black";
       }
 
-      this.ctx.fillText(`${Math.round(posY*this.scale)}`,-this.posX + 15,posY);
+      this.ctx.fillText(`${Math.round(posY)}`,-this.posX + 15,posY);
     }
 
     this.ctx.strokeStyle = "black";
