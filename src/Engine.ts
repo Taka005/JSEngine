@@ -16,6 +16,8 @@ import { Key } from "./Key";
  * @property {number} friction 摩擦係数
  * @property {number} posX 描画X座標
  * @property {number} posY 描画Y座標
+ * @property {number} scale 描画倍率
+ * @property {number} mapSize 物体の存在範囲
  * @property {string} backgroundColor 背景色
  * @property {string | null} backgroundImage 背景画像URL
  * @property {number} trackInterval 履歴の保存間隔(ミリ秒)
@@ -26,6 +28,8 @@ type EngineOption = {
   friction?: number;
   posX?: number;
   posY?: number;
+  scale?: number;
+  mapSize?: number;
   backgroundColor?: string;
   backgroundImage?: string | null;
   trackInterval?: number;
@@ -47,6 +51,7 @@ type ClearOption = {
  * @property {number} friction 摩擦係数
  * @property {string} backgroundColor 背景色
  * @property {string | null} backgroundImage 背景画像
+ * @property {number} scale 描画倍率
  * @property {number} trackInterval 履歴の保存間隔
  * @property {number} mapSize 物体の存在範囲
  * @property {number} posX 描画X座標
@@ -62,6 +67,7 @@ type ExportData = {
   friction: number;
   backgroundColor: string;
   backgroundImage: string | null;
+  scale: number;
   trackInterval: number;
   mapSize: number;
   posX: number;
@@ -101,6 +107,11 @@ class Engine extends Process{
    * 背景画像
    */
   public backgroundImage: HTMLImageElement | null = null;
+
+  /**
+   * 描画倍率
+   */
+  public scale: number;
 
   /**
    * 履歴の保存間隔
@@ -197,7 +208,7 @@ class Engine extends Process{
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
    * @param {EngineOption} option エンジンオプション
    */
-  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, trackInterval = 100, mapSize = 10000 }: EngineOption = {}){
+  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, scale = 1, trackInterval = 100, mapSize = 10000 }: EngineOption = {}){
     super({
       pps: pps,
       gravity: gravity,
@@ -214,6 +225,7 @@ class Engine extends Process{
     this.backgroundColor = backgroundColor;
     this.setBackgroundImage(backgroundImage);
 
+    this.scale = scale;
     this.trackInterval = trackInterval;
     this.mapSize = mapSize;
 
@@ -339,6 +351,13 @@ class Engine extends Process{
   private draw(): void{
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
+    const centerX = this.canvas.width/2;
+    const centerY = this.canvas.height/2;
+  
+    this.ctx.translate(centerX,centerY);
+    this.ctx.scale(this.scale,this.scale);
+    this.ctx.translate(-centerX,-centerY);
+
     this.drawBackground();
 
     this.ctx.save();
@@ -379,6 +398,8 @@ class Engine extends Process{
     this.ctx.restore();
 
     this.setFPS();
+
+    this.ctx.setTransform(1,0,0,1,0,0);
 
     if(this.isDev){
       this.ctx.font = "20px Arial";
