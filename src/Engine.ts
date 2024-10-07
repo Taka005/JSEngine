@@ -356,15 +356,13 @@ class Engine extends Process{
     this.ctx.save();
     this.ctx.translate(this.posX,this.posY);
 
+    if(this.isDebug) this.drawGrid();
+
     this.setScale();
 
-    if(this.isDebug){
-      this.drawGrid();
-
-      Object.values(this.objects).forEach(object=>{
-        object.drawVector(this.ctx);
-      });
-    }
+    if(this.isDebug) Object.values(this.objects).forEach(object=>{
+      object.drawVector(this.ctx);
+    });
 
     Object.values(this.grounds).forEach(ground=>{
       ground.draw(this.ctx);
@@ -649,7 +647,7 @@ class Engine extends Process{
         this.ctx.fillStyle = "black";
       }
 
-      this.ctx.fillText(`${Math.round(posX)}`,posX,-this.posY + 10);
+      this.ctx.fillText(`${Math.round(posX*this.scale)}`,posX,-this.posY + 10);
     }
 
     for(let posY: number = -startY;posY < this.canvas.height - this.posY;posY += 25){
@@ -662,7 +660,7 @@ class Engine extends Process{
         this.ctx.fillStyle = "black";
       }
 
-      this.ctx.fillText(`${Math.round(posY)}`,-this.posX + 15,posY);
+      this.ctx.fillText(`${Math.round(posY*this.scale)}`,-this.posX + 15,posY);
     }
 
     this.ctx.strokeStyle = "black";
