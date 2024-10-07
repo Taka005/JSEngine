@@ -199,13 +199,8 @@ game.addEventListener("mousemove",(event)=>{
   if(event.buttons === 1){
     if(!targetEntity) return;
 
-    const rect = event.target.getBoundingClientRect();
-
-    const posX = event.clientX - rect.left - engine.posX;
-    const posY = event.clientY - rect.top - engine.posY;
-
-    targetEntity.posX = posX;
-    targetEntity.posY = posY;
+    targetEntity.posX = getPosX(event);
+    targetEntity.posY = getPosY(event);
     targetEntity.speedX = 0;
     targetEntity.speedY = 0;
   }
@@ -216,32 +211,30 @@ game.addEventListener("mousedown",(event)=>{
 
   if(tool === "screen") return;
 
-  const rect = event.target.getBoundingClientRect();
-
   if(tool === "delete"){
-    engine.checkObject(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)
+    engine.checkObject(getPosX(event),getPosY(event))
       .forEach(object=>{
         engine.deSpawn(object.type,object.name);
       });
   }else if(tool === "move"){
-    const entity = engine.checkEntity(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
+    const entity = engine.checkEntity(getPosX(event),getPosY(event))[0];
     if(!entity) return;
 
     targetEntity = entity;
   }else if(tool === "control"){
-    const entity = engine.checkEntity(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
+    const entity = engine.checkEntity(getPosX(event),getPosY(event))[0];
     if(!entity) return;
 
     targetEntity = entity;
   }else if(tool === "connect"){
     if(Object.keys(position).length === 0){
       position = {
-        posX: event.clientX - rect.left - engine.posX,
-        posY: event.clientY - rect.top - engine.posY
+        posX: getPosX(event),
+        posY: getPosY(event)
       }
     }else{
       const source = engine.checkEntity(position.posX,position.posY)[0];
-      const target = engine.checkEntity(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
+      const target = engine.checkEntity(getPosX(event),getPosY(event))[0];
       if(!source||!target) return position = {};
 
       if(source.name === target.name) return position = {};
@@ -263,12 +256,12 @@ game.addEventListener("mousedown",(event)=>{
   }else if(tool === "disConnect"){
     if(Object.keys(position).length === 0){
       position = {
-        posX: event.clientX - rect.left - engine.posX,
-        posY: event.clientY - rect.top - engine.posY
+        posX: getPosX(event),
+        posY: getPosY(event)
       }
     }else{
       const source = engine.checkEntity(position.posX,position.posY)[0];
-      const target = engine.checkEntity(event.clientX - rect.left - engine.posX,event.clientY - rect.top - engine.posY)[0];
+      const target = engine.checkEntity(getPosX(event),getPosY(event))[0];
       if(!source||!target) return position = {};
 
       if(source.name === target.name) return position = {};
@@ -281,15 +274,15 @@ game.addEventListener("mousedown",(event)=>{
   }else if(tool === "ground"){
     if(Object.keys(position).length === 0){
       position = {
-        posX: event.clientX - rect.left - engine.posX,
-        posY: event.clientY - rect.top - engine.posY
+        posX: getPosX(event),
+        posY: getPosY(event)
       }
     }else{
       engine.spawn("ground",[{
         startX: position.posX,
         startY: position.posY,
-        endX: event.clientX - rect.left - engine.posX,
-        endY: event.clientY - rect.top - engine.posY,
+        endX: getPosX(event),
+        endY: getPosY(event),
         size: size,
         color: color,
         image: image
@@ -300,20 +293,20 @@ game.addEventListener("mousedown",(event)=>{
   }else if(tool === "curve"){
     if(Object.keys(position).length === 0){
       position = {
-        startX: event.clientX - rect.left - engine.posX,
-        startY: event.clientY - rect.top - engine.posY
+        startX: getPosX(event),
+        startY: getPosY(event)
       }
     }else if(Object.keys(position).length === 2){
-        position.middleX = event.clientX - rect.left - engine.posX;
-        position.middleY = event.clientY - rect.top - engine.posY;
+        position.middleX = getPosX(event);
+        position.middleY = getPosY(event);
     }else{
       engine.spawn("curve",[{
         startX: position.startX,
         startY: position.startY,
         middleX: position.middleX,
         middleY: position.middleY,
-        endX: event.clientX - rect.left - engine.posX,
-        endY: event.clientY - rect.top - engine.posY,
+        endX: getPosX(event),
+        endY: getPosY(event),
         size: size,
         color: color,
         image: image
@@ -324,15 +317,15 @@ game.addEventListener("mousedown",(event)=>{
   }else if(tool === "rope"){
     if(Object.keys(position).length === 0){
       position = {
-        posX: event.clientX - rect.left - engine.posX,
-        posY: event.clientY - rect.top - engine.posY
+        posX: getPosX(event),
+        posY: getPosY(event)
       }
     }else{
       engine.spawn("rope",[{
         startX: position.posX,
         startY: position.posY,
-        endX: event.clientX - rect.left - engine.posX,
-        endY: event.clientY - rect.top - engine.posY,
+        endX: getPosX(event),
+        endY: getPosY(event),
         mass: mass,
         stiff: stiff,
         speedX: speedX,
@@ -346,8 +339,8 @@ game.addEventListener("mousedown",(event)=>{
     }
   }else{
     engine.spawn(tool,[{
-      posX: event.clientX - rect.left - engine.posX,
-      posY: event.clientY - rect.top - engine.posY,
+      posX: getPosX(event),
+      posY: getPosY(event),
       size: size,
       mass: mass,
       stiff: stiff,
@@ -550,3 +543,15 @@ setInterval(()=>{
     saveData = engine.export();
   }
 },15000);
+
+function getPosX(event){
+  const rect = event.target.getBoundingClientRect();
+
+  return (event.clientX - rect.left - engine.posX)*engine.scale;
+}
+
+function getPosY(event){
+  const rect = event.target.getBoundingClientRect();
+
+  return (event.clientY - rect.top - engine.posY)*engine.scale;
+}
