@@ -547,11 +547,11 @@ setInterval(()=>{
 function getPosX(event){
   const rect = event.target.getBoundingClientRect();
 
-  return (event.clientX - rect.left - engine.posX - engine.canvas.width/2)*engine.scale + engine.canvas.width/2;
+  return (event.clientX - rect.left - engine.posX - engine.canvas.width/2)*(1/engine.scale) + engine.canvas.width/2;
 }
 
 function getPosY(event){
   const rect = event.target.getBoundingClientRect();
 
-  return (event.clientY - rect.top - engine.posY - engine.canvas.height/2)*engine.scale + engine.canvas.height/2;
+  return (event.clientY - rect.top - engine.posY - engine.canvas.height/2)*(1/engine.scale) + engine.canvas.height/2;
 }
