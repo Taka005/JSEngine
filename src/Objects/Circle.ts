@@ -191,6 +191,7 @@ class Circle extends EntityManager{
       speedX: speedX,
       speedY: speedY,
       color: this.color,
+      subColor: this.subColor,
       image: this.image?.src || null,
       entities: this.entities.map(entity=>entity.toJSON())
     }
