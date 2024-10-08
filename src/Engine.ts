@@ -635,7 +635,7 @@ class Engine extends Process{
     const gridSize = Math.round(25/this.scale);
     const startX: number = this.posX - this.posX%gridSize;
     const startY: number = this.posY - this.posY%gridSize;
-
+    console.log(startX,startY);
     this.ctx.font = `${Math.round(10/this.scale)}px Arial`;
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "middle";

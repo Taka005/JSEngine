@@ -22,6 +22,9 @@ const gravityValue = document.getElementById("gravityValue");
 const frictionInput = document.getElementById("frictionInput");
 const frictionValue = document.getElementById("frictionValue");
 
+const scaleInput = document.getElementById("scaleInput");
+const scaleValue = document.getElementById("scaleValue");
+
 const toolInput = document.getElementById("toolInput");
 
 const sizeInput = document.getElementById("sizeInput");
@@ -74,6 +77,7 @@ const dataFile = document.getElementById("dataFile");
 
 gravityValue.textContent = gravityInput.value;
 frictionValue.textContent = frictionInput.value;
+scaleValue.textContent = scaleInput.value;
 sizeValue.textContent = sizeInput.value;
 massValue.textContent = massInput.value;
 stiffValue.textContent = stiffInput.value;
@@ -367,6 +371,11 @@ gravityInput.addEventListener("input",(event)=>{
 frictionInput.addEventListener("input",(event)=>{
   frictionValue.textContent = event.target.value;
   engine.friction = event.target.value;
+});
+
+scaleInput.addEventListener("input",(event)=>{
+  scaleValue.textContent = event.target.value;
+  engine.scale = event.target.value;
 });
 
 toolInput.addEventListener("input",(event)=>{
