@@ -643,7 +643,7 @@ class Engine extends Process{
       this.ctx.moveTo(posX,-this.posY);
       this.ctx.lineTo(posX,this.canvas.height - this.posY);
 
-      const fixPosX = (posX + this.posX)/this.scale - this.posX; 
+      const fixPosX = (posX - this.posX)/this.scale + this.posX; 
 
       this.ctx.fillStyle = Math.abs(fixPosX) >= this.mapSize ? "red" : "black";    
       this.ctx.fillText(`${Math.round(fixPosX)}`,posX,-this.posY + 10);
@@ -653,7 +653,7 @@ class Engine extends Process{
       this.ctx.moveTo(-this.posX,posY);
       this.ctx.lineTo(this.canvas.width - this.posX,posY);
 
-      const fixPosY = (posY + this.posY)/this.scale - this.posY; 
+      const fixPosY = (posY - this.posY)/this.scale + this.posY; 
 
       this.ctx.fillStyle = Math.abs(fixPosY) >= this.mapSize ? "red" : "black";
       this.ctx.fillText(`${Math.round(fixPosY)}`,-this.posX + 15,posY);
@@ -694,6 +694,7 @@ class Engine extends Process{
       friction: this.friction,
       backgroundColor: this.backgroundColor,
       backgroundImage: this.backgroundImage?.src||null,
+      scale: this.scale,
       trackInterval: this.trackInterval,
       mapSize: this.mapSize,
       posX: this.posX,
@@ -718,6 +719,7 @@ class Engine extends Process{
     this.posX = data.posX||0;
     this.posY = data.posY||0;
     this.backgroundColor = data.backgroundColor;
+    this.scale = data.scale||1;
 
     this.clear({ force: true });
 
