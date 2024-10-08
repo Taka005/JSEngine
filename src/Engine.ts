@@ -356,11 +356,11 @@ class Engine extends Process{
     this.ctx.save();
     this.ctx.translate(this.posX,this.posY);
 
+    if(this.isDebug) this.drawGrid();
+
     this.setScale();
 
     if(this.isDebug){
-      this.drawGrid();
-
       Object.values(this.objects).forEach(object=>{
         object.drawVector(this.ctx);
       });
