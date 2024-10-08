@@ -643,16 +643,20 @@ class Engine extends Process{
       this.ctx.moveTo(posX,-this.posY);
       this.ctx.lineTo(posX,this.canvas.height - this.posY);
 
-      this.ctx.fillStyle = Math.abs(posX/this.scale) >= this.mapSize ? "red" : "black";    
-      this.ctx.fillText(`${Math.round(posX/this.scale)}`,posX,-this.posY + 10);
+      const fixPosX = (posX + this.posX)/this.scale - this.posX; 
+
+      this.ctx.fillStyle = Math.abs(fixPosX) >= this.mapSize ? "red" : "black";    
+      this.ctx.fillText(`${Math.round(fixPosX)}`,posX,-this.posY + 10);
     }
 
     for(let posY: number = -startY;posY < this.canvas.height - this.posY;posY += 25){
       this.ctx.moveTo(-this.posX,posY);
       this.ctx.lineTo(this.canvas.width - this.posX,posY);
 
-      this.ctx.fillStyle = Math.abs(posY/this.scale) >= this.mapSize ? "red" : "black";
-      this.ctx.fillText(`${Math.round(posY/this.scale)}`,-this.posX + 15,posY);
+      const fixPosY = (posY + this.posY)/this.scale - this.posY; 
+
+      this.ctx.fillStyle = Math.abs(fixPosY) >= this.mapSize ? "red" : "black";
+      this.ctx.fillText(`${Math.round(fixPosY)}`,-this.posX + 15,posY);
     }
 
     this.ctx.strokeStyle = "black";
