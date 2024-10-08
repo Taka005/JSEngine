@@ -632,28 +632,35 @@ class Engine extends Process{
   private drawGrid(): void{
     this.ctx.beginPath();
 
-    const gridSize = Math.round(25/this.scale);
-    const startX: number = this.posX - this.posX%gridSize;
-    const startY: number = this.posY - this.posY%gridSize;
-    console.log(startX,startY);
-    this.ctx.font = `${Math.round(10/this.scale)}px Arial`;
+    const startX: number = this.posX - this.posX%25;
+    const startY: number = this.posY - this.posY%25;
+
+    this.ctx.font = "10px Arial";
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "middle";
 
-    for(let posX: number = -startX;posX < this.canvas.width/this.scale - this.posX;posX += gridSize){
+    for(let posX: number = -startX;posX < this.canvas.width - this.posX;posX += 25){
       this.ctx.moveTo(posX,-this.posY);
-      this.ctx.lineTo(posX,this.canvas.height/this.scale - this.posY);
+      this.ctx.lineTo(posX,this.canvas.height - this.posY);
 
       this.ctx.fillStyle = Math.abs(posX) >= this.mapSize ? "red" : "black";
-      this.ctx.fillText(`${Math.round(posX)}`,posX,-this.posY + 10);
+      if(posX >= this.canvas.width/2){
+        this.ctx.fillText(`${Math.round(posX/this.scale)}`,posX,-this.posY + 10);
+      }else{
+        this.ctx.fillText(`${Math.round(posX*this.scale)}`,posX,-this.posY + 10);
+      }
     }
 
-    for(let posY: number = -startY;posY < this.canvas.height/this.scale - this.posY;posY += gridSize){
+    for(let posY: number = -startY;posY < this.canvas.height - this.posY;posY += 25){
       this.ctx.moveTo(-this.posX,posY);
-      this.ctx.lineTo(this.canvas.width/this.scale - this.posX,posY);
+      this.ctx.lineTo(this.canvas.width - this.posX,posY);
 
       this.ctx.fillStyle = Math.abs(posY) >= this.mapSize ? "red" : "black";
-      this.ctx.fillText(`${Math.round(posY)}`,-this.posX + 15,posY);
+      if(posY >= this.canvas.height){
+        this.ctx.fillText(`${Math.round(posY/this.scale)}`,-this.posX + 15,posY);
+      }else{
+        this.ctx.fillText(`${Math.round(posY*this.scale)}`,-this.posX + 15,posY);
+      }
     }
 
     this.ctx.strokeStyle = "black";
