@@ -633,8 +633,8 @@ class Engine extends Process{
     this.ctx.beginPath();
 
     const gridSize = Math.round(25/this.scale);
-    const startX: number = this.posX - this.posX%gridSize;
-    const startY: number = this.posY - this.posY%gridSize;
+    const startX: number = (this.posX - this.posX%gridSize)/this.scale;
+    const startY: number = (this.posY - this.posY%gridSize)/this.scale;
 
     this.ctx.font = `${Math.round(10/this.scale)}px Arial`;
     this.ctx.textAlign = "center";
