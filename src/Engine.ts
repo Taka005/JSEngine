@@ -630,8 +630,8 @@ class Engine extends Process{
   private drawGrid(): void{
     this.ctx.beginPath();
 
-    const startX = this.posX - this.posX%25;
-    const startY = this.posY - this.posY%25;
+    const startX: number = this.posX - this.posX%25;
+    const startY: number = this.posY - this.posY%25;
 
     this.ctx.font = "10px Arial";
     this.ctx.textAlign = "center";
@@ -647,7 +647,7 @@ class Engine extends Process{
         this.ctx.fillStyle = "black";
       }
 
-      this.ctx.fillText(`${Math.round(posX)}`,posX,-this.posY + 10);
+      this.ctx.fillText(`${Math.round(posX*(1/this.scale))}`,posX,-this.posY + 10);
     }
 
     for(let posY: number = -startY;posY < this.canvas.height - this.posY;posY += 25){
@@ -660,7 +660,7 @@ class Engine extends Process{
         this.ctx.fillStyle = "black";
       }
 
-      this.ctx.fillText(`${Math.round(posY)}`,-this.posX + 15,posY);
+      this.ctx.fillText(`${Math.round(posY)*(1/this.scale)}`,-this.posX + 15,posY);
     }
 
     this.ctx.strokeStyle = "black";
