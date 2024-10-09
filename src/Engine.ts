@@ -358,7 +358,7 @@ class Engine extends Process{
 
     if(this.isDebug) this.drawGrid();
 
-    this.setScale();
+    this.ctx.scale(this.scale,this.scale);
 
     if(this.isDebug){
       Object.values(this.objects).forEach(object=>{
@@ -438,18 +438,6 @@ class Engine extends Process{
       this.lastDraw = nextTime;
       this.drawCount = 0;
     }
-  }
-
-  /**
-   * 描画倍率を設定します
-   */
-  private setScale(): void{
-    const centerX = this.canvas.width/2;
-    const centerY = this.canvas.height/2;
-  
-    //this.ctx.translate(centerX,centerY);
-    this.ctx.scale(this.scale,this.scale);
-    //this.ctx.translate(-centerX,-centerY);
   }
 
   /**
