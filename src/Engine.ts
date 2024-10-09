@@ -356,11 +356,11 @@ class Engine extends Process{
     this.ctx.save();
     this.ctx.translate(this.posX,this.posY);
 
+    if(this.isDebug) this.drawGrid();
+
     this.setScale();
 
     if(this.isDebug){
-      this.drawGrid();
-
       Object.values(this.objects).forEach(object=>{
         object.drawVector(this.ctx);
       });
@@ -632,32 +632,35 @@ class Engine extends Process{
   private drawGrid(): void{
     this.ctx.beginPath();
 
-    const gridSize = 25/this.scale;
-    const startX: number = this.posX - this.posX%gridSize;
-    const startY: number = this.posY - this.posY%gridSize;
+    const startX: number = this.posX - this.posX%25;
+    const startY: number = this.posY - this.posY%25;
 
-    this.ctx.font = `${10/this.scale}px Arial`;
+    this.ctx.font = "10px Arial";
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "middle";
 
-    for(let posX: number = -startX;posX < this.canvas.width/this.scale - this.posX;posX += gridSize){
+    for(let posX: number = -startX;posX < this.canvas.width - this.posX;posX += 25){
       this.ctx.moveTo(posX,-this.posY);
-      this.ctx.lineTo(posX,this.canvas.height/this.scale - this.posY);
+      this.ctx.lineTo(posX,this.canvas.height - this.posY);
 
-      this.ctx.fillStyle = Math.abs(posX) >= this.mapSize ? "red" : "black";
-      this.ctx.fillText(`${Math.round(posX)}`,posX,-this.posY + 10);
+      const fixPosX = posX/this.scale;
+
+      this.ctx.fillStyle = Math.abs(fixPosX) >= this.mapSize ? "red" : "black";    
+      this.ctx.fillText(`${Math.round(fixPosX)}`,posX,-this.posY + 10);
     }
 
-    for(let posY: number = -startY;posY < this.canvas.height/this.scale - this.posY;posY += gridSize){
+    for(let posY: number = -startY;posY < this.canvas.height - this.posY;posY += 25){
       this.ctx.moveTo(-this.posX,posY);
-      this.ctx.lineTo(this.canvas.width/this.scale - this.posX,posY);
+      this.ctx.lineTo(this.canvas.width - this.posX,posY);
 
-      this.ctx.fillStyle = Math.abs(posY) >= this.mapSize ? "red" : "black";
-      this.ctx.fillText(`${Math.round(posY)}`,-this.posX + 15,posY);
+      const fixPosY = posY/this.scale; 
+
+      this.ctx.fillStyle = Math.abs(fixPosY) >= this.mapSize ? "red" : "black";
+      this.ctx.fillText(`${Math.round(fixPosY)}`,-this.posX + 15,posY);
     }
 
     this.ctx.strokeStyle = "black";
-    this.ctx.lineWidth = 0.1/this.scale;
+    this.ctx.lineWidth = 0.1;
     this.ctx.stroke();
   }
 
