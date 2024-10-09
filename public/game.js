@@ -96,11 +96,14 @@ if(localStorage.map){
 
   engine.import(data);
 
-  gravityValue.textContent = data.gravity;
-  gravityInput.value = data.gravity;
+  gravityValue.textContent = data.gravity||500;
+  gravityInput.value = data.gravity||500;
 
-  frictionValue.textContent = data.friction;
-  frictionInput.value = data.friction;
+  frictionValue.textContent = data.friction||0.001;
+  frictionInput.value = data.friction||0.001;
+
+  scaleValue.textContent = data.scale||1;
+  scaleInput.value = data.scale||1;
 }else{
   engine.spawn("ground",[
     {
