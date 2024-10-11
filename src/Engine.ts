@@ -7,6 +7,7 @@ import { Square, SquareOption } from "./Objects/Square";
 import { Rope, RopeOption } from "./Objects/Rope";
 import { createId, resize, ObjectType, Event } from "./utils";
 import { Key } from "./Key";
+import { Triangle, TriangleOption } from "./Objects/Triangle";
 
 /**
  * エンジンの初期化オブジェクト
@@ -58,6 +59,7 @@ type ClearOption = {
  * @property {number} posY 描画Y座標
  * @property {CircleOption[]} circle 全ての円の配列
  * @property {SquareOption[]} square 全ての四角の配列
+ * @property {TriangleOption[]} triangle 全ての三角の配列
  * @property {RopeOption[]} rope 全てのロープの配列
  * @property {GroundOption[]} ground 全ての地面の配列
  * @property {CurveOption[]} curve 全ての曲線の配列
@@ -75,6 +77,7 @@ type ExportData = {
   entity?: CircleOption[];
   circle: CircleOption[];
   square: SquareOption[];
+  triangle: Triangle[];
   rope: RopeOption[];
   ground: GroundOption[];
   curve: CurveOption[];
@@ -457,6 +460,10 @@ class Engine extends Process{
         const square = new Square(object as SquareOption);
 
         this.objects[object.name] = square;
+      }else if(type === ObjectType.Triangle){
+        const triangle = new Triangle(object as TriangleOption);
+
+        this.objects[object.name] = triangle;
       }else if(type === ObjectType.Rope){
         const rope = new Rope(object as RopeOption);
 
@@ -487,6 +494,11 @@ class Engine extends Process{
     }else if(type === ObjectType.Square){
       const square = this.get<Square>(type,name);
       if(!square) return;
+
+      delete this.objects[name];
+    }else if(type === ObjectType.Triangle){
+      const triangle = this.get<Triangle>(type,name);
+      if(!triangle) return;
 
       delete this.objects[name];
     }else if(type === ObjectType.Rope){
@@ -522,10 +534,10 @@ class Engine extends Process{
    * 指定した座標にある物体を取得します
    * @param {number} posX 対象のX座標
    * @param {number} posY 対象のY座標
-   * @returns {(Circle | Square | Rope | Ground | Curve)[]} 存在した物体の配列
+   * @returns {(Circle | Square| Triangle | Rope | Ground | Curve)[]} 存在した物体の配列
    */
-  public checkObject(posX: number,posY: number): (Circle | Square | Rope | Ground | Curve)[]{
-    const targets: (Circle | Square | Rope | Ground | Curve)[] = [];
+  public checkObject(posX: number,posY: number): (Circle | Square | Triangle | Rope | Ground | Curve)[]{
+    const targets: (Circle | Square | Triangle |Rope | Ground | Curve)[] = [];
 
     Object.values(this.objects).forEach(object=>{
       const entities: Entity[] = object.entities.filter(entity=>{
@@ -661,6 +673,10 @@ class Engine extends Process{
       .filter(object=>object.type === ObjectType.Square)
       .map(object=>object.toJSON());
 
+    const triangle = Object.values(this.objects)
+      .filter(object=>object.type === ObjectType.Triangle)
+      .map(object=>object.toJSON());
+
     const rope = Object.values(this.objects)
       .filter(object=>object.type === ObjectType.Rope)
       .map(object=>object.toJSON());
@@ -685,6 +701,7 @@ class Engine extends Process{
       posY: this.posY,
       circle: circle,
       square: square,
+      triangle: triangle,
       rope: rope,
       ground: grounds,
       curve: curves
@@ -725,6 +742,10 @@ class Engine extends Process{
 
     if(data.square){
       this.spawn(ObjectType.Square,data.square);
+    }
+
+    if(data.triangle){
+      this.spawn(ObjectType.Triangle,data.triangle);
     }
 
     if(data.rope){

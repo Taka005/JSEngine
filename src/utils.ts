@@ -73,6 +73,7 @@ const ObjectType = {
   Ground: "ground",
   Rope: "rope",
   Square: "square",
+  Triangle: "triangle",
   Entity: "entity"
 }
 

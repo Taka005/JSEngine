@@ -3,7 +3,7 @@ import { Entity, EntityOption } from "./Entity";
 import { parseImage, resize, ObjectType } from "../utils";
 
 /**
- * @typedef {Object} SquareOption
+ * @typedef {Object} TriangleOption
  * @property {strint} name 物体名
  * @property {number} posX X座標
  * @property {number} posY Y座標
@@ -16,7 +16,7 @@ import { parseImage, resize, ObjectType } from "../utils";
  * @property {string | null} image 画像
  * @property {EntityOption[]} 構成されているエンティティーの初期化オプション
  */
-type SquareOption = {
+type TriangleOption = {
   name: string;
   posX: number;
   posY: number;
@@ -31,17 +31,17 @@ type SquareOption = {
 }
 
 /**
- * スクエアクラス
- * 四角を制御します
+ * トライアングルクラス
+ * 三角を制御します
  *
  * @extends EntityManager
  */
-class Square extends EntityManager{
+class Triangle extends EntityManager{
 
   /**
    * 種類
    */
-  public readonly type: string = ObjectType.Square;
+  public readonly type: string = ObjectType.Triangle;
 
   /**
    * 名前
@@ -74,9 +74,9 @@ class Square extends EntityManager{
   public image: HTMLImageElement | null;
 
   /**
-   * @param {SquareOption} スクエアオプション
+   * @param {TriangleOption} トライアングルオプション
    */
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: SquareOption){
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: TriangleOption){
     super();
 
     this.name = name;
@@ -89,19 +89,28 @@ class Square extends EntityManager{
     if(entities[0]){
       entities.forEach(entity=>this.create(entity));
     }else{
+      this.create({
+        posX: posX,
+        posY: posY + (2/Math.sqrt(3))*(this.size/2),
+        size: this.size/2,
+        mass: this.mass/3,
+        stiff: this.stiff,
+        speedX: speedX,
+        speedY: speedY,
+        parent: this.name
+      });
+
       for(let i = -1;i<=1;i+=2){
-        for(let j = -1;j<=1;j+=2){
-          this.create({
-            posX: posX + i*(this.size/2),
-            posY: posY + j*(this.size/2),
-            size: this.size/2,
-            mass: this.mass/4,
-            stiff: this.stiff,
-            speedX: speedX,
-            speedY: speedY,
-            parent: this.name
-          });
-        }
+        this.create({
+          posX: posX + i*(this.size/2),
+          posY: posY - (1/Math.sqrt(3))*(this.size/2),
+          size: this.size/2,
+          mass: this.mass/3,
+          stiff: this.stiff,
+          speedX: speedX,
+          speedY: speedY,
+          parent: this.name
+        });
       }
 
       this.connect();
@@ -117,11 +126,11 @@ class Square extends EntityManager{
 
     if(this.image){
       const start: Entity = this.entities[0];
-      const end: Entity = this.entities[2];
+      const end: Entity = this.entities[1];
 
       const rotate: number = Math.atan2(start.posY - end.posY,end.posX - start.posX);
 
-      const { width, height } = resize(this.image,this.size*2);
+      const { width, height } = resize(this.image,this.size);
 
       ctx.save();
       ctx.translate(posX,posY);
@@ -137,30 +146,22 @@ class Square extends EntityManager{
 
       ctx.restore();
     }else{
-      const start = this.entities[0];
-      const end = this.entities[3];
-
-      this.entities.forEach(entity=>{
+      this.entities.forEach(source=>{
         ctx.beginPath();
-        ctx.arc(entity.posX,entity.posY,this.size/2,0,2*Math.PI);
+        ctx.arc(source.posX,source.posY,this.size/2,0,2*Math.PI);
         ctx.fillStyle = this.color;
         ctx.fill();
 
-        if(start.name === entity.name&&end.name === entity.name) return;
+        this.entities.forEach(target=>{
+          if(source.name === target.name) return;
 
-        ctx.beginPath();
-        ctx.moveTo(start.posX,start.posY);
-        ctx.lineTo(entity.posX,entity.posY);
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = this.size;
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(end.posX,end.posY);
-        ctx.lineTo(entity.posX,entity.posY);
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = this.size;
-        ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(source.posX,source.posY);
+          ctx.lineTo(target.posX,target.posY);
+          ctx.strokeStyle = this.color;
+          ctx.lineWidth = this.size;
+          ctx.stroke();
+        });
       });
     }
   }
@@ -185,15 +186,15 @@ class Square extends EntityManager{
    * 物体を複製します
    * @returns {Square} 複製された物体
    */
-  public clone(): Square{
-    return new Square(this.toJSON());
+  public clone(): Triangle{
+    return new Triangle(this.toJSON());
   }
 
   /**
    * クラスのデータをJSONに変換します
-   * @returns {SquareOption} スクエアオプション
+   * @returns {TriangleOption} トライアングルオプション
    */
-  public toJSON(): SquareOption{
+  public toJSON(): TriangleOption{
     const { posX, posY } = this.getPosition();
     const { speedX, speedY } = this.getSpeed();
 
@@ -213,4 +214,4 @@ class Square extends EntityManager{
   }
 }
 
-export { Square, SquareOption };
+export { Triangle, TriangleOption };
