@@ -91,7 +91,7 @@ class Triangle extends EntityManager{
     }else{
       this.create({
         posX: posX,
-        posY: posY + (2/Math.sqrt(3))*(this.size/2),
+        posY: posY - (2/Math.sqrt(3))*(this.size/2),
         size: this.size/2,
         mass: this.mass/3,
         stiff: this.stiff,
@@ -103,7 +103,7 @@ class Triangle extends EntityManager{
       for(let i = -1;i<=1;i+=2){
         this.create({
           posX: posX + i*(this.size/2),
-          posY: posY - (1/Math.sqrt(3))*(this.size/2),
+          posY: posY + (1/Math.sqrt(3))*(this.size/2),
           size: this.size/2,
           mass: this.mass/3,
           stiff: this.stiff,
@@ -130,7 +130,7 @@ class Triangle extends EntityManager{
 
       const rotate: number = Math.atan2(start.posY - end.posY,end.posX - start.posX);
 
-      const { width, height } = resize(this.image,this.size);
+      const { width, height } = resize(this.image,this.size*2);
 
       ctx.save();
       ctx.translate(posX,posY);
