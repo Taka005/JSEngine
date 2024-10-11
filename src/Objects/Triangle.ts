@@ -125,8 +125,8 @@ class Triangle extends EntityManager{
     const { posX, posY } = this.getPosition();
 
     if(this.image){
-      const start: Entity = this.entities[0];
-      const end: Entity = this.entities[1];
+      const start: Entity = this.entities[1];
+      const end: Entity = this.entities[2];
 
       const rotate: number = Math.atan2(start.posY - end.posY,end.posX - start.posX);
 
