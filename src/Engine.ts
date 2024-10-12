@@ -22,6 +22,7 @@ import { Triangle, TriangleOption } from "./Objects/Triangle";
  * @property {string} backgroundColor 背景色
  * @property {string | null} backgroundImage 背景画像URL
  * @property {number} trackInterval 履歴の保存間隔(ミリ秒)
+ * @property {number} trackLimit 履歴の保存制限
  */
 type EngineOption = {
   pps?: number;
@@ -34,6 +35,7 @@ type EngineOption = {
   backgroundColor?: string;
   backgroundImage?: string | null;
   trackInterval?: number;
+  trackLimit: number;
 }
 
 /**
@@ -54,6 +56,7 @@ type ClearOption = {
  * @property {string | null} backgroundImage 背景画像
  * @property {number} scale 描画倍率
  * @property {number} trackInterval 履歴の保存間隔
+ * @property {number} trackLimit 履歴の保存制限
  * @property {number} mapSize 物体の存在範囲
  * @property {number} posX 描画X座標
  * @property {number} posY 描画Y座標
@@ -71,6 +74,7 @@ type ExportData = {
   backgroundImage: string | null;
   scale: number;
   trackInterval: number;
+  trackLimit: number;
   mapSize: number;
   posX: number;
   posY: number;
@@ -120,6 +124,11 @@ class Engine extends Process{
    * 履歴の保存間隔
    */
   public trackInterval: number;
+
+  /**
+   * 履歴の保存制限
+   */
+  public trackLimit: number;
 
   /**
    * 物体の存在範囲
@@ -211,7 +220,7 @@ class Engine extends Process{
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
    * @param {EngineOption} option エンジンオプション
    */
-  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, scale = 1, trackInterval = 100, mapSize = 10000 }: EngineOption = {}){
+  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, scale = 1, trackInterval = 100, trackLimit = 10000, mapSize = 10000 }: EngineOption = {}){
     super({
       pps: pps,
       gravity: gravity,
@@ -230,6 +239,7 @@ class Engine extends Process{
 
     this.scale = scale;
     this.trackInterval = trackInterval;
+    this.trackLimit = trackLimit;
     this.mapSize = mapSize;
 
     this.posX = posX;
@@ -297,6 +307,10 @@ class Engine extends Process{
       Object.values(this.objects).forEach(object=>{
         this.tracks.push(object.clone());
       });
+
+      while(this.tracks.length > this.trackLimit){
+        this.tracks.shift();
+      }
 
       this.trackCount = 0;
     }
@@ -444,9 +458,9 @@ class Engine extends Process{
   /**
    * 物体を生成します
    * @param {string} type 生成する種類
-   * @param {(CircleOption | GroundOption | SquareOption | RopeOption | CurveOption)[]} objects 生成するオブジェクトの配列
+   * @param {(CircleOption | TriangleOption |GroundOption | SquareOption | RopeOption | CurveOption)[]} objects 生成するオブジェクトの配列
    */
-  public spawn(type: string,objects: (CircleOption | GroundOption | SquareOption | RopeOption | CurveOption)[]): void{
+  public spawn(type: string,objects: (CircleOption| TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption)[]): void{
     objects.forEach(object=>{
       object.name = object.name || createId(8);
 
@@ -694,6 +708,7 @@ class Engine extends Process{
       backgroundImage: this.backgroundImage?.src||null,
       scale: this.scale,
       trackInterval: this.trackInterval,
+      trackLimit: this.trackLimit,
       mapSize: this.mapSize,
       posX: this.posX,
       posY: this.posY,
@@ -714,6 +729,7 @@ class Engine extends Process{
     this.gravity = data.gravity||5000;
     this.friction = data.friction||0.001;
     this.trackInterval = data.trackInterval||100;
+    this.trackLimit = data.trackLimit||10000;
     this.mapSize = data.mapSize||10000;
     this.posX = data.posX||0;
     this.posY = data.posY||0;
