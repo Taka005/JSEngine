@@ -319,8 +319,6 @@ class Engine extends Process{
       });
 
       this.entities.slice(i+1).forEach(target=>{
-        if(entity.name === target.name) return;
-
         this.solvePosition(entity,target);
       });
 
