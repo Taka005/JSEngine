@@ -313,12 +313,12 @@ class Engine extends Process{
       this.updateRotate(entity);
     });
 
-    this.entities.forEach(entity=>{
+    this.entities.forEach((entity,i)=>{
       Object.values(this.grounds).forEach(ground=>{
         this.solveGroundPosition(entity,ground);
       });
 
-      this.entities.forEach(target=>{
+      this.entities.slice(i+1).forEach(target=>{
         if(entity.name === target.name) return;
 
         this.solvePosition(entity,target);
