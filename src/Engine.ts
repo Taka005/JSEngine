@@ -322,10 +322,12 @@ class Engine extends Process{
    * 物体の状態を更新します
    */
   private update(): void{
-    this.entities.forEach((entity,i)=>{
+    this.entities.forEach(entity=>{
       this.updatePosition(entity);
       this.updateRotate(entity);
+    });
 
+    this.entities.forEach((entity,i)=>{
       Object.values(this.grounds).forEach(ground=>{
         this.solveGroundPosition(entity,ground);
       });
@@ -340,7 +342,9 @@ class Engine extends Process{
 
         this.solveConnect(entity,target,data.distance,data.stiff);
       });
+    });
 
+    this.entities.forEach(entity=>{
       this.updateSpeed(entity);
       this.solveSpeed(entity);
     });
