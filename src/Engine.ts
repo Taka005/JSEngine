@@ -718,7 +718,7 @@ class Engine extends Process{
     this.mapSize = data.mapSize||10000;
     this.posX = data.posX||0;
     this.posY = data.posY||0;
-    this.backgroundColor = data.backgroundColor;
+    this.backgroundColor = data.backgroundColor||"#eeeeee";
     this.scale = data.scale||1;
 
     this.clear({ force: true });
