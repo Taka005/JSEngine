@@ -498,31 +498,16 @@ class Engine extends Process{
    * @param {string} name 削除する物体名
    */
   public deSpawn(type: string,name: string): void{
-    if(type === ObjectType.Circle){
-      const circle = this.get<Circle>(type,name);
-      if(!circle) return;
-
-      delete this.objects[name];
-    }else if(type === ObjectType.Square){
-      const square = this.get<Square>(type,name);
-      if(!square) return;
-
-      delete this.objects[name];
-    }else if(type === ObjectType.Triangle){
-      const triangle = this.get<Triangle>(type,name);
-      if(!triangle) return;
-
-      delete this.objects[name];
-    }else if(type === ObjectType.Rope){
-      const rope = this.get<Rope>(type,name);
-      if(!rope) return;
-
-      delete this.objects[name];
-    }else if(type === ObjectType.Ground||type === ObjectType.Curve){
+    if(type === ObjectType.Ground||type === ObjectType.Curve){
       const ground = this.get<Ground | Curve>(type,name);
       if(!ground) return;
 
       delete this.grounds[name];
+    }else{
+      const object = this.get<Circle | Square | Triangle | Rope>(type,name);
+      if(!object) return;
+
+      delete this.objects[name];
     }
   }
 
@@ -549,7 +534,7 @@ class Engine extends Process{
    * @returns {(Circle | Square| Triangle | Rope | Ground | Curve)[]} 存在した物体の配列
    */
   public checkObject(posX: number,posY: number): (Circle | Square | Triangle | Rope | Ground | Curve)[]{
-    const targets: (Circle | Square | Triangle |Rope | Ground | Curve)[] = [];
+    const targets: (Circle | Square | Triangle | Rope | Ground | Curve)[] = [];
 
     Object.values(this.objects).forEach(object=>{
       const entities: Entity[] = object.entities.filter(entity=>{
