@@ -767,7 +767,7 @@ class Engine extends Process{
         isNaN(args[2])||
         isNaN(args[3])||
         isNaN(args[4])
-      ) return "コマンドが無効です";
+      ) return "コマンドの座標が無効です";
 
       const countX = Math.floor((args[3] - args[1])/(2*(args[5]||15)));
       const countY = Math.floor((args[4] - args[2])/(2*(args[5]||15)));
@@ -775,8 +775,8 @@ class Engine extends Process{
       for(let i = 0;i <= countX;i++){
         for(let j = 0;j <= countY;j++){
           this.spawn(ObjectType.Circle,[{
-            posX: args[1] + i*(args[5]||15),
-            posY: args[2] + j*(args[5]||15),
+            posX: args[1] + i*2*(args[5]||15),
+            posY: args[2] + j*2*(args[5]||15),
             size: args[5]||15,
             mass: args[6]||10,
             stiff: 0.5,
