@@ -769,12 +769,14 @@ class Engine extends Process{
         isNaN(args[4])
       ) return "コマンドの座標が無効です";
 
-      const countX = Math.floor((args[3] - args[1])/(2*(args[5]||15)));
-      const countY = Math.floor((args[4] - args[2])/(2*(args[5]||15)));
-      console.log(countX,countY,args);
+      const countX: number = Math.floor((args[3] - args[1])/(2*(args[5]||15)));
+      const countY: number = Math.floor((args[4] - args[2])/(2*(args[5]||15)));
+
+      const data: CircleOption[] = [];
+
       for(let i = 0;i <= countX;i++){
         for(let j = 0;j <= countY;j++){
-          this.spawn(ObjectType.Circle,[{
+          data.push({
             posX: args[1] + i*2*(args[5]||15),
             posY: args[2] + j*2*(args[5]||15),
             size: args[5]||15,
@@ -782,9 +784,11 @@ class Engine extends Process{
             stiff: 0.5,
             color: args[7],
             subColor: args[8]
-          }] as CircleOption[]);
+          } as CircleOption);
         }
       }
+      console.log(data);
+      this.spawn(ObjectType.Circle,data);
 
       return "正常に生成しました";
     }else{
