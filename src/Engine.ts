@@ -792,7 +792,7 @@ class Engine extends Process{
           } as CircleOption);
         }
       }
-      console.log(data);
+
       this.spawn(ObjectType.Circle,data);
 
       return "正常に生成しました";
