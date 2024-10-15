@@ -769,16 +769,21 @@ class Engine extends Process{
         isNaN(args[4])
       ) return "コマンドの座標が無効です";
 
-      const countX: number = Math.floor((args[3] - args[1])/(2*(args[5]||15)));
-      const countY: number = Math.floor((args[4] - args[2])/(2*(args[5]||15)));
+      const startX = Number(args[1]);
+      const startY = Number(args[2]);
+      const endX = Number(args[3]);
+      const endY = Number(args[4]);
+
+      const countX: number = Math.abs(Math.floor((endX - startX)/(2*(args[5]||15))));
+      const countY: number = Math.abs(Math.floor((endY - startY)/(2*(args[5]||15))));
 
       const data: CircleOption[] = [];
 
       for(let i = 0;i <= countX;i++){
         for(let j = 0;j <= countY;j++){
           data.push({
-            posX: args[1] + i*2*(args[5]||15),
-            posY: args[2] + j*2*(args[5]||15),
+            posX: startX + i*2*(args[5]||15),
+            posY: startY + j*2*(args[5]||15),
             size: args[5]||15,
             mass: args[6]||10,
             stiff: 0.5,
