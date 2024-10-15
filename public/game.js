@@ -485,6 +485,9 @@ dataFile.addEventListener("change",(event)=>{
 
     frictionValue.textContent = data.friction;
     frictionInput.value = data.friction;
+
+    scaleValue.textContent = data.scale||1;
+    scaleInput.value = data.scale||1;
   });
 });
 
