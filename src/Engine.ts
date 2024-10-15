@@ -81,7 +81,7 @@ type ExportData = {
   entity?: CircleOption[];
   circle: CircleOption[];
   square: SquareOption[];
-  triangle: Triangle[];
+  triangle: TriangleOption[];
   rope: RopeOption[];
   ground: GroundOption[];
   curve: CurveOption[];
@@ -458,7 +458,7 @@ class Engine extends Process{
   /**
    * 物体を生成します
    * @param {string} type 生成する種類
-   * @param {(CircleOption | TriangleOption |GroundOption | SquareOption | RopeOption | CurveOption)[]} objects 生成するオブジェクトの配列
+   * @param {(CircleOption | TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption)[]} objects 生成するオブジェクトの配列
    */
   public spawn(type: string,objects: (CircleOption| TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption)[]): void{
     objects.forEach(object=>{
@@ -753,6 +753,42 @@ class Engine extends Process{
 
     if(data.entity){
       this.spawn(ObjectType.Circle,data.entity);
+    }
+  }
+
+  public command(value: string): string{
+    if(!value) return "コマンドを入力してください";
+
+    const args: any[] = value.split(" ");
+    
+    if(args[0] === "fill"){
+      if(
+        isNaN(args[1])||
+        isNaN(args[2])||
+        isNaN(args[3])||
+        isNaN(args[4])
+      ) return "コマンドが無効です";
+
+      const countX = Math.floor(args[2] - args[1]/(2*(args[5]||15)));
+      const countY = Math.floor(args[4] - args[3]/(2*(args[5]||15)));
+
+      for(let i = 0;i <= countX;i++){
+        for(let j = 0;j <= countY;j++){
+          this.spawn(ObjectType.Circle,[{
+            posX: args[1] + i*(args[5]||15),
+            posY: args[3] + j*(args[5]||15),
+            size: args[5]||15,
+            mass: args[6]||10,
+            stiff: 0.5,
+            color: args[7],
+            subColor: args[8]
+          }] as CircleOption[]);
+        }
+      }
+
+      return "正常に生成しました";
+    }else{
+      return "存在しないコマンドです"
     }
   }
 }

@@ -75,6 +75,8 @@ const cache = document.getElementById("cache");
 
 const dataFile = document.getElementById("dataFile");
 
+const command = document.getElementById("command");
+
 gravityValue.textContent = gravityInput.value;
 frictionValue.textContent = frictionInput.value;
 scaleValue.textContent = scaleInput.value;
@@ -551,6 +553,12 @@ load.addEventListener("click",()=>{
 
 cache.addEventListener("click",()=>{
   delete localStorage.map;
+});
+
+command.addEventListener("click",()=>{
+  const value = prompt("コマンドを入力");
+
+  alert(engine.command(value));
 });
 
 setInterval(()=>{
