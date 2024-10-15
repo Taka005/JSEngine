@@ -769,8 +769,8 @@ class Engine extends Process{
         isNaN(args[4])
       ) return "コマンドが無効です";
 
-      const countX = Math.floor(args[2] - args[1]/(2*(args[5]||15)));
-      const countY = Math.floor(args[4] - args[3]/(2*(args[5]||15)));
+      const countX = Math.floor((args[2] - args[1])/(2*(args[5]||15)));
+      const countY = Math.floor((args[4] - args[3])/(2*(args[5]||15)));
 
       for(let i = 0;i <= countX;i++){
         for(let j = 0;j <= countY;j++){
