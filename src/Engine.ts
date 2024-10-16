@@ -773,19 +773,21 @@ class Engine extends Process{
       const startY = Number(args[2]);
       const endX = Number(args[3]);
       const endY = Number(args[4]);
+      const size = Number(args[5]);
+      const mass = Number(args[6]);
 
-      const countX: number = Math.abs(Math.floor((endX - startX)/(2*(args[5]||15))));
-      const countY: number = Math.abs(Math.floor((endY - startY)/(2*(args[5]||15))));
+      const countX: number = Math.abs(Math.floor((endX - startX)/(2*(size||15))));
+      const countY: number = Math.abs(Math.floor((endY - startY)/(2*(size||15))));
 
       const data: CircleOption[] = [];
 
       for(let i = 0;i <= countX;i++){
         for(let j = 0;j <= countY;j++){
           data.push({
-            posX: startX + i*2*(args[5]||15),
-            posY: startY + j*2*(args[5]||15),
-            size: args[5]||15,
-            mass: args[6]||10,
+            posX: startX + i*2*(size||15),
+            posY: startY + j*2*(size||15),
+            size: size||15,
+            mass: mass||10,
             stiff: 0.5,
             color: args[7],
             subColor: args[8]
