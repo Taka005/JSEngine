@@ -784,8 +784,8 @@ class Engine extends Process{
       for(let i = 0;i <= countX;i++){
         for(let j = 0;j <= countY;j++){
           data.push({
-            posX: startX + i*2*(size||15),
-            posY: startY + j*2*(size||15),
+            posX: startX + i*2*(size||15) + i,
+            posY: startY + j*2*(size||15) + j,
             size: size||15,
             mass: mass||10,
             stiff: 0.5,
