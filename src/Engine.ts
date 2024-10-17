@@ -220,7 +220,7 @@ class Engine extends Process{
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
    * @param {EngineOption} option エンジンオプション
    */
-  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, scale = 1, trackInterval = 100, trackLimit = 10000, mapSize = 10000 }: EngineOption = {}){
+  constructor(canvas: HTMLCanvasElement,{ pps = 60, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, scale = 1, trackInterval = 100, trackLimit = 10000, mapSize = 10000 }: EngineOption = {}){
     super({
       pps: pps,
       gravity: gravity,
