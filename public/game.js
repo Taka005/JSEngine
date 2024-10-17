@@ -549,6 +549,9 @@ load.addEventListener("click",()=>{
 
   frictionValue.textContent = data.friction;
   frictionInput.value = data.friction;
+
+  scaleValue.textContent = data.scale||1;
+  scaleInput.value = data.scale||1;
 });
 
 cache.addEventListener("click",()=>{
