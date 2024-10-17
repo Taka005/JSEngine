@@ -4,10 +4,10 @@ import { Ground, GroundOption } from "./Objects/Ground";
 import { Curve, CurveOption } from "./Objects/Curve";
 import { Circle, CircleOption } from "./Objects/Circle";
 import { Square, SquareOption } from "./Objects/Square";
+import { Triangle, TriangleOption } from "./Objects/Triangle";
 import { Rope, RopeOption } from "./Objects/Rope";
 import { createId, resize, ObjectType, Event } from "./utils";
 import { Key } from "./Key";
-import { Triangle, TriangleOption } from "./Objects/Triangle";
 
 /**
  * エンジンの初期化オブジェクト
