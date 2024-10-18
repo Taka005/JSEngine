@@ -107,7 +107,7 @@ class Process extends EventTarget{
       ) return;
     }else if(ground instanceof Curve){
       if(
-        Math.abs(vecX) >= entity.size + 2*ground.radius + ground.size&&
+        Math.abs(vecX) >= entity.size + 2*ground.radius + ground.size||
         Math.abs(vecY) >= entity.size + 2*ground.radius + ground.size
       ) return;
     }
@@ -206,11 +206,16 @@ class Process extends EventTarget{
    * @param {number} connectStiff 結合の剛性
    */
   protected solveConnect(source: Entity,target: Entity,connectDistance: number,connectStiff: number): void{
-    const totalMass: number = source.mass + target.mass;
+    const totalMass: number = source.invMass + target.invMass;
     if(totalMass === 0) return;
 
     let vecX: number = target.posX - source.posX;
     let vecY: number = target.posY - source.posY;
+
+    if(
+      Math.abs(vecX) >= source.size + target.size||
+      Math.abs(vecY) >= source.size + target.size
+    ) return;
 
     const distance: number = Math.sqrt(vecX**2 + vecY**2);
 
@@ -218,11 +223,11 @@ class Process extends EventTarget{
     vecX *= move;
     vecY *= move;
 
-    source.posX += vecX*source.mass;
-    source.posY += vecY*source.mass;
+    source.posX += vecX*source.invMass;
+    source.posY += vecY*source.invMass;
 
-    target.posX -= vecX*target.mass;
-    target.posY -= vecY*target.mass;
+    target.posX -= vecX*target.invMass;
+    target.posY -= vecY*target.invMass;
   }
 
   /**
