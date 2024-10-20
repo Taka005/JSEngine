@@ -212,11 +212,6 @@ class Process extends EventTarget{
     let vecX: number = target.posX - source.posX;
     let vecY: number = target.posY - source.posY;
 
-    if(
-      Math.abs(vecX) >= source.size + target.size||
-      Math.abs(vecY) >= source.size + target.size
-    ) return;
-
     const distance: number = Math.sqrt(vecX**2 + vecY**2);
 
     const move: number = (distance - connectDistance)/(distance*totalMass + 0.000001)*connectStiff;
