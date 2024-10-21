@@ -50,6 +50,8 @@ type ClearOption = {
 /**
  * エンジンのエクスポートデータ
  * @typedef {Object} ExportData
+ * @property {string} version 保存データのバージョン
+ * @property {Date} saveAt セーブ時間
  * @property {number} gravity 重力加速度
  * @property {number} friction 摩擦係数
  * @property {string} backgroundColor 背景色
@@ -68,6 +70,8 @@ type ClearOption = {
  * @property {CurveOption[]} curve 全ての曲線の配列
  */
 type ExportData = {
+  version: string;
+  saveAt: Date;
   gravity: number;
   friction: number;
   backgroundColor: string;
@@ -687,6 +691,8 @@ class Engine extends Process{
       .map(object=>object.toJSON());
 
     return JSON.stringify({
+      version: "1",
+      saveAt: new Date(),
       gravity: this.gravity,
       friction: this.friction,
       backgroundColor: this.backgroundColor,
@@ -756,6 +762,11 @@ class Engine extends Process{
     }
   }
 
+  /**
+   * コマンドを実行します
+   * @param value 実行するコマンド
+   * @returns {string} 結果
+   */
   public command(value: string): string{
     if(!value) return "コマンドを入力してください";
 
