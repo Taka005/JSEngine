@@ -77,7 +77,7 @@ class Booster{
   /**
    * @param {Object} BoosterOption グラウンドオプション
    */
-  constructor({ name, startX, startY, endX, endY, speedX, speedY, color = "#ffbfbf", subColor = "#ff7575", image = null }: BoosterOption){
+  constructor({ name, startX, startY, endX, endY, speedX, speedY, color = "red", subColor = "white", image = null }: BoosterOption){
     this.name = name;
     this.color = color;
     this.subColor = subColor;
@@ -95,6 +95,13 @@ class Booster{
    * @param entity 対象のエンティティー
    */
   public setEffect(entity: Entity): void{
+    const minX = Math.min(effect.startX,effect.endX);
+    const maxX = Math.max(effect.startX,effect.endX);
+    const minY = Math.min(effect.startY,effect.endY);
+    const maxY = Math.max(effect.startY,effect.endY);
+
+    if(entity.posX < minX||entity.posX > maxX||entity.posY < minY||entity.posY > maxY) return;
+
     entity.speedX = this.speedX;
     entity.speedY = this.speedY;
   }

@@ -314,6 +314,7 @@ game.addEventListener("mousedown",(event)=>{
         speedX: speedX,
         speedY: speedY,
         color: color,
+        subColor: subColor,
         image: image
       }]);
 
