@@ -274,9 +274,9 @@ class Engine extends Process{
    */
   public clear({ force = false }: ClearOption = {}): void{
     this.objects = {};
-    this.effects = {};
 
     if(force){
+      this.effects = {};
       this.grounds = {};
       this.tracks = [];
     }
