@@ -95,6 +95,8 @@ class Booster{
    * @param entity 対象のエンティティー
    */
   public setEffect(entity: Entity): void{
+    if(entity.speedX === this.speedX||entity.speedY === this.speedY) return;
+
     const minX = Math.min(effect.startX,effect.endX);
     const maxX = Math.max(effect.startX,effect.endX);
     const minY = Math.min(effect.startY,effect.endY);
