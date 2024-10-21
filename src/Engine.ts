@@ -336,15 +336,15 @@ class Engine extends Process{
    */
   private update(): void{
     this.entities.forEach(entity=>{
+      Object.values(this.effects).forEach(effect=>{
+        effect.setEffect(entity);
+      });
+
       this.updatePosition(entity);
       this.updateRotate(entity);
     });
 
     this.entities.forEach((entity,i)=>{
-      Object.values(this.effects).forEach(effect=>{
-        effect.setEffect(entity);
-      });
-
       Object.values(this.grounds).forEach(ground=>{
         this.solveGroundPosition(entity,ground);
       });
