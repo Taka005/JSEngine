@@ -128,7 +128,7 @@ class Booster{
 
       ctx.beginPath();
       ctx.fillStyle = this.color;
-      ctx.fillRect(this.startX,this.startY,this.endX,this.endY);
+      ctx.fillRect(this.startX,this.startY,sizeX,sizeY);
 
       ctx.beginPath();
       ctx.moveTo(this.startX + sizeX/3,this.startY + sizeY/3);
