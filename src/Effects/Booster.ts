@@ -101,7 +101,7 @@ class Booster{
     const maxY = Math.max(this.startY,this.endY);
 
     if(entity.posX < minX||entity.posX > maxX||entity.posY < minY||entity.posY > maxY) return;
-
+    console.log(entity);
     entity.speedX += this.speedX;
     entity.speedY += this.speedY;
   }
