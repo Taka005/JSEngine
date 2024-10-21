@@ -123,8 +123,8 @@ class Booster{
 
       ctx.restore();
     }else{
-      const sizeX: number = this.startX - this.endX;
-      const sizeY: number = this.startY - this.endY;
+      const sizeX: number = this.endX - this.startX;
+      const sizeY: number = this.endY - this.startY;
 
       ctx.beginPath();
       ctx.fillStyle = this.color;
