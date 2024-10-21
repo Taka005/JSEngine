@@ -133,7 +133,7 @@ class Booster{
       ctx.beginPath();
       ctx.moveTo(this.startX + sizeX/3,this.startY + sizeY/3);
       ctx.lineTo(this.startX + sizeX/3,this.startY + (2*sizeY)/3);
-      ctx.lineTo(this.endX - sizeX/3,this.endY - sizeY/3);
+      ctx.lineTo(this.endX - sizeX/2,this.endY - sizeY/3);
       ctx.fillStyle = this.subColor;
       ctx.fill();         
     }
