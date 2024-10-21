@@ -78,6 +78,13 @@ const ObjectType = {
 }
 
 /**
+ * 効果の種類
+ */
+const EffectType = {
+  Booster: "booster"
+}
+
+/**
  * イベント一覧
  */
 const Event = {
@@ -87,4 +94,4 @@ const Event = {
   HitGround: "hitGround"
 }
 
-export { createId, resize, parseImage, normalizeAngle, ObjectType, Event };
+export { createId, resize, parseImage, normalizeAngle, ObjectType, EffectType, Event };
