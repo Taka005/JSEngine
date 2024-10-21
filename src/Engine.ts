@@ -596,6 +596,17 @@ class Engine extends Process{
       targets.push(ground);
     });
 
+    Object.values(this.effects).forEach(effect=>{
+      const minX = Math.min(effect.startX,effect.endX);
+      const maxX = Math.max(effect.startX,effect.endX);
+      const minY = Math.min(effect.startY,effect.endY);
+      const maxY = Math.max(effect.startY,effect.endY);
+  
+      if(posX < minX||posX > maxX||posY < minY||posY > maxY) return;
+
+      targets.push(effect);
+    });
+
     return targets;
   }
 
@@ -791,7 +802,7 @@ class Engine extends Process{
     }
 
     if(data.booster){
-      this.spawn(EffectType.Booster,data.booster)
+      this.spawn(EffectType.Booster,data.booster);
     }
 
     if(data.entity){

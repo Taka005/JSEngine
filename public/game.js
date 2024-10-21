@@ -299,6 +299,26 @@ game.addEventListener("mousedown",(event)=>{
 
       position = {};
     }
+  }else if(tool === "booster"){
+    if(Object.keys(position).length === 0){
+      position = {
+        posX: getPosX(event),
+        posY: getPosY(event)
+      }
+    }else{
+      engine.spawn("booster",[{
+        startX: position.posX,
+        startY: position.posY,
+        endX: getPosX(event),
+        endY: getPosY(event),
+        speedX: speedX,
+        speedY: speedY,
+        color: color,
+        image: image
+      }]);
+
+      position = {};
+    }
   }else if(tool === "curve"){
     if(Object.keys(position).length === 0){
       position = {
