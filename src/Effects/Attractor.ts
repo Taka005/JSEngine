@@ -81,6 +81,8 @@ class Attractor{
    * @param entity 対象のエンティティー
    */
   public setEffect(entity: Entity): void{
+    if(entity.mass === 0) return;
+
     const vecX: number = entity.posX - this.posX;
     const vecY: number = entity.posY - this.posY;
 

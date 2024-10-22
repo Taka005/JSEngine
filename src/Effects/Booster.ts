@@ -89,6 +89,8 @@ class Booster{
    * @param entity 対象のエンティティー
    */
   public setEffect(entity: Entity): void{
+    if(entity.mass === 0) return;
+
     let vecX: number = entity.posX - (effect.startX + effect.endX)/2;
     let vecY: number = entity.posY - (effect.startY + effect.endY)/2;
 
