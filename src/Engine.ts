@@ -7,6 +7,7 @@ import { Square, SquareOption } from "./Objects/Square";
 import { Triangle, TriangleOption } from "./Objects/Triangle";
 import { Rope, RopeOption } from "./Objects/Rope";
 import { Booster, BoosterOption } from "./Effects/Booster";
+import { Attractor, AttractorOption } from "./Effects/Attractor";
 import { createId, resize, ObjectType, Event, EffectType } from "./utils";
 import { Key } from "./Key";
 
@@ -70,6 +71,7 @@ type ClearOption = {
  * @property {GroundOption[]} ground 全ての地面の配列
  * @property {CurveOption[]} curve 全ての曲線の配列
  * @property {BoosterOption[]} booster 全てのブースターの配列
+ * @property {AttractorOption[]} attractor 全てのアトラクターの配列
  */
 type ExportData = {
   version: string;
@@ -92,6 +94,7 @@ type ExportData = {
   ground: GroundOption[];
   curve: CurveOption[];
   booster: BoosterOption[];
+  attractor: AttractorOption[];
 }
 
 /**
@@ -161,7 +164,7 @@ class Engine extends Process{
   /**
    * 効果の配列
    */
-  private effects: { [key: string]: Booster } = {};
+  private effects: { [key: string]: Booster | Attractor } = {};
 
   /**
    * 履歴の配列
@@ -479,9 +482,9 @@ class Engine extends Process{
   /**
    * 物体を生成します
    * @param {string} type 生成する種類
-   * @param {(CircleOption | TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption | BoosterOption)[]} objects 生成するオブジェクトの配列
+   * @param {(CircleOption | TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption | BoosterOption | AttractorOption)[]} objects 生成するオブジェクトの配列
    */
-  public spawn(type: string,objects: (CircleOption| TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption | BoosterOption)[]): void{
+  public spawn(type: string,objects: (CircleOption| TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption | BoosterOption | AttractorOption)[]): void{
     objects.forEach(object=>{
       object.name = object.name || createId(8);
 
@@ -513,6 +516,10 @@ class Engine extends Process{
         const booster = new Booster(object as BoosterOption);
 
         this.effects[object.name] = booster;
+      }else if(type === EffectType.Attractor){
+        const attractor = new Attractor(object as AttractorOption);
+
+        this.effects[object.name] = attractor;
       }
     });
   }
@@ -523,8 +530,8 @@ class Engine extends Process{
    * @param {string} name 削除する物体名
    */
   public deSpawn(type: string,name: string): void{
-    if(type === EffectType.Booster){
-      const effect = this.get<Booster>(type,name);
+    if(type === EffectType.Booster||type === EffectType.Attractor){
+      const effect = this.get<Booster | Attractor>(type,name);
       if(!effect) return;
 
       delete this.effects[name];
@@ -548,7 +555,7 @@ class Engine extends Process{
    * @returns {T | undefined} 取得した物体
    */
   public get<T>(type: string,name: string): T | undefined{
-    if(type === EffectType.Booster){
+    if(type === EffectType.Booster||type === EffectType.Attractor){
       return this.effects[name] as T;
     }else if(type === ObjectType.Entity){
       return this.entities.find(entity=>entity.name === name) as T;
@@ -563,10 +570,10 @@ class Engine extends Process{
    * 指定した座標にある物体を取得します
    * @param {number} posX 対象のX座標
    * @param {number} posY 対象のY座標
-   * @returns {(Circle | Square| Triangle | Rope | Ground | Curve | Booster)[]} 存在した物体の配列
+   * @returns {(Circle | Square| Triangle | Rope | Ground | Curve | Booster | Attractor)[]} 存在した物体の配列
    */
-  public checkObject(posX: number,posY: number): (Circle | Square | Triangle | Rope | Ground | Curve | Booster)[]{
-    const targets: (Circle | Square | Triangle | Rope | Ground | Curve | Booster)[] = [];
+  public checkObject(posX: number,posY: number): (Circle | Square | Triangle | Rope | Ground | Curve | Booster | Attractor)[]{
+    const targets: (Circle | Square | Triangle | Rope | Ground | Curve | Booster | Attractor)[] = [];
 
     Object.values(this.objects).forEach(object=>{
       const entities: Entity[] = object.entities.filter(entity=>{
@@ -597,14 +604,25 @@ class Engine extends Process{
     });
 
     Object.values(this.effects).forEach(effect=>{
-      const minX = Math.min(effect.startX,effect.endX);
-      const maxX = Math.max(effect.startX,effect.endX);
-      const minY = Math.min(effect.startY,effect.endY);
-      const maxY = Math.max(effect.startY,effect.endY);
-  
-      if(posX < minX||posX > maxX||posY < minY||posY > maxY) return;
+      if(effect instanceof Booster){
+        const minX: number = Math.min(effect.startX,effect.endX);
+        const maxX: number = Math.max(effect.startX,effect.endX);
+        const minY: number = Math.min(effect.startY,effect.endY);
+        const maxY: number = Math.max(effect.startY,effect.endY);
 
-      targets.push(effect);
+        if(posX < minX||posX > maxX||posY < minY||posY > maxY) return;
+
+        targets.push(effect);
+      }else if(effect instanceof Attractor){
+        const vecX: number = posX - effect.posX;
+        const vecY: number = posY - effect.posY;
+
+        const distance: number = Math.sqrt(vecX**2 + vecY**2);
+    
+        if(distance >= effect.size) return;
+
+        targets.push(effect);
+      }
     });
 
     return targets;
@@ -733,6 +751,10 @@ class Engine extends Process{
       .filter(effect=>effect.type === EffectType.Booster)
       .map(effect=>effect.toJSON());
 
+    const attractor = Object.values(this.effects)
+      .filter(effect=>effect.type === EffectType.Attractor)
+      .map(effect=>effect.toJSON());
+
     return JSON.stringify({
       version: "1",
       saveAt: new Date(),
@@ -752,7 +774,8 @@ class Engine extends Process{
       rope: rope,
       ground: grounds,
       curve: curves,
-      booster: booster
+      booster: booster,
+      attractor: attractor
     });
   }
 

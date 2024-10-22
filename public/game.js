@@ -314,12 +314,20 @@ game.addEventListener("mousedown",(event)=>{
         speedX: speedX,
         speedY: speedY,
         color: color,
-        subColor: subColor,
         image: image
       }]);
 
       position = {};
     }
+  }else if(tool === "attractor"){
+    engine.spawn("attractor",[{
+      posX: getPosX(event),
+      posY: getPosY(event),
+      size: size,
+      speed: speedX,
+      color: color,
+      image: image
+    }]);
   }else if(tool === "curve"){
     if(Object.keys(position).length === 0){
       position = {

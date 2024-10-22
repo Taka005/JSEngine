@@ -81,7 +81,8 @@ const ObjectType = {
  * 効果の種類
  */
 const EffectType = {
-  Booster: "booster"
+  Booster: "booster",
+  Attractor: "attractor"
 }
 
 /**

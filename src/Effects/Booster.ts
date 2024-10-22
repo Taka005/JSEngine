@@ -47,11 +47,6 @@ class Booster{
   public color: string;
 
   /**
-   * 補色
-   */
-  public subColor: string;
-
-  /**
    * 画像
    */
   public image: HTMLImageElement | null
@@ -77,10 +72,9 @@ class Booster{
   /**
    * @param {Object} BoosterOption グラウンドオプション
    */
-  constructor({ name, startX, startY, endX, endY, speedX, speedY, color = "red", subColor = "white", image = null }: BoosterOption){
+  constructor({ name, startX, startY, endX, endY, speedX, speedY, color = "red", image = null }: BoosterOption){
     this.name = name;
     this.color = color;
-    this.subColor = subColor;
     this.image = parseImage(image);
     this.startX = startX;
     this.startY = startY;
@@ -115,7 +109,7 @@ class Booster{
       const posX: number = (this.startX + this.endX)/2;
       const posY: number = (this.startY + this.endY)/2;
 
-      const { width, height } = resize(this.image,this.startX - this.endX);
+      const { width, height } = resize(this.image,Math.abs(this.startX - this.endX));
 
       ctx.save();
       ctx.translate(posX,posY);
@@ -136,14 +130,7 @@ class Booster{
       ctx.beginPath();
       ctx.strokeStyle = this.color;
       ctx.lineWidth = 3;
-      ctx.strokeRect(this.startX,this.startY,sizeX,sizeY);
-
-      ctx.beginPath();
-      ctx.moveTo(this.startX + sizeX/3,this.startY + sizeY/3);
-      ctx.lineTo(this.startX + sizeX/3,this.startY + (2*sizeY)/3);
-      ctx.lineTo(this.endX - sizeX/3,this.endY - sizeY/2);
-      ctx.fillStyle = this.subColor;
-      ctx.fill();         
+      ctx.strokeRect(this.startX,this.startY,sizeX,sizeY);    
     }
   }
 
@@ -161,7 +148,6 @@ class Booster{
       speedX: this.speedX,
       speedY: this.speedY,
       color: this.color,
-      subColor: this.subColor,
       image: this.image?.src || null
     }
   }
