@@ -609,8 +609,8 @@ class Engine extends Process{
         let vecY: number = posY - (effect.startY + effect.endY)/2;
     
         if(
-          Math.abs(vecX) >= Math.abs(effect.startX - effect.endX)||
-          Math.abs(vecY) >= Math.abs(effect.startY - effect.endY)
+          Math.abs(vecX) >= Math.abs(effect.startX - effect.endX)/2||
+          Math.abs(vecY) >= Math.abs(effect.startY - effect.endY)/2
         ) return;
 
         targets.push(effect);
