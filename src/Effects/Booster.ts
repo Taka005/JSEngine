@@ -91,12 +91,12 @@ class Booster{
   public setEffect(entity: Entity): void{
     if(entity.mass === 0) return;
 
-    let vecX: number = entity.posX - (effect.startX + effect.endX)/2;
-    let vecY: number = entity.posY - (effect.startY + effect.endY)/2;
+    let vecX: number = entity.posX - (this.startX + this.endX)/2;
+    let vecY: number = entity.posY - (this.startY + this.endY)/2;
 
     if(
-      Math.abs(vecX) >= Math.abs(effect.startX - effect.endX)/2||
-      Math.abs(vecY) >= Math.abs(effect.startY - effect.endY)/2
+      Math.abs(vecX) >= Math.abs(this.startX - this.endX)/2 + entity.size||
+      Math.abs(vecY) >= Math.abs(this.startY - this.endY)/2 + entity.size
     ) return;
 
     entity.speedX += this.speedX;
