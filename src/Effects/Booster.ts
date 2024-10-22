@@ -89,12 +89,13 @@ class Booster{
    * @param entity 対象のエンティティー
    */
   public setEffect(entity: Entity): void{
-    const minX = Math.min(this.startX,this.endX);
-    const maxX = Math.max(this.startX,this.endX);
-    const minY = Math.min(this.startY,this.endY);
-    const maxY = Math.max(this.startY,this.endY);
+    let vecX: number = entity.posX - (effect.startX + effect.endX)/2;
+    let vecY: number = entity.posY - (effect.startY + effect.endY)/2;
 
-    if(entity.posX < minX||entity.posX > maxX||entity.posY < minY||entity.posY > maxY) return;
+    if(
+      Math.abs(vecX) >= Math.abs(effect.startX - effect.endX)/2 + entity.size/2||
+      Math.abs(vecY) >= Math.abs(effect.startY - effect.endY)/2 + entity.size/2
+    ) return;
 
     entity.speedX += this.speedX;
     entity.speedY += this.speedY;
