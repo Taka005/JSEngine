@@ -84,12 +84,19 @@ class Attractor{
     const vecX: number = entity.posX - this.posX;
     const vecY: number = entity.posY - this.posY;
 
+    if(
+      Math.abs(vecX) >= entity.size + this.size||
+      Math.abs(vecY) >= entity.size + this.size
+    ) return;
+
     const distance: number = Math.sqrt(vecX**2 + vecY**2);
     if(distance === 0) return;
 
-    if(distance < this.size + entity.size){
-      entity.speedX += (vecX/distance)*this.speed;
-      entity.speedY += (vecY/distance)*this.speed;
+    const speed = this.speed/(distance**2);
+
+    if(distance <= this.size + entity.size){
+      entity.speedX += (vecX/distance)*speed;
+      entity.speedY += (vecY/distance)*speed;
     }
   }
 

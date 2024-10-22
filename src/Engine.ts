@@ -619,7 +619,7 @@ class Engine extends Process{
 
         const distance: number = Math.sqrt(vecX**2 + vecY**2);
     
-        if(distance >= effect.size) return;
+        if(distance > effect.size) return;
 
         targets.push(effect);
       }
