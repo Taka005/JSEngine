@@ -93,8 +93,8 @@ class Booster{
     let vecY: number = entity.posY - (effect.startY + effect.endY)/2;
 
     if(
-      Math.abs(vecX) >= Math.abs(effect.startX - effect.endX)/2 + entity.size/2||
-      Math.abs(vecY) >= Math.abs(effect.startY - effect.endY)/2 + entity.size/2
+      Math.abs(vecX) >= Math.abs(effect.startX - effect.endX)/2 + entity.size||
+      Math.abs(vecY) >= Math.abs(effect.startY - effect.endY)/2 + entity.size
     ) return;
 
     entity.speedX += this.speedX;
