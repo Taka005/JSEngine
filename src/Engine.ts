@@ -37,7 +37,7 @@ type EngineOption = {
   backgroundColor?: string;
   backgroundImage?: string | null;
   trackInterval?: number;
-  trackLimit: number;
+  trackLimit?: number;
 }
 
 /**
