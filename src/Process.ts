@@ -102,8 +102,8 @@ class Process extends EventTarget{
 
     if(ground instanceof Ground){
       if(
-        Math.abs(vecX) >= entity.size + Math.abs(ground.startX - ground.endX)/2 + ground.size||
-        Math.abs(vecY) >= entity.size + Math.abs(ground.startY - ground.endY)/2 + ground.size
+        Math.abs(vecX) >= entity.size + Math.abs(ground.startX - ground.endX) + ground.size||
+        Math.abs(vecY) >= entity.size + Math.abs(ground.startY - ground.endY) + ground.size
       ) return;
     }else if(ground instanceof Curve){
       if(
