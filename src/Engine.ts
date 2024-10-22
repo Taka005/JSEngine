@@ -605,12 +605,13 @@ class Engine extends Process{
 
     Object.values(this.effects).forEach(effect=>{
       if(effect instanceof Booster){
-        const minX: number = Math.min(effect.startX,effect.endX);
-        const maxX: number = Math.max(effect.startX,effect.endX);
-        const minY: number = Math.min(effect.startY,effect.endY);
-        const maxY: number = Math.max(effect.startY,effect.endY);
-
-        if(posX < minX||posX > maxX||posY < minY||posY > maxY) return;
+        let vecX: number = posX - (effect.startX + effect.endX)/2;
+        let vecY: number = posY - (effect.startY + effect.endY)/2;
+    
+        if(
+          Math.abs(vecX) >= Math.abs(effect.startX - effect.endX)||
+          Math.abs(vecY) >= Math.abs(effect.startY - effect.endY)
+        ) return;
 
         targets.push(effect);
       }else if(effect instanceof Attractor){
