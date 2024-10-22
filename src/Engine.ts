@@ -828,6 +828,10 @@ class Engine extends Process{
       this.spawn(EffectType.Booster,data.booster);
     }
 
+    if(data.attractor){
+      this.spawn(EffectType.Attractor,data.attractor);
+    }
+
     if(data.entity){
       this.spawn(ObjectType.Circle,data.entity);
     }
