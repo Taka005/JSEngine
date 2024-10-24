@@ -138,6 +138,7 @@ class Entity{
 
   /**
    * 静止しているか
+   * @returns {boolean} 静止状態
    */
   public get isStop(): boolean{
     return (

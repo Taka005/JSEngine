@@ -37,10 +37,15 @@ type CreateOption = {
  * 構成するエンティティーを管理します
  */
 class EntityManager{
+
+  /**
+   * 全てのエンティティー
+   */
   public entities: Entity[] = [];
 
   /**
    * 物体が静止しているか
+   * @returns {boolean} 静止状態
    */
   public get isStop(): boolean{
     return this.entities.filter(entity=>!entity.isStop).length === 0;
