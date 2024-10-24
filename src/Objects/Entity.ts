@@ -137,9 +137,9 @@ class Entity{
   }
 
   /**
-   * 同じ場所かどうか
+   * 静止しているか
    */
-  public get isSamePos(): boolean{
+  public get isStop(): boolean{
     return (
       this.posX === this.prePosX&&
       this.posY === this.prePosY

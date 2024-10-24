@@ -321,7 +321,7 @@ class Engine extends Process{
 
     if(this.trackCount >= this.trackInterval/(1000/this.pps)){
       Object.values(this.objects)
-        .filter(object=>!object.isSamePos)
+        .filter(object=>!object.isStop)
         .forEach(object=>{
           this.tracks.push(object.clone());
         });
@@ -441,7 +441,7 @@ class Engine extends Process{
       this.ctx.textAlign = "center";
       this.ctx.textBaseline = "middle";
 
-      this.ctx.fillText(`${this.correntPps}PPS ${this.correntFps}FPS ${Object.values(this.objects).length + Object.values(this.grounds).length}Objects ${this.entities.length}Entities ${this.tracks.length}Tracks`,this.canvas.width/2,15)
+      this.ctx.fillText(`${this.correntPps}PPS ${this.correntFps}FPS ${Object.values(this.objects).length + Object.values(this.grounds).length}Objects ${this.entities.length}Entities ${Object.values(this.effects).length}Effects ${this.tracks.length}Tracks`,this.canvas.width/2,15)
     }
 
     this.dispatchEvent(new CustomEvent(Event.DrawUpdate));

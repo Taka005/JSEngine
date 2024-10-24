@@ -40,10 +40,10 @@ class EntityManager{
   public entities: Entity[] = [];
 
   /**
-   * 物体が動いているかどうか
+   * 物体が静止しているか
    */
-  public get isSamePos(): boolean{
-    return this.entities.filter(entity=>!entity.isSamePos).length === 0;
+  public get isStop(): boolean{
+    return this.entities.filter(entity=>!entity.isStop).length === 0;
   }
 
   /**
