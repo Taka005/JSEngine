@@ -40,6 +40,13 @@ class EntityManager{
   public entities: Entity[] = [];
 
   /**
+   * 物体が動いているかどうか
+   */
+  public get isSamePos(): boolean{
+    return this.entities.filter(entity=>!entity.isSamePos).length === 0;
+  }
+
+  /**
    * 平均されたエンティティーの位置を計算します
    * @returns {Object} 位置データ
    */
@@ -94,10 +101,10 @@ class EntityManager{
       this.entities.forEach(target=>{
         if(source.name === target.name) return;
 
-        const vecX = source.posX - target.posX;
-        const vecY = source.posY - target.posY;
+        const vecX: number = source.posX - target.posX;
+        const vecY: number = source.posY - target.posY;
 
-        const distance = Math.sqrt(vecX**2 + vecY**2);
+        const distance: number = Math.sqrt(vecX**2 + vecY**2);
 
         source.addTarget({
           name: target.name,

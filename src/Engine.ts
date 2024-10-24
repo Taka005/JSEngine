@@ -320,9 +320,11 @@ class Engine extends Process{
     this.trackCount++;
 
     if(this.trackCount >= this.trackInterval/(1000/this.pps)){
-      Object.values(this.objects).forEach(object=>{
-        this.tracks.push(object.clone());
-      });
+      Object.values(this.objects)
+        .filter(object=>!object.isSamePos)
+        .forEach(object=>{
+          this.tracks.push(object.clone());
+        });
 
       while(this.tracks.length > this.trackLimit){
         this.tracks.shift();

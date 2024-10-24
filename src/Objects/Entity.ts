@@ -137,6 +137,16 @@ class Entity{
   }
 
   /**
+   * 同じ場所かどうか
+   */
+  public get isSamePos(): boolean{
+    return (
+      this.posX === this.prePosX&&
+      this.posY === this.prePosY
+    )
+  }
+
+  /**
    * 位置を保存します
    */
   public savePosition(): void{
