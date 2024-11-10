@@ -374,7 +374,8 @@ game.addEventListener("mousedown",(event)=>{
         speedY: speedY,
         size: size,
         color: color,
-        image: image
+        image: image,
+        script: script
       }]);
 
       position = {};
@@ -390,7 +391,8 @@ game.addEventListener("mousedown",(event)=>{
       speedY: speedY,
       color: color,
       subColor: subColor,
-      image: image
+      image: image,
+      script: script
     }]);
   }
 });
