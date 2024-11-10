@@ -49,7 +49,7 @@ const colorValue = document.getElementById("colorValue");
 const subColorInput = document.getElementById("subColorInput");
 const subColorValue = document.getElementById("subColorValue");
 
-const customScriptValue = document.getElementById("customScript");
+const customScript = document.getElementById("customScript");
 
 const imageReset = document.getElementById("imageReset");
 const imageInput = document.getElementById("imageInput");
@@ -459,7 +459,7 @@ subColorInput.addEventListener("input",(event)=>{
   subColor = event.target.value;
 });
 
-customScriptValue.addEventListener("input",(event)=>{
+customScript.addEventListener("input",(event)=>{
   script = event.target.value;
 });
 
