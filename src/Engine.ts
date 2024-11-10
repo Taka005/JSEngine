@@ -25,6 +25,7 @@ import { Key } from "./Key";
  * @property {string | null} backgroundImage 背景画像URL
  * @property {number} trackInterval 履歴の保存間隔(ミリ秒)
  * @property {number} trackLimit 履歴の保存制限
+ * @property {boolean} isSafeMode セーフモード
  */
 type EngineOption = {
   pps?: number;
@@ -38,6 +39,7 @@ type EngineOption = {
   backgroundImage?: string | null;
   trackInterval?: number;
   trackLimit?: number;
+  isSafeMode?: boolean;
 }
 
 /**
@@ -192,6 +194,12 @@ class Engine extends Process{
   public isTrack: boolean = false;
 
   /**
+   * セーフモード
+   * 有効にするとカスタムスクリプトが実行されません
+   */
+  public isSafeMode: boolean = true;
+
+  /**
    * 処理インターバル
    */
   private loop: number | null = null;
@@ -235,7 +243,7 @@ class Engine extends Process{
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
    * @param {EngineOption} option エンジンオプション
    */
-  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, scale = 1, trackInterval = 100, trackLimit = 10000, mapSize = 10000 }: EngineOption = {}){
+  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, scale = 1, trackInterval = 100, trackLimit = 10000, mapSize = 10000, isSafeMode = true }: EngineOption = {}){
     super({
       pps: pps,
       gravity: gravity,
@@ -256,6 +264,7 @@ class Engine extends Process{
     this.trackInterval = trackInterval;
     this.trackLimit = trackLimit;
     this.mapSize = mapSize;
+    this.isSafeMode = isSafeMode;
 
     this.posX = posX;
     this.posY = posY;
@@ -340,6 +349,16 @@ class Engine extends Process{
    * 物体の状態を更新します
    */
   private update(): void{
+    if(!this.isSafeMode){
+      Object.values(this.grounds).forEach(object=>{
+        new Function("object",object.script)(object);
+      });
+  
+      Object.values(this.objects).forEach(object=>{
+        new Function("object",object.script)(object);
+      });
+    }
+
     this.entities.forEach(entity=>{
       Object.values(this.effects).forEach(effect=>{
         effect.setEffect(entity);
@@ -377,14 +396,6 @@ class Engine extends Process{
       if(Math.abs(posX) > this.mapSize||Math.abs(posY) > this.mapSize){
         this.deSpawn(object.type,object.name);
       }
-    });
-
-    Object.values(this.grounds).forEach(object=>{
-      new Function("object",object.script)(object);
-    });
-
-    Object.values(this.objects).forEach(object=>{
-      new Function("object",object.script)(object);
     });
 
     this.dispatchEvent(new CustomEvent(Event.Update));

@@ -79,6 +79,7 @@ const cache = document.getElementById("cache");
 const dataFile = document.getElementById("dataFile");
 
 const command = document.getElementById("command");
+const code = document.getElementById("code");
 
 gravityValue.textContent = gravityInput.value;
 frictionValue.textContent = frictionInput.value;
@@ -194,10 +195,6 @@ document.addEventListener("keydown",(event)=>{
     if(!engine.isStart){
       engine.step();
     }
-  }
-
-  if(event.code === "KeyC"){
-    eval(prompt("スクリプトを実行"));
   }
 });
 
@@ -600,6 +597,10 @@ command.addEventListener("click",()=>{
   const value = prompt("コマンドを入力");
 
   alert(engine.command(value));
+});
+
+code.addEventListener("click",()=>{
+  eval(prompt("スクリプトを実行"));
 });
 
 setInterval(()=>{
