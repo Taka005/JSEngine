@@ -25,6 +25,9 @@ import { Key } from "./Key";
  * @property {string | null} backgroundImage 背景画像URL
  * @property {number} trackInterval 履歴の保存間隔(ミリ秒)
  * @property {number} trackLimit 履歴の保存制限
+ * @property {boolean} isTrack トラッキングモード
+ * @property {boolean} isDebug デバッグモード
+ * @property {boolean} isDev 開発者モード
  * @property {boolean} isSafeMode セーフモード
  */
 type EngineOption = {
@@ -39,6 +42,9 @@ type EngineOption = {
   backgroundImage?: string | null;
   trackInterval?: number;
   trackLimit?: number;
+  isTrack?: boolean;
+  isDebug?: boolean;
+  isDev?: boolean;
   isSafeMode?: boolean;
 }
 
@@ -181,23 +187,23 @@ class Engine extends Process{
   /**
    * デバッグモード
    */
-  public isDebug: boolean = false;
+  public isDebug: boolean;
 
   /**
    * 開発者モード
    */
-  public isDev: boolean = false;
+  public isDev: boolean;
 
   /**
    * トラッキングモード
    */
-  public isTrack: boolean = false;
+  public isTrack: boolean;
 
   /**
    * セーフモード
    * 有効にするとカスタムスクリプトが実行されません
    */
-  public isSafeMode: boolean = true;
+  public isSafeMode: boolean;
 
   /**
    * 処理インターバル
@@ -243,7 +249,7 @@ class Engine extends Process{
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
    * @param {EngineOption} option エンジンオプション
    */
-  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, scale = 1, trackInterval = 100, trackLimit = 10000, mapSize = 10000, isSafeMode = true }: EngineOption = {}){
+  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, scale = 1, trackInterval = 100, trackLimit = 10000, mapSize = 10000, isTrack = false, isDebug = false, isDev = false, isSafeMode = true }: EngineOption = {}){
     super({
       pps: pps,
       gravity: gravity,
@@ -264,6 +270,10 @@ class Engine extends Process{
     this.trackInterval = trackInterval;
     this.trackLimit = trackLimit;
     this.mapSize = mapSize;
+
+    this.isTrack = isTrack;
+    this.isDebug = isDebug;
+    this.isDev = isDev;
     this.isSafeMode = isSafeMode;
 
     this.posX = posX;

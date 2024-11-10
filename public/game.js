@@ -57,6 +57,8 @@ const imageFileInput = document.getElementById("imageFileInput");
 
 const autoSaveInput = document.getElementById("autoSaveInput");
 
+const safeModeInput = document.getElementById("safeModeInput");
+
 const backgroundColorInput = document.getElementById("backgroundColorInput");
 const backgroundColorValue = document.getElementById("backgroundColorValue");
 const backgroundImageReset = document.getElementById("backgroundImageReset");
@@ -466,6 +468,10 @@ imageInput.addEventListener("change",(event)=>{
 
 autoSaveInput.addEventListener("change",()=>{
   autoSave = autoSaveInput.checked;
+});
+
+safeModeInput.addEventListener("change",()=>{
+  engine.isSafeMode = safeModeInput.checked;
 });
 
 backgroundColorInput.addEventListener("input",(event)=>{
