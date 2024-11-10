@@ -12,6 +12,7 @@ import { parseImage, resize, normalizeAngle, ObjectType } from "../utils";
  * @property {number} size 幅
  * @property {string} color 色
  * @property {string | null} 画像リンク
+ * @property {string} カスタムスクリプト
  */
 type CurveOption = {
   name: string;
@@ -24,6 +25,7 @@ type CurveOption = {
   size: number;
   color?: string;
   image?: string | null;
+  script?: string;
 }
 
 /**
@@ -87,9 +89,14 @@ class Curve{
   public radius: number;
 
   /**
+   * カスタムスクリプト
+   */
+  public script: string;
+
+  /**
    * @param {Object} CurveOption カーブオプション
    */
-  constructor({ name, startX, startY, middleX, middleY, endX, endY, size, color = "red", image = null }: CurveOption){
+  constructor({ name, startX, startY, middleX, middleY, endX, endY, size, color = "red", image = null, script = "" }: CurveOption){
     this.name = name;
     this.color = color;
     this.image = parseImage(image);
@@ -100,6 +107,7 @@ class Curve{
     this.endX = endX;
     this.endY = endY;
     this.size = size;
+    this.script = script;
 
     const slope1: number = (middleX - startX)/(startY - middleY);
     const slope2: number = (endX - middleX)/(middleY - endY);
@@ -253,7 +261,8 @@ class Curve{
       endY: this.endY,
       size: this.size,
       color: this.color,
-      image: this.image?.src || null
+      image: this.image?.src || null,
+      script: this.script
     }
   }
 }

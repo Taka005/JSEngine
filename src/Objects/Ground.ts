@@ -10,6 +10,7 @@ import { parseImage, resize, ObjectType } from "../utils";
  * @property {number} size 幅
  * @property {string} color 色
  * @property {string | null} 画像リンク
+ * @property {string | null} カスタムスクリプト
  */
 type GroundOption = {
   name: string;
@@ -20,6 +21,7 @@ type GroundOption = {
   size: number;
   color?: string;
   image?: string | null;
+  script?: string;
 }
 
 /**
@@ -66,9 +68,14 @@ class Ground{
   public size: number;
 
   /**
+   * カスタムスクリプト
+   */
+  public script: string;
+
+  /**
    * @param {Object} GroundOption グラウンドオプション
    */
-  constructor({ name, startX, startY, endX, endY, size, color = "red", image = null }: GroundOption){
+  constructor({ name, startX, startY, endX, endY, size, color = "red", image = null, script = "" }: GroundOption){
     this.name = name;
     this.color = color;
     this.image = parseImage(image);
@@ -77,6 +84,7 @@ class Ground{
     this.endX = endX;
     this.endY = endY;
     this.size = size;
+    this.script = script;
   }
 
   /**
@@ -177,7 +185,8 @@ class Ground{
       endY: this.endY,
       size: this.size,
       color: this.color,
-      image: this.image?.src || null
+      image: this.image?.src || null,
+      script: this.script
     }
   }
 }

@@ -10,6 +10,7 @@ let speedX = 0;
 let speedY = 0;
 let color = "#ff0000";
 let subColor = "#000000";
+let script = "";
 let image = null;
 let position = {};
 let targetEntity = null;
@@ -47,6 +48,8 @@ const colorValue = document.getElementById("colorValue");
 
 const subColorInput = document.getElementById("subColorInput");
 const subColorValue = document.getElementById("subColorValue");
+
+const customScriptValue = document.getElementById("customScript");
 
 const imageReset = document.getElementById("imageReset");
 const imageInput = document.getElementById("imageInput");
@@ -294,7 +297,8 @@ game.addEventListener("mousedown",(event)=>{
         endY: getPosY(event),
         size: size,
         color: color,
-        image: image
+        image: image,
+        script: script
       }]);
 
       position = {};
@@ -347,7 +351,8 @@ game.addEventListener("mousedown",(event)=>{
         endY: getPosY(event),
         size: size,
         color: color,
-        image: image
+        image: image,
+        script: script
       }]);
 
       position = {};
@@ -452,6 +457,10 @@ colorInput.addEventListener("input",(event)=>{
 subColorInput.addEventListener("input",(event)=>{
   subColorValue.textContent = event.target.value;
   subColor = event.target.value;
+});
+
+customScriptValue.addEventListener("input",(event)=>{
+  script = event.target.value;
 });
 
 imageInput.addEventListener("change",(event)=>{

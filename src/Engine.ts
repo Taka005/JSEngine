@@ -379,6 +379,10 @@ class Engine extends Process{
       }
     });
 
+    Object.values(this.grounds).forEach(object=>{
+      eval(`((object)=>{${object.script}})();`);
+    });
+
     this.dispatchEvent(new CustomEvent(Event.Update));
   }
 
