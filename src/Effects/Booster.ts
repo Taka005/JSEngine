@@ -11,7 +11,8 @@ import { EffectType, parseImage, resize } from "../utils";
  * @property {number} speedX 設定するX速度
  * @property {number} speedY 設定するX速度
  * @property {string} color 色
- * @property {string | null} 画像リンク
+ * @property {string | null} image 画像リンク
+ * @property {string} script カスタムスクリプト
  */
 type BoosterOption = {
   name: string;
@@ -23,6 +24,7 @@ type BoosterOption = {
   speedY: number;
   color?: string;
   image?: string | null;
+  script?: string;
 }
 
 /**
@@ -70,9 +72,14 @@ class Booster{
   public speedY: number;
 
   /**
+   * カスタムスクリプト
+   */
+  public script: string;
+
+  /**
    * @param {Object} BoosterOption グラウンドオプション
    */
-  constructor({ name, startX, startY, endX, endY, speedX, speedY, color = "red", image = null }: BoosterOption){
+  constructor({ name, startX, startY, endX, endY, speedX, speedY, color = "red", image = null, script = "" }: BoosterOption){
     this.name = name;
     this.color = color;
     this.image = parseImage(image);
@@ -82,6 +89,7 @@ class Booster{
     this.endY = endY;
     this.speedX = speedX;
     this.speedY = speedY;
+    this.script = script;
   }
 
   /**
@@ -151,7 +159,8 @@ class Booster{
       speedX: this.speedX,
       speedY: this.speedY,
       color: this.color,
-      image: this.image?.src || null
+      image: this.image?.src || null,
+      script: this.script
     }
   }
 }

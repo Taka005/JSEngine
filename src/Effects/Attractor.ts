@@ -9,7 +9,8 @@ import { EffectType, parseImage, resize } from "../utils";
  * @property {number} speed 設定する速度
  * @property {number} size 影響半径
  * @property {string} color 色
- * @property {string | null} 画像リンク
+ * @property {string | null} image 画像リンク
+ * @property {string} script カスタムスクリプト
  */
 type AttractorOption = {
   name: string;
@@ -19,6 +20,7 @@ type AttractorOption = {
   size: number;
   color?: string;
   image?: string | null;
+  script?: string;
 }
 
 /**
@@ -64,9 +66,14 @@ class Attractor{
   public size: number;
 
   /**
+   * カスタムスクリプト
+   */
+  public script: string;
+
+  /**
    * @param {Object} AttractorOption グラウンドオプション
    */
-  constructor({ name, posX, posY, speed, size, color = "red", image = null }: AttractorOption){
+  constructor({ name, posX, posY, speed, size, color = "red", image = null, script = "" }: AttractorOption){
     this.name = name;
     this.color = color;
     this.image = parseImage(image);
@@ -74,6 +81,7 @@ class Attractor{
     this.posY = posY;
     this.speed = speed;
     this.size = size;
+    this.script = script;
   }
 
   /**
@@ -141,7 +149,8 @@ class Attractor{
       speed: this.speed,
       size: this.size,
       color: this.color,
-      image: this.image?.src || null
+      image: this.image?.src || null,
+      script: this.script
     }
   }
 }

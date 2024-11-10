@@ -317,7 +317,8 @@ game.addEventListener("mousedown",(event)=>{
         speedX: speedX,
         speedY: speedY,
         color: color,
-        image: image
+        image: image,
+        script: script
       }]);
 
       position = {};
@@ -329,7 +330,8 @@ game.addEventListener("mousedown",(event)=>{
       size: size,
       speed: speedX,
       color: color,
-      image: image
+      image: image,
+      script: script
     }]);
   }else if(tool === "curve"){
     if(Object.keys(position).length === 0){

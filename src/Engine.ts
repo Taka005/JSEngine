@@ -360,6 +360,10 @@ class Engine extends Process{
    */
   private update(): void{
     if(!this.isSafeMode){
+      Object.values(this.effects).forEach(object=>{
+        new Function("object",object.script)(object);
+      });
+
       Object.values(this.grounds).forEach(object=>{
         new Function("object",object.script)(object);
       });
