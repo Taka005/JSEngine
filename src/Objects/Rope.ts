@@ -2,6 +2,23 @@ import { Entity, EntityOption } from "./Entity";
 import { EntityManager } from "./EntityManager";
 import { parseImage, resize, ObjectType } from "../utils";
 
+/**
+ * @typedef {Object} RopeOption
+ * @property {strint} name 物体名
+ * @property {number} startX 始点X座標
+ * @property {number} startY 始点Y座標
+ * @property {number} endX 終点X座標
+ * @property {number} endY 終点Y座標
+ * @property {number} size 幅
+ * @property {number} mass 質量
+ * @property {number} stiff 剛性
+ * @property {number} speedX X方向の速度
+ * @property {number} speedY Y方向の速度
+ * @property {string} color 色
+ * @property {string | null} image 画像リンク
+ * @property {EntityOption[]} entities 構成されているエンティティー
+ * @property {string | null} script カスタムスクリプト
+ */
 type RopeOption = {
   name: string;
   startX: number;
@@ -16,6 +33,7 @@ type RopeOption = {
   color?: string;
   image?: string | null;
   entities: EntityOption[];
+  script?: string;
 }
 
 /**
@@ -62,9 +80,14 @@ class Rope extends EntityManager{
   public stiff: number;
 
   /**
+   * カスタムスクリプト
+   */
+  public script: string;
+
+  /**
    * @param {RopeOption} ロープオプション
    */
-  constructor({name, startX, startY, endX, endY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = []}: RopeOption){
+  constructor({name, startX, startY, endX, endY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [], script = "" }: RopeOption){
     super();
 
     this.name = name;
@@ -73,6 +96,7 @@ class Rope extends EntityManager{
     this.size = size;
     this.mass = mass;
     this.stiff = stiff;
+    this.script = script;
 
     if(entities[0]){
       entities.forEach(entity=>this.create(entity));
@@ -208,7 +232,8 @@ class Rope extends EntityManager{
       speedY: speedY,
       color: this.color,
       image: this.image?.src || null,
-      entities: this.entities.map(entity=>entity.toJSON())
+      entities: this.entities.map(entity=>entity.toJSON()),
+      script: this.script
     }
   }
 }

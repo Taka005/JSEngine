@@ -383,6 +383,10 @@ class Engine extends Process{
       new Function("object",object.script)(object);
     });
 
+    Object.values(this.objects).forEach(object=>{
+      new Function("object",object.script)(object);
+    });
+
     this.dispatchEvent(new CustomEvent(Event.Update));
   }
 

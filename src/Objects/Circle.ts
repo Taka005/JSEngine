@@ -15,7 +15,8 @@ import { parseImage, resize, ObjectType } from "../utils";
  * @property {string} color 色
  * @property {string} subColor サブカラー
  * @property {string | null} image 画像
- * @property {EntityOption[]} 構成されているエンティティーの初期化オプション
+ * @property {EntityOption[]} entities 構成されているエンティティーの初期化オプション
+ * @property {string} script カスタムスクリプト
  */
 type CircleOption = {
   name: string;
@@ -30,6 +31,7 @@ type CircleOption = {
   subColor?: string;
   image?: string | null;
   entities: EntityOption[];
+  script?: string;
 }
 
 /**
@@ -81,9 +83,14 @@ class Circle extends EntityManager{
   public image: HTMLImageElement | null;
 
   /**
+   * カスタムスクリプト
+   */
+  public script: string;
+
+  /**
    * @param {CircleOption} サークルオプション
    */
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", subColor = "black", image = null, entities = [] }: CircleOption){
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", subColor = "black", image = null, entities = [], script = "" }: CircleOption){
     super();
 
     this.name = name;
@@ -93,6 +100,7 @@ class Circle extends EntityManager{
     this.color = color;
     this.subColor = subColor;
     this.image = parseImage(image);
+    this.script = script;
 
     if(entities[0]){
       entities.forEach(entity=>this.create(entity));
@@ -193,7 +201,8 @@ class Circle extends EntityManager{
       color: this.color,
       subColor: this.subColor,
       image: this.image?.src || null,
-      entities: this.entities.map(entity=>entity.toJSON())
+      entities: this.entities.map(entity=>entity.toJSON()),
+      script: this.script
     }
   }
 }

@@ -15,6 +15,7 @@ import { parseImage, resize, ObjectType } from "../utils";
  * @property {string} color 色
  * @property {string | null} image 画像
  * @property {EntityOption[]} 構成されているエンティティーの初期化オプション
+ * @property {string} script カスタムスクリプト
  */
 type SquareOption = {
   name: string;
@@ -28,6 +29,7 @@ type SquareOption = {
   color?: string;
   image?: string | null;
   entities: EntityOption[];
+  script?: string; 
 }
 
 /**
@@ -74,9 +76,14 @@ class Square extends EntityManager{
   public image: HTMLImageElement | null;
 
   /**
+   * カスタムスクリプト
+   */
+  public script: string;
+
+  /**
    * @param {SquareOption} スクエアオプション
    */
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: SquareOption){
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [], script = "" }: SquareOption){
     super();
 
     this.name = name;
@@ -85,6 +92,7 @@ class Square extends EntityManager{
     this.stiff = stiff;
     this.color = color;
     this.image = parseImage(image);
+    this.script = script;
 
     if(entities[0]){
       entities.forEach(entity=>this.create(entity));
@@ -208,7 +216,8 @@ class Square extends EntityManager{
       speedY: speedY,
       color: this.color,
       image: this.image?.src || null,
-      entities: this.entities.map(entity=>entity.toJSON())
+      entities: this.entities.map(entity=>entity.toJSON()),
+      script: this.script
     }
   }
 }

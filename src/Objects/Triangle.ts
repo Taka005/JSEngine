@@ -15,6 +15,7 @@ import { parseImage, resize, ObjectType } from "../utils";
  * @property {string} color 色
  * @property {string | null} image 画像
  * @property {EntityOption[]} 構成されているエンティティーの初期化オプション
+ * @property {string} script カスタムスクリプト
  */
 type TriangleOption = {
   name: string;
@@ -28,6 +29,7 @@ type TriangleOption = {
   color?: string;
   image?: string | null;
   entities: EntityOption[];
+  script?: string;
 }
 
 /**
@@ -74,9 +76,14 @@ class Triangle extends EntityManager{
   public image: HTMLImageElement | null;
 
   /**
+   * カスタムスクリプト
+   */
+  public script: string;
+
+  /**
    * @param {TriangleOption} トライアングルオプション
    */
-  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [] }: TriangleOption){
+  constructor({ name, posX, posY, size, mass, stiff, speedX = 0, speedY = 0, color = "red", image = null, entities = [], script = "" }: TriangleOption){
     super();
 
     this.name = name;
@@ -85,6 +92,7 @@ class Triangle extends EntityManager{
     this.stiff = stiff;
     this.color = color;
     this.image = parseImage(image);
+    this.script = script;
 
     if(entities[0]){
       entities.forEach(entity=>this.create(entity));
@@ -209,7 +217,8 @@ class Triangle extends EntityManager{
       speedY: speedY,
       color: this.color,
       image: this.image?.src || null,
-      entities: this.entities.map(entity=>entity.toJSON())
+      entities: this.entities.map(entity=>entity.toJSON()),
+      script: this.script
     }
   }
 }
