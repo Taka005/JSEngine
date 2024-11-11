@@ -9,8 +9,8 @@ import { parseImage, resize, ObjectType } from "../utils";
  * @property {number} endY 終点Y座標
  * @property {number} size 幅
  * @property {string} color 色
- * @property {string | null} 画像リンク
- * @property {string | null} カスタムスクリプト
+ * @property {string | null} image 画像リンク
+ * @property {string | null} script カスタムスクリプト
  */
 type GroundOption = {
   name: string;

@@ -14,7 +14,7 @@ import { parseImage, resize, ObjectType } from "../utils";
  * @property {number} speedY Y方向の速度
  * @property {string} color 色
  * @property {string | null} image 画像
- * @property {EntityOption[]} 構成されているエンティティーの初期化オプション
+ * @property {EntityOption[]} entities 構成されているエンティティーの初期化オプション
  * @property {string} script カスタムスクリプト
  */
 type TriangleOption = {
