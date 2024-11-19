@@ -111,6 +111,8 @@ class Booster{
     entity.speedY += this.speedY;
   }
 
+  public setUpdate(): void{}
+
   /**
    * オブジェクトを描画
    * @param {CanvasRenderingContext2D} ctx コンテキスト

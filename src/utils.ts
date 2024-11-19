@@ -82,7 +82,8 @@ const ObjectType = {
  */
 const EffectType = {
   Booster: "booster",
-  Attractor: "attractor"
+  Attractor: "attractor",
+  Spawner: "spawner"
 }
 
 /**

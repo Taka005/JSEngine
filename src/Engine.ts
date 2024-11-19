@@ -926,6 +926,8 @@ class Engine extends Process{
   }
 }
 
+export { Engine, EngineOption };
+
 declare global {
   var Engine: any;
   var Key: any;

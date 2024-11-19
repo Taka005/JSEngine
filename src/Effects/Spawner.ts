@@ -1,22 +1,24 @@
-import { Entity } from "../Objects/Entity";
+import { Engine } from "../Engine";
 import { EffectType, parseImage, resize } from "../utils";
 
 /**
- * @typedef {Object} AttractorOption
+ * @typedef {Object} SpawnerOption
  * @property {strint} name 物体名
  * @property {number} posX X座標
  * @property {number} posY Y座標
- * @property {number} speed 設定する速度
- * @property {number} size 影響半径
- * @property {string} color 色
+ * @property {number} speedX 設定するX速度
+ * @property {number} speedY 設定するY速度
+ * @property {number} size 設定する半径
+ * @property {string} color 設定する色
  * @property {string | null} image 画像リンク
  * @property {string} script カスタムスクリプト
  */
-type AttractorOption = {
+type SpawnerOption = {
   name: string;
   posX: number;
   posY: number;
-  speed: number;
+  speedX?: number;
+  speedY?: number;
   size: number;
   color?: string;
   image?: string | null;
@@ -24,15 +26,15 @@ type AttractorOption = {
 }
 
 /**
- * アトラクタークラス
- * 重力を制御
+ * スポナークラス
+ * 円を生成します
  */
-class Attractor{
+class Spawner{
 
   /**
    * 種類
    */
-  public readonly type = EffectType.Attractor;
+  public readonly type = EffectType.Spawner;
 
   /**
    * 名前
@@ -40,7 +42,7 @@ class Attractor{
   public readonly name: string;
 
   /**
-   * 色
+   * 設定する色
    */
   public color: string;
 
@@ -58,10 +60,11 @@ class Attractor{
   /**
    * 設定する速度
    */
-  public speed: number;
+  public speedX: number;
+  public speedY: number;
 
   /**
-   * 影響半径
+   * 設定する半径
    */
   public size: number;
 
@@ -71,44 +74,28 @@ class Attractor{
   public script: string;
 
   /**
-   * @param {Object} AttractorOption グラウンドオプション
+   * @param {Object} SpawnerOption グラウンドオプション
    */
-  constructor({ name, posX, posY, speed, size, color = "red", image = null, script = "" }: AttractorOption){
+  constructor({ name, posX, posY, speedX = 0, speedY = 0, size, color = "red", image = null, script = "" }: SpawnerOption){
     this.name = name;
     this.color = color;
     this.image = parseImage(image);
     this.posX = posX;
     this.posY = posY;
-    this.speed = speed;
+    this.speedX = speedX;
+    this.speedY = speedY;
     this.size = size;
     this.script = script;
   }
 
   /**
    * 物体に効果を与えます
-   * @param entity 対象のエンティティー
    */
-  public setEffect(entity: Entity): void{
-    if(entity.mass === 0) return;
+  public setEffect(): void{}
 
-    const vecX: number = entity.posX - this.posX;
-    const vecY: number = entity.posY - this.posY;
+  public setUpdate(engine: Engine): void{
 
-    if(
-      Math.abs(vecX) >= entity.size + this.size||
-      Math.abs(vecY) >= entity.size + this.size
-    ) return;
-
-    const distance: number = Math.sqrt(vecX**2 + vecY**2);
-    if(distance === 0) return;
-
-    if(distance <= this.size + entity.size){
-      entity.speedX += (vecX/distance)*this.speed;
-      entity.speedY += (vecY/distance)*this.speed;
-    }
   }
-
-  public setUpdate(): void{}
 
   /**
    * オブジェクトを描画
@@ -141,14 +128,15 @@ class Attractor{
 
   /**
    * クラスのデータをJSONに変換します
-   * @returns {AttractorOption} サークルオプション
+   * @returns {SpawnerOption} サークルオプション
    */
-  public toJSON(): AttractorOption{
+  public toJSON(): SpawnerOption{
     return {
       name: this.name,
       posX: this.posX,
       posY: this.posY,
-      speed: this.speed,
+      speedX: this.speedX,
+      speedY: this.speedY,
       size: this.size,
       color: this.color,
       image: this.image?.src || null,
@@ -157,4 +145,4 @@ class Attractor{
   }
 }
 
-export { Attractor, AttractorOption };
+export { Spawner, SpawnerOption };
