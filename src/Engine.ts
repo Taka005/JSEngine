@@ -485,7 +485,7 @@ class Engine extends Process{
       const processRate = this.correntPps/this.pps;
 
       this.ctx.fillText(`${this.correntPps}PPS ${this.correntFps}FPS ${Object.values(this.objects).length + Object.values(this.grounds).length}Objects ${this.entities.length}Entities ${Object.values(this.effects).length}Effects ${this.tracks.length}Tracks`,this.canvas.width/2,15);
-      this.ctx.fillText(`Process Rate: x${processRate.toFixed(1)} Process Loss: ${Math.abs(processRate - this.speed)}`,this.canvas.width/2,35);
+      this.ctx.fillText(`Process Rate: x${processRate.toFixed(1)} Process Loss: ${Math.abs(processRate - this.speed).toFixed(1)}`,this.canvas.width/2,35);
     }
 
     this.dispatchEvent(new CustomEvent(Event.DrawUpdate));
