@@ -323,7 +323,7 @@ class Engine extends Process{
     this.loop = setInterval(()=>{
       this.setPPS();
       this.step();
-    },(1000/this.pps)*this.speed);
+    },(1000/this.pps)/this.speed);
   }
 
   /**
@@ -531,8 +531,10 @@ class Engine extends Process{
 
     this.speed = value;
 
-    this.stop();
-    this.start();
+    if(this.isStart){
+      this.stop();
+      this.start();
+    }
   }
 
   /**
@@ -814,7 +816,7 @@ class Engine extends Process{
 
     return JSON.stringify({
       version: "1",
-      saveAt: new Date(),
+      saveAt: new Date().toLocaleString("ja-JP"),
       gravity: this.gravity,
       friction: this.friction,
       backgroundColor: this.backgroundColor,
