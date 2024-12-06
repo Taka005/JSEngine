@@ -26,6 +26,9 @@ const frictionValue = document.getElementById("frictionValue");
 const scaleInput = document.getElementById("scaleInput");
 const scaleValue = document.getElementById("scaleValue");
 
+const speedInput = document.getElementById("speedInput");
+const speedValue = document.getElementById("speedValue");
+
 const toolInput = document.getElementById("toolInput");
 
 const sizeInput = document.getElementById("sizeInput");
@@ -86,6 +89,7 @@ const code = document.getElementById("code");
 gravityValue.textContent = gravityInput.value;
 frictionValue.textContent = frictionInput.value;
 scaleValue.textContent = scaleInput.value;
+speedValue.textContent = speedInput.value;
 sizeValue.textContent = sizeInput.value;
 massValue.textContent = massInput.value;
 stiffValue.textContent = stiffInput.value;
@@ -418,6 +422,11 @@ frictionInput.addEventListener("input",(event)=>{
 scaleInput.addEventListener("input",(event)=>{
   scaleValue.textContent = event.target.value;
   engine.scale = event.target.value;
+});
+
+speedInput.addEventListener("input",(event)=>{
+  speedValue.textContent = event.target.value;
+  engine.setSpeed(Number(event.target.value));
 });
 
 toolInput.addEventListener("input",(event)=>{
