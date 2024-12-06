@@ -20,6 +20,7 @@ import { Key } from "./Key";
  * @property {number} posX 描画X座標
  * @property {number} posY 描画Y座標
  * @property {number} scale 描画倍率
+ * @property {number} speed 再生速度
  * @property {number} mapSize 物体の存在範囲
  * @property {string} backgroundColor 背景色
  * @property {string | null} backgroundImage 背景画像URL
@@ -37,6 +38,7 @@ type EngineOption = {
   posX?: number;
   posY?: number;
   scale?: number;
+  speed?: number;
   mapSize?: number;
   backgroundColor?: string;
   backgroundImage?: string | null;
@@ -137,6 +139,11 @@ class Engine extends Process{
    * 描画倍率
    */
   public scale: number;
+
+  /**
+   * 再生速度
+   */
+  private speed: number;
 
   /**
    * 履歴の保存間隔
@@ -249,7 +256,7 @@ class Engine extends Process{
    * @param {HTMLCanvasElement} canvas 描画するキャンバス要素
    * @param {EngineOption} option エンジンオプション
    */
-  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, scale = 1, trackInterval = 100, trackLimit = 10000, mapSize = 10000, isTrack = false, isDebug = false, isDev = false, isSafeMode = true }: EngineOption = {}){
+  constructor(canvas: HTMLCanvasElement,{ pps = 90, gravity = 500, friction = 0.001, posX = 0, posY = 0, backgroundColor = "#eeeeee", backgroundImage = null, scale = 1, speed = 1, trackInterval = 100, trackLimit = 10000, mapSize = 10000, isTrack = false, isDebug = false, isDev = false, isSafeMode = true }: EngineOption = {}){
     super({
       pps: pps,
       gravity: gravity,
@@ -267,6 +274,7 @@ class Engine extends Process{
     this.setBackgroundImage(backgroundImage);
 
     this.scale = scale;
+    this.speed = speed;
     this.trackInterval = trackInterval;
     this.trackLimit = trackLimit;
     this.mapSize = mapSize;
@@ -315,7 +323,7 @@ class Engine extends Process{
     this.loop = setInterval(()=>{
       this.setPPS();
       this.step();
-    },1000/this.pps);
+    },(1000/this.pps)*this.speed);
   }
 
   /**
@@ -512,6 +520,19 @@ class Engine extends Process{
       this.lastDraw = nextTime;
       this.drawCount = 0;
     }
+  }
+
+  /**
+   * 再生速度を設定します
+   * @param value 再生速度
+   */
+  public setSpeed(value: number): void{
+    if(value <= 0) throw new Error("再生速度は0以下ではいけません");
+
+    this.speed = value;
+
+    this.stop();
+    this.start();
   }
 
   /**
