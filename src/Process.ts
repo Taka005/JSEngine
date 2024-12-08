@@ -161,7 +161,7 @@ class Process extends EventTarget{
     const vecSize: number = Math.sqrt(vecX**2 + vecY**2);
     const sourceSpeed: number = Math.sqrt(source.speedX**2 + source.speedY**2);
 
-    const angle: number = vecX*(-source.speedY) + vecY*source.speedX;
+    const angle: number = -vecX*source.speedY + vecY*source.speedX;
 
     const rotate: number = Math.acos((vecX*source.speedX + vecY*source.speedY)/(vecSize*sourceSpeed))*(180/Math.PI);
 
@@ -187,7 +187,7 @@ class Process extends EventTarget{
     const vecSize: number = Math.sqrt(vecX**2 + vecY**2);
     const entitySpeed: number = Math.sqrt(entity.speedX**2 + entity.speedY**2);
 
-    const angle: number = vecX*(-entity.speedY) + vecY*entity.speedX;
+    const angle: number = -vecX*entity.speedY + vecY*entity.speedX;
 
     const rotate: number = Math.acos((vecX*entity.speedX + vecY*entity.speedY)/(vecSize*entitySpeed))*(180/Math.PI);
 
