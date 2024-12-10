@@ -911,7 +911,7 @@ class Engine extends Process{
     }
 
     if(data.spawner){
-
+      this.spawn(EffectType.Spawner,data.spawner);
     }
 
     if(data.entity){
