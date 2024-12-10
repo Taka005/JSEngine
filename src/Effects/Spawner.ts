@@ -125,11 +125,11 @@ class Spawner{
   public setUpdate(engine: Engine): void{
     this.count++;
 
-    if(this.count < 10) return;
+    if(this.count < 15) return;
 
     engine.spawn(ObjectType.Circle,[{
       posX: this.posX,
-      posY: this.posX,
+      posY: this.posY,
       size: this.size,
       mass: this.mass,
       stiff: this.stiff,
