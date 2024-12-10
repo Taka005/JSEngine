@@ -97,7 +97,7 @@ class Spawner{
   /**
    * スポーンカウンタ
    */
-  private count: number;
+  private count: number = 0;
 
   /**
    * @param {Object} SpawnerOption グラウンドオプション
