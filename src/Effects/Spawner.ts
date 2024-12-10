@@ -95,6 +95,11 @@ class Spawner{
   public script: string;
 
   /**
+   * スポーンカウンタ
+   */
+  private count: number;
+
+  /**
    * @param {Object} SpawnerOption グラウンドオプション
    */
   constructor({ name, posX, posY, speedX = 0, speedY = 0, size, mass, color = "red", subcolor = "black", stiff, image = null, script = "" }: SpawnerOption){
@@ -118,6 +123,10 @@ class Spawner{
   public setEffect(): void{}
 
   public setUpdate(engine: Engine): void{
+    this.count++;
+
+    if(this.count < 10) return;
+
     engine.spawn(ObjectType.Circle,[{
       posX: this.posX,
       posY: this.posX,
@@ -131,6 +140,8 @@ class Spawner{
       image: this.image,
       script: this.script
     }]);
+
+    this.count = 0;
   }
 
   /**

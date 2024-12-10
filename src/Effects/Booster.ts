@@ -1,3 +1,4 @@
+import { Engine } from "../Engine";
 import { Entity } from "../Objects/Entity";
 import { EffectType, parseImage, resize } from "../utils";
 
@@ -111,7 +112,7 @@ class Booster{
     entity.speedY += this.speedY;
   }
 
-  public setUpdate(): void{}
+  public setUpdate(engine: Engine): void{}
 
   /**
    * オブジェクトを描画

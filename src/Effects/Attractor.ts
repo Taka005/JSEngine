@@ -1,3 +1,4 @@
+import { Engine } from "../Engine";
 import { Entity } from "../Objects/Entity";
 import { EffectType, parseImage, resize } from "../utils";
 
@@ -108,7 +109,7 @@ class Attractor{
     }
   }
 
-  public setUpdate(): void{}
+  public setUpdate(engne: Engine): void{}
 
   /**
    * オブジェクトを描画
