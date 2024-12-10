@@ -1,5 +1,5 @@
 import { Engine } from "../Engine";
-import { EffectType, parseImage, resize } from "../utils";
+import { EffectType, ObjectType, parseImage, resize } from "../utils";
 
 /**
  * @typedef {Object} SpawnerOption
@@ -9,7 +9,10 @@ import { EffectType, parseImage, resize } from "../utils";
  * @property {number} speedX 設定するX速度
  * @property {number} speedY 設定するY速度
  * @property {number} size 設定する半径
+ * @property {number} mass 設定する質量
  * @property {string} color 設定する色
+ * @property {string} subColor 設定するサブカラー
+ * @property {number} stiff 設定する剛性
  * @property {string | null} image 画像リンク
  * @property {string} script カスタムスクリプト
  */
@@ -20,7 +23,10 @@ type SpawnerOption = {
   speedX?: number;
   speedY?: number;
   size: number;
+  mass: number;
+  stiff: number;
   color?: string;
+  subcolor?: string;
   image?: string | null;
   script?: string;
 }
@@ -47,6 +53,16 @@ class Spawner{
   public color: string;
 
   /**
+   * 設定するサブカラー
+   */
+  public subColor: string;
+
+  /**
+   * 設定する剛性
+   */
+  public stiff: number;
+
+  /**
    * 画像
    */
   public image: HTMLImageElement | null
@@ -69,6 +85,11 @@ class Spawner{
   public size: number;
 
   /**
+   * 設定する質量
+   */
+  public mass: number;
+
+  /**
    * カスタムスクリプト
    */
   public script: string;
@@ -76,15 +97,18 @@ class Spawner{
   /**
    * @param {Object} SpawnerOption グラウンドオプション
    */
-  constructor({ name, posX, posY, speedX = 0, speedY = 0, size, color = "red", image = null, script = "" }: SpawnerOption){
+  constructor({ name, posX, posY, speedX = 0, speedY = 0, size, mass, color = "red", subcolor = "black", stiff, image = null, script = "" }: SpawnerOption){
     this.name = name;
     this.color = color;
+    this.subColor = subcolor;
     this.image = parseImage(image);
     this.posX = posX;
     this.posY = posY;
     this.speedX = speedX;
     this.speedY = speedY;
     this.size = size;
+    this.mass = mass;
+    this.stiff = stiff;
     this.script = script;
   }
 
@@ -94,7 +118,19 @@ class Spawner{
   public setEffect(): void{}
 
   public setUpdate(engine: Engine): void{
-
+    engine.spawn(ObjectType.Circle,[{
+      posX: this.posX,
+      posY: this.posX,
+      size: this.size,
+      mass: this.mass,
+      stiff: this.stiff,
+      speedX: this.speedX,
+      speedY: this.speedY,
+      color: this.color,
+      subColor: this.subColor,
+      image: this.image,
+      script: this.script
+    }]);
   }
 
   /**
@@ -137,8 +173,11 @@ class Spawner{
       posY: this.posY,
       speedX: this.speedX,
       speedY: this.speedY,
+      mass: this.mass,
       size: this.size,
       color: this.color,
+      subcolor: this.subColor,
+      stiff: this.stiff,
       image: this.image?.src || null,
       script: this.script
     }

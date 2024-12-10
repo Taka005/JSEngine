@@ -420,6 +420,10 @@ class Engine extends Process{
       }
     });
 
+    Object.values(this.effects).forEach(effect=>{
+      effect.setUpdate(this);
+    });
+
     this.dispatchEvent(new CustomEvent(Event.Update));
   }
 
