@@ -686,7 +686,7 @@ class Engine extends Process{
         ) return;
 
         targets.push(effect);
-      }else if(effect instanceof Attractor){
+      }else if(effect instanceof Attractor||effect instanceof Spawner){
         const vecX: number = posX - effect.posX;
         const vecY: number = posY - effect.posY;
 
