@@ -589,7 +589,7 @@ class Engine extends Process{
 
         this.effects[object.name] = attractor;
       }else if(type === EffectType.Spawner){
-        const spawner = new Attractor(object as SpawnerOption);
+        const spawner = new Spawner(object as SpawnerOption);
 
         this.effects[object.name] = spawner;
       }
@@ -602,8 +602,8 @@ class Engine extends Process{
    * @param {string} name 削除する物体名
    */
   public deSpawn(type: string,name: string): void{
-    if(type === EffectType.Booster||type === EffectType.Attractor){
-      const effect = this.get<Booster | Attractor>(type,name);
+    if(type === EffectType.Booster||type === EffectType.Attractor||type === EffectType.Spawner){
+      const effect = this.get<Booster | Attractor | Spawner>(type,name);
       if(!effect) return;
 
       delete this.effects[name];
