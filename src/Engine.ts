@@ -8,6 +8,7 @@ import { Triangle, TriangleOption } from "./Objects/Triangle";
 import { Rope, RopeOption } from "./Objects/Rope";
 import { Booster, BoosterOption } from "./Effects/Booster";
 import { Attractor, AttractorOption } from "./Effects/Attractor";
+import { Spawner, SpawnerOption } from "./Effects/Spawner";
 import { createId, resize, ObjectType, Event, EffectType } from "./utils";
 import { Key } from "./Key";
 
@@ -82,6 +83,7 @@ type ClearOption = {
  * @property {CurveOption[]} curve 全ての曲線の配列
  * @property {BoosterOption[]} booster 全てのブースターの配列
  * @property {AttractorOption[]} attractor 全てのアトラクターの配列
+ * @property {SpawnerOption[]} spawner 全てのスポナーの配列
  */
 type ExportData = {
   version: string;
@@ -105,6 +107,7 @@ type ExportData = {
   curve: CurveOption[];
   booster: BoosterOption[];
   attractor: AttractorOption[];
+  spawner: SpawnerOption[];
 }
 
 /**
@@ -179,7 +182,7 @@ class Engine extends Process{
   /**
    * 効果の配列
    */
-  private effects: { [key: string]: Booster | Attractor } = {};
+  private effects: { [key: string]: Booster | Attractor | Spawner } = {};
 
   /**
    * 履歴の配列
@@ -547,9 +550,9 @@ class Engine extends Process{
   /**
    * 物体を生成します
    * @param {string} type 生成する種類
-   * @param {(CircleOption | TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption | BoosterOption | AttractorOption)[]} objects 生成するオブジェクトの配列
+   * @param {(CircleOption | TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption | BoosterOption | AttractorOption | SpawnerOption)[]} objects 生成するオブジェクトの配列
    */
-  public spawn(type: string,objects: (CircleOption| TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption | BoosterOption | AttractorOption)[]): void{
+  public spawn(type: string,objects: (CircleOption| TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption | BoosterOption | AttractorOption | SpawnerOption)[]): void{
     objects.forEach(object=>{
       object.name = object.name || createId(8);
 
@@ -585,6 +588,10 @@ class Engine extends Process{
         const attractor = new Attractor(object as AttractorOption);
 
         this.effects[object.name] = attractor;
+      }else if(type === EffectType.Spawner){
+        const spawner = new Attractor(object as SpawnerOption);
+
+        this.effects[object.name] = spawner;
       }
     });
   }
@@ -620,7 +627,7 @@ class Engine extends Process{
    * @returns {T | undefined} 取得した物体
    */
   public get<T>(type: string,name: string): T | undefined{
-    if(type === EffectType.Booster||type === EffectType.Attractor){
+    if(type === EffectType.Booster||type === EffectType.Attractor||type === EffectType.Spawner){
       return this.effects[name] as T;
     }else if(type === ObjectType.Entity){
       return this.entities.find(entity=>entity.name === name) as T;
@@ -635,10 +642,10 @@ class Engine extends Process{
    * 指定した座標にある物体を取得します
    * @param {number} posX 対象のX座標
    * @param {number} posY 対象のY座標
-   * @returns {(Circle | Square| Triangle | Rope | Ground | Curve | Booster | Attractor)[]} 存在した物体の配列
+   * @returns {(Circle | Square| Triangle | Rope | Ground | Curve | Booster | Attractor | Spawner)[]} 存在した物体の配列
    */
-  public checkObject(posX: number,posY: number): (Circle | Square | Triangle | Rope | Ground | Curve | Booster | Attractor)[]{
-    const targets: (Circle | Square | Triangle | Rope | Ground | Curve | Booster | Attractor)[] = [];
+  public checkObject(posX: number,posY: number): (Circle | Square | Triangle | Rope | Ground | Curve | Booster | Attractor | Spawner)[]{
+    const targets: (Circle | Square | Triangle | Rope | Ground | Curve | Booster | Attractor | Spawner)[] = [];
 
     Object.values(this.objects).forEach(object=>{
       const entities: Entity[] = object.entities.filter(entity=>{
@@ -821,6 +828,10 @@ class Engine extends Process{
       .filter(effect=>effect.type === EffectType.Attractor)
       .map(effect=>effect.toJSON());
 
+    const spawner = Object.values(this.effects)
+      .filter(effect=>effect.type === EffectType.Spawner)
+      .map(effect=>effect.toJSON());
+
     return JSON.stringify({
       version: "1",
       saveAt: new Date().toLocaleString("ja-JP"),
@@ -841,7 +852,8 @@ class Engine extends Process{
       ground: grounds,
       curve: curves,
       booster: booster,
-      attractor: attractor
+      attractor: attractor,
+      spawner: spawner
     });
   }
 
@@ -896,6 +908,10 @@ class Engine extends Process{
 
     if(data.attractor){
       this.spawn(EffectType.Attractor,data.attractor);
+    }
+
+    if(data.spawner){
+
     }
 
     if(data.entity){
