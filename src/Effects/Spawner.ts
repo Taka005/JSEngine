@@ -137,7 +137,7 @@ class Spawner{
       speedY: this.speedY,
       color: this.color,
       subColor: this.subColor,
-      image: this.image.src
+      image: this.image?.src
     }]);
 
     this.count = 0;
