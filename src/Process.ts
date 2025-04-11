@@ -37,6 +37,11 @@ class Process extends EventTarget{
   public friction: number;
 
   /**
+   * 物体の位置修正値
+   */
+  public readonly correction: number = 0.000001;
+
+  /**
    * @param {ProcessOption} プロセスオプション
    */
   constructor({ pps, gravity, friction }: ProcessOption){
@@ -73,7 +78,7 @@ class Process extends EventTarget{
         }
       }));
 
-      const move: number = (distance - (source.size + target.size))/(distance*totalMass + 0.000001)*source.stiff;
+      const move: number = (distance - (source.size + target.size))/(distance*totalMass + this.correction)*source.stiff;
       vecX *= move;
       vecY *= move;
 
@@ -121,7 +126,7 @@ class Process extends EventTarget{
         }
       }));
 
-      const move: number = (distance - (entity.size + ground.size/2))/(distance*entity.invMass + 0.000001)*entity.stiff;
+      const move: number = (distance - (entity.size + ground.size/2))/(distance*entity.invMass + this.correction)*entity.stiff;
       vecX *= move;
       vecY *= move;
 
@@ -214,7 +219,7 @@ class Process extends EventTarget{
 
     const distance: number = Math.sqrt(vecX**2 + vecY**2);
 
-    const move: number = (distance - connectDistance)/(distance*totalMass + 0.000001)*connectStiff;
+    const move: number = (distance - connectDistance)/(distance*totalMass + this.correction)*connectStiff;
     vecX *= move;
     vecY *= move;
 
