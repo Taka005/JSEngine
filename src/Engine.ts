@@ -552,7 +552,7 @@ class Engine extends Process{
    * @param {string} type 生成する種類
    * @param {(CircleOption | TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption | BoosterOption | AttractorOption | SpawnerOption)[]} objects 生成するオブジェクトの配列
    */
-  public spawn(type: string,objects: (CircleOption| TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption | BoosterOption | AttractorOption | SpawnerOption)[]): void{
+  public spawn(type: string,objects: (CircleOption | TriangleOption | GroundOption | SquareOption | RopeOption | CurveOption | BoosterOption | AttractorOption | SpawnerOption)[]): void{
     objects.forEach(object=>{
       object.name = object.name || createId(8);
 
@@ -642,7 +642,7 @@ class Engine extends Process{
    * 指定した座標にある物体を取得します
    * @param {number} posX 対象のX座標
    * @param {number} posY 対象のY座標
-   * @returns {(Circle | Square| Triangle | Rope | Ground | Curve | Booster | Attractor | Spawner)[]} 存在した物体の配列
+   * @returns {(Circle | Square | Triangle | Rope | Ground | Curve | Booster | Attractor | Spawner)[]} 存在した物体の配列
    */
   public checkObject(posX: number,posY: number): (Circle | Square | Triangle | Rope | Ground | Curve | Booster | Attractor | Spawner)[]{
     const targets: (Circle | Square | Triangle | Rope | Ground | Curve | Booster | Attractor | Spawner)[] = [];
