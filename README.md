@@ -5,6 +5,8 @@
 - この物理エンジンはPDB法による衝突判定を行い演算しています
 - [デモサイト](https://taka005.github.io/JSEngine/)から誰でも自由に利用可能です
 - このコード又はプログラムを利用する場合はLICENSEをお読みください
+## PBD法とは
+- [https://qiita.com/doRA9876/items/0f2c79204f2412c0f7a3](https://qiita.com/doRA9876/items/0f2c79204f2412c0f7a3)
 ## 使用方法
 - デモサイトでの使い方を1番上から説明しています
 - 操作の一部はタッチパネルにも対応しています
